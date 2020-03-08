@@ -1,9 +1,9 @@
 {
     "name": "pin-cushion",
     "title": "Pin Cushion",
-    "description": "Allows you to add more map pins",
+    "description": "Changes map pin icon selection to filepicker",
     "version": "0.1.0",
-    "minimumCoreVersion": "0.4.7",
+    "minimumCoreVersion": "0.5.1",
     "author": "Evan Clarke [errational#2007]",
     "url": "https://github.com/death-save/pin-cushion",
     "manifest": "https://raw.githubusercontent.com/death-save/pin-cushion/master/module.json",
