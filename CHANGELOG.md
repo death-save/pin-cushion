@@ -1,7 +1,14 @@
 # Changelog
 
 ## [Unreleased]
-- Restrict selection to only svg files
+- ~~Restrict selection to only svg files~~
+
+## [1.0.0] - 2020-03-08
+### Added
+- Double-click canvas on Notes Layer to create a Journal Entry and Map Pin
+
+### Changed
+- Refactored into a class and cleaned up code
 
 ## [0.1.0] - 2020-03-07
 ### Added
