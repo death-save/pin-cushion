@@ -16,8 +16,8 @@ class PinCushion {
 
     static get DIALOG() {
         return {
-            content: `<div class="form-group"><p class="notes">Enter a name:</p></label><input name="name" type="text"></div></br>`,
-            title: "Map Pin Name"
+            content: `<div class="form-group"><p class="notes">Name:</p></label><input name="name" type="text"></div></br>`,
+            title: "Create a Map Pin"
         }
     }
 
@@ -44,8 +44,8 @@ class PinCushion {
                 save: {
                     label: "Save",
                     icon: `<i class="fas fa-check"></i>`,
-                    callback: async e => {
-                        const input = e.find("input[name='name']");
+                    callback: async html => {
+                        const input = html.find("input[name='name']");
                         if(input[0].value) {
                             const entry = await JournalEntry.create({name: `${input[0].value}`});
 
@@ -83,6 +83,27 @@ class PinCushion {
         }).render(true);
     }
 
+    /**
+     * Replaces icon selector in Notes Config form with filepicker
+     * @param {*} app 
+     * @param {*} html 
+     * @param {*} data 
+     */
+    static _replaceIconSelector(app, html, data) {
+        const filePickerHtml = 
+        `<input type="text" name="icon" title="Icon Path" class="icon-path" value="${data.object.icon}" placeholder="/icons/example.svg" data-dtype="String">
+        <button type="button" name="file-picker" class="file-picker" data-type="image" data-target="icon" title="Browse Files" tabindex="-1">
+        <i class="fas fa-file-import fa-fw"></i>
+        </button>`
+
+        const iconSelector = html.find("select[name='icon']");
+
+        iconSelector.replaceWith(filePickerHtml);
+
+        // Detect and activate file-picker buttons
+        html.find('button.file-picker').each((i, button) => app._activateFilePicker(button));
+    }
+
     /* -------------------------------- Listeners ------------------------------- */
 
     /**
@@ -95,8 +116,8 @@ class PinCushion {
             return;
         }
         
-        // If the click is less than 250ms since the last clicktime, it must be a doubleclick
-        if (now - event.data.clickTime < 250) {
+        // If the click is less than 250ms since the last clicktime, it should be a doubleclick
+        if ((now - event.data.clickTime) < 250) {
             this._onDoubleClick(event);
         }
         // Set clickTime to enable doubleclick detection
@@ -125,25 +146,7 @@ class PinCushion {
  * Hook on note config render to inject filepicker and remove selector
  */
 Hooks.on("renderNoteConfig", (app, html, data) => {
-    const filePickerHtml = 
-        `<input type="text" name="icon" title="Icon Path" class="icon-path" value="${data.object.icon}" placeholder="/icons/example.svg" data-dtype="String">
-        <button type="button" name="file-picker" class="file-picker" data-type="image" data-target="icon" title="Browse Files" tabindex="-1">
-        <i class="fas fa-file-import fa-fw"></i>
-        </button>`
-
-    const iconSelector = html.find("select[name='icon']");
-
-    iconSelector.replaceWith(filePickerHtml);
-
-    // Detect and activate file-picker buttons
-    html.find('button.file-picker').each((i, button) => app._activateFilePicker(button));
-});
-
-/**
- * Hook on delete note to fix core bug with hover not being cleared on delete
- */
-Hooks.on("deleteNote", (scene, sceneId, data, options, userId) =>{
-    return canvas.activeLayer._hover ? canvas.activeLayer._hover = null : null;
+    PinCushion._replaceIconSelector(app, html, data);
 });
 
 /**
