@@ -1,0 +1,11 @@
+.pin-cushion-hud #container {
+    background-color: rgba(255, 255, 255, 0.9);
+    /*height: 200px;*/
+    overflow: hidden;
+    padding: 2px;
+    border: 1px solid black;
+}
+
+.pin-cushion-hud #content {
+    text-overflow: ellipsis;
+}

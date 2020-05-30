@@ -21,22 +21,26 @@ class PinCushion {
         }
     }
 
-    /* --------------------------------- Methods -------------------------------- */
-    
-    /**
-     * Register listeners
-     */
-    registerListeners() {
-        canvas.stage.on("click", event => this._onClickCanvas(event));
+    static get NOTESLAYER() {
+        return "NotesLayer";
     }
+
+    static get MISSING_NAME() {
+        return "Missing Map Pin Name!";
+    }
+
+    static get FONT_SIZE() {
+        return 16;
+    }
+
+    /* --------------------------------- Methods -------------------------------- */
 
     /**
      * Creates and renders a dialog for name entry
      * @param {*} data 
+     * @todo break callbacks out into separate methods
      */
     _createDialog(data) {
-        const dialogData = data;
-
         new Dialog({
             title: PinCushion.DIALOG.title,
             content: PinCushion.DIALOG.content,
@@ -44,31 +48,8 @@ class PinCushion {
                 save: {
                     label: "Save",
                     icon: `<i class="fas fa-check"></i>`,
-                    callback: async html => {
-                        const input = html.find("input[name='name']");
-                        if(input[0].value) {
-                            const entry = await JournalEntry.create({name: `${input[0].value}`});
-
-                            // Create Note data
-                            const data = {
-                                entryId: entry.data._id,
-                                x: dialogData.x,
-                                y: dialogData.y,
-                                icon: CONST.DEFAULT_NOTE_ICON,
-                                iconSize: 40,
-                                textAnchor: CONST.TEXT_ANCHOR_POINTS.BOTTOM,
-                                fontSize: 48
-                            };
-                        
-                            // Validate the final position is in-bounds
-                            if ( !canvas.grid.hitArea.contains(data.x, data.y) ) {
-                                return;
-                            }
-                        
-                            // Create a NoteConfig sheet instance to finalize the creation
-                            const note = canvas.activeLayer.preview.addChild(new Note(data).draw());
-                            note.sheet.render(true);
-                        }
+                    callback: html => {
+                        this.createNoteFromCanvas(html, data);
                     }
                 },
                 cancel: {
@@ -81,6 +62,35 @@ class PinCushion {
             },
             default: "save"
         }).render(true);
+    }
+
+    /**
+     * 
+     * @param {*} html 
+     * @param {*} data 
+     */
+    async createNoteFromCanvas(html, eventData) {
+        const input = html.find("input[name='name']");
+
+        if (!input[0].value) {
+            ui.notifications.warn(PinCushion.MISSING_NAME);
+            return;
+        }
+        const entry = await JournalEntry.create({name: `${input[0].value}`});
+
+        if (!entry) {
+            return;
+        }
+
+        const entryData = entry.data;
+        entryData.id = entry.id;
+        
+        if (canvas.activeLayer.name !== PinCushion.NOTESLAYER) {
+            await canvas.notes.activate();
+        }
+
+
+        await canvas.activeLayer._onDropData(eventData, entryData);
     }
 
     /**
@@ -105,42 +115,77 @@ class PinCushion {
     }
 
     /* -------------------------------- Listeners ------------------------------- */
-
-    /**
-     * Handles canvas clicks
-     */
-    _onClickCanvas(event) {
-        const now = Date.now();
-    
-        if (canvas.activeLayer.name !== "NotesLayer" || canvas.activeLayer._hover) {
-            return;
-        }
-        
-        // If the click is less than 250ms since the last clicktime, it should be a doubleclick
-        if ((now - event.data.clickTime) < 250) {
-            this._onDoubleClick(event);
-        }
-        // Set clickTime to enable doubleclick detection
-        event.data.clickTime = now;
-    }
     
     /**
      * Handles doubleclicks
      * @param {*} event 
      */
-    _onDoubleClick(event) {
-        const data = {
-            x: event.data.destination.x,
-            y: event.data.destination.y
+    static _onDoubleClick(event) {
+        if (canvas.activeLayer._hover) {
+            return;
         }
 
-        this._createDialog(data);
+        const data = {
+            clientX: event.data.global.x,
+            clientY: event.data.global.y
+        }
+
+        game.pinCushion._createDialog(data);
+    }
+}
+
+class PinCushionHUD extends BasePlaceableHUD {
+    constructor(note, options) {
+        super(note, options);
+        this.data = note;
+    }
+
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, {
+            id: "pin-cushion-hud",
+            classes: [...super.defaultOptions.classes, "pin-cushion-hud"],
+            width: 400,
+            height: 200,
+            minimizable: false,
+            resizable: false,
+            template: "modules/pin-cushion/templates/journal-preview.html"
+        });
+    }
+
+    getData() {
+        const data = super.getData();
+        const entry = this.object.entry;
+
+        data.title = entry.data.name,
+        data.body = $(entry.data.content).text()
+
+        return data;
+    }
+
+    setPosition() {
+        if (!this.object) return;
+
+        const position = {
+            width: 400,
+            height: 500,
+            left: this.object.x + 100,
+            top: this.object.y - 50,
+            "font-size": canvas.grid.size / 5 + "px"
+        };
+        this.element.css(position);
     }
 }
 
 /* -------------------------------------------------------------------------- */
 /*                                    Hooks                                   */
 /* -------------------------------------------------------------------------- */
+
+/**
+ * Hook on init
+ */
+Hooks.on("init", () => {
+    registerSettings();
+});
 
 /**
  * Hook on note config render to inject filepicker and remove selector
@@ -153,7 +198,50 @@ Hooks.on("renderNoteConfig", (app, html, data) => {
  * Hook on canvas ready to register click listener
  */
 Hooks.on("canvasReady", (app, html, data) => {
-    const pinCushion = new PinCushion();
+    game.pinCushion = new PinCushion();
 
-    pinCushion.registerListeners();
+    NotesLayer.prototype._onClickLeft2 = PinCushion._onDoubleClick;
 });
+
+Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
+    const setting = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
+
+    if (setting) {
+        html.append(`<template id="pin-cushion-hud"></template>`);
+        canvas.hud.pinCushion = new PinCushionHUD();
+    }
+});
+
+Hooks.on("hoverNote", (note, hovered) => {
+    const setting = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
+
+    if (!setting) {
+        return;
+    }
+
+    if (!hovered) {
+        return canvas.hud.pinCushion.clear();
+    }
+
+    if (hovered) {
+        return canvas.hud.pinCushion.bind(note);
+    }
+});
+
+function registerSettings() {
+    game.settings.register(PinCushion.MODULE_NAME, "showJournalPreview", {
+        name: "SETTINGS.ShowJournalPreviewN",
+        hint: "SETTINGS.ShowJournalPreviewH",
+        scope: "world",
+        type: Boolean,
+        default: false,
+        config: true,
+        onChange: s => {
+            if (!s) {
+                delete canvas.hud.pinCushion;
+            }
+
+            canvas.hud.render();
+        }
+    });
+}

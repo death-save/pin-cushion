@@ -3,6 +3,16 @@
 ## [Unreleased]
 - ~~Restrict selection to only svg files~~
 
+## [1.1] - 2020-05-29
+### Added
+- Journal Preview on Map Pin hover (enable in Module Settings)
+
+### Changed
+- Refactored some methods to use more native Foundry functionality
+
+### Fixed
+- Double-click to create map pin works again
+
 ## [1.0.1] - 2020-04-29
 ### Changed
 - Updated for compatibility with Foundry VTT 0.5.5
