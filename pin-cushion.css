@@ -4,6 +4,7 @@
     overflow: hidden;
     padding: 2px;
     border: 1px solid black;
+    width: fit-content;
 }
 
 .pin-cushion-hud #content {

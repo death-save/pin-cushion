@@ -140,6 +140,9 @@ class PinCushionHUD extends BasePlaceableHUD {
         this.data = note;
     }
 
+    /**
+     * Retrieve and override default options for this application
+     */
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             id: "pin-cushion-hud",
@@ -152,24 +155,42 @@ class PinCushionHUD extends BasePlaceableHUD {
         });
     }
 
+    /**
+     * Get data for template
+     */
     getData() {
         const data = super.getData();
         const entry = this.object.entry;
+        const previewType = game.settings.get(PinCushion.MODULE_NAME, "previewType");
+        let content;
 
-        data.title = entry.data.name,
-        data.body = $(entry.data.content).text()
+        if (previewType === "html") {
+            content = TextEditor.enrichHTML(entry.data.content, {secrets: entry.owner, entities: true});
+        } else if (previewType === "text") {
+            const previewMaxLength = game.settings.get(PinCushion.MODULE_NAME, "previewMaxLength");
+
+            const textContent = $(entry.data.content).text();
+            content = textContent.length > previewMaxLength ? `${textContent.substr(0, previewMaxLength)} ...` : textContent;
+        }
+        
+
+        data.title = entry.data.name;
+        data.body = content;
 
         return data;
     }
 
+    /**
+     * Set app position
+     */
     setPosition() {
         if (!this.object) return;
 
         const position = {
             width: 400,
             height: 500,
-            left: this.object.x + 100,
-            top: this.object.y - 50,
+            left: this.object.x,
+            top: this.object.y,
             "font-size": canvas.grid.size / 5 + "px"
         };
         this.element.css(position);
@@ -204,30 +225,40 @@ Hooks.on("canvasReady", (app, html, data) => {
 });
 
 Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
-    const setting = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
+    const showPreview = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
+    
 
-    if (setting) {
+    if (showPreview) {
         html.append(`<template id="pin-cushion-hud"></template>`);
         canvas.hud.pinCushion = new PinCushionHUD();
     }
 });
 
+/**
+ * Hook on Note hover
+ */
 Hooks.on("hoverNote", (note, hovered) => {
-    const setting = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
+    const showPreview = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
+    const previewDelay = game.settings.get(PinCushion.MODULE_NAME, "previewDelay");
 
-    if (!setting) {
+    if (!showPreview) {
         return;
     }
 
     if (!hovered) {
+        clearTimeout(game.pinCushion.hoverTimer);
         return canvas.hud.pinCushion.clear();
     }
 
     if (hovered) {
-        return canvas.hud.pinCushion.bind(note);
+        game.pinCushion.hoverTimer = setTimeout(function() { canvas.hud.pinCushion.bind(note) }, previewDelay);
+        return;
     }
 });
 
+/**
+ * Helper function to register settings
+ */
 function registerSettings() {
     game.settings.register(PinCushion.MODULE_NAME, "showJournalPreview", {
         name: "SETTINGS.ShowJournalPreviewN",
@@ -243,5 +274,39 @@ function registerSettings() {
 
             canvas.hud.render();
         }
+    });
+
+    game.settings.register(PinCushion.MODULE_NAME, "previewType", {
+        name: "SETTINGS.PreviewTypeN",
+        hint: "SETTINGS.PreviewTypeH",
+        scope: "world",
+        type: String,
+        choices: {
+            html: "HTML",
+            text: "Text Snippet"
+        },
+        default: "html",
+        config: true,
+        onChange: s => {}
+    });
+
+    game.settings.register(PinCushion.MODULE_NAME, "previewMaxLength", {
+        name: "SETTINGS.PreviewMaxLengthN",
+        hint: "SETTINGS.PreviewMaxLengthH",
+        scope: "world",
+        type: Number,
+        default: 500,
+        config: true,
+        onChange: s => {}
+    });
+
+    game.settings.register(PinCushion.MODULE_NAME, "previewDelay", {
+        name: "SETTINGS.PreviewDelayN",
+        hint: "SETTINGS.PreviewDelayH",
+        scope: "world",
+        type: Number,
+        default: 500,
+        config: true,
+        onChange: s => {}
     });
 }

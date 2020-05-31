@@ -2,7 +2,7 @@
     "name": "pin-cushion",
     "title": "Pin Cushion",
     "description": "Adds additional map pin functionality",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "minimumCoreVersion": "0.5.7",
     "compatibleCoreVersion": "0.6.0",
     "author": "Evan Clarke [errational#2007]",

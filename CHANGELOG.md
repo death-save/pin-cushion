@@ -3,6 +3,17 @@
 ## [Unreleased]
 - ~~Restrict selection to only svg files~~
 
+## [1.1.1] - 2020-05-31
+### Changed
+- Journal Preview is now disabled by default and has the following settings:
+- - Enable
+- - Preview Type (HTML or Text Snippet)
+- - Max Preview Length (Text Snippet only)
+- - Preview Delay
+
+### Fixed
+- Journal Previews no longer show secrets to players
+
 ## [1.1] - 2020-05-29
 ### Added
 - Journal Preview on Map Pin hover (enable in Module Settings)
