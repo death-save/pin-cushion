@@ -3,6 +3,11 @@
 ## [Unreleased]
 - ~~Restrict selection to only svg files~~
 
+## [1.1.2] - 2020-05-31
+### Changed
+- Journal Preview settings can now be set by each user
+- Confirmed compatibility with Foundry VTT 0.6.1
+
 ## [1.1.1] - 2020-05-31
 ### Changed
 - Journal Preview is now disabled by default and has the following settings:
