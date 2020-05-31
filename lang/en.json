@@ -1,4 +1,10 @@
 {
     "SETTINGS.ShowJournalPreviewN": "Show Journal Preview",
-    "SETTINGS.ShowJournalPreviewH": "Shows a Journal preview when hovering over a map pin"
+    "SETTINGS.ShowJournalPreviewH": "Shows a Journal preview when hovering over a map pin",
+    "SETTINGS.PreviewTypeN": "Journal Preview Type",
+    "SETTINGS.PreviewTypeH": "The type of Journal preview to show (HTML or Text snippet)",
+    "SETTINGS.PreviewMaxLengthN": "Preview Maximum Length",
+    "SETTINGS.PreviewMaxLengthH": "**TEXT PREVIEW ONLY** How many characters should the text preview show?",
+    "SETTINGS.PreviewDelayN": "Preview Delay",
+    "SETTINGS.PreviewDelayH": "How long before preview appears (in milliseconds)"
 }
