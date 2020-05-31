@@ -263,7 +263,7 @@ function registerSettings() {
     game.settings.register(PinCushion.MODULE_NAME, "showJournalPreview", {
         name: "SETTINGS.ShowJournalPreviewN",
         hint: "SETTINGS.ShowJournalPreviewH",
-        scope: "world",
+        scope: "client",
         type: Boolean,
         default: false,
         config: true,
@@ -279,7 +279,7 @@ function registerSettings() {
     game.settings.register(PinCushion.MODULE_NAME, "previewType", {
         name: "SETTINGS.PreviewTypeN",
         hint: "SETTINGS.PreviewTypeH",
-        scope: "world",
+        scope: "client",
         type: String,
         choices: {
             html: "HTML",
@@ -293,7 +293,7 @@ function registerSettings() {
     game.settings.register(PinCushion.MODULE_NAME, "previewMaxLength", {
         name: "SETTINGS.PreviewMaxLengthN",
         hint: "SETTINGS.PreviewMaxLengthH",
-        scope: "world",
+        scope: "client",
         type: Number,
         default: 500,
         config: true,
@@ -303,7 +303,7 @@ function registerSettings() {
     game.settings.register(PinCushion.MODULE_NAME, "previewDelay", {
         name: "SETTINGS.PreviewDelayN",
         hint: "SETTINGS.PreviewDelayH",
-        scope: "world",
+        scope: "client",
         type: Number,
         default: 500,
         config: true,
