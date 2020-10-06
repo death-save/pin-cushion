@@ -1,0 +1,10 @@
+{
+    "SETTINGS.ShowJournalPreviewN": "Exibir Prévia do Diárioo",
+    "SETTINGS.ShowJournalPreviewH": "Exibe uma prévia do Diário quando sobrepõe um marcador no mapa.",
+    "SETTINGS.PreviewTypeN": "Tipos de Prévias de Diário",
+    "SETTINGS.PreviewTypeH": "o tipo de prévia do diário a ser exibida (Trecho em HTML ou Texto)",
+    "SETTINGS.PreviewMaxLengthN": "Comprimento máximo da ´Prévia",
+    "SETTINGS.PreviewMaxLengthH": "**SOMENTE PRÉVIA EM TEXTO** Quanos caracteres devem ser exibidas na prévia?",
+    "SETTINGS.PreviewDelayN": "Atrazo da Prévia",
+    "SETTINGS.PreviewDelayH": "Quanto tempo de espera até a prévia aparecer (em milissegundos)"
+}
