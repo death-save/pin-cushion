@@ -9,4 +9,5 @@
 
 .pin-cushion-hud #content {
     text-overflow: ellipsis;
+    text-align: left;
 }

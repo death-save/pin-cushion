@@ -3,6 +3,10 @@
 ## [Unreleased]
 - ~~Restrict selection to only svg files~~
 
+## [1.1.3] - 2020-10-06
+### Changed
+- Journal Preview text is now left-aligned
+
 ## [1.1.2] - 2020-05-31
 ### Changed
 - Journal Preview settings can now be set by each user
