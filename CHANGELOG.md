@@ -1,7 +1,12 @@
 # Changelog
 
-## [Unreleased]
-- ~~Restrict selection to only svg files~~
+## [1.1.3] - 2020-10-06
+### Added
+- Português (Brasil) translation -- thanks @rinnocenti!
+
+### Changed
+- Journal Preview text is now left-aligned
+- Confirmed compatibility with Foundry VTT 0.7.3
 
 ## [1.1.2] - 2020-05-31
 ### Changed
