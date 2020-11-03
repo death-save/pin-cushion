@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.4] - 2020-11-03
+### Added
+- Confirmed compatibility with Foundry VTT 0.7.5
+
 ## [1.1.3] - 2020-10-06
 ### Added
 - Português (Brasil) translation -- thanks @rinnocenti!

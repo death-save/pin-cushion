@@ -11,3 +11,55 @@
     text-overflow: ellipsis;
     text-align: left;
 }
+
+/* About App */
+/* ABOUT */
+#pin-cushion-about img {
+    border: none;
+}
+
+#pin-cushion-about .logo {
+    width: 600px;
+}
+
+#pin-cushion-about .version {
+    flex-grow: 0;
+}
+
+#pin-cushion-about div.patrons {
+    width: 100%;
+}
+
+#pin-cushion-about .patrons ol {
+    height: 175px;
+    border: 1px inset white;
+    list-style: none;
+    overflow: hidden scroll;
+    text-align: center;
+    padding: 2px;
+}
+
+#pin-cushion-about .patrons li:nth-child(odd) {
+    background: rgba(0,0,0,0.2);
+}
+
+#pin-cushion-about .patrons li {
+    font-size: x-large;
+}
+
+#pin-cushion-about footer div {
+    justify-content: center;
+    text-align: center;
+}
+
+#pin-cushion-about .death-save {
+    flex: 0 0 120px;
+}
+
+#pin-cushion-about .heart {
+    color: tomato;
+}
+
+#pin-cushion-about .patreon img {
+    flex: 0 0 100px;
+}
