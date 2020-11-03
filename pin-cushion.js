@@ -14,6 +14,10 @@ class PinCushion {
         return "Pin Cushion";
     }
 
+    static get PATH() {
+        return "modules/pin-cushion";
+    }
+
     static get DIALOG() {
         return {
             content: `<div class="form-group"><p class="notes">Name:</p></label><input name="name" type="text"></div></br>`,
@@ -260,6 +264,15 @@ Hooks.on("hoverNote", (note, hovered) => {
  * Helper function to register settings
  */
 function registerSettings() {
+    game.settings.registerMenu(PinCushion.MODULE_NAME, "aboutApp", {
+        name: "SETTINGS.AboutAppN",
+        label: "SETTINGS.AboutAppN",
+        hint: "SETTINGS.AboutAppH",
+        icon: "fas fa-question",
+        type: PinCushionAboutApp,
+        restricted: false
+    });
+
     game.settings.register(PinCushion.MODULE_NAME, "showJournalPreview", {
         name: "SETTINGS.ShowJournalPreviewN",
         hint: "SETTINGS.ShowJournalPreviewH",
