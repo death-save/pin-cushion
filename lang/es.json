@@ -1,0 +1,15 @@
+{
+	"I18N.LANGUAGE": "Español",
+	"I18N.MAINTAINERS": "@Viriato139ac#0342",
+  
+    "SETTINGS.AboutAppN": "Acerca de Pin Cushion",
+    "SETTINGS.AboutAppH": "Muestra información adicional acerca de Pin Cushion",
+    "SETTINGS.ShowJournalPreviewN": "Mostrar vista previa del diario",
+    "SETTINGS.ShowJournalPreviewH": "Cuando se pasa el ratón por encima de una chincheta en el mapa, se muestra una vista previa del diario",
+    "SETTINGS.PreviewTypeN": "Tipo de vista previa del diario",
+    "SETTINGS.PreviewTypeH": "El tipo de vista previa del diario que se mostrará (HTML o texto)",
+    "SETTINGS.PreviewMaxLengthN": "Longitud máxima de la vista previa",
+    "SETTINGS.PreviewMaxLengthH": "**SOLO VISTA PREVIA DE TEXTO** ¿Cuantos caracteres de texto se deben mostrar en la vista previa de texto?",
+    "SETTINGS.PreviewDelayN": "Retraso de la vista previa",
+    "SETTINGS.PreviewDelayH": "Cuanto tiempo (en milisegundos) ha de pasar hasta que se muestre la vista previa"
+}
