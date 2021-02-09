@@ -1,3 +1,5 @@
+import PinCushionAboutApp from "./about.js";
+
 /**
  * A class for managing additional Map Pin functionality
  * @author Evan Clarke (errational#2007)
@@ -209,7 +211,7 @@ class PinCushionHUD extends BasePlaceableHUD {
  * Hook on init
  */
 Hooks.on("init", () => {
-    registerPinCushionSettings();
+    registerSettings();
 });
 
 /**
@@ -263,7 +265,7 @@ Hooks.on("hoverNote", (note, hovered) => {
 /**
  * Helper function to register settings
  */
-function registerPinCushionSettings() {
+function registerSettings() {
     game.settings.registerMenu(PinCushion.MODULE_NAME, "aboutApp", {
         name: "SETTINGS.AboutAppN",
         label: "SETTINGS.AboutAppN",
