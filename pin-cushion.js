@@ -209,7 +209,7 @@ class PinCushionHUD extends BasePlaceableHUD {
  * Hook on init
  */
 Hooks.on("init", () => {
-    registerSettings();
+    registerPinCushionSettings();
 });
 
 /**
@@ -263,7 +263,7 @@ Hooks.on("hoverNote", (note, hovered) => {
 /**
  * Helper function to register settings
  */
-function registerSettings() {
+function registerPinCushionSettings() {
     game.settings.registerMenu(PinCushion.MODULE_NAME, "aboutApp", {
         name: "SETTINGS.AboutAppN",
         label: "SETTINGS.AboutAppN",
