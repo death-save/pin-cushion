@@ -53,7 +53,7 @@ class PinCushion {
                     label: "Save",
                     icon: `<i class="fas fa-check"></i>`,
                     callback: html => {
-                        this.createNoteFromCanvas(html, data);
+                        return this.createNoteFromCanvas(html, data);
                     }
                 },
                 cancel: {
@@ -93,7 +93,6 @@ class PinCushion {
             await canvas.notes.activate();
         }
 
-
         await canvas.activeLayer._onDropData(eventData, entryData);
     }
 
@@ -118,6 +117,10 @@ class PinCushion {
         html.find('button.file-picker').each((i, button) => app._activateFilePicker(button));
     }
 
+    static _canCreateNoteOverride(user, event) {
+        return true;
+    }
+
     /* -------------------------------- Listeners ------------------------------- */
     
     /**
@@ -129,12 +132,130 @@ class PinCushion {
             return;
         }
 
+        const allowPlayerNotes = game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes");
+
+        if (!game.user.isGM && !allowPlayerNotes) return;
+
         const data = {
             clientX: event.data.global.x,
             clientY: event.data.global.y
         }
 
         game.pinCushion._createDialog(data);
+    }
+
+    /**
+     * Socket Handler
+     * @param {*} action 
+     * @param {*} data 
+     */
+    _onSocket(message) {
+        const { action, object, data } = message;
+        if (action === "deferNoteCreate" && game.user.isGM) {
+            const note = object;
+            return Note.create(data);
+        }
+
+        if (action === "deferNoteUpdate" && game.user.isGM) {
+            const note = object;
+            return note.update(data);
+        }
+    }
+
+    static _overrideNoteConfigUpdate(event, formData) {
+        
+        if ( this.object.id ) {
+            if (!game.user.isGM) return game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {action: "deferNoteUpdate", object: this, data: formData});
+            return this.object.update(formData);
+        } else {
+            canvas.notes.preview.removeChildren();
+            
+            return this.object.constructor.create(formData);
+        }
+    }
+
+    static _overrideNoteCreate(data) {
+        if (!game.user.isGM) return game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {action: "deferNoteCreate", object: this, data: data});
+        return PlaceableObject.create(data);
+    }
+
+    static _overrideNoteUpdate(data) {
+        if (!game.user.isGM) return game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {action: "deferNoteCreate", object: this, data: data});
+        return super.update(data);
+    }
+
+    /**
+    * Helper function to register settings
+    */
+    static _registerSettings() {
+        game.settings.registerMenu(PinCushion.MODULE_NAME, "aboutApp", {
+            name: "SETTINGS.AboutAppN",
+            label: "SETTINGS.AboutAppN",
+            hint: "SETTINGS.AboutAppH",
+            icon: "fas fa-question",
+            type: PinCushionAboutApp,
+            restricted: false
+        });
+
+        game.settings.register(PinCushion.MODULE_NAME, "showJournalPreview", {
+            name: "SETTINGS.ShowJournalPreviewN",
+            hint: "SETTINGS.ShowJournalPreviewH",
+            scope: "client",
+            type: Boolean,
+            default: false,
+            config: true,
+            onChange: s => {
+                if (!s) {
+                    delete canvas.hud.pinCushion;
+                }
+
+                canvas.hud.render();
+            }
+        });
+
+        game.settings.register(PinCushion.MODULE_NAME, "previewType", {
+            name: "SETTINGS.PreviewTypeN",
+            hint: "SETTINGS.PreviewTypeH",
+            scope: "client",
+            type: String,
+            choices: {
+                html: "HTML",
+                text: "Text Snippet"
+            },
+            default: "html",
+            config: true,
+            onChange: s => {}
+        });
+
+        game.settings.register(PinCushion.MODULE_NAME, "previewMaxLength", {
+            name: "SETTINGS.PreviewMaxLengthN",
+            hint: "SETTINGS.PreviewMaxLengthH",
+            scope: "client",
+            type: Number,
+            default: 500,
+            config: true,
+            onChange: s => {}
+        });
+
+        game.settings.register(PinCushion.MODULE_NAME, "previewDelay", {
+            name: "SETTINGS.PreviewDelayN",
+            hint: "SETTINGS.PreviewDelayH",
+            scope: "client",
+            type: Number,
+            default: 500,
+            config: true,
+            onChange: s => {}
+        });
+
+        game.settings.register(PinCushion.MODULE_NAME, "allowPlayerNotes", {
+            name: "SETTINGS.AllowPlayerNotesN",
+            hint: "SETTINGS.AllowPlayerNotesH",
+            scope: "world",
+            type: Boolean,
+            default: false,
+            config: true,
+            onChange: s => {}
+        });
     }
 }
 
@@ -209,7 +330,7 @@ class PinCushionHUD extends BasePlaceableHUD {
  * Hook on init
  */
 Hooks.on("init", () => {
-    registerSettings();
+    PinCushion._registerSettings();
 });
 
 /**
@@ -226,8 +347,16 @@ Hooks.on("canvasReady", (app, html, data) => {
     game.pinCushion = new PinCushion();
 
     NotesLayer.prototype._onClickLeft2 = PinCushion._onDoubleClick;
+    //NoteConfig.prototype._updateObject = PinCushion._overrideNoteConfigUpdate;
+    Note.create = PinCushion._overrideNoteCreate;
+    Note.prototype.update = PinCushion._overrideNoteUpdate;
+    
+    game.socket.on(`module.${PinCushion.MODULE_NAME}`, game.pinCushion._onSocket);
 });
 
+/**
+ * Hook on render HUD
+ */
 Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
     const showPreview = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
     
@@ -259,67 +388,3 @@ Hooks.on("hoverNote", (note, hovered) => {
         return;
     }
 });
-
-/**
- * Helper function to register settings
- */
-function registerSettings() {
-    game.settings.registerMenu(PinCushion.MODULE_NAME, "aboutApp", {
-        name: "SETTINGS.AboutAppN",
-        label: "SETTINGS.AboutAppN",
-        hint: "SETTINGS.AboutAppH",
-        icon: "fas fa-question",
-        type: PinCushionAboutApp,
-        restricted: false
-    });
-
-    game.settings.register(PinCushion.MODULE_NAME, "showJournalPreview", {
-        name: "SETTINGS.ShowJournalPreviewN",
-        hint: "SETTINGS.ShowJournalPreviewH",
-        scope: "client",
-        type: Boolean,
-        default: false,
-        config: true,
-        onChange: s => {
-            if (!s) {
-                delete canvas.hud.pinCushion;
-            }
-
-            canvas.hud.render();
-        }
-    });
-
-    game.settings.register(PinCushion.MODULE_NAME, "previewType", {
-        name: "SETTINGS.PreviewTypeN",
-        hint: "SETTINGS.PreviewTypeH",
-        scope: "client",
-        type: String,
-        choices: {
-            html: "HTML",
-            text: "Text Snippet"
-        },
-        default: "html",
-        config: true,
-        onChange: s => {}
-    });
-
-    game.settings.register(PinCushion.MODULE_NAME, "previewMaxLength", {
-        name: "SETTINGS.PreviewMaxLengthN",
-        hint: "SETTINGS.PreviewMaxLengthH",
-        scope: "client",
-        type: Number,
-        default: 500,
-        config: true,
-        onChange: s => {}
-    });
-
-    game.settings.register(PinCushion.MODULE_NAME, "previewDelay", {
-        name: "SETTINGS.PreviewDelayN",
-        hint: "SETTINGS.PreviewDelayH",
-        scope: "client",
-        type: Number,
-        default: 500,
-        config: true,
-        onChange: s => {}
-    });
-}
