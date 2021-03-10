@@ -10,8 +10,10 @@
     "manifest": "https://raw.githubusercontent.com/death-save/pin-cushion/master/module.json",
     "download": "https://github.com/death-save/pin-cushion/archive/master.zip",
     "scripts": [
-      "./pin-cushion.js",
       "./about.js"
+    ],
+    "esmodules": [
+      "./pin-cushion.js"
     ],
     "socket": true,
     "styles": ["./pin-cushion.css"],
