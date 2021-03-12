@@ -1,3 +1,4 @@
+import { PinCushionAboutApp } from "./about.js";
 import { libWrapper } from "./shim.js";
 /**
  * A class for managing additional Map Pin functionality
@@ -122,10 +123,9 @@ class PinCushion {
     
     /**
      * Handles doubleclicks
-     * @param {function} wrapped - The original function
      * @param {*} event 
      */
-    static _onDoubleClick(wrapped, event) {
+    static _onDoubleClick(event) {
         if (canvas.activeLayer._hover) {
             return;
         }
@@ -377,7 +377,7 @@ Hooks.on("init", () => {
     libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype._canControl", PinCushion._overrideNoteCanControl);
     libWrapper.register(PinCushion.MODULE_NAME, "Note.create", PinCushion._overrideNoteCreate);
     libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype.update", PinCushion._overrideNoteUpdate);
-    libWrapper.register(PinCushion.MODULE_NAME, "NotesLayer.prototype._onClickLeft2", PinCushion._onDoubleClick);
+    libWrapper.register(PinCushion.MODULE_NAME, "NotesLayer.prototype._onClickLeft2", PinCushion._onDoubleClick, "OVERRIDE");
     libWrapper.register(PinCushion.MODULE_NAME, "NotesLayer.prototype._onDeleteKey", PinCushion._onDeleteKey);
 
 });

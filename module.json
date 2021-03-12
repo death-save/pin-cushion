@@ -9,11 +9,9 @@
     "url": "https://github.com/death-save/pin-cushion",
     "manifest": "https://raw.githubusercontent.com/death-save/pin-cushion/master/module.json",
     "download": "https://github.com/death-save/pin-cushion/archive/master.zip",
-    "scripts": [
-      "./about.js"
-    ],
     "esmodules": [
-      "./pin-cushion.js"
+      "./pin-cushion.js",
+      "./about.js"
     ],
     "socket": true,
     "styles": ["./pin-cushion.css"],
