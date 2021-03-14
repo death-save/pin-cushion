@@ -1,5 +1,5 @@
-import { PinCushionAboutApp } from "./about.js";
-import { libWrapper } from "./shim.js";
+import PinCushionAboutApp from "./about.js";
+import { libWrapper } from "./lib-wrapper-shim.js";
 /**
  * A class for managing additional Map Pin functionality
  * @author Evan Clarke (errational#2007)
@@ -167,7 +167,6 @@ class PinCushion {
     _onSocket(message, userId) {
         const {action, object, data, options} = message;
         const isFirstGM = game.user === game.users.find((u) => u.isGM && u.active)
-        const user = game.users.get(userId);
         const scene = game.scenes.get(object.scene)
 
         // Cancel Note handling if users are not allowed to affect Notes
@@ -180,13 +179,17 @@ class PinCushion {
         // The following actions deal with a single Note, so a common instance can be created
         const noteData = scene.data.notes.find(n => n._id === object.id);
         const note = new Note(noteData, scene);
+        const userPermission = note.entry.data.permission[userId] >= ENTITY_PERMISSIONS.OWNER;
 
-        if (action === "deferNoteUpdate" && isFirstGM) {
-            return note.update(data, options);
-        }
+        // Only handle update if user is the owner of the JournalEntry
+        if (isFirstGM && userPermission) {
+            if (action === "deferNoteUpdate") {
+                return note.update(data, options);
+            }
 
-        if (action === "deferNoteDelete" && isFirstGM) {
-            return note.delete();
+            if (action === "deferNoteDelete") {
+                return note.delete();
+            }
         }
     }
 

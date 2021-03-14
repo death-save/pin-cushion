@@ -2,7 +2,7 @@
  * About this module FormApp
  * @extends FormApplication
  */
-export class PinCushionAboutApp extends FormApplication {
+export default class PinCushionAboutApp extends FormApplication {
     constructor(options={}) {
         super(options);
     }
