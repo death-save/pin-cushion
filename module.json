@@ -6,30 +6,57 @@
     "minimumCoreVersion": "0.7.5",
     "compatibleCoreVersion": "0.7.9",
     "author": "Evan Clarke [errational#2007]",
+    "authors": [
+        {
+            "name": "Evan Clarke",
+            "url": "https://patreon.com/deathsave",
+            "discord": "errational#2007",
+            "twitter": "@death_save_dev",
+            "reddit": "u/etherboy12"
+        }
+    ],
     "url": "https://github.com/death-save/pin-cushion",
     "manifest": "https://raw.githubusercontent.com/death-save/pin-cushion/master/module.json",
     "download": "https://github.com/death-save/pin-cushion/archive/master.zip",
     "esmodules": [
-      "./pin-cushion.js",
-      "./about.js"
+        "./pin-cushion.js",
+        "./about.js"
     ],
     "socket": true,
-    "styles": ["./pin-cushion.css"],
+    "styles": [
+        "./pin-cushion.css"
+    ],
     "languages": [
-      {
-        "lang": "en",
-        "name": "English",
-        "path": "./lang/en.json"
-      },
-      {
-        "lang": "pt-BR",
-        "name": "Português (Brasil)",
-        "path": "./lang/pt-BR.json"
-      },
-      {
-        "lang": "es",
-        "name": "Español",
-        "path": "./lang/es.json"
-      }
-    ]
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "./lang/en.json"
+        },
+        {
+            "lang": "pt-BR",
+            "name": "Português (Brasil)",
+            "path": "./lang/pt-BR.json"
+        },
+        {
+            "lang": "es",
+            "name": "Español",
+            "path": "./lang/es.json"
+        }
+    ],
+    "media": [
+        {
+            "type": "screenshot",
+            "url": "https://github.com/death-save/media/raw/master/pin-cushion/create_pin.png"
+        },
+        {
+            "type": "screenshot",
+            "url": "https://github.com/death-save/media/raw/master/pin-cushion/note-config.png"
+        },
+        {
+            "type": "screenshot",
+            "url": "https://github.com/death-save/media/raw/master/pin-cushion/journal-preview.png"
+        }
+    ],
+    "bugs": "https://github.com/death-save/pin-cushion/issues",
+    "allowBugReporter": true
 }
