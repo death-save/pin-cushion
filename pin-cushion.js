@@ -71,7 +71,7 @@ class PinCushion {
     }
 
     /**
-     * 
+     * Creates a Note from the Pin Cushion dialog
      * @param {*} html 
      * @param {*} data 
      */
@@ -195,6 +195,13 @@ class PinCushion {
 
     /* -------------------------------- Overrides ------------------------------- */
 
+    /**
+     * Override Note Create to allow Player creation
+     * @param {*} wrapped 
+     * @param {*} data 
+     * @param {*} options 
+     * @returns {Function} the wrapped function
+     */
     static _overrideNoteCreate(wrapped, data, options) {
         if (!game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes")) {
             return game.socket.emit(
@@ -205,6 +212,12 @@ class PinCushion {
         return wrapped(data, options);
     }
 
+    /**
+     * Override Note Update to allow Player updates
+     * @param {*} wrapped 
+     * @param {*} data 
+     * @returns {Function} the wrapped function
+     */
     static _overrideNoteUpdate(wrapped, data) {
         const note = {id: this.id, scene: this.scene.id};
         if (!game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes")) {
@@ -216,11 +229,25 @@ class PinCushion {
         return wrapped(data);
     }
 
+    /**
+     * Override Note canConfigure method to allow Player note configuration
+     * @param {*} wrapped 
+     * @param {*} user 
+     * @param {*} event 
+     * @returns {Function} the wrapped function
+     */
     static _overrideNoteCanConfigue(wrapped, user, event) {
         if (game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes") && this.entry?.owner) return true;
         return wrapped(user, event);
     }
 
+    /**
+     * Override Note canControl method to allow Player to select their own notes
+     * @param {*} wrapped 
+     * @param {*} user 
+     * @param {*} event 
+     * @returns {Function} the wrapped function
+     */
     static _overrideNoteCanControl(wrapped, user, event) {
         if (game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes") && this.entry?.owner) return true;
         return wrapped(user, event);
@@ -301,6 +328,11 @@ class PinCushion {
     }
 }
 
+/**
+ * @class PinCushionHUD
+ * 
+ * A HUD extension that shows the Note preview
+ */
 class PinCushionHUD extends BasePlaceableHUD {
     constructor(note, options) {
         super(note, options);
