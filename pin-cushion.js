@@ -1,3 +1,5 @@
+import PinCushionAboutApp from "./about.js";
+import { libWrapper } from "./lib-wrapper-shim.js";
 /**
  * A class for managing additional Map Pin functionality
  * @author Evan Clarke (errational#2007)
@@ -53,7 +55,7 @@ class PinCushion {
                     label: "Save",
                     icon: `<i class="fas fa-check"></i>`,
                     callback: html => {
-                        this.createNoteFromCanvas(html, data);
+                        return this.createNoteFromCanvas(html, data);
                     }
                 },
                 cancel: {
@@ -69,7 +71,7 @@ class PinCushion {
     }
 
     /**
-     * 
+     * Creates a Note from the Pin Cushion dialog
      * @param {*} html 
      * @param {*} data 
      */
@@ -92,7 +94,6 @@ class PinCushion {
         if (canvas.activeLayer.name !== PinCushion.NOTESLAYER) {
             await canvas.notes.activate();
         }
-
 
         await canvas.activeLayer._onDropData(eventData, entryData);
     }
@@ -129,6 +130,10 @@ class PinCushion {
             return;
         }
 
+        const allowPlayerNotes = game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes");
+
+        if (!game.user.isGM && !allowPlayerNotes) return;
+
         const data = {
             clientX: event.data.global.x,
             clientY: event.data.global.y
@@ -136,8 +141,198 @@ class PinCushion {
 
         game.pinCushion._createDialog(data);
     }
+
+    /**
+     * Handles pressing the delete key
+     *
+     * @static
+     * @param {function} wrapped - The original function
+     * @param {Event} event - The triggering event
+     */
+    static _onDeleteKey(wrapped, event) {
+        if (!game.user.isGM && this._hover?.entry.owner && game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes")) {
+            const note = {id: this._hover.id, scene: this._hover.scene.id};
+            return game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {action: "deferNoteDelete", object: note});
+        }
+        return wrapped(event);
+    }
+
+    /**
+     * Socket handler
+     *
+     * @param {object} message - The socket event's content
+     * @param {string} userId - The ID of the user emitting the socket event
+     * @return {Promise<Data>|boolean} The affected entity or false in case of missing permissions
+     */
+    _onSocket(message, userId) {
+        const {action, object, data, options} = message;
+        const isFirstGM = game.user === game.users.find((u) => u.isGM && u.active)
+        const scene = game.scenes.get(object.scene)
+
+        // Cancel Note handling if users are not allowed to affect Notes
+        if (!game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes")) return false;
+
+        if (action === "deferNoteCreate" && isFirstGM) {
+            return scene.createEmbeddedEntity("Note", data);
+        }
+
+        // The following actions deal with a single Note, so a common instance can be created
+        const noteData = scene.data.notes.find(n => n._id === object.id);
+        const note = new Note(noteData, scene);
+        const userPermission = note.entry.data.permission[userId] >= ENTITY_PERMISSIONS.OWNER;
+
+        // Only handle update if user is the owner of the JournalEntry
+        if (isFirstGM && userPermission) {
+            if (action === "deferNoteUpdate") {
+                return note.update(data, options);
+            }
+
+            if (action === "deferNoteDelete") {
+                return note.delete();
+            }
+        }
+    }
+
+    /* -------------------------------- Overrides ------------------------------- */
+
+    /**
+     * Override Note Create to allow Player creation
+     * @param {*} wrapped 
+     * @param {*} data 
+     * @param {*} options 
+     * @returns {Function} the wrapped function
+     */
+    static _overrideNoteCreate(wrapped, data, options) {
+        if (!game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes")) {
+            return game.socket.emit(
+                `module.${PinCushion.MODULE_NAME}`,
+                {action: "deferNoteCreate", object: {scene: canvas.scene.id}, data: data}
+            );
+        }
+        return wrapped(data, options);
+    }
+
+    /**
+     * Override Note Update to allow Player updates
+     * @param {*} wrapped 
+     * @param {*} data 
+     * @returns {Function} the wrapped function
+     */
+    static _overrideNoteUpdate(wrapped, data) {
+        const note = {id: this.id, scene: this.scene.id};
+        if (!game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes")) {
+            return game.socket.emit(
+                `module.${PinCushion.MODULE_NAME}`,
+                {action: "deferNoteUpdate", object: note, data: data, options: options}
+            );
+        }
+        return wrapped(data);
+    }
+
+    /**
+     * Override Note canConfigure method to allow Player note configuration
+     * @param {*} wrapped 
+     * @param {*} user 
+     * @param {*} event 
+     * @returns {Function} the wrapped function
+     */
+    static _overrideNoteCanConfigue(wrapped, user, event) {
+        if (game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes") && this.entry?.owner) return true;
+        return wrapped(user, event);
+    }
+
+    /**
+     * Override Note canControl method to allow Player to select their own notes
+     * @param {*} wrapped 
+     * @param {*} user 
+     * @param {*} event 
+     * @returns {Function} the wrapped function
+     */
+    static _overrideNoteCanControl(wrapped, user, event) {
+        if (game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes") && this.entry?.owner) return true;
+        return wrapped(user, event);
+    }
+
+    /**
+    * Helper function to register settings
+    */
+    static _registerSettings() {
+        game.settings.registerMenu(PinCushion.MODULE_NAME, "aboutApp", {
+            name: "SETTINGS.AboutAppN",
+            label: "SETTINGS.AboutAppN",
+            hint: "SETTINGS.AboutAppH",
+            icon: "fas fa-question",
+            type: PinCushionAboutApp,
+            restricted: false
+        });
+
+        game.settings.register(PinCushion.MODULE_NAME, "showJournalPreview", {
+            name: "SETTINGS.ShowJournalPreviewN",
+            hint: "SETTINGS.ShowJournalPreviewH",
+            scope: "client",
+            type: Boolean,
+            default: false,
+            config: true,
+            onChange: s => {
+                if (!s) {
+                    delete canvas.hud.pinCushion;
+                }
+
+                canvas.hud.render();
+            }
+        });
+
+        game.settings.register(PinCushion.MODULE_NAME, "previewType", {
+            name: "SETTINGS.PreviewTypeN",
+            hint: "SETTINGS.PreviewTypeH",
+            scope: "client",
+            type: String,
+            choices: {
+                html: "HTML",
+                text: "Text Snippet"
+            },
+            default: "html",
+            config: true,
+            onChange: s => {}
+        });
+
+        game.settings.register(PinCushion.MODULE_NAME, "previewMaxLength", {
+            name: "SETTINGS.PreviewMaxLengthN",
+            hint: "SETTINGS.PreviewMaxLengthH",
+            scope: "client",
+            type: Number,
+            default: 500,
+            config: true,
+            onChange: s => {}
+        });
+
+        game.settings.register(PinCushion.MODULE_NAME, "previewDelay", {
+            name: "SETTINGS.PreviewDelayN",
+            hint: "SETTINGS.PreviewDelayH",
+            scope: "client",
+            type: Number,
+            default: 500,
+            config: true,
+            onChange: s => {}
+        });
+
+        game.settings.register(PinCushion.MODULE_NAME, "allowPlayerNotes", {
+            name: "SETTINGS.AllowPlayerNotesN",
+            hint: "SETTINGS.AllowPlayerNotesH",
+            scope: "world",
+            type: Boolean,
+            default: false,
+            config: true,
+            onChange: s => {}
+        });
+    }
 }
 
+/**
+ * @class PinCushionHUD
+ * 
+ * A HUD extension that shows the Note preview
+ */
 class PinCushionHUD extends BasePlaceableHUD {
     constructor(note, options) {
         super(note, options);
@@ -209,7 +404,25 @@ class PinCushionHUD extends BasePlaceableHUD {
  * Hook on init
  */
 Hooks.on("init", () => {
-    registerSettings();
+    globalThis.PinCushion = PinCushion;
+    PinCushion._registerSettings();
+
+    // Register overrides to enable creation, configuration, deletion, and movement of Notes by users
+    libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype._canConfigure", PinCushion._overrideNoteCanConfigue);
+    libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype._canControl", PinCushion._overrideNoteCanControl);
+    libWrapper.register(PinCushion.MODULE_NAME, "Note.create", PinCushion._overrideNoteCreate);
+    libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype.update", PinCushion._overrideNoteUpdate);
+    libWrapper.register(PinCushion.MODULE_NAME, "NotesLayer.prototype._onClickLeft2", PinCushion._onDoubleClick, "OVERRIDE");
+    libWrapper.register(PinCushion.MODULE_NAME, "NotesLayer.prototype._onDeleteKey", PinCushion._onDeleteKey);
+
+});
+
+/*
+ * Hook on ready
+ */
+Hooks.on("ready", () => {
+    // Wait for game to exist, then register socket handler
+    game.socket.on(`module.${PinCushion.MODULE_NAME}`, game.pinCushion._onSocket);
 });
 
 /**
@@ -224,10 +437,11 @@ Hooks.on("renderNoteConfig", (app, html, data) => {
  */
 Hooks.on("canvasReady", (app, html, data) => {
     game.pinCushion = new PinCushion();
-
-    NotesLayer.prototype._onClickLeft2 = PinCushion._onDoubleClick;
 });
 
+/**
+ * Hook on render HUD
+ */
 Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
     const showPreview = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
     
@@ -261,65 +475,29 @@ Hooks.on("hoverNote", (note, hovered) => {
 });
 
 /**
- * Helper function to register settings
+ * Hook on Note preUpdate
+ *
+ * This is called when a Note is moved. The regular update override does not catch this,
+ * since the Scene is the update target, not the Note itself
  */
-function registerSettings() {
-    game.settings.registerMenu(PinCushion.MODULE_NAME, "aboutApp", {
-        name: "SETTINGS.AboutAppN",
-        label: "SETTINGS.AboutAppN",
-        hint: "SETTINGS.AboutAppH",
-        icon: "fas fa-question",
-        type: PinCushionAboutApp,
-        restricted: false
-    });
+Hooks.on("preUpdateNote", (scene, noteData, updateData, options, userId) => {
+    const user = game.users.get(userId);
+    const journalEntry = game.journal.get(noteData.entryId);
+    if (!user.isGM && journalEntry.owner) {
+        game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {action: "deferNoteUpdate", object: {id: noteData._id, scene: scene.id}, data: updateData});
+        return false;
+    }
+});
 
-    game.settings.register(PinCushion.MODULE_NAME, "showJournalPreview", {
-        name: "SETTINGS.ShowJournalPreviewN",
-        hint: "SETTINGS.ShowJournalPreviewH",
-        scope: "client",
-        type: Boolean,
-        default: false,
-        config: true,
-        onChange: s => {
-            if (!s) {
-                delete canvas.hud.pinCushion;
-            }
+/**
+ * Hook on Note Delete
+ */
+Hooks.on("deleteNote", (scene, noteData, options, userId) => {
+    const showPreview = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
 
-            canvas.hud.render();
-        }
-    });
+    if (!showPreview) {
+        return;
+    }
 
-    game.settings.register(PinCushion.MODULE_NAME, "previewType", {
-        name: "SETTINGS.PreviewTypeN",
-        hint: "SETTINGS.PreviewTypeH",
-        scope: "client",
-        type: String,
-        choices: {
-            html: "HTML",
-            text: "Text Snippet"
-        },
-        default: "html",
-        config: true,
-        onChange: s => {}
-    });
-
-    game.settings.register(PinCushion.MODULE_NAME, "previewMaxLength", {
-        name: "SETTINGS.PreviewMaxLengthN",
-        hint: "SETTINGS.PreviewMaxLengthH",
-        scope: "client",
-        type: Number,
-        default: 500,
-        config: true,
-        onChange: s => {}
-    });
-
-    game.settings.register(PinCushion.MODULE_NAME, "previewDelay", {
-        name: "SETTINGS.PreviewDelayN",
-        hint: "SETTINGS.PreviewDelayH",
-        scope: "client",
-        type: Number,
-        default: 500,
-        config: true,
-        onChange: s => {}
-    });
-}
+    return canvas.hud.pinCushion.clear();
+});
