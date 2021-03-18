@@ -488,3 +488,16 @@ Hooks.on("preUpdateNote", (scene, noteData, updateData, options, userId) => {
         return false;
     }
 });
+
+/**
+ * Hook on Note Delete
+ */
+Hooks.on("deleteNote", (scene, noteData, options, userId) => {
+    const showPreview = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
+
+    if (!showPreview) {
+        return;
+    }
+
+    return canvas.hud.pinCushion.clear();
+});
