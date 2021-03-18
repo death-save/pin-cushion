@@ -1,7 +1,7 @@
 {
     "name": "pin-cushion",
     "title": "Pin Cushion",
-    "description": "Adds additional map pin functionality",
+    "description": "Adds additional map pin (Journal Note/Scene Note) functionality",
     "version": "1.2.0",
     "minimumCoreVersion": "0.7.5",
     "compatibleCoreVersion": "0.7.9",
@@ -16,8 +16,8 @@
         }
     ],
     "url": "https://github.com/death-save/pin-cushion",
-    "manifest": "https://raw.githubusercontent.com/death-save/pin-cushion/master/module.json",
-    "download": "https://github.com/death-save/pin-cushion/archive/master.zip",
+    "manifest": "https://github.com/death-save/pin-cushion/releases/latest/download/module.json",
+    "download": "https://github.com/death-save/pin-cushion/release/latest/download/module.zip",
     "esmodules": [
         "./pin-cushion.js",
         "./about.js"
