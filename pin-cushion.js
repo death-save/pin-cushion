@@ -119,7 +119,6 @@ class PinCushion {
     /**
      * Request an action to be executed with GM privileges.
      *
-     * @async
      * @static
      * @param {object} message - The object that will get emitted via socket
      * @param {string} message.action - The specific action to execute
@@ -132,7 +131,7 @@ class PinCushion {
         const promise = new Promise((resolve, reject) => {
             const id = `${game.user.id}_${Date.now()}_${randomID()}`;
             message.id = id;
-            game.pinCushion._requests[message.id] = {resolve, reject};
+            game.pinCushion._requests[id] = {resolve, reject};
             game.socket.emit(`module.${PinCushion.MODULE_NAME}`, message);
             setTimeout(() => {
                 delete game.pinCushion._requests[id];
@@ -212,6 +211,7 @@ class PinCushion {
      * Handles pressing the delete key
      *
      * @static
+     * @async
      * @param {function} wrapped - The original function
      * @param {Event} event - The triggering event
      */
@@ -235,7 +235,7 @@ class PinCushion {
      * @param {string} userId - The ID of the user emitting the socket event
      * @returns {void}
      */
-    async _onSocket(message, userId) {
+    _onSocket(message, userId) {
         const {action, object, data, options, id} = message;
         const isFirstGM = game.user === game.users.find((u) => u.isGM && u.active)
 
@@ -353,7 +353,7 @@ class PinCushion {
      * @param {*} wrapped 
      * @param {*} data 
      * @param {*} options 
-     * @returns {Promise<Note>} The created Note's data
+     * @returns {Promise<Note>} The created Note
      */
     static async _overrideNoteCreate(wrapped, data, options) {
         if (!game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes")) {
@@ -375,7 +375,7 @@ class PinCushion {
      * @async
      * @param {*} wrapped 
      * @param {*} data 
-     * @returns {Promise<Note>} The updated Note's data
+     * @returns {Promise<Note>} The updated Note
      */
     static async _overrideNoteUpdate(wrapped, data, options) {
         const note = {id: this.id, scene: this.scene.id};
@@ -657,7 +657,7 @@ Hooks.on("init", () => {
 /*
  * Hook on ready
  */
-Hooks.on("ready", async () => {
+Hooks.on("ready", () => {
     // Instantiate PinCushion instance for central socket request handling
     game.pinCushion = new PinCushion();
     // Wait for game to exist, then register socket handler
