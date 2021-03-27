@@ -164,6 +164,48 @@ class PinCushion {
     }
 
     /**
+     * Checks for missing Journal Entry folders and creates them
+     *
+     * @static
+     * @private
+     * @returns {void}
+     */
+    static async _createFolders() {
+        // Collect missing folders
+        const missingFolders = game.users
+            .filter((u) => !u.isGM && PinCushion.getFolder(u.name) === undefined)
+            .map((user) => ({
+                name: user.name,
+                type: "JournalEntry",
+                parent: null,
+                sorting: "a",
+            }));
+        if (missingFolders.length) {
+            // Ask for folder creation confirmation in a dialog
+            const createFolders = await new Promise((resolve, reject) => {
+                new Dialog({
+                    title: game.i18n.localize("PinCushion.CreateMissingFoldersT"),
+                    content: game.i18n.localize("PinCushion.CreateMissingFoldersC"),
+                    buttons: {
+                        yes: {
+                            label: `<i class="fas fa-check"></i> ${game.i18n.localize("Yes")}`,
+                            callback: () => resolve(true),
+                        },
+                        no: {
+                            label: `<i class="fas fa-times"></i> ${game.i18n.localize("No")}`,
+                            callback: () => reject(),
+                        },
+                    },
+                    default: "yes",
+                    close: () => reject(),
+                }).render(true);
+            }).catch((_) => {});
+            // Create folders
+            if (createFolders) await Folder.create(missingFolders);
+        }
+    }
+
+    /**
      * Replaces icon selector in Notes Config form with filepicker
      * @param {*} app 
      * @param {*} html 
@@ -399,7 +441,7 @@ class PinCushion {
      * @param {*} event 
      * @returns {boolean} Whether the user can configure the Note
      */
-    static _overrideNoteCanConfigue(wrapped, user, event) {
+    static _overrideNoteCanConfigure(wrapped, user, event) {
         if (game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes") && this.entry?.owner) return true;
         return wrapped(user, event);
     }
@@ -519,46 +561,10 @@ class PinCushion {
             },
             default: "none",
             config: true,
-            onChange: async (s) => {
+            onChange: s => {
                 // Only run check for folder creation for the main GM
                 if (s === "perUser" && game.user === game.users.find(u => u.isGM && u.active)) {
-                    // Collect missing folders
-                    const missingFolders = game.users
-                        .filter((u) => !u.isGM && PinCushion.getFolder(u.name) === undefined)
-                        .map((user) => ({
-                            name: user.name,
-                            type: "JournalEntry",
-                            parent: null,
-                            sorting: "a",
-                        }));
-                    if (missingFolders.length) {
-                        // Ask for folder creation confirmation in a dialog
-                        const createFolders = await new Promise((resolve, reject) => {
-                            new Dialog({
-                                title: game.i18n.localize("PinCushion.CreateMissingFoldersT"),
-                                content: game.i18n.localize("PinCushion.CreateMissingFoldersC"),
-                                buttons: {
-                                    yes: {
-                                        label: `<i class="fas fa-check"></i> ${game.i18n.localize(
-                                            "Yes"
-                                        )}`,
-                                        callback: () => resolve(true),
-                                    },
-                                    no: {
-                                        label: `<i class="fas fa-times"></i> ${game.i18n.localize(
-                                            "No"
-                                        )}`,
-                                        callback: () => reject(),
-                                    },
-                                },
-                                default: "yes",
-                                close: () => reject(),
-                            })
-                                .render(true)
-                        }).catch((_) => {});
-                        // Create folders
-                        if (createFolders) await Folder.create(missingFolders);
-                    }
+                    PinCushion._createFolders();
                 }
             }
         });
@@ -645,7 +651,7 @@ Hooks.on("init", () => {
     PinCushion._registerSettings();
 
     // Register overrides to enable creation, configuration, deletion, and movement of Notes by users
-    libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype._canConfigure", PinCushion._overrideNoteCanConfigue);
+    libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype._canConfigure", PinCushion._overrideNoteCanConfigure);
     libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype._canControl", PinCushion._overrideNoteCanControl);
     libWrapper.register(PinCushion.MODULE_NAME, "Note.create", PinCushion._overrideNoteCreate);
     libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype.update", PinCushion._overrideNoteUpdate);
