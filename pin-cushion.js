@@ -5,6 +5,10 @@ import { libWrapper } from "./lib-wrapper-shim.js";
  * @author Evan Clarke (errational#2007)
  */
 class PinCushion {
+    constructor() {
+        // Storage for requests sent over a socket, pending GM execution
+        this._requests = {};
+    }
 
     /* -------------------------------- Constants ------------------------------- */
 
@@ -29,10 +33,6 @@ class PinCushion {
 
     static get NOTESLAYER() {
         return "NotesLayer";
-    }
-
-    static get MISSING_NAME() {
-        return "Missing Map Pin Name!";
     }
 
     static get FONT_SIZE() {
@@ -79,10 +79,28 @@ class PinCushion {
         const input = html.find("input[name='name']");
 
         if (!input[0].value) {
-            ui.notifications.warn(PinCushion.MISSING_NAME);
+            ui.notifications.warn(game.i18n.localize("PinCushion.Warn.MissingPinName"));
             return;
         }
-        const entry = await JournalEntry.create({name: `${input[0].value}`});
+        // Permissions the Journal Entry will be created with
+        const permission = {
+            [game.userId]: ENTITY_PERMISSIONS.OWNER,
+            default: game.settings.get(PinCushion.MODULE_NAME, "defaultJournalPermission") ?? 0
+        }
+
+        // Get folder ID for Journal Entry
+        let folder = PinCushion.getFolder();
+        if (
+            !game.user.isGM &&
+            game.settings.get(PinCushion.MODULE_NAME, "defaultJournalFolder") === "perUser" &&
+            folder === undefined
+        ) {
+            // Request folder creation when perUser is set and the entry is created by a user
+            // Since only the ID is required, instantiating a Folder from the data is not necessary
+            folder = (await PinCushion.requestEvent({ action: "createFolder" }))?._id;
+        }
+
+        const entry = await JournalEntry.create({name: `${input[0].value}`, permission, folder});
 
         if (!entry) {
             return;
@@ -96,6 +114,95 @@ class PinCushion {
         }
 
         await canvas.activeLayer._onDropData(eventData, entryData);
+    }
+
+    /**
+     * Request an action to be executed with GM privileges.
+     *
+     * @static
+     * @param {object} message - The object that will get emitted via socket
+     * @param {string} message.action - The specific action to execute
+     * @returns {Promise} The promise of the action which will be resolved after execution by the GM
+     */
+    static requestEvent(message) {
+        // A request has to define what action should be executed by the GM
+        if (!"action" in message) return;
+
+        const promise = new Promise((resolve, reject) => {
+            const id = `${game.user.id}_${Date.now()}_${randomID()}`;
+            message.id = id;
+            game.pinCushion._requests[id] = {resolve, reject};
+            game.socket.emit(`module.${PinCushion.MODULE_NAME}`, message);
+            setTimeout(() => {
+                delete game.pinCushion._requests[id];
+                reject(new Error (`${PinCushion.MODULE_TITLE} | Call to ${message.action} timed out`));
+            }, 5000);
+        });
+        return promise;
+    }
+
+    /**
+     * Gets the JournalEntry Folder ID to be used for JournalEntry creations, if any.
+     *
+     * @static
+     * @param {string} name - The player name to check folders against, defaults to current user's name
+     * @returns {string|undefined} The folder's ID, or undefined if there is no target folder
+     */
+    static getFolder(name) {
+        name = name ?? game.user.name;
+        const setting = game.settings.get(PinCushion.MODULE_NAME, "defaultJournalFolder");
+        switch (setting) {
+            // No target folder set
+            case "none":
+                return undefined;
+            // Target folder should match the user's name
+            case "perUser":
+                return game.journal.directory.folders.find((f) => f.name === name)?.id ?? undefined;
+            default:
+                return undefined;
+        }
+    }
+
+    /**
+     * Checks for missing Journal Entry folders and creates them
+     *
+     * @static
+     * @private
+     * @returns {void}
+     */
+    static async _createFolders() {
+        // Collect missing folders
+        const missingFolders = game.users
+            .filter((u) => !u.isGM && PinCushion.getFolder(u.name) === undefined)
+            .map((user) => ({
+                name: user.name,
+                type: "JournalEntry",
+                parent: null,
+                sorting: "a",
+            }));
+        if (missingFolders.length) {
+            // Ask for folder creation confirmation in a dialog
+            const createFolders = await new Promise((resolve, reject) => {
+                new Dialog({
+                    title: game.i18n.localize("PinCushion.CreateMissingFoldersT"),
+                    content: game.i18n.localize("PinCushion.CreateMissingFoldersC"),
+                    buttons: {
+                        yes: {
+                            label: `<i class="fas fa-check"></i> ${game.i18n.localize("Yes")}`,
+                            callback: () => resolve(true),
+                        },
+                        no: {
+                            label: `<i class="fas fa-times"></i> ${game.i18n.localize("No")}`,
+                            callback: () => reject(),
+                        },
+                    },
+                    default: "yes",
+                    close: () => reject(),
+                }).render(true);
+            }).catch((_) => {});
+            // Create folders
+            if (createFolders) await Folder.create(missingFolders);
+        }
     }
 
     /**
@@ -146,13 +253,14 @@ class PinCushion {
      * Handles pressing the delete key
      *
      * @static
+     * @async
      * @param {function} wrapped - The original function
      * @param {Event} event - The triggering event
      */
-    static _onDeleteKey(wrapped, event) {
+    static async _onDeleteKey(wrapped, event) {
         if (!game.user.isGM && this._hover?.entry.owner && game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes")) {
             const note = {id: this._hover.id, scene: this._hover.scene.id};
-            return game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {action: "deferNoteDelete", object: note});
+            return await PinCushion.requestEvent({action: "deferNoteDelete", object: note});
         }
         return wrapped(event);
     }
@@ -161,19 +269,71 @@ class PinCushion {
      * Socket handler
      *
      * @param {object} message - The socket event's content
+     * @param {string} message.action - The action the socket receiver should take
+     * @param {object} [message.object] - The object that should be acted upon
+     * @param {Data} [message.data] - The data to be used for Entity actions
+     * @param {Options} [message.options] - Additional options given to Foundry methods
+     * @param {string} [message.id] - The ID used to handle promises
      * @param {string} userId - The ID of the user emitting the socket event
-     * @return {Promise<Data>|boolean} The affected entity or false in case of missing permissions
+     * @returns {void}
      */
     _onSocket(message, userId) {
-        const {action, object, data, options} = message;
+        const {action, object, data, options, id} = message;
         const isFirstGM = game.user === game.users.find((u) => u.isGM && u.active)
-        const scene = game.scenes.get(object.scene)
+
+        // Handle resolving or rejecting promises for GM priviliged requests
+        if (action === "return") {
+            const promise = game.pinCushion._requests[message.id];
+            if (promise) {
+                delete game.pinCushion._requests[message.id];
+                if ("error" in message) promise.reject(message.error);
+                promise.resolve(data);
+            }
+            return;
+        }
+
+        // Create a Journal Entry Folder
+        if (action === "createFolder") {
+            const userName = game.users.get(userId).name;
+            return Folder.create({ name: userName, type: "JournalEntry", parent: null, sorting: "a" })
+                .then((response) => {
+                    game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {
+                        action: "return",
+                        data: response.data,
+                        id: id,
+                    });
+                })
+                .catch((error) => {
+                    game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {
+                        action: "return",
+                        error: error,
+                        id: id,
+                    });
+                });
+        }
 
         // Cancel Note handling if users are not allowed to affect Notes
         if (!game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes")) return false;
 
+        const scene = game.scenes.get(object.scene)
+
         if (action === "deferNoteCreate" && isFirstGM) {
-            return scene.createEmbeddedEntity("Note", data);
+            return scene.createEmbeddedEntity("Note", data, options)
+                .then((response) => {
+                    game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {
+                        action: "return",
+                        id: id,
+                        data: response,
+                        object: {scene: scene.id}
+                    });
+                })
+                .catch((error) => {
+                    game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {
+                        action: "return",
+                        id: id,
+                        error: error,
+                    });
+                });
         }
 
         // The following actions deal with a single Note, so a common instance can be created
@@ -183,12 +343,45 @@ class PinCushion {
 
         // Only handle update if user is the owner of the JournalEntry
         if (isFirstGM && userPermission) {
+            // Update a Note
             if (action === "deferNoteUpdate") {
-                return note.update(data, options);
+                return note
+                    .update(data, options)
+                    .then((response) => {
+                        game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {
+                            action: "return",
+                            id: id,
+                            data: response.data,
+                            object: {scene: response.scene.id},
+                        });
+                    })
+                    .catch((error) => {
+                        game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {
+                            action: "return",
+                            id: id,
+                            error: error,
+                        });
+                    });
             }
 
+            // Delete a Note
             if (action === "deferNoteDelete") {
-                return note.delete();
+                return note
+                    .delete(options)
+                    .then((response) => {
+                        game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {
+                            action: "return",
+                            id: id,
+                            data: response.data,
+                        });
+                    })
+                    .catch((error) => {
+                        game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {
+                            action: "return",
+                            id: id,
+                            error: error,
+                        });
+                    });
             }
         }
     }
@@ -197,34 +390,46 @@ class PinCushion {
 
     /**
      * Override Note Create to allow Player creation
+     *
+     * @async
      * @param {*} wrapped 
      * @param {*} data 
      * @param {*} options 
-     * @returns {Function} the wrapped function
+     * @returns {Promise<Note>} The created Note
      */
-    static _overrideNoteCreate(wrapped, data, options) {
+    static async _overrideNoteCreate(wrapped, data, options) {
         if (!game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes")) {
-            return game.socket.emit(
-                `module.${PinCushion.MODULE_NAME}`,
-                {action: "deferNoteCreate", object: {scene: canvas.scene.id}, data: data}
-            );
+            const response = await PinCushion.requestEvent({
+                action: "deferNoteCreate",
+                object: { scene: canvas.scene.id },
+                data: data,
+                options: options,
+            });
+            // Create Note instance from data to keep original function signature
+            return new Note(response.data, response.object?.scene);
         }
         return wrapped(data, options);
     }
 
     /**
      * Override Note Update to allow Player updates
+     *
+     * @async
      * @param {*} wrapped 
      * @param {*} data 
-     * @returns {Function} the wrapped function
+     * @returns {Promise<Note>} The updated Note
      */
-    static _overrideNoteUpdate(wrapped, data) {
+    static async _overrideNoteUpdate(wrapped, data, options) {
         const note = {id: this.id, scene: this.scene.id};
         if (!game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes")) {
-            return game.socket.emit(
-                `module.${PinCushion.MODULE_NAME}`,
-                {action: "deferNoteUpdate", object: note, data: data, options: options}
-            );
+            const response = await PinCushion.requestEvent({
+                action: "deferNoteUpdate",
+                object: note,
+                data: data,
+                options: options,
+            });
+            // Create Note instance from data to keep original function signature
+            return new Note(response.data, response.object?.scene);
         }
         return wrapped(data);
     }
@@ -234,9 +439,9 @@ class PinCushion {
      * @param {*} wrapped 
      * @param {*} user 
      * @param {*} event 
-     * @returns {Function} the wrapped function
+     * @returns {boolean} Whether the user can configure the Note
      */
-    static _overrideNoteCanConfigue(wrapped, user, event) {
+    static _overrideNoteCanConfigure(wrapped, user, event) {
         if (game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes") && this.entry?.owner) return true;
         return wrapped(user, event);
     }
@@ -246,7 +451,7 @@ class PinCushion {
      * @param {*} wrapped 
      * @param {*} user 
      * @param {*} event 
-     * @returns {Function} the wrapped function
+     * @returns {boolean} Wehther the user can control the Note
      */
     static _overrideNoteCanControl(wrapped, user, event) {
         if (game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes") && this.entry?.owner) return true;
@@ -323,7 +528,45 @@ class PinCushion {
             type: Boolean,
             default: false,
             config: true,
+            onChange: s => {
+                // Warn the GM if player notes are allowed while players cannot create Journal Entries
+                if (s === true && game.user.isGM && !game.permissions.JOURNAL_CREATE.includes(1)) {
+                    ui.notifications.warn(game.i18n.format("PinCushion.Warn.AllowPlayerNotes", {permission: game.i18n.localize("PERMISSION.JournalCreate")}));
+                }
+            }
+        });
+
+        game.settings.register(PinCushion.MODULE_NAME, "defaultJournalPermission", {
+            name: "SETTINGS.DefaultJournalPermissionN",
+            hint: "SETTINGS.DefaultJournalPermissionH",
+            scope: "world",
+            type: Number,
+            choices: Object.entries(ENTITY_PERMISSIONS).reduce((acc, [perm, key]) => {
+                acc[key] = game.i18n.localize(`PERMISSION.${perm}`)
+                return acc;
+            }, {}),
+            default: 0,
+            config: true,
             onChange: s => {}
+        });
+
+        game.settings.register(PinCushion.MODULE_NAME, "defaultJournalFolder", {
+            name: "SETTINGS.DefaultJournalFolderN",
+            hint: "SETTINGS.DefaultJournalFolderH",
+            scope: "world",
+            type: String,
+            choices: {
+                none: game.i18n.localize("PinCushion.None"),
+                perUser: game.i18n.localize("PinCushion.PerUser"),
+            },
+            default: "none",
+            config: true,
+            onChange: s => {
+                // Only run check for folder creation for the main GM
+                if (s === "perUser" && game.user === game.users.find(u => u.isGM && u.active)) {
+                    PinCushion._createFolders();
+                }
+            }
         });
     }
 }
@@ -408,7 +651,7 @@ Hooks.on("init", () => {
     PinCushion._registerSettings();
 
     // Register overrides to enable creation, configuration, deletion, and movement of Notes by users
-    libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype._canConfigure", PinCushion._overrideNoteCanConfigue);
+    libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype._canConfigure", PinCushion._overrideNoteCanConfigure);
     libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype._canControl", PinCushion._overrideNoteCanControl);
     libWrapper.register(PinCushion.MODULE_NAME, "Note.create", PinCushion._overrideNoteCreate);
     libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype.update", PinCushion._overrideNoteUpdate);
@@ -421,6 +664,8 @@ Hooks.on("init", () => {
  * Hook on ready
  */
 Hooks.on("ready", () => {
+    // Instantiate PinCushion instance for central socket request handling
+    game.pinCushion = new PinCushion();
     // Wait for game to exist, then register socket handler
     game.socket.on(`module.${PinCushion.MODULE_NAME}`, game.pinCushion._onSocket);
 });
@@ -430,13 +675,6 @@ Hooks.on("ready", () => {
  */
 Hooks.on("renderNoteConfig", (app, html, data) => {
     PinCushion._replaceIconSelector(app, html, data);
-});
-
-/**
- * Hook on canvas ready to register click listener
- */
-Hooks.on("canvasReady", (app, html, data) => {
-    game.pinCushion = new PinCushion();
 });
 
 /**
@@ -485,6 +723,7 @@ Hooks.on("preUpdateNote", (scene, noteData, updateData, options, userId) => {
     const journalEntry = game.journal.get(noteData.entryId);
     if (!user.isGM && journalEntry.owner) {
         game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {action: "deferNoteUpdate", object: {id: noteData._id, scene: scene.id}, data: updateData});
+        // Prevent the update call for non-GM users (and the subsequent error)
         return false;
     }
 });

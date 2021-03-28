@@ -10,5 +10,21 @@
     "SETTINGS.PreviewMaxLengthN": "Preview Maximum Length",
     "SETTINGS.PreviewMaxLengthH": "**TEXT PREVIEW ONLY** How many characters should the text preview show?",
     "SETTINGS.PreviewDelayN": "Preview Delay",
-    "SETTINGS.PreviewDelayH": "How long before preview appears (in milliseconds)"
+    "SETTINGS.PreviewDelayH": "How long before preview appears (in milliseconds)",
+    "SETTINGS.DefaultJournalPermissionN": "Default Journal Entry Permission",
+    "SETTINGS.DefaultJournalPermissionH": "The default permission journal entries will be created with",
+    "SETTINGS.DefaultJournalFolderN": "Default Journal Entry Folder",
+    "SETTINGS.DefaultJournalFolderH": "The default folder journal entries will be created in when creating Map Pins with a double-click",
+
+    "PinCushion": {
+        "None": "None",
+        "PerUser": "Per User",
+        "CreateMissingFoldersT": "Create Missing Folders",
+        "CreateMissingFoldersC": "<b>Create a Journal Entry folder for each player?</b><br>This ensures that each player has their own folder for entries to be created in.",
+
+        "Warn": {
+            "AllowPlayerNotes": "Players also need the Core Foundry Permission \"{permission}\" to create map pins.",
+            "MissingPinName": "Missing Map Pin Name!"
+        }
+    }
 }
