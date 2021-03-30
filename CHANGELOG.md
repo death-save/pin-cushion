@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.0] - 2021-03-27
+- Added a setting to automatically create folders per-user to store Journal Entries that are related to Notes (thanks @ethaks!)
+- Added a setting for the default permission to apply to newly created Player Notes (eg. `Observer`, `Limited` etc) (thanks @ethaks!)
+- 居酒屋はここにあります -- 日本語 (Japanese) translation added (thanks @brothersharper and `touge`!)
+
+## [1.2.0] - 2021-03-18
+- Players can now create Notes on the scene/map! (🎉 thanks @ethaks for this awesome new feature! 🙌)
+- - Note: in order to allow Players to create Notes they must have the `Create Journal Entry` permission in the core Foundry permissions. You'll also need to enable `Allow Player Notes` in module settings!
+- *¡Aquí hay dragones!* Pin Cushion is now available *en Español* thanks to @lozalojo! 🎊
+- When you delete a Note, the Pin Cushion preview is now cleared 🐛
+- Fixed a bug that prevented Module settings from registering 🐛
+- Added support for [🐛 Bug Reporter](https://github.com/League-of-Foundry-Developers/bug-reporter)
+
 ## [1.1.4] - 2020-11-03
 ### Added
 - Confirmed compatibility with Foundry VTT 0.7.5

@@ -1,7 +1,7 @@
 # Pin Cushion
 
 ![create-pin](https://github.com/death-save/media/blob/master/pin-cushion/create_pin.png)
-![note-config](https://github.com/death-save/media/blob/master/pin-cushion/note_config.png)
+![note-config](https://github.com/death-save/media/blob/master/pin-cushion/note-config.png)
 ![journal-preview](https://github.com/death-save/media/blob/master/pin-cushion/journal-preview.png)
 
 ## Features

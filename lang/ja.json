@@ -1,0 +1,14 @@
+{
+    "SETTINGS.AboutAppN": "Pin Cushionについて",
+    "SETTINGS.AboutAppH": "Pin Cushionの追加情報を表示します。",
+    "SETTINGS.AllowPlayerNotesN": "プレイヤーにノートを許可する",
+    "SETTINGS.AllowPlayerNotesH": "プレイヤーがマップピンを作成できるようになります。",
+    "SETTINGS.ShowJournalPreviewN": "資料のプレビューを表示",
+    "SETTINGS.ShowJournalPreviewH": "マップピンにカーソルを置くと、資料のプレビューが表示されます。",
+    "SETTINGS.PreviewTypeN": "資料のプレビュー形式",
+    "SETTINGS.PreviewTypeH": "表示される資料のプレビュー形式を指定します（HTMLもしくはテキスト）",
+    "SETTINGS.PreviewMaxLengthN": "プレビューの最大長",
+    "SETTINGS.PreviewMaxLengthH": "**テキスト形式のみ** 何文字までプレビュー表示しますか？",
+    "SETTINGS.PreviewDelayN": "プレビューのディレイ値",
+    "SETTINGS.PreviewDelayH": "プレビューが表示されるまでの時間(ミリ秒)"
+}
