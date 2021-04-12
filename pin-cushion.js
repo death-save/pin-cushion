@@ -25,8 +25,36 @@ class PinCushion {
     }
 
     static get DIALOG() {
+        const defaultPermission = game.settings.get(PinCushion.MODULE_NAME, "defaultJournalPermission");
+        const defaultFolder = game.settings.get(PinCushion.MODULE_NAME, "defaultJournalFolder");
+        const folders = game.journal.directory.folders
+          .filter(folder => folder.displayed)
+          .map(folder => `<option value="${folder.id}">${folder.name}</option>`).join('\n');
         return {
-            content: `<div class="form-group"><p class="notes">Name:</p></label><input name="name" type="text"></div></br>`,
+            content: `
+              <div class="form-group">
+                <p class="notes">Name:</p>
+                </label>
+                <input name="name" type="text">
+                <p class="notes">Permission:</p>
+                </label>
+                <select id="cushion-permission" style="width: 100%;">
+                  <option value="0" ${defaultPermission == '0' ? 'selected' : ''}>None</option>
+                  <option value="1" ${defaultPermission == '1' ? 'selected' : ''}>Limited</option>
+                  <option value="2" ${defaultPermission == '2' ? 'selected' : ''}>Observer</option>
+                  <option value="3" ${defaultPermission == '3' ? 'selected' : ''}>Owner</option>
+                </select>
+                <p class="notes">Folder:</p>
+                </label>
+                <select id="cushion-folder" style="width: 100%;">
+                  <option value="none" ${defaultFolder == 'none' ? 'selected' : ''}>None</option>
+                  <option value="perUser" ${defaultFolder == 'perUser' ? 'selected' : ''}>Per User</option>
+                  <option disabled>─────</option>
+                  ${folders}
+                </select>
+              </div>
+              </br>
+              `,
             title: "Create a Map Pin"
         }
     }
@@ -43,7 +71,7 @@ class PinCushion {
 
     /**
      * Creates and renders a dialog for name entry
-     * @param {*} data 
+     * @param {*} data
      * @todo break callbacks out into separate methods
      */
     _createDialog(data) {
@@ -72,8 +100,8 @@ class PinCushion {
 
     /**
      * Creates a Note from the Pin Cushion dialog
-     * @param {*} html 
-     * @param {*} data 
+     * @param {*} html
+     * @param {*} data
      */
     async createNoteFromCanvas(html, eventData) {
         const input = html.find("input[name='name']");
@@ -85,14 +113,15 @@ class PinCushion {
         // Permissions the Journal Entry will be created with
         const permission = {
             [game.userId]: ENTITY_PERMISSIONS.OWNER,
-            default: game.settings.get(PinCushion.MODULE_NAME, "defaultJournalPermission") ?? 0
+            default: $("#cushion-permission").val()
         }
 
         // Get folder ID for Journal Entry
-        let folder = PinCushion.getFolder();
+        const selectedFolder = $("#cushion-folder").val();
+        let folder = PinCushion.getFolder(selectedFolder);
         if (
             !game.user.isGM &&
-            game.settings.get(PinCushion.MODULE_NAME, "defaultJournalFolder") === "perUser" &&
+            selectedFolder === "perUser" &&
             folder === undefined
         ) {
             // Request folder creation when perUser is set and the entry is created by a user
@@ -108,7 +137,7 @@ class PinCushion {
 
         const entryData = entry.data;
         entryData.id = entry.id;
-        
+
         if (canvas.activeLayer.name !== PinCushion.NOTESLAYER) {
             await canvas.notes.activate();
         }
@@ -148,9 +177,8 @@ class PinCushion {
      * @param {string} name - The player name to check folders against, defaults to current user's name
      * @returns {string|undefined} The folder's ID, or undefined if there is no target folder
      */
-    static getFolder(name) {
+    static getFolder(name, setting) {
         name = name ?? game.user.name;
-        const setting = game.settings.get(PinCushion.MODULE_NAME, "defaultJournalFolder");
         switch (setting) {
             // No target folder set
             case "none":
@@ -159,7 +187,7 @@ class PinCushion {
             case "perUser":
                 return game.journal.directory.folders.find((f) => f.name === name)?.id ?? undefined;
             default:
-                return undefined;
+                return name;
         }
     }
 
@@ -172,8 +200,9 @@ class PinCushion {
      */
     static async _createFolders() {
         // Collect missing folders
+        const setting = game.settings.get(PinCushion.MODULE_NAME, "defaultJournalFolder");
         const missingFolders = game.users
-            .filter((u) => !u.isGM && PinCushion.getFolder(u.name) === undefined)
+            .filter((u) => !u.isGM && PinCushion.getFolder(u.name, setting) === undefined)
             .map((user) => ({
                 name: user.name,
                 type: "JournalEntry",
