@@ -1,4 +1,9 @@
 # Changelog
+## [1.4.0] - 2021-04-18
+- You can now set the default permission and folder when creating a Journal Note using Pin Cushion (thanks @saif-ellafi!)
+- Images are no longer stretched in the Journal preview (thanks @krysztalzg!)
+- Updated 日本語 (Japanese) translation (thanks again @brothersharper and `touge`!)
+- Updated Español (Spanish) translation (thanks gain @lozalojo!)
 
 ## [1.3.0] - 2021-03-27
 - Added a setting to automatically create folders per-user to store Journal Entries that are related to Notes (thanks @ethaks!)
