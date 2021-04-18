@@ -29,27 +29,27 @@ class PinCushion {
         const defaultFolder = game.settings.get(PinCushion.MODULE_NAME, "defaultJournalFolder");
         const folders = game.journal.directory.folders
           .filter(folder => folder.displayed)
-          .map(folder => `<option value="${folder.id}">${folder.name}</option>`).join('\n');
+          .map(folder => `<option value="${folder.id}">${folder.name}</option>`).join("\n");
         return {
             content: `
               <div class="form-group">
-                <p class="notes">Name:</p>
+                <p class="notes">${game.i18n.localize("PinCushion.Name")}</p>
                 </label>
                 <input name="name" type="text">
-                <p class="notes">Permission:</p>
+                <p class="notes">${game.i18n.localize("PinCushion.DefaultPermission")}</p>
                 </label>
                 <select id="cushion-permission" style="width: 100%;">
-                  <option value="0" ${defaultPermission == '0' ? 'selected' : ''}>None</option>
-                  <option value="1" ${defaultPermission == '1' ? 'selected' : ''}>Limited</option>
-                  <option value="2" ${defaultPermission == '2' ? 'selected' : ''}>Observer</option>
-                  <option value="3" ${defaultPermission == '3' ? 'selected' : ''}>Owner</option>
+                  <option value="0" ${defaultPermission == "0" ? "selected" : ""}>${game.i18n.localize("PERMISSION.NONE")}</option>
+                  <option value="1" ${defaultPermission == "1" ? "selected" : ""}>${game.i18n.localize("PERMISSION.LIMITED")}</option>
+                  <option value="2" ${defaultPermission == "2" ? "selected" : ""}>${game.i18n.localize("PERMISSION.OBSERVER")}</option>
+                  <option value="3" ${defaultPermission == "3" ? "selected" : ""}>${game.i18n.localize("PERMISSION.OWNER")}</option>
                 </select>
-                <p class="notes">Folder:</p>
+                <p class="notes">${game.i18n.localize("PinCushion.Folder")}</p>
                 </label>
                 <select id="cushion-folder" style="width: 100%;">
-                  <option value="none" ${defaultFolder == 'none' ? 'selected' : ''}>None</option>
-                  <option value="perUser" ${defaultFolder == 'perUser' ? 'selected' : ''}>Per User</option>
-                  <option disabled>─────</option>
+                  <option value="none" ${defaultFolder == "none" ? "selected" : ""}>${game.i18n.localize("PinCushion.None")}</option>
+                  ${game.user.isGM ? `` : `<option value="perUser" ${defaultFolder == "perUser" ? "selected" : ""}>${game.i18n.localize("PinCushion.PerUser")}</option>`}
+                  <option disabled>──${game.i18n.localize("PinCushion.ExistingFolders")}──</option>
                   ${folders}
                 </select>
               </div>
@@ -252,7 +252,7 @@ class PinCushion {
         iconSelector.replaceWith(filePickerHtml);
 
         // Detect and activate file-picker buttons
-        html.find('button.file-picker').each((i, button) => app._activateFilePicker(button));
+        html.find("button.file-picker").each((i, button) => app._activateFilePicker(button));
     }
 
     /* -------------------------------- Listeners ------------------------------- */
