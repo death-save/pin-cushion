@@ -17,12 +17,8 @@
     "SETTINGS.DefaultJournalFolderH": "The default folder journal entries will be created in when creating Map Pins with a double-click",
 
     "PinCushion": {
-        "Name": "Name:",
         "None": "None",
         "PerUser": "Per User",
-        "Folder": "Journal Entry Folder:",
-        "ExistingFolders": "Existing Folders",
-        "DefaultPermission": "Default Permission:",
         "CreateMissingFoldersT": "Create Missing Folders",
         "CreateMissingFoldersC": "<b>Create a Journal Entry folder for each player?</b><br>This ensures that each player has their own folder for entries to be created in.",
 
