@@ -20,8 +20,12 @@
     "SETTINGS.DefaultJournalFolderH": "Las entradas del diario serán creadas en el directorio por defecto al crear chinchetas en el mapa con doble clic",
 
     "PinCushion": {
+        "Name": "Nombre:",
         "None": "Ninguno",
         "PerUser": "Por usuario",
+        "Folder": "Directorio de entradas del diario:",
+        "ExistingFolders": "Directorios existentes",
+        "DefaultPermission": "Permiso por defecto:",
         "CreateMissingFoldersT": "Crear directorios no presentes",
         "CreateMissingFoldersC": "<b>¿Crear un directorio de entradas en el diario para cada jugador?</b><br>Así se asegura que cada jugador tiene su propio directorio donde crear nuevas entradas",
 
