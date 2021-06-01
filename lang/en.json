@@ -1,8 +1,6 @@
 {
     "SETTINGS.AboutAppN": "About Pin Cushion",
     "SETTINGS.AboutAppH": "Displays additional info about Pin Cushion",
-    "SETTINGS.AllowPlayerNotesN": "Allow Player Notes",
-    "SETTINGS.AllowPlayerNotesH": "Allows players to create map pins",
     "SETTINGS.ShowJournalPreviewN": "Show Journal Preview",
     "SETTINGS.ShowJournalPreviewH": "Shows a Journal preview when hovering over a map pin",
     "SETTINGS.PreviewTypeN": "Journal Preview Type",
