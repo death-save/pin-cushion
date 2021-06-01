@@ -112,31 +112,32 @@ class PinCushion {
         }
         // Permissions the Journal Entry will be created with
         const permission = {
-            [game.userId]: ENTITY_PERMISSIONS.OWNER,
-            default: $("#cushion-permission").val()
+            [game.userId]: CONST.ENTITY_PERMISSIONS.OWNER,
+            default: parseInt($("#cushion-permission").val())
         }
 
         // Get folder ID for Journal Entry
+        let folder;
         const selectedFolder = $("#cushion-folder").val();
-        let folder = PinCushion.getFolder(selectedFolder);
-        if (
-            !game.user.isGM &&
-            selectedFolder === "perUser" &&
-            folder === undefined
-        ) {
-            // Request folder creation when perUser is set and the entry is created by a user
-            // Since only the ID is required, instantiating a Folder from the data is not necessary
-            folder = (await PinCushion.requestEvent({ action: "createFolder" }))?._id;
-        }
+        if (selectedFolder === "none") folder = undefined;
+        else if (selectedFolder === "perUser") {
+            folder = PinCushion.getFolder(game.user.name, selectedFolder);
+            if (!game.user.isGM && folder === undefined) {
+                // Request folder creation when perUser is set and the entry is created by a user
+                // Since only the ID is required, instantiating a Folder from the data is not necessary
+                folder = (await PinCushion.requestEvent({ action: "createFolder" }))?._id;
+            }
+        } else folder = selectedFolder;
 
-        const entry = await JournalEntry.create({name: `${input[0].value}`, permission, folder});
+        const entry = await JournalEntry.create({name: `${input[0].value}`, permission, ...folder && {folder}});
 
         if (!entry) {
             return;
         }
 
-        const entryData = entry.data;
+        const entryData = entry.data.toJSON();
         entryData.id = entry.id;
+        entryData.type = "JournalEntry";
 
         if (canvas.activeLayer.name !== PinCushion.NOTESLAYER) {
             await canvas.notes.activate();
@@ -242,7 +243,7 @@ class PinCushion {
      */
     static _replaceIconSelector(app, html, data) {
         const filePickerHtml = 
-        `<input type="text" name="icon" title="Icon Path" class="icon-path" value="${data.object.icon}" placeholder="/icons/example.svg" data-dtype="String">
+        `<input type="text" name="icon" title="Icon Path" class="icon-path" value="${data.data.icon}" placeholder="/icons/example.svg" data-dtype="String">
         <button type="button" name="file-picker" class="file-picker" data-type="image" data-target="icon" title="Browse Files" tabindex="-1">
         <i class="fas fa-file-import fa-fw"></i>
         </button>`
@@ -252,7 +253,7 @@ class PinCushion {
         iconSelector.replaceWith(filePickerHtml);
 
         // Detect and activate file-picker buttons
-        html.find("button.file-picker").each((i, button) => app._activateFilePicker(button));
+        html.find("button.file-picker").each((i, button) => button.onclick = app._activateFilePicker.bind(app));
     }
 
     /* -------------------------------- Listeners ------------------------------- */
@@ -287,7 +288,7 @@ class PinCushion {
      * @param {Event} event - The triggering event
      */
     static async _onDeleteKey(wrapped, event) {
-        if (!game.user.isGM && this._hover?.entry.owner && game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes")) {
+        if (!game.user.isGM && this._hover?.entry.isOwner && game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes")) {
             const note = {id: this._hover.id, scene: this._hover.scene.id};
             return await PinCushion.requestEvent({action: "deferNoteDelete", object: note});
         }
@@ -368,7 +369,7 @@ class PinCushion {
         // The following actions deal with a single Note, so a common instance can be created
         const noteData = scene.data.notes.find(n => n._id === object.id);
         const note = new Note(noteData, scene);
-        const userPermission = note.entry.data.permission[userId] >= ENTITY_PERMISSIONS.OWNER;
+        const userPermission = note.entry.data.permission[userId] >= CONST.ENTITY_PERMISSIONS.OWNER;
 
         // Only handle update if user is the owner of the JournalEntry
         if (isFirstGM && userPermission) {
@@ -471,7 +472,7 @@ class PinCushion {
      * @returns {boolean} Whether the user can configure the Note
      */
     static _overrideNoteCanConfigure(wrapped, user, event) {
-        if (game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes") && this.entry?.owner) return true;
+        if (game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes") && this.entry?.isOwner) return true;
         return wrapped(user, event);
     }
 
@@ -483,7 +484,7 @@ class PinCushion {
      * @returns {boolean} Wehther the user can control the Note
      */
     static _overrideNoteCanControl(wrapped, user, event) {
-        if (game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes") && this.entry?.owner) return true;
+        if (game.settings.get(PinCushion.MODULE_NAME, "allowPlayerNotes") && this.entry?.isOwner) return true;
         return wrapped(user, event);
     }
 
@@ -570,7 +571,7 @@ class PinCushion {
             hint: "SETTINGS.DefaultJournalPermissionH",
             scope: "world",
             type: Number,
-            choices: Object.entries(ENTITY_PERMISSIONS).reduce((acc, [perm, key]) => {
+            choices: Object.entries(CONST.ENTITY_PERMISSIONS).reduce((acc, [perm, key]) => {
                 acc[key] = game.i18n.localize(`PERMISSION.${perm}`)
                 return acc;
             }, {}),
@@ -636,7 +637,7 @@ class PinCushionHUD extends BasePlaceableHUD {
         let content;
 
         if (previewType === "html") {
-            content = TextEditor.enrichHTML(entry.data.content, {secrets: entry.owner, entities: true});
+            content = TextEditor.enrichHTML(entry.data.content, {secrets: entry.isOwner, entities: true});
         } else if (previewType === "text") {
             const previewMaxLength = game.settings.get(PinCushion.MODULE_NAME, "previewMaxLength");
 
@@ -747,10 +748,10 @@ Hooks.on("hoverNote", (note, hovered) => {
  * This is called when a Note is moved. The regular update override does not catch this,
  * since the Scene is the update target, not the Note itself
  */
-Hooks.on("preUpdateNote", (scene, noteData, updateData, options, userId) => {
+Hooks.on("preUpdateNote", (note, updateData, options, userId) => {
     const user = game.users.get(userId);
-    const journalEntry = game.journal.get(noteData.entryId);
-    if (!user.isGM && journalEntry.owner) {
+    const journalEntry = note.entry;
+    if (!user.isGM && journalEntry.isOwner) {
         game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {action: "deferNoteUpdate", object: {id: noteData._id, scene: scene.id}, data: updateData});
         // Prevent the update call for non-GM users (and the subsequent error)
         return false;
@@ -760,7 +761,7 @@ Hooks.on("preUpdateNote", (scene, noteData, updateData, options, userId) => {
 /**
  * Hook on Note Delete
  */
-Hooks.on("deleteNote", (scene, noteData, options, userId) => {
+Hooks.on("deleteNote", (note, options, userId) => {
     const showPreview = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
 
     if (!showPreview) {
