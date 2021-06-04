@@ -127,7 +127,7 @@ class PinCushion {
                 // Since only the ID is required, instantiating a Folder from the data is not necessary
                 folder = (await PinCushion.requestEvent({ action: "createFolder" }))?._id;
             }
-        } else folder = selectedFolder;
+        } else folder = selectedFolder; // Folder is already given as ID
 
         const entry = await JournalEntry.create({name: `${input[0].value}`, permission, ...folder && {folder}});
 
@@ -135,6 +135,7 @@ class PinCushion {
             return;
         }
 
+        // Manually add fields required by Foundry's drop handling
         const entryData = entry.data.toJSON();
         entryData.id = entry.id;
         entryData.type = "JournalEntry";
@@ -253,7 +254,7 @@ class PinCushion {
         iconSelector.replaceWith(filePickerHtml);
 
         // Detect and activate file-picker buttons
-        html.find("button.file-picker").each((i, button) => button.onclick = app._activateFilePicker.bind(app));
+        html.find("button.file-picker").on("click", app._activateFilePicker.bind(app));
     }
 
     /* -------------------------------- Listeners ------------------------------- */
