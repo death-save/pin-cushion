@@ -268,7 +268,18 @@ class PinCushion {
             return;
         }
 
+        // Silently return when note creation permissions are missing
         if (!game.user.can("NOTE_CREATE")) return;
+
+        // Warn user when notes can be created, but journal entries cannot
+        if (!game.user.can("JOURNAL_CREATE")) {
+            ui.notifications.warn(
+                game.i18n.format("PinCushion.Warn.AllowPlayerNotes", {
+                    permission: game.i18n.localize("PERMISSION.JournalCreate"),
+                })
+            );
+            return;
+        }
 
         const data = {
             clientX: event.data.global.x,
