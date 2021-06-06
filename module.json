@@ -2,7 +2,7 @@
     "name": "pin-cushion",
     "title": "Pin Cushion",
     "description": "Adds additional map pin (Journal Note/Scene Note) functionality",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "minimumCoreVersion": "0.8.6",
     "compatibleCoreVersion": "0.8.6",
     "author": "Evan Clarke [errational#2007]",
