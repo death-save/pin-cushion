@@ -1,4 +1,9 @@
 # Changelog
+
+## [1.5.0] - 2021-06-05
+- Added compatibility for [Foundry VTT v0.8.6](https://foundryvtt.com/releases/0.8.6) -- thanks @ethaks once again! 🎉
+> Due to the massive changes in Foundry v0.8.x the way that Pin Cushion creates Player (Scene) Notes has changed. You now need to set the core permission `Create Map Notes` and the permission `Create Journal Entries`. If the `Create Journal Entries` permission is not set to allow Players to create Journal Entries, then players will receive a message when they try to create a Map Note using double-click. If the `Create Map Notes` permission is not set to allow Players to create Map Notes then no warning will be raised.
+
 ## [1.4.0] - 2021-04-18
 - You can now set the default permission and folder when creating a Journal Note using Pin Cushion (thanks @saif-ellafi!)
 - Images are no longer stretched in the Journal preview (thanks @krysztalzg!)
