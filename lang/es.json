@@ -4,8 +4,6 @@
   
     "SETTINGS.AboutAppN": "Acerca de Pin Cushion",
     "SETTINGS.AboutAppH": "Muestra información adicional acerca de Pin Cushion",
-    "SETTINGS.AllowPlayerNotesN": "Permitir notas del jugador",
-    "SETTINGS.AllowPlayerNotesH": "Permite que los jugadores creen chinchetas en el mapa",
     "SETTINGS.ShowJournalPreviewN": "Mostrar vista previa del diario",
     "SETTINGS.ShowJournalPreviewH": "Cuando se pasa el ratón por encima de una chincheta en el mapa, se muestra una vista previa del diario",
     "SETTINGS.PreviewTypeN": "Tipo de vista previa del diario",
@@ -20,8 +18,12 @@
     "SETTINGS.DefaultJournalFolderH": "Las entradas del diario serán creadas en el directorio por defecto al crear chinchetas en el mapa con doble clic",
 
     "PinCushion": {
+        "Name": "Nombre:",
         "None": "Ninguno",
         "PerUser": "Por usuario",
+        "Folder": "Directorio de entradas del diario:",
+        "ExistingFolders": "Directorios existentes",
+        "DefaultPermission": "Permiso por defecto:",
         "CreateMissingFoldersT": "Crear directorios no presentes",
         "CreateMissingFoldersC": "<b>¿Crear un directorio de entradas en el diario para cada jugador?</b><br>Así se asegura que cada jugador tiene su propio directorio donde crear nuevas entradas",
 
