@@ -4,8 +4,6 @@
   
     "SETTINGS.AboutAppN": "Acerca de Pin Cushion",
     "SETTINGS.AboutAppH": "Muestra información adicional acerca de Pin Cushion",
-    "SETTINGS.AllowPlayerNotesN": "Permitir notas del jugador",
-    "SETTINGS.AllowPlayerNotesH": "Permite que los jugadores creen chinchetas en el mapa",
     "SETTINGS.ShowJournalPreviewN": "Mostrar vista previa del diario",
     "SETTINGS.ShowJournalPreviewH": "Cuando se pasa el ratón por encima de una chincheta en el mapa, se muestra una vista previa del diario",
     "SETTINGS.PreviewTypeN": "Tipo de vista previa del diario",
