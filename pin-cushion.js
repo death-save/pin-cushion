@@ -237,12 +237,13 @@ class PinCushion {
     }
 
     /**
-     * Replaces icon selector in Notes Config form with filepicker
+     * Replaces icon selector in Notes Config form with filepicker and adds fields to set player-only note icons.
      * @param {*} app 
      * @param {*} html 
      * @param {*} data 
      */
-    static _replaceIconSelector(app, html, data) {
+    static _editNoteConfig(app, html, data) {
+        /* Replaces icon selector in Notes Config form with filepicker */
         const filePickerHtml = 
         `<input type="text" name="icon" title="Icon Path" class="icon-path" value="${data.data.icon}" placeholder="/icons/example.svg" data-dtype="String">
         <button type="button" name="file-picker" class="file-picker" data-type="image" data-target="icon" title="Browse Files" tabindex="-1">
@@ -255,6 +256,59 @@ class PinCushion {
 
         // Detect and activate file-picker buttons
         html.find("button.file-picker").on("click", app._activateFilePicker.bind(app));
+
+        /* Adds fields to set player-only note icons */
+        /* Get default values set by GM */
+        const defaultState = game.settings.get(PinCushion.MODULE_NAME, "playerIconAutoOverride");
+        const defaultPath = game.settings.get(PinCushion.MODULE_NAME, "playerIconPathDefault");
+
+        const state = getProperty(data, `data.flags.${PinCushion.MODULE_NAME}.PlayerIconState`) ?? defaultState
+        const path = getProperty(data, `data.flags.${PinCushion.MODULE_NAME}.PlayerIconPath`) ?? defaultPath
+
+        /* Set HTML to be added to the note-config */
+        const playerIconHtml =
+            `<hr>
+<!-- Button to Enable overrides -->
+<div class="form-group">
+<label>Use Player Journal Icons</label>
+<div class="form-fields">
+<input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.PlayerIconState" data-dtype="Boolean" ${state ? 'checked' : ``} />
+</div>
+<p class="notes"> Enable to overide the icon players will see.</p>
+</div>
+
+<!-- Player Icon -->
+<div class="form-group">
+<label>Player Icon Path</label>
+<!--
+<div class="form-fields">
+<select name="icon">
+</select>
+-->
+<input type="text" name="flags.${PinCushion.MODULE_NAME}.PlayerIconPath" title="Icon Path" class="icon-path" value='${path ? path : ``}'
+data-dtype="String">
+
+<button type="button" name="file-picker" class="file-picker" data-type="image" data-target="flags.${PinCushion.MODULE_NAME}.PlayerIconPath"
+title="Browse Files" tabindex="-1">
+<i class="fas fa-file-import fa-fw"></i>
+</button>
+</div>`;
+
+        html.find('button[name="submit"]').before(playerIconHtml);
+        html.find('button.file-picker').on('click', app._activateFilePicker.bind(app));
+
+    }
+
+    /**
+     * Defines the icon to be drawn for players if enabled.
+     */
+     static _onPrepareNoteData(wrapped) {
+        wrapped()
+        
+        // IF not GM and IF  = enabled then take flag path as note.data.icon
+        if (!game.user.isGM && this.data.flags[PinCushion.MODULE_NAME]?.PlayerIconState) {
+            this.data.icon = this.data.flags[PinCushion.MODULE_NAME]?.PlayerIconPath
+        };
     }
 
     /* -------------------------------- Listeners ------------------------------- */
@@ -433,6 +487,25 @@ class PinCushion {
                 }
             }
         });
+
+        game.settings.register(PinCushion.MODULE_NAME, 'playerIconAutoOverride', {
+            name: 'Enable player-only note icons by default',
+            hint: 'Newly created notes will be enabled automatically.',
+            scope: 'world',
+            config: true,
+            default: false,
+            type: Boolean
+        });
+
+        game.settings.register(PinCushion.MODULE_NAME, 'playerIconPathDefault', {
+            name: 'Default player note icon',
+            hint: 'The default icon for player notes',
+            scope: 'world',
+            config: true,
+            default: `icons/svg/book.svg`,
+            type: String,
+            filePicker: true,
+        });
     }
 }
 
@@ -516,6 +589,7 @@ Hooks.on("init", () => {
     PinCushion._registerSettings();
 
     libWrapper.register(PinCushion.MODULE_NAME, "NotesLayer.prototype._onClickLeft2", PinCushion._onDoubleClick, "OVERRIDE");
+    libWrapper.register(PinCushion.MODULE_NAME, "NoteDocument.prototype.prepareData", PinCushion._onPrepareNoteData, "WRAPPER");
 });
 
 /*
@@ -532,7 +606,7 @@ Hooks.on("ready", () => {
  * Hook on note config render to inject filepicker and remove selector
  */
 Hooks.on("renderNoteConfig", (app, html, data) => {
-    PinCushion._replaceIconSelector(app, html, data);
+    PinCushion._editNoteConfig(app, html, data);
 });
 
 /**
