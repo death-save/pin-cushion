@@ -262,8 +262,8 @@ class PinCushion {
         const defaultState = game.settings.get(PinCushion.MODULE_NAME, "playerIconAutoOverride");
         const defaultPath = game.settings.get(PinCushion.MODULE_NAME, "playerIconPathDefault");
 
-        const state = getProperty(data, `data.flags.${PinCushion.MODULE_NAME}.PlayerIconState`) ?? defaultState
-        const path = getProperty(data, `data.flags.${PinCushion.MODULE_NAME}.PlayerIconPath`) ?? defaultPath
+        const state = getProperty(data, `data.flags.${PinCushion.MODULE_NAME}.PlayerIconState`) ?? defaultState;
+        const path = getProperty(data, `data.flags.${PinCushion.MODULE_NAME}.PlayerIconPath`) ?? defaultPath;
 
         /* Set HTML to be added to the note-config */
         const playerIconHtml =
