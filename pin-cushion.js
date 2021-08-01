@@ -245,17 +245,14 @@ class PinCushion {
     static _editNoteConfig(app, html, data) {
         /* Replaces icon selector in Notes Config form with filepicker */
         const filePickerHtml = 
-        `<input type="text" name="icon" title="Icon Path" class="icon-path" value="${data.data.icon}" placeholder="/icons/example.svg" data-dtype="String">
-        <button type="button" name="file-picker" class="file-picker" data-type="image" data-target="icon" title="Browse Files" tabindex="-1">
-        <i class="fas fa-file-import fa-fw"></i>
-        </button>`
+            `<input type="text" name="icon" title="Icon Path" class="icon-path" value="${data.data.icon}" placeholder="/icons/example.svg" data-dtype="String">
+            <button type="button" name="file-picker" class="file-picker" data-type="image" data-target="icon" title="Browse Files" tabindex="-1">
+            <i class="fas fa-file-import fa-fw"></i>
+            </button>`
 
         const iconSelector = html.find("select[name='icon']");
 
         iconSelector.replaceWith(filePickerHtml);
-
-        // Detect and activate file-picker buttons
-        html.find("button.file-picker").on("click", app._activateFilePicker.bind(app));
 
         /* Adds fields to set player-only note icons */
         /* Get default values set by GM */
@@ -268,33 +265,36 @@ class PinCushion {
         /* Set HTML to be added to the note-config */
         const playerIconHtml =
             `<hr>
-<!-- Button to Enable overrides -->
-<div class="form-group">
-<label>Use Player Journal Icons</label>
-<div class="form-fields">
-<input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.PlayerIconState" data-dtype="Boolean" ${state ? 'checked' : ``} />
-</div>
-<p class="notes"> Enable to overide the icon players will see.</p>
-</div>
+            <!-- Button to Enable overrides -->
+            <div class="form-group">
+            <label>${game.i18n.localize("PinCushion.UsePlayerIcon")}</label>
+            <div class="form-fields">
+            <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.PlayerIconState" data-dtype="Boolean" ${state ? 'checked' : ``} />
+            </div>
+            <p class="notes">${game.i18n.localize("PinCushion.PlayerIconHint")}</p>
+            </div>
+            
+            <!-- Player Icon -->
+            <div class="form-group">
+            <label>${game.i18n.localize("PinCushion.PlayerIconPath")}</label>
+            <!--
+            <div class="form-fields">
+            <select name="icon">
+            </select>
+            -->
+            <input type="text" name="flags.${PinCushion.MODULE_NAME}.PlayerIconPath" title="Icon Path" class="icon-path" value='${path ? path : ``}'
+            data-dtype="String">
+            
+            <button type="button" name="file-picker" class="file-picker" data-type="image" data-target="flags.${PinCushion.MODULE_NAME}.PlayerIconPath"
+            title="Browse Files" tabindex="-1">
+            <i class="fas fa-file-import fa-fw"></i>
+            </button>
+            </div>`;
 
-<!-- Player Icon -->
-<div class="form-group">
-<label>Player Icon Path</label>
-<!--
-<div class="form-fields">
-<select name="icon">
-</select>
--->
-<input type="text" name="flags.${PinCushion.MODULE_NAME}.PlayerIconPath" title="Icon Path" class="icon-path" value='${path ? path : ``}'
-data-dtype="String">
-
-<button type="button" name="file-picker" class="file-picker" data-type="image" data-target="flags.${PinCushion.MODULE_NAME}.PlayerIconPath"
-title="Browse Files" tabindex="-1">
-<i class="fas fa-file-import fa-fw"></i>
-</button>
-</div>`;
-
+        // Insert Player Icon handling at end of config
         html.find('button[name="submit"]').before(playerIconHtml);
+
+        // Detect and activate file-picker buttons
         html.find('button.file-picker').on('click', app._activateFilePicker.bind(app));
 
     }
@@ -302,9 +302,9 @@ title="Browse Files" tabindex="-1">
     /**
      * Defines the icon to be drawn for players if enabled.
      */
-     static _onPrepareNoteData(wrapped) {
+    static _onPrepareNoteData(wrapped) {
         wrapped()
-        
+
         // IF not GM and IF  = enabled then take flag path as note.data.icon
         if (!game.user.isGM && this.data.flags[PinCushion.MODULE_NAME]?.PlayerIconState) {
             this.data.icon = this.data.flags[PinCushion.MODULE_NAME]?.PlayerIconPath
@@ -488,21 +488,21 @@ title="Browse Files" tabindex="-1">
             }
         });
 
-        game.settings.register(PinCushion.MODULE_NAME, 'playerIconAutoOverride', {
-            name: 'Enable player-only note icons by default',
-            hint: 'Newly created notes will be enabled automatically.',
-            scope: 'world',
+        game.settings.register(PinCushion.MODULE_NAME, "playerIconAutoOverride", {
+            name: "SETTINGS.PlayerIconAutoOverrideN",
+            hint: "SETTINGS.PlayerIconAutoOverrideH",
+            scope: "world",
             config: true,
             default: false,
             type: Boolean
         });
 
-        game.settings.register(PinCushion.MODULE_NAME, 'playerIconPathDefault', {
-            name: 'Default player note icon',
-            hint: 'The default icon for player notes',
-            scope: 'world',
+        game.settings.register(PinCushion.MODULE_NAME, "playerIconPathDefault", {
+            name: "SETTINGS.PlayerIconPathDefaultN",
+            hint: "SETTINGS.PlayerIconPathDefaultH",
+            scope: "world",
             config: true,
-            default: `icons/svg/book.svg`,
+            default: "icons/svg/book.svg",
             type: String,
             filePicker: true,
         });
