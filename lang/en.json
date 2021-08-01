@@ -13,6 +13,10 @@
     "SETTINGS.DefaultJournalPermissionH": "The default permission journal entries will be created with",
     "SETTINGS.DefaultJournalFolderN": "Default Journal Entry Folder",
     "SETTINGS.DefaultJournalFolderH": "The default folder journal entries will be created in when creating Map Pins with a double-click",
+    "SETTINGS.PlayerIconAutoOverrideN": "Enable Player-Only Icons by default",
+    "SETTINGS.PlayerIconAutoOverrideH": "Newly created notes will have player-only icons enabled automatically.",
+    "SETTINGS.PlayerIconPathDefaultN": "Default Note Icon for Players",
+    "SETTINGS.PlayerIconPathDefaultH": "The default icon used for player-only icons",
 
     "PinCushion": {
         "Name": "Name:",
@@ -21,8 +25,13 @@
         "Folder": "Journal Entry Folder:",
         "ExistingFolders": "Existing Folders",
         "DefaultPermission": "Default Permission (for all players):",
+
         "CreateMissingFoldersT": "Create Missing Folders",
         "CreateMissingFoldersC": "<b>Create a Journal Entry folder for each player?</b><br>This ensures that each player has their own folder for entries to be created in.",
+
+        "UsePlayerIcon": "Use a Player-Only Icon",
+        "PlayerIconHint": "Enable to overide the icon players will see.",
+        "PlayerIconPath": "Player Icon Path",
 
         "Warn": {
             "AllowPlayerNotes": "Players also need the Core Foundry Permission \"{permission}\" to create map pins.",
