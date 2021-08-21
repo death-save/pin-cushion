@@ -255,10 +255,11 @@ class PinCushion {
 
         // Detect and activate file-picker buttons
         html.find("button.file-picker").on("click", app._activateFilePicker.bind(app));
+        
     }
 
     /**
-     * Add backgorund field
+     * Add background field
      * @param {*} app 
      * @param {*} html 
      * @param {*} data 
@@ -374,6 +375,20 @@ class PinCushion {
         }
     }
 
+    static _addJournalThumbnail(app, html, data) {
+        const lis = html.find('li.journal');
+        for (const li of lis) {
+            const target = $(li);
+            const id = target.data('entity-id');
+            const journalEntry = game.journal.get(id);
+
+            if (journalEntry?.data?.img) {
+                const thumbnail = $('<img class="thumbnail" src="' + journalEntry.data.img + '" alt="Journal Entry Thumbnail">');
+                target.append(thumbnail);
+            }
+        }
+    }
+
     /**
     * Helper function to register settings
     */
@@ -479,6 +494,15 @@ class PinCushion {
             config: true
         });
 
+        game.settings.register(PinCushion.MODULE_NAME, "showJournalImageByDefault", {
+            name: "PinCushion.SETTINGS.ShowJournalImageByDefaultN",
+            hint: "PinCushion.SETTINGS.ShowJournalImageByDefaultH",
+            scope: "world",
+            type: Boolean,
+            default: true,
+            config: true
+        });
+        
     }
 }
 
@@ -602,8 +626,20 @@ Hooks.on("ready", () => {
 /**
  * Hook on note config render to inject filepicker and remove selector
  */
-Hooks.on("renderNoteConfig", (app, html, data) => {
+Hooks.on("renderNoteConfig", async (app, html, data) => {
+    const showJournalImageByDefault = game.settings.get(PinCushion.MODULE_NAME, "showJournalImageByDefault");
+    if(showJournalImageByDefault){
+        // Journal id
+        const journal = game.journal.get(data.data.entryId);
+        if(journal?.data.img && !app.object.getFlag(PinCushion.MODULE_NAME, "cushionIcon")){
+            data.data.icon = journal.data.img;
+        }
+    }
+    if(app.object.getFlag(PinCushion.MODULE_NAME, "cushionIcon")){
+        data.data.icon = app.object.getFlag(PinCushion.MODULE_NAME, "cushionIcon");
+    }
     PinCushion._replaceIconSelector(app, html, data);
+    await app.object.setFlag(PinCushion.MODULE_NAME, "cushionIcon", data.data.icon);
     const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
     if(enableBackgroundlessPins){
         PinCushion._addBackgroundField(app, html, data);
@@ -643,4 +679,11 @@ Hooks.on("hoverNote", (note, hovered) => {
         game.pinCushion.hoverTimer = setTimeout(function() { canvas.hud.pinCushion.bind(note) }, previewDelay);
         return;
     }
+});
+
+/**
+ * Hook on render Journal Directory
+ */
+Hooks.on("renderJournalDirectory", (app, html, data) => { 
+    PinCushion._addJournalThumbnail(app, html, data);
 });

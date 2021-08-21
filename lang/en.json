@@ -16,7 +16,8 @@
         "SETTINGS.DefaultJournalFolderH": "The default folder journal entries will be created in when creating Map Pins with a double-click",
         "SETTINGS.EnableBackgroundlessPinsN": "Enable feature Backgroundless Pins",
         "SETTINGS.EnableBackgroundlessPinsH": "Removes the background box from map notes.",
-
+        "SETTINGS.ShowJournalImageByDefaultN": "Show by default the icon image of the journal on the map note.",
+        "SETTINGS.ShowJournalImageByDefaultH": "If a image is setted on the journal by default is the first image setted from Pin Cushion",
     
         "Name": "Name:",
         "None": "None",

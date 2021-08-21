@@ -67,3 +67,12 @@
 #pin-cushion-about .patreon img {
     flex: 0 0 100px;
 }
+
+#journal .thumbnail {
+    margin: 0;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    max-width: 32px;
+    max-height: 32px;
+}
