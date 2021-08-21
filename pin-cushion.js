@@ -257,6 +257,24 @@ class PinCushion {
         html.find("button.file-picker").on("click", app._activateFilePicker.bind(app));
     }
 
+    /**
+     * Add backgorund field
+     * @param {*} app 
+     * @param {*} html 
+     * @param {*} data 
+     */
+    static _addBackgroundField(app, html, data) {
+        const hasBackground = app.object.getFlag(PinCushion.MODULE_NAME, "hasBackground") ?? false;
+        const iconTintGroup = html.find("[name=iconTint]").closest(".form-group");
+        iconTintGroup.after(`
+            <div class="form-group">
+                <label for="flags.pin-cushion.hasBackground">${game.i18n.localize("PinCushion.HasBackground")}</label>
+                <input type="checkbox" name="flags.pin-cushion.hasBackground" data-dtype="Boolean" ${hasBackground ? "checked" : ""}>
+            </div>
+        `);
+        app.setPosition({ height: "auto" });
+    }   
+
     /* -------------------------------- Listeners ------------------------------- */
     
     /**
@@ -288,6 +306,24 @@ class PinCushion {
 
         game.pinCushion._createDialog(data);
     }
+
+    /**
+     * Handles draw control icon
+     * @param {*} event 
+     */
+      static _drawControlIcon(event) {
+        let tint = this.data.iconTint ? colorStringToHex(this.data.iconTint) : null;
+        let iconData = { texture: this.data.icon, size: this.size, tint: tint };
+        let icon;
+        if (this.getFlag(PinCushion.MODULE_NAME, "hasBackground")) {
+            icon = new ControlIcon(iconData);
+        } else {
+            icon = new BackgroundlessControlIcon(iconData);
+        }
+        icon.x -= this.size / 2;
+        icon.y -= this.size / 2;
+        return icon;
+    }   
 
     /**
      * Socket handler
@@ -343,17 +379,17 @@ class PinCushion {
     */
     static _registerSettings() {
         game.settings.registerMenu(PinCushion.MODULE_NAME, "aboutApp", {
-            name: "SETTINGS.AboutAppN",
-            label: "SETTINGS.AboutAppN",
-            hint: "SETTINGS.AboutAppH",
+            name: "PinCushion.SETTINGS.AboutAppN",
+            label: "PinCushion.SETTINGS.AboutAppN",
+            hint: "PinCushion.SETTINGS.AboutAppH",
             icon: "fas fa-question",
             type: PinCushionAboutApp,
             restricted: false
         });
 
         game.settings.register(PinCushion.MODULE_NAME, "showJournalPreview", {
-            name: "SETTINGS.ShowJournalPreviewN",
-            hint: "SETTINGS.ShowJournalPreviewH",
+            name: "PinCushion.SETTINGS.ShowJournalPreviewN",
+            hint: "PinCushion.SETTINGS.ShowJournalPreviewH",
             scope: "client",
             type: Boolean,
             default: false,
@@ -368,8 +404,8 @@ class PinCushion {
         });
 
         game.settings.register(PinCushion.MODULE_NAME, "previewType", {
-            name: "SETTINGS.PreviewTypeN",
-            hint: "SETTINGS.PreviewTypeH",
+            name: "PinCushion.SETTINGS.PreviewTypeN",
+            hint: "PinCushion.SETTINGS.PreviewTypeH",
             scope: "client",
             type: String,
             choices: {
@@ -382,8 +418,8 @@ class PinCushion {
         });
 
         game.settings.register(PinCushion.MODULE_NAME, "previewMaxLength", {
-            name: "SETTINGS.PreviewMaxLengthN",
-            hint: "SETTINGS.PreviewMaxLengthH",
+            name: "PinCushion.SETTINGS.PreviewMaxLengthN",
+            hint: "PinCushion.SETTINGS.PreviewMaxLengthH",
             scope: "client",
             type: Number,
             default: 500,
@@ -392,8 +428,8 @@ class PinCushion {
         });
 
         game.settings.register(PinCushion.MODULE_NAME, "previewDelay", {
-            name: "SETTINGS.PreviewDelayN",
-            hint: "SETTINGS.PreviewDelayH",
+            name: "PinCushion.SETTINGS.PreviewDelayN",
+            hint: "PinCushion.SETTINGS.PreviewDelayH",
             scope: "client",
             type: Number,
             default: 500,
@@ -402,8 +438,8 @@ class PinCushion {
         });
 
         game.settings.register(PinCushion.MODULE_NAME, "defaultJournalPermission", {
-            name: "SETTINGS.DefaultJournalPermissionN",
-            hint: "SETTINGS.DefaultJournalPermissionH",
+            name: "PinCushion.SETTINGS.DefaultJournalPermissionN",
+            hint: "PinCushion.SETTINGS.DefaultJournalPermissionH",
             scope: "world",
             type: Number,
             choices: Object.entries(CONST.ENTITY_PERMISSIONS).reduce((acc, [perm, key]) => {
@@ -416,8 +452,8 @@ class PinCushion {
         });
 
         game.settings.register(PinCushion.MODULE_NAME, "defaultJournalFolder", {
-            name: "SETTINGS.DefaultJournalFolderN",
-            hint: "SETTINGS.DefaultJournalFolderH",
+            name: "PinCushion.SETTINGS.DefaultJournalFolderN",
+            hint: "PinCushion.SETTINGS.DefaultJournalFolderH",
             scope: "world",
             type: String,
             choices: {
@@ -433,6 +469,16 @@ class PinCushion {
                 }
             }
         });
+
+        game.settings.register(PinCushion.MODULE_NAME, "enableBackgroundlessPins", {
+            name: "PinCushion.SETTINGS.EnableBackgroundlessPinsN",
+            hint: "PinCushion.SETTINGS.EnableBackgroundlessPinsH",
+            scope: "world",
+            type: Boolean,
+            default: false,
+            config: true
+        });
+
     }
 }
 
@@ -504,6 +550,27 @@ class PinCushionHUD extends BasePlaceableHUD {
     }
 }
 
+class BackgroundlessControlIcon extends ControlIcon {
+    /**
+     * Override ControlIcon#draw to remove drawing of the background.
+     */
+    async draw() {
+        // Draw border
+        this.border
+            .clear()
+            .lineStyle(2, this.borderColor, 1.0)
+            .drawRoundedRect(...this.rect, 5)
+            .endFill();
+        this.border.visible = false;
+
+        // Draw icon
+        this.icon.texture = this.texture ?? (await loadTexture(this.iconSrc));
+        this.icon.width = this.icon.height = this.size;
+        this.icon.tint = Number.isNumeric(this.tintColor) ? this.tintColor : 0xffffff;
+        return this;
+    }
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                    Hooks                                   */
 /* -------------------------------------------------------------------------- */
@@ -516,6 +583,10 @@ Hooks.on("init", () => {
     PinCushion._registerSettings();
 
     libWrapper.register(PinCushion.MODULE_NAME, "NotesLayer.prototype._onClickLeft2", PinCushion._onDoubleClick, "OVERRIDE");
+    const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
+    if(enableBackgroundlessPins){
+        libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype._drawControlIcon", PinCushion._drawControlIcon, "OVERRIDE");
+    }    
 });
 
 /*
@@ -533,6 +604,10 @@ Hooks.on("ready", () => {
  */
 Hooks.on("renderNoteConfig", (app, html, data) => {
     PinCushion._replaceIconSelector(app, html, data);
+    const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
+    if(enableBackgroundlessPins){
+        PinCushion._addBackgroundField(app, html, data);
+    }
 });
 
 /**

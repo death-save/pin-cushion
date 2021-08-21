@@ -1,20 +1,23 @@
 {
-    "SETTINGS.AboutAppN": "About Pin Cushion",
-    "SETTINGS.AboutAppH": "Displays additional info about Pin Cushion",
-    "SETTINGS.ShowJournalPreviewN": "Show Journal Preview",
-    "SETTINGS.ShowJournalPreviewH": "Shows a Journal preview when hovering over a map pin",
-    "SETTINGS.PreviewTypeN": "Journal Preview Type",
-    "SETTINGS.PreviewTypeH": "The type of Journal preview to show (HTML or Text snippet)",
-    "SETTINGS.PreviewMaxLengthN": "Preview Maximum Length",
-    "SETTINGS.PreviewMaxLengthH": "**TEXT PREVIEW ONLY** How many characters should the text preview show?",
-    "SETTINGS.PreviewDelayN": "Preview Delay",
-    "SETTINGS.PreviewDelayH": "How long before preview appears (in milliseconds)",
-    "SETTINGS.DefaultJournalPermissionN": "Default Journal Entry Permission",
-    "SETTINGS.DefaultJournalPermissionH": "The default permission journal entries will be created with",
-    "SETTINGS.DefaultJournalFolderN": "Default Journal Entry Folder",
-    "SETTINGS.DefaultJournalFolderH": "The default folder journal entries will be created in when creating Map Pins with a double-click",
-
     "PinCushion": {
+        "SETTINGS.AboutAppN": "About Pin Cushion",
+        "SETTINGS.AboutAppH": "Displays additional info about Pin Cushion",
+        "SETTINGS.ShowJournalPreviewN": "Show Journal Preview",
+        "SETTINGS.ShowJournalPreviewH": "Shows a Journal preview when hovering over a map pin",
+        "SETTINGS.PreviewTypeN": "Journal Preview Type",
+        "SETTINGS.PreviewTypeH": "The type of Journal preview to show (HTML or Text snippet)",
+        "SETTINGS.PreviewMaxLengthN": "Preview Maximum Length",
+        "SETTINGS.PreviewMaxLengthH": "**TEXT PREVIEW ONLY** How many characters should the text preview show?",
+        "SETTINGS.PreviewDelayN": "Preview Delay",
+        "SETTINGS.PreviewDelayH": "How long before preview appears (in milliseconds)",
+        "SETTINGS.DefaultJournalPermissionN": "Default Journal Entry Permission",
+        "SETTINGS.DefaultJournalPermissionH": "The default permission journal entries will be created with",
+        "SETTINGS.DefaultJournalFolderN": "Default Journal Entry Folder",
+        "SETTINGS.DefaultJournalFolderH": "The default folder journal entries will be created in when creating Map Pins with a double-click",
+        "SETTINGS.EnableBackgroundlessPinsN": "Enable feature Backgroundless Pins",
+        "SETTINGS.EnableBackgroundlessPinsH": "Removes the background box from map notes.",
+
+    
         "Name": "Name:",
         "None": "None",
         "PerUser": "Per User",
@@ -27,6 +30,7 @@
         "Warn": {
             "AllowPlayerNotes": "Players also need the Core Foundry Permission \"{permission}\" to create map pins.",
             "MissingPinName": "Missing Map Pin Name!"
-        }
+        },
+        "HasBackground": "Show Background?"
     }
 }
