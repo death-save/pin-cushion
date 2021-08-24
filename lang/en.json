@@ -1,37 +1,47 @@
 {
-    "PinCushion": {
-        "SETTINGS.AboutAppN": "About Pin Cushion",
-        "SETTINGS.AboutAppH": "Displays additional info about Pin Cushion",
-        "SETTINGS.ShowJournalPreviewN": "Show Journal Preview",
-        "SETTINGS.ShowJournalPreviewH": "Shows a Journal preview when hovering over a map pin",
-        "SETTINGS.PreviewTypeN": "Journal Preview Type",
-        "SETTINGS.PreviewTypeH": "The type of Journal preview to show (HTML or Text snippet)",
-        "SETTINGS.PreviewMaxLengthN": "Preview Maximum Length",
-        "SETTINGS.PreviewMaxLengthH": "**TEXT PREVIEW ONLY** How many characters should the text preview show?",
-        "SETTINGS.PreviewDelayN": "Preview Delay",
-        "SETTINGS.PreviewDelayH": "How long before preview appears (in milliseconds)",
-        "SETTINGS.DefaultJournalPermissionN": "Default Journal Entry Permission",
-        "SETTINGS.DefaultJournalPermissionH": "The default permission journal entries will be created with",
-        "SETTINGS.DefaultJournalFolderN": "Default Journal Entry Folder",
-        "SETTINGS.DefaultJournalFolderH": "The default folder journal entries will be created in when creating Map Pins with a double-click",
-        "SETTINGS.EnableBackgroundlessPinsN": "Enable feature Backgroundless Pins",
-        "SETTINGS.EnableBackgroundlessPinsH": "Removes the background box from map notes.",
-        "SETTINGS.ShowJournalImageByDefaultN": "Show by default the icon image of the journal on the map note.",
-        "SETTINGS.ShowJournalImageByDefaultH": "If a image is setted on the journal by default is the first image setted from Pin Cushion",
-    
-        "Name": "Name:",
-        "None": "None",
-        "PerUser": "Per User",
-        "Folder": "Journal Entry Folder:",
-        "ExistingFolders": "Existing Folders",
-        "DefaultPermission": "Default Permission (for all players):",
-        "CreateMissingFoldersT": "Create Missing Folders",
-        "CreateMissingFoldersC": "<b>Create a Journal Entry folder for each player?</b><br>This ensures that each player has their own folder for entries to be created in.",
+  "PinCushion": {
+    "SETTINGS.AboutAppN": "About Pin Cushion",
+    "SETTINGS.AboutAppH": "Displays additional info about Pin Cushion",
+    "SETTINGS.ShowJournalPreviewN": "Show Journal Preview",
+    "SETTINGS.ShowJournalPreviewH": "Shows a Journal preview when hovering over a map pin",
+    "SETTINGS.PreviewTypeN": "Journal Preview Type",
+    "SETTINGS.PreviewTypeH": "The type of Journal preview to show (HTML or Text snippet)",
+    "SETTINGS.PreviewMaxLengthN": "Preview Maximum Length",
+    "SETTINGS.PreviewMaxLengthH": "**TEXT PREVIEW ONLY** How many characters should the text preview show?",
+    "SETTINGS.PreviewDelayN": "Preview Delay",
+    "SETTINGS.PreviewDelayH": "How long before preview appears (in milliseconds)",
+    "SETTINGS.DefaultJournalPermissionN": "Default Journal Entry Permission",
+    "SETTINGS.DefaultJournalPermissionH": "The default permission journal entries will be created with",
+    "SETTINGS.DefaultJournalFolderN": "Default Journal Entry Folder",
+    "SETTINGS.DefaultJournalFolderH": "The default folder journal entries will be created in when creating Map Pins with a double-click",
+    "SETTINGS.EnableBackgroundlessPinsN": "Enable feature Backgroundless Pins",
+    "SETTINGS.EnableBackgroundlessPinsH": "Removes the background box from map notes.",
+    "SETTINGS.ShowJournalImageByDefaultN": "Show by default the icon image of the journal on the map note.",
+    "SETTINGS.ShowJournalImageByDefaultH": "If a image is setted on the journal by default is the first image setted from Pin Cushion",
 
-        "Warn": {
-            "AllowPlayerNotes": "Players also need the Core Foundry Permission \"{permission}\" to create map pins.",
-            "MissingPinName": "Missing Map Pin Name!"
-        },
-        "HasBackground": "Show Background?"
-    }
+
+    "SETTINGS.PlayerIconAutoOverrideN": "Enable Player-Only Icons by default",
+    "SETTINGS.PlayerIconAutoOverrideH": "Newly created notes will have player-only icons enabled automatically.",
+    "SETTINGS.PlayerIconPathDefaultN": "Default Note Icon for Players",
+    "SETTINGS.PlayerIconPathDefaultH": "The default icon used for player-only icons",
+
+    "Name": "Name:",
+    "None": "None",
+    "PerUser": "Per User",
+    "Folder": "Journal Entry Folder:",
+    "ExistingFolders": "Existing Folders",
+    "DefaultPermission": "Default Permission (for all players):",
+    "CreateMissingFoldersT": "Create Missing Folders",
+    "CreateMissingFoldersC": "<b>Create a Journal Entry folder for each player?</b><br>This ensures that each player has their own folder for entries to be created in.",
+
+    "UsePlayerIcon": "Use a Player-Only Icon",
+    "PlayerIconHint": "Enable to override the icon players will see.",
+    "PlayerIconPath": "Player Icon Path",
+
+    "Warn": {
+      "AllowPlayerNotes": "Players also need the Core Foundry Permission \"{permission}\" to create map pins.",
+      "MissingPinName": "Missing Map Pin Name!"
+    },
+    "HasBackground": "Show Background?"
+  }
 }
