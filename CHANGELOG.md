@@ -5,6 +5,10 @@
 - Add updated version of the module [FVTT-Backgroundless-Pins](https://github.com/schultzcole/FVTT-Backgroundless-Pins) integrated for avoid conflict (and because the module is not touched for 10 months)
 - Add the setting to automatically updated by default the note image with the journal image if present
 - Add updated version of the module [foundryvtt-journal-thumbnail](https://github.com/J-Guenther/foundryvtt-journal-thumbnail) integrated for avoid conflict (and because the module is not touched for 10 months)
+- Update the gulp.js
+- Move the source code under 'src' folder and the build result under the 'dist' folder
+- Add module setting created notes for player-only icons enabled based on this pull request [Player journal icons](https://github.com/death-save/pin-cushion/pull/65).
+
 
 ## [1.5.0] - 2021-06-05
 - Added compatibility for [Foundry VTT v0.8.6](https://foundryvtt.com/releases/0.8.6) -- thanks @ethaks once again! 🎉

@@ -19,7 +19,6 @@
     "SETTINGS.ShowJournalImageByDefaultN": "Show by default the icon image of the journal on the map note.",
     "SETTINGS.ShowJournalImageByDefaultH": "If a image is setted on the journal by default is the first image setted from Pin Cushion",
 
-
     "SETTINGS.PlayerIconAutoOverrideN": "Enable Player-Only Icons by default",
     "SETTINGS.PlayerIconAutoOverrideH": "Newly created notes will have player-only icons enabled automatically.",
     "SETTINGS.PlayerIconPathDefaultN": "Default Note Icon for Players",

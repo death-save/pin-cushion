@@ -1,5 +1,5 @@
 import PinCushionAboutApp from './about.js';
-import { libWrapper } from './lib-wrapper-shim.js';
+
 /**
  * A class for managing additional Map Pin functionality
  * @author Evan Clarke (errational#2007)
@@ -482,17 +482,17 @@ class PinCushion {
    */
   static _registerSettings() {
     game.settings.registerMenu(PinCushion.MODULE_NAME, 'aboutApp', {
-      name: 'PinCushion.SETTINGS.AboutAppN',
-      label: 'PinCushion.SETTINGS.AboutAppN',
-      hint: 'PinCushion.SETTINGS.AboutAppH',
+      name: game.i18n.localize('PinCushion.SETTINGS.AboutAppN'),
+      label: game.i18n.localize('PinCushion.SETTINGS.AboutAppN'),
+      hint: game.i18n.localize('PinCushion.SETTINGS.AboutAppH'),
       icon: 'fas fa-question',
       type: PinCushionAboutApp,
       restricted: false,
     });
 
     game.settings.register(PinCushion.MODULE_NAME, 'showJournalPreview', {
-      name: 'PinCushion.SETTINGS.ShowJournalPreviewN',
-      hint: 'PinCushion.SETTINGS.ShowJournalPreviewH',
+      name: game.i18n.localize('PinCushion.SETTINGS.ShowJournalPreviewN'),
+      hint: game.i18n.localize('PinCushion.SETTINGS.ShowJournalPreviewH'),
       scope: 'client',
       type: Boolean,
       default: false,
@@ -507,8 +507,8 @@ class PinCushion {
     });
 
     game.settings.register(PinCushion.MODULE_NAME, 'previewType', {
-      name: 'PinCushion.SETTINGS.PreviewTypeN',
-      hint: 'PinCushion.SETTINGS.PreviewTypeH',
+      name: game.i18n.localize('PinCushion.SETTINGS.PreviewTypeN'),
+      hint: game.i18n.localize('PinCushion.SETTINGS.PreviewTypeH'),
       scope: 'client',
       type: String,
       choices: {
@@ -521,8 +521,8 @@ class PinCushion {
     });
 
     game.settings.register(PinCushion.MODULE_NAME, 'previewMaxLength', {
-      name: 'PinCushion.SETTINGS.PreviewMaxLengthN',
-      hint: 'PinCushion.SETTINGS.PreviewMaxLengthH',
+      name: game.i18n.localize('PinCushion.SETTINGS.PreviewMaxLengthN'),
+      hint: game.i18n.localize('PinCushion.SETTINGS.PreviewMaxLengthH'),
       scope: 'client',
       type: Number,
       default: 500,
@@ -531,8 +531,8 @@ class PinCushion {
     });
 
     game.settings.register(PinCushion.MODULE_NAME, 'previewDelay', {
-      name: 'PinCushion.SETTINGS.PreviewDelayN',
-      hint: 'PinCushion.SETTINGS.PreviewDelayH',
+      name: game.i18n.localize('PinCushion.SETTINGS.PreviewDelayN'),
+      hint: game.i18n.localize('PinCushion.SETTINGS.PreviewDelayH'),
       scope: 'client',
       type: Number,
       default: 500,
@@ -541,8 +541,8 @@ class PinCushion {
     });
 
     game.settings.register(PinCushion.MODULE_NAME, 'defaultJournalPermission', {
-      name: 'PinCushion.SETTINGS.DefaultJournalPermissionN',
-      hint: 'PinCushion.SETTINGS.DefaultJournalPermissionH',
+      name: game.i18n.localize('PinCushion.SETTINGS.DefaultJournalPermissionN'),
+      hint: game.i18n.localize('PinCushion.SETTINGS.DefaultJournalPermissionH'),
       scope: 'world',
       type: Number,
       choices: Object.entries(CONST.ENTITY_PERMISSIONS).reduce((acc, [perm, key]) => {
@@ -555,8 +555,8 @@ class PinCushion {
     });
 
     game.settings.register(PinCushion.MODULE_NAME, 'defaultJournalFolder', {
-      name: 'PinCushion.SETTINGS.DefaultJournalFolderN',
-      hint: 'PinCushion.SETTINGS.DefaultJournalFolderH',
+      name: game.i18n.localize('PinCushion.SETTINGS.DefaultJournalFolderN'),
+      hint: game.i18n.localize('PinCushion.SETTINGS.DefaultJournalFolderH'),
       scope: 'world',
       type: String,
       choices: {
@@ -765,10 +765,17 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
   }
   PinCushion._replaceIconSelector(app, html, data);
   await app.object.setFlag(PinCushion.MODULE_NAME, 'cushionIcon', data.data.icon);
+
   const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
   if (enableBackgroundlessPins) {
     PinCushion._addBackgroundField(app, html, data);
   }
+
+  const enablePlayerIcon = game.settings.get(PinCushion.MODULE_NAME, 'playerIconAutoOverride');
+  if (enablePlayerIcon ) {
+    PinCushion._addPlayerIconField(app, html, data);
+  }
+ 
 });
 
 /**
