@@ -753,6 +753,7 @@ Hooks.on('ready', () => {
  */
 Hooks.on('renderNoteConfig', async (app, html, data) => {
   const showJournalImageByDefault = game.settings.get(PinCushion.MODULE_NAME, 'showJournalImageByDefault');
+  
   if (showJournalImageByDefault) {
     // Journal id
     const journal = game.journal.get(data.data.entryId);
@@ -760,11 +761,12 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
       data.data.icon = journal.data.img;
     }
   }
+  let tmp = data.data.icon;
   if (app.object.getFlag(PinCushion.MODULE_NAME, 'cushionIcon')) {
     data.data.icon = app.object.getFlag(PinCushion.MODULE_NAME, 'cushionIcon');
   }
   PinCushion._replaceIconSelector(app, html, data);
-  await app.object.setFlag(PinCushion.MODULE_NAME, 'cushionIcon', data.data.icon);
+  await app.object.setFlag(PinCushion.MODULE_NAME, 'cushionIcon', tmp);
 
   const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
   if (enableBackgroundlessPins) {
