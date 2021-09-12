@@ -2,10 +2,10 @@
   "name": "pin-cushion",
   "title": "Pin Cushion",
   "description": "Adds additional map pin (Journal Note/Scene Note) functionality",
-  "version": "1.5.0",
+  "version": "1.5.2",
   "minimumCoreVersion": "0.8.6",
-  "compatibleCoreVersion": "0.8.6",
-  "author": "Evan Clarke [errational#2007]",
+  "compatibleCoreVersion": "0.8.9",
+  "author": "Evan Clarke [errational#2007], p4535992",
   "authors": [
     {
       "name": "Evan Clarke",
@@ -24,9 +24,12 @@
   "url": "https://github.com/death-save/pin-cushion",
   "manifest": "https://github.com/death-save/pin-cushion/releases/latest/download/module.json",
   "download": "https://github.com/death-save/pin-cushion/release/latest/download/module.zip",
-  "esmodules": ["./pin-cushion.js", "./about.js"],
+  "esmodules": [
+    "./pin-cushion.js", 
+    "./module/about.js"
+  ],
   "socket": true,
-  "styles": ["./pin-cushion.css"],
+  "styles": ["./styles/pin-cushion.css"],
   "languages": [
     {
       "lang": "en",

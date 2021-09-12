@@ -1,4 +1,4 @@
-import PinCushionAboutApp from './about.js';
+import PinCushionAboutApp from './module/about.js';
 
 /**
  * A class for managing additional Map Pin functionality
