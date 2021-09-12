@@ -392,6 +392,18 @@ class PinCushion {
     } else {
       icon = new BackgroundlessControlIcon(iconData);
     }
+    if (this.data?.flags?.autoIconFlags) {
+      const flagsAutomaticJournalIconNumbers = {
+          autoIcon: this.data?.flags.autoIconFlags.autoIcon,
+          iconType: this.data?.flags.autoIconFlags.iconType,
+          iconText: this.data?.flags.autoIconFlags.iconText,
+          foreColor: this.data?.flags.autoIconFlags.foreColor,
+          backColor: this.data?.flags.autoIconFlags.backColor,
+          fontFamily: this.data?.flags.autoIconFlags.fontFamily
+      }
+      this.data.fontFamily = flagsAutomaticJournalIconNumbers.fontFamily;
+      //this.controlIcon?.bg?.fill = flagsAutomaticJournalIconNumbers.backColor;
+    }
     icon.x -= this.size / 2;
     icon.y -= this.size / 2;
     return icon;
@@ -777,7 +789,6 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
   if (enablePlayerIcon ) {
     PinCushion._addPlayerIconField(app, html, data);
   }
- 
 });
 
 /**
