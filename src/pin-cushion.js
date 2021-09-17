@@ -707,7 +707,7 @@ class BackgroundlessControlIcon extends ControlIcon {
     this.border.visible = false;
 
     // Draw icon
-    this.icon.texture = this.texture ?? (await loadTexture(this.iconSrc));
+    this.icon.texture = this.texture ?? (this.iconSrc ? await loadTexture(this.iconSrc) : '');
     this.icon.width = this.icon.height = this.size;
     this.icon.tint = Number.isNumeric(this.tintColor) ? this.tintColor : 0xffffff;
     return this;
@@ -767,7 +767,7 @@ Hooks.on('ready', () => {
  */
 Hooks.on('renderNoteConfig', async (app, html, data) => {
   const showJournalImageByDefault = game.settings.get(PinCushion.MODULE_NAME, 'showJournalImageByDefault');
-  
+
   if (showJournalImageByDefault) {
     // Journal id
     const journal = game.journal.get(data.data.entryId);
