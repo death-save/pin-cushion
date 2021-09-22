@@ -1,12 +1,12 @@
 {
   "name": "pin-cushion",
-  "version": "1.5.2",
+  "version": "1.5.1",
   "description": "Provides additional functionality around Map Pins",
   "main": "pin-cushion.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "gulp build",
-    "prettier-format": "prettier --config .prettierrc --write \"./src/**/*.(ts|js|json|scss|css)\""
+    "prettier-format": "prettier --config .prettierrc --write \"./**/*.(ts|js|json|scss|css)\""
   },
   "repository": {
     "type": "git",
