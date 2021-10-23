@@ -54,9 +54,12 @@ function build(done) {
     '!.gitignore',
     '!gulpfile.js',
     '!package.json',
-    '!package-lock.json'
+    '!package-lock.json',
+    '!README.md',
+    '!CHANGELOG.md',
+    '!img/**',
   ])
-    .pipe(zip(`combat-carousel.zip`))
+    .pipe(zip(`pin-cushion.zip`))
     .pipe(gulp.dest('dist'));
   return done();
 }
