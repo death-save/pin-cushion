@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.5.2]
+
+- Embedded integration of the seem abbandoned '[Point of Interest Teleporter](https://github.com/zeel01/poi-teleport)' module
+- Add feature to synchronize thumbs of th scene when click on the 'Create Scenes' of the Point of Interest Teleporter new feature
+
 ## [1.5.1] - 2021-08-20
 
 - Add updated version of the module [FVTT-Backgroundless-Pins](https://github.com/schultzcole/FVTT-Backgroundless-Pins) integrated for avoid conflict (and because the module is not touched for 10 months)

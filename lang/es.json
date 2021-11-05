@@ -27,6 +27,13 @@
     "Warn": {
       "AllowPlayerNotes": "Los jugadores necesitan que se les conceda el permiso \"{permission}\" en el núcleo de Foundry para crear chinchetas en el mapa",
       "MissingPinName": "¡No se ha encontrado el nombre de la chincheta en el mapa!"
-    }
+    },
+    "SETTINGS.EnablePoiTeleportN": "Enable Point of Interest Teleporter",
+    "SETTINGS.EnablePoiTeleportH": "Embedded integration of the seem abbandoned 'Point of Interest Teleporter' module",
+    "poiTeleport.name": "Teleportador a punto de interés",
+    "poiTeleport.createNote": "Crear notas de escena",
+    "poiTeleport.activate": "Activar escena",
+    "poiTeleport.view": "Ver escena",
+    "poiTeleport.toggleNav": "Alternar navegación"
   }
 }

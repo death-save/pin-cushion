@@ -68,6 +68,8 @@
     flex: 0 0 100px;
 }
 
+/* Journal Thumbnail */
+
 #journal .thumbnail {
     margin: 0;
     flex: 0 0 32px;
@@ -75,4 +77,31 @@
     height: 32px;
     max-width: 32px;
     max-height: 32px;
+}
+
+/* Point of Interst Teleport */
+
+#pin-cushion-poi-tp-ctx-menu {
+	color: white;
+	border-radius: 8px;
+	font-size: 1.5em;
+	position: fixed;
+	background: rgba(0, 0, 0, 0.6);
+	transform-origin: top left;
+}
+.pin-cushion-poi-menu-list {
+	list-style: none;
+	padding: 0;
+	margin: 4px;
+
+}
+.pin-cushion-poi-menu-option {
+	padding: 2px;
+	white-space: nowrap;
+	z-index: 10;
+	pointer-events: all;
+	cursor: pointer;
+}
+.pin-cushion-poi-menu-option:hover {
+	text-shadow: 0 0 8px red;
 }

@@ -1,0 +1,10 @@
+<div id="pin-cushion-poi-tp-ctx-menu">
+	<ul class="pin-cushion-poi-menu-list">
+	{{#each options as |option|}}
+		<li class="pin-cushion-poi-menu-option" data-trigger="{{option.trigger}}">
+			{{{option.icon}}}
+			<span class="pin-cushion-poi-option-title">{{localize option.title}}</span>
+		</li>
+	{{/each}}
+	</ul>
+</div>

@@ -41,6 +41,13 @@
       "AllowPlayerNotes": "Players also need the Core Foundry Permission \"{permission}\" to create map pins.",
       "MissingPinName": "Missing Map Pin Name!"
     },
-    "HasBackground": "Show Background?"
+    "HasBackground": "Show Background?",
+    "SETTINGS.EnablePoiTeleportN": "Enable Point of Interest Teleporter",
+    "SETTINGS.EnablePoiTeleportH": "Embedded integration of the seem abbandoned 'Point of Interest Teleporter' module",
+    "poiTeleport.name": "Point of Interest Teleporter",
+    "poiTeleport.createNote": "Create Scene Notes",
+    "poiTeleport.activate": "Activate Scene",
+    "poiTeleport.view": "View Scene",
+    "poiTeleport.toggleNav": "Toggle Navigation"
   }
 }
