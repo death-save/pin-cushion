@@ -802,7 +802,8 @@ class BackgroundlessControlIcon extends ControlIcon {
 				JournalEntry.create({
 					name: scene.name,
 					type: "base",
-					types: "base"
+					types: "base",
+          img: scene.data.img
 				}, { renderSheet: true })
 				.then(entry => scene.update({ "journal": entry.id }));
 			}
