@@ -415,6 +415,13 @@ class PinCushion {
     return result;
   }
 
+  /**
+   * Wraps the default Note#refresh to allow the visibility of scene Notes to be controlled by the reveal
+   * state stored in the Note (overriding the default visibility which is based on link accessibility).
+   * @param {function} [wrapped] The wrapper function provided by libWrapper
+   * @param {Object}   [args]    The arguments for Note#refresh
+   * @return [Note]    This Note
+   */
   static _noteRefresh(wrapped, ...args) {
     let result = wrapped(...args);
     const use_reveal = result.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
@@ -491,10 +498,11 @@ class PinCushion {
     icon.x -= this.size / 2;
     icon.y -= this.size / 2;
 
+    // Wraps the default Note#_drawControlIcon so that we can override the stored this.data.iconTint based
+    // on whether the link is accessible for the current player (or not). This is only done for links which
+    // are using the "revealed" flag.
     const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
-    // const revealedNotesTintColorLink = game.settings.get(PinCushion.MODULE_NAME, "revealedNotesTintColorLink");
-    // const revealedNotesTintColorNotLink = game.settings.get(PinCushion.MODULE_NAME, "revealedNotesTintColorNotLink");
-    if(revealedNotes){
+    if(!game.user.isGM && revealedNotes){
       const use_reveal = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
       if (use_reveal === undefined || !use_reveal){
         // DO NOTHING
@@ -1180,6 +1188,40 @@ class BackgroundlessControlIcon extends ControlIcon {
 // 	}
 // }
 
+/**
+ * Sets whether this Note is revealed (visible) to players; overriding the default FoundryVTT rules.
+ * The iconTint will also be set on the Note based on whether there is a link that the player can access.
+ * If this function is never called then the default FoundryVTT visibility rules will apply
+ * @param [NoteData] [notedata] The NoteData whose visibility is to be set (can be used before the Note has been created)
+ * @param {Boolean}  [visible]  pass in true if the Note should be revealed to players
+ */
+export function setNoteRevealed(notedata,visible) {
+  const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
+  if(revealedNotes){
+    const revealedNotesTintColorLink = game.settings.get(PinCushion.MODULE_NAME, "revealedNotesTintColorLink");
+    const revealedNotesTintColorNotLink = game.settings.get(PinCushion.MODULE_NAME, "revealedNotesTintColorNotLink");
+    const FLAG_IS_REVEALED  = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_REVEALED}`;
+    const FLAG_USE_REVEALED = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.USE_PIN_REVEALED}`;
+    // notedata might not exist as a Note, so setFlag is not available
+    setProperty(notedata, FLAG_USE_REVEALED, true);
+    setProperty(notedata, FLAG_IS_REVEALED,  visible);
+    // Default tint based on GM view
+    let tint = game.settings.get(PinCushion.MODULE_NAME, notedata.entryId ? "revealedNotesTintColorLink" : "revealedNotesTintColorNotLink");
+    if (tint?.length > 0) notedata.iconTint = tint;
+  }
+}
+
+/**
+ * Adds a GM-only string to be displayed on the Note *instead of* the normal note text for the GM,
+ * players will see the normal non-GM text.
+ * @param {NoteData} [notedata]  The NoteData to which GM-only text is to be added
+ * @param {String}   [text]      The text to be stored as the GM-only text for this note
+ */
+export function setNoteGMtext(notedata,text) {
+	// notedata might not exist as a Note, so setFlag is not available
+	setProperty(notedata, `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_GM_TEXT}`, text);
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                    Hooks                                   */
 /* -------------------------------------------------------------------------- */
@@ -1189,6 +1231,8 @@ class BackgroundlessControlIcon extends ControlIcon {
  */
 Hooks.on("init", () => {
   globalThis.PinCushion = PinCushion;
+  globalThis.setNoteRevealed = setNoteRevealed;
+  // globalThis.setNoteGMtext = setNoteGMtext // Seem not necessary
   PinCushion._registerSettings();
 
   libWrapper.register(
@@ -1231,6 +1275,11 @@ Hooks.on("ready", () => {
 
 /**
  * Hook on note config render to inject filepicker and remove selector
+ * Update Note config window with a text box to allow entry of GM-text.
+ * Also replace single-line of "Text Label" with a textarea to allow multi-line text.
+ * @param {NoteConfig} app    The Application instance being rendered (NoteConfig)
+ * @param {jQuery} html       The inner HTML of the document that will be displayed and may be modified
+ * @param {object] data       The object of data used when rendering the application (from NoteConfig#getData)
  */
 Hooks.on("renderNoteConfig", async (app, html, data) => {
   const showJournalImageByDefault = game.settings.get(PinCushion.MODULE_NAME, "showJournalImageByDefault");
@@ -1349,14 +1398,21 @@ Hooks.once('canvasInit', () => {
       'WRAPPER'
     );
 	}
-  if (game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "noteGM")) {
-    libWrapper.register(
+  // This is only required for Players, not GMs (game.user accessible from 'ready' event but not 'init' event)
+	if (!game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "revealedNotes")) {
+		libWrapper.register(
       PinCushion.MODULE_NAME, 
       'Note.prototype.refresh',          
       PinCushion._noteRefresh,         
       'WRAPPER'
     );
-  }
+    // libWrapper.register(
+    //   PinCushion.MODULE_NAME, 
+    //   'Note.prototype._drawControlIcon',          
+    //   PinCushion._drawControlIcon,         
+    //   'WRAPPER'
+    // );
+	}
 });
 
 Hooks.on("renderSettingsConfig", (app, html, data) => {
