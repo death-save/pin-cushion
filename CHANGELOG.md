@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.3]
+
+- Removed integration of [Point of Interest Teleporter](https://github.com/zeel01/poi-teleport)' it's work but it seem out of context for the module
+- Add feature from [farling42](https://github.com/farling42) and the module [vtt-gmtext-in-notes](https://github.com/farling42/fvtt-gmtext-in-notes) just for not install another module we can enable/disable from settings
+- Add feature from [farling42](https://github.com/farling42) and the module [fvtt-revealed-notes-manager](https://github.com/farling42/fvtt-revealed-notes-manager) just for not install another module we can enable/disable from settings
+- Some clean up of the project
+
 ## [1.5.2]
 
 - Embedded integration of the seem abbandoned '[Point of Interest Teleporter](https://github.com/zeel01/poi-teleport)' module

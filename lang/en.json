@@ -24,6 +24,22 @@
     "SETTINGS.PlayerIconPathDefaultN": "Default Note Icon for Players",
     "SETTINGS.PlayerIconPathDefaultH": "The default icon used for player-only icons",
 
+    "SETTINGS.EnablePoiTeleportN": "Enable Point of Interest Teleporter",
+    "SETTINGS.EnablePoiTeleportH": "Embedded integration of the seem abbandoned 'Point of Interest Teleporter' module",
+
+    "SETTINGS.noteGMN": "GM Label",
+    "SETTINGS.noteGMH": "Add the ability for Note tooltips to be configured so that GMs see different text to Players. So secret information can be displayed to GMs whilst players see the 'public' information about the Note.",
+    
+    "SETTINGS.revealedNotesN":"Add an option to have a 'revealed' state on scene Notes.",
+    "SETTINGS.revealedNotesH":"When enabled, then the 'revealed' state will be used to determine if the Note is visible to players. (The default Foundry VTT behaviour is for Notes to be visible to players only if the linked document is accessible by the player.)",
+    "SETTINGS.revealedNotesTintColorN":"Add an option to have a 'revealed' state on scene Notes.",
+    "SETTINGS.revealedNotesTintColorH":"is an option to set the tint colour of the Note icon to indicate if the linked document is reachable or not (if the Note has no linked document, then it will always be displayed in the 'unreachable' tint).",  
+    "SETTINGS.revealedNotesTintColorLinkN":"Note Tint Colour when linked",
+    "SETTINGS.revealedNotesTintColorLinkH":"For players, the RGB value to be used to tint scene Notes if they have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import",
+    "SETTINGS.revealedNotesTintColorNotLinkN":"Note Tint Colour when not linked",
+    "SETTINGS.revealedNotesTintColorNotLinkH":"For players, the RGB value to be used to tint scene Notes if they do not have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import",
+
+
     "Name": "Name:",
     "None": "None",
     "PerUser": "Per User",
@@ -42,8 +58,6 @@
       "MissingPinName": "Missing Map Pin Name!"
     },
     "HasBackground": "Show Background?",
-    "SETTINGS.EnablePoiTeleportN": "Enable Point of Interest Teleporter",
-    "SETTINGS.EnablePoiTeleportH": "Embedded integration of the seem abbandoned 'Point of Interest Teleporter' module",
     "poiTeleport.name": "Point of Interest Teleporter",
     "poiTeleport.createNote": "Create Scene Notes",
     "poiTeleport.activate": "Activate Scene",
