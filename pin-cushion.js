@@ -1,4 +1,4 @@
-import PinCushionAboutApp from "./about.js";
+// import PinCushionAboutApp from "./about.js";
 
 /**
  * A class for managing additional Map Pin functionality
@@ -667,14 +667,14 @@ class PinCushion {
     * Helper function to register settings
     */
     static _registerSettings() {
-        game.settings.registerMenu(PinCushion.MODULE_NAME, "aboutApp", {
-            name: game.i18n.localize("PinCushion.SETTINGS.AboutAppN"),
-            label: game.i18n.localize("PinCushion.SETTINGS.AboutAppN"),
-            hint: game.i18n.localize("PinCushion.SETTINGS.AboutAppH"),
-            icon: "fas fa-question",
-            type: PinCushionAboutApp,
-            restricted: false
-        });
+        // game.settings.registerMenu(PinCushion.MODULE_NAME, "aboutApp", {
+        //     name: game.i18n.localize("PinCushion.SETTINGS.AboutAppN"),
+        //     label: game.i18n.localize("PinCushion.SETTINGS.AboutAppN"),
+        //     hint: game.i18n.localize("PinCushion.SETTINGS.AboutAppH"),
+        //     icon: "fas fa-question",
+        //     type: PinCushionAboutApp,
+        //     restricted: false
+        // });
 
         game.settings.register(PinCushion.MODULE_NAME, "showJournalPreview", {
             name: game.i18n.localize("PinCushion.SETTINGS.ShowJournalPreviewN"),
@@ -776,7 +776,7 @@ class PinCushion {
             default: true,
             config: true,
        });
-       /* REMOVED FOR NOW SEEM OUT OF CONTEXT FOR THE MODULE
+       /* REMOVED POI TELEPORT FOR NOW SEEM OUT OF CONTEXT FOR THE MODULE WE CAN USE TRIIGER HAPPY FOR THIS
        game.settings.register(PinCushion.MODULE_NAME, "enablePoiTeleport", {
         name: game.i18n.localize("PinCushion.SETTINGS.EnablePoiTeleportN"),
         hint: game.i18n.localize("PinCushion.SETTINGS.EnablePoiTeleportH"),
@@ -944,7 +944,7 @@ class BackgroundlessControlIcon extends ControlIcon {
     return this;
   }
 }
-// REMOVED FOR NOW SEEM OUT OF CONTEXT FOR THE MODULE
+// REMOVED POI TELEPORT FOR NOW SEEM OUT OF CONTEXT FOR THE MODULE WE CAN USE TRIIGER HAPPY FOR THIS
 // /**
 //  * @class PointOfInterestTeleporter
 //  */
@@ -1399,7 +1399,7 @@ Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
         html.append(`<template id="pin-cushion-hud"></template>`);
         canvas.hud.pinCushion = new PinCushionHUD();
     }
-    /* REMOVED FOR NOW SEEM OUT OF CONTEXT FOR THE MODULE
+    /* REMOVED POI TELEPORT FOR NOW SEEM OUT OF CONTEXT FOR THE MODULE WE CAN USE TRIIGER HAPPY FOR THIS
     const enablePoiTeleportFeature = game.settings.get(PinCushion.MODULE_NAME, "enablePoiTeleport");
     if(enablePoiTeleportFeature){
       PointOfInterestTeleporter.renderHeadsUpDisplay(app, html, data);
@@ -1436,7 +1436,7 @@ Hooks.on("renderJournalDirectory", (app, html, data) => {
   PinCushion._addJournalThumbnail(app, html, data);
 });
 
-/* REMOVED FOR NOW SEEM OUT OF CONTEXT FOR THE MODULE
+/* REMOVED POI TELEPORT FOR NOW SEEM OUT OF CONTEXT FOR THE MODULE WE CAN USE TRIIGER HAPPY FOR THIS
 Hooks.on("getSceneDirectoryEntryContext", (html, options) => {
   const enablePoiTeleportFeature = game.settings.get(PinCushion.MODULE_NAME, "enablePoiTeleport");
   if(enablePoiTeleportFeature){
@@ -1470,23 +1470,25 @@ Hooks.once('canvasInit', () => {
     );
 	}
   // This is only required for Players, not GMs (game.user accessible from 'ready' event but not 'init' event)
-	if (!game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "revealedNotes")) {
+  const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
+	if (!game.user.isGM && revealedNotes) {
 		libWrapper.register(
       PinCushion.MODULE_NAME, 
       'Note.prototype.refresh',          
       PinCushion._noteRefresh,         
       'WRAPPER'
     );
-
-    const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
-    if (enableBackgroundlessPins) {
-      libWrapper.register(
-        PinCushion.MODULE_NAME,
-        "Note.prototype._drawControlIcon",
-        PinCushion._drawControlIcon,
-        "OVERRIDE",
-      );
-    }else{
+  }
+  const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
+  if (enableBackgroundlessPins) {
+    libWrapper.register(
+      PinCushion.MODULE_NAME,
+      "Note.prototype._drawControlIcon",
+      PinCushion._drawControlIcon,
+      "OVERRIDE",
+    );
+  }else{
+    if(!game.user.isGM && revealedNotes){
       libWrapper.register(
         PinCushion.MODULE_NAME, 
         'Note.prototype._drawControlIcon',          
@@ -1494,7 +1496,7 @@ Hooks.once('canvasInit', () => {
         'WRAPPER'
       );
     }
-	}
+  }
 });
 
 Hooks.on("renderSettingsConfig", (app, html, data) => {

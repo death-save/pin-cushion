@@ -6,6 +6,7 @@
 - Add feature from [farling42](https://github.com/farling42) and the module [vtt-gmtext-in-notes](https://github.com/farling42/fvtt-gmtext-in-notes) just for not install another module we can enable/disable from settings
 - Add feature from [farling42](https://github.com/farling42) and the module [fvtt-revealed-notes-manager](https://github.com/farling42/fvtt-revealed-notes-manager) just for not install another module we can enable/disable from settings
 - Some clean up of the project
+- Update the github action for build the release
 
 ## [1.5.2]
 

@@ -17,7 +17,40 @@
 
 ![img](./img/journal-thumbnail.png)
 
-- Create map pins that can be used to navigate between scenes. When there is a map note for a journal entry, and that entry is the Scene Notes for a scene, the map note gains a context menu. This menu has options to activate, view, or toggle navigation for that scene.
+- Add an option to have a 'revealed' state on scene Notes.
+
+When enabled, then the 'revealed' state will be used to determine if the Note is visible to players.
+(The default Foundry VTT behaviour is for Notes to be visible to players only if the linked document is accessible by the player.)
+
+- Add an option to set the tint colour of the Note icon to indicate if the linked document is reachable or not (if the Note has no linked document, then it will always be displayed in the "unreachable" tint).
+
+## Installation
+
+It's always easiest to install modules from the in game add-on browser.
+
+To install this module manually:
+1.  Inside the Foundry "Configuration and Setup" screen, click "Add-on Modules"
+2.  Click "Install Module"
+3.  In the "Manifest URL" field, paste the following url:
+`https://raw.githubusercontent.com/death-save/pin-cushion/master/module.json`
+1.  Click 'Install' and wait for installation to complete
+2.  Don't forget to enable the module in game using the "Manage Module" button
+
+## Installation (developement branch)
+
+It's always easiest to install modules from the in game add-on browser.
+
+To install this module manually:
+1.  Inside the Foundry "Configuration and Setup" screen, click "Add-on Modules"
+2.  Click "Install Module"
+3.  In the "Manifest URL" field, paste the following url:
+`https://raw.githubusercontent.com/p4535992/pin-cushion/master/module-dev.json`
+1.  Click 'Install' and wait for installation to complete
+2.  Don't forget to enable the module in game using the "Manage Module" button
+
+### libWrapper
+
+This module uses the [libWrapper](https://github.com/ruipin/fvtt-lib-wrapper) library for wrapping core methods. It is a hard dependency and it is recommended for the best experience and compatibility with other modules.
 
 # Build
 
@@ -98,7 +131,7 @@ npm run-script package
 
 ## Issues
 
-Any issues, bugs, or feature requests are always welcome to be reported directly to the [Issue Tracker](https://github.com/p4535992/vtt-hidden-entity-links/issues ), or using the [Bug Reporter Module](https://foundryvtt.com/packages/bug-reporter/).
+Any issues, bugs, or feature requests are always welcome to be reported directly to the [Issue Tracker](https://github.com/death-save/vtt-pin-cushion/issues ), or using the [Bug Reporter Module](https://foundryvtt.com/packages/bug-reporter/).
 
 ## License
 
