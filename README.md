@@ -1,10 +1,24 @@
 # Pin Cushion
 
-![create-pin](https://github.com/death-save/media/blob/master/pin-cushion/create_pin.png)
-![note-config](https://github.com/death-save/media/blob/master/pin-cushion/note-config.png)
-![journal-preview](https://github.com/death-save/media/blob/master/pin-cushion/journal-preview.png)
+![GitHub issues](https://img.shields.io/github/issues-raw/p4535992/pin-cushion?style=for-the-badge) 
+
+![Latest Release Download Count](https://img.shields.io/github/downloads/p4535992/pin-cushion/latest/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge) 
+
+[![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fpin-cushion&colorB=006400&style=for-the-badge)](https://forge-vtt.com/bazaar#package=pin-cushion) 
+
+![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fp4535992%2Fpin-cushion%2Fmaster%2Fmodule.json&label=Foundry%20Version&query=$.compatibleCoreVersion&colorB=orange&style=for-the-badge)
+
+![Latest Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fp4535992%2Fpin-cushion%2Fmaster%2Fmodule.json&label=Latest%20Release&prefix=v&query=$.version&colorB=red&style=for-the-badge)
+
+[![Foundry Hub Endorsements](https://img.shields.io/endpoint?logoColor=white&url=https%3A%2F%2Fwww.foundryvtt-hub.com%2Fwp-json%2Fhubapi%2Fv1%2Fpackage%2Fpin-cushion%2Fshield%2Fendorsements&style=for-the-badge)](https://www.foundryvtt-hub.com/package/pin-cushion/)
+
+![GitHub all releases](https://img.shields.io/github/downloads/p4535992/pin-cushion/total?style=for-the-badge)
 
 ## Features
+
+![create-pin](./img/create_pin.png)
+![note-config](./img/note-config.png)
+![journal-preview](./img/journal-preview.png)
 
 - Changes the dropdown of map pin icons into a filepicker so users can select any icons they like
 - Adds the ability to double-click the canvas while on the Notes Layer and create a map pin (and corresponding Journal Entry)
@@ -131,7 +145,7 @@ npm run-script package
 
 ## Issues
 
-Any issues, bugs, or feature requests are always welcome to be reported directly to the [Issue Tracker](https://github.com/death-save/vtt-pin-cushion/issues ), or using the [Bug Reporter Module](https://foundryvtt.com/packages/bug-reporter/).
+Any issues, bugs, or feature requests are always welcome to be reported directly to the [Issue Tracker](https://github.com/death-save/pin-cushion/issues ), or using the [Bug Reporter Module](https://foundryvtt.com/packages/bug-reporter/).
 
 ## License
 
