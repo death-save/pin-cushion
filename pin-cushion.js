@@ -424,6 +424,9 @@ class PinCushion {
    */
   static _noteRefresh(wrapped, ...args) {
     let result = wrapped(...args);
+
+    setNoteRevealed(this.data, undefined);
+
     const use_reveal = result.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
     if (use_reveal === undefined || !use_reveal) return result;
 
@@ -468,11 +471,32 @@ class PinCushion {
         game.pinCushion._createDialog(data);
     }
 
-   /**
+  /**
    * Handles draw control icon
    * @param {*} event
    */
-  static _drawControlIcon(wrapped, ...args) {// (event) {
+  // static _drawControlIcon(wrapped, ...args) {
+  static _drawControlIcon(event) {
+    // Wraps the default Note#_drawControlIcon so that we can override the stored this.data.iconTint based
+    // on whether the link is accessible for the current player (or not). This is only done for links which
+    // are using the "revealed" flag.
+    const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
+    if(!game.user.isGM && revealedNotes){
+      const use_reveal = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
+      if (use_reveal === undefined || !use_reveal){
+        // return wrapped(...args);
+      }else{      
+        const value = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
+        if (value != undefined) {
+          const is_linked = this.entry?.testUserPermission(game.user, "LIMITED");
+          const colour = game.settings.get(PinCushion.MODULE_NAME, is_linked ? "revealedNotesTintColorLink" : "revealedNotesTintColorNotLink");
+          if (colour?.length > 0){
+            this.data.iconTint = colour;
+          }
+        }
+      }
+    }
+
     const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
     if (enableBackgroundlessPins) {
       let tint = this.data.iconTint ? colorStringToHex(this.data.iconTint) : null;
@@ -483,6 +507,7 @@ class PinCushion {
       } else {
         icon = new BackgroundlessControlIcon(iconData);
       }
+      // PATCH MODULE autoIconFlags
       if (this.data?.flags?.autoIconFlags) {
         const flagsAutomaticJournalIconNumbers = {
             autoIcon: this.data?.flags.autoIconFlags.autoIcon,
@@ -499,7 +524,16 @@ class PinCushion {
       }
       icon.x -= this.size / 2;
       icon.y -= this.size / 2;
+      return icon;
     }
+    // return wrapped(...args);
+  }
+
+/**
+   * Handles draw control icon
+   * @param {*} event
+   */
+  static _drawControlIcon2(wrapped, ...args) {
     // Wraps the default Note#_drawControlIcon so that we can override the stored this.data.iconTint based
     // on whether the link is accessible for the current player (or not). This is only done for links which
     // are using the "revealed" flag.
@@ -507,7 +541,7 @@ class PinCushion {
     if(!game.user.isGM && revealedNotes){
       const use_reveal = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
       if (use_reveal === undefined || !use_reveal){
-        return wrapped(...args);
+        // return wrapped(...args);
       }else{      
         const value = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
         if (value != undefined) {
@@ -519,7 +553,36 @@ class PinCushion {
         }
       }
     }
-    //return icon;
+
+    const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
+    if (enableBackgroundlessPins) {
+      let tint = this.data.iconTint ? colorStringToHex(this.data.iconTint) : null;
+      let iconData = { texture: this.data.icon, size: this.size, tint: tint };
+      let icon;
+      if (this.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) {
+        icon = new ControlIcon(iconData);
+      } else {
+        icon = new BackgroundlessControlIcon(iconData);
+      }
+      // PATCH MODULE autoIconFlags
+      if (this.data?.flags?.autoIconFlags) {
+        const flagsAutomaticJournalIconNumbers = {
+            autoIcon: this.data?.flags.autoIconFlags.autoIcon,
+            iconType: this.data?.flags.autoIconFlags.iconType,
+            iconText: this.data?.flags.autoIconFlags.iconText,
+            foreColor: this.data?.flags.autoIconFlags.foreColor,
+            backColor: this.data?.flags.autoIconFlags.backColor,
+            fontFamily: this.data?.flags.autoIconFlags.fontFamily
+        }
+        if(flagsAutomaticJournalIconNumbers.fontFamily){
+          this.data.fontFamily = flagsAutomaticJournalIconNumbers.fontFamily;
+        }
+        //this.controlIcon?.bg?.fill = flagsAutomaticJournalIconNumbers.backColor;
+      }
+      icon.x -= this.size / 2;
+      icon.y -= this.size / 2;
+      return icon;
+    }
     return wrapped(...args);
   }
 
@@ -1203,16 +1266,19 @@ class BackgroundlessControlIcon extends ControlIcon {
 export function setNoteRevealed(notedata,visible) {
   const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
   if(revealedNotes){
-    const revealedNotesTintColorLink = game.settings.get(PinCushion.MODULE_NAME, "revealedNotesTintColorLink");
-    const revealedNotesTintColorNotLink = game.settings.get(PinCushion.MODULE_NAME, "revealedNotesTintColorNotLink");
-    const FLAG_IS_REVEALED  = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_REVEALED}`;
-    const FLAG_USE_REVEALED = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.USE_PIN_REVEALED}`;
-    // notedata might not exist as a Note, so setFlag is not available
-    setProperty(notedata, FLAG_USE_REVEALED, true);
-    setProperty(notedata, FLAG_IS_REVEALED,  visible);
-    // Default tint based on GM view
-    let tint = game.settings.get(PinCushion.MODULE_NAME, notedata.entryId ? "revealedNotesTintColorLink" : "revealedNotesTintColorNotLink");
-    if (tint?.length > 0) notedata.iconTint = tint;
+    visible = getProperty(notedata,`flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_REVEALED}`);
+    if(visible){
+      const revealedNotesTintColorLink = game.settings.get(PinCushion.MODULE_NAME, "revealedNotesTintColorLink");
+      const revealedNotesTintColorNotLink = game.settings.get(PinCushion.MODULE_NAME, "revealedNotesTintColorNotLink");
+      const FLAG_IS_REVEALED  = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_REVEALED}`;
+      const FLAG_USE_REVEALED = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.USE_PIN_REVEALED}`;
+      // notedata might not exist as a Note, so setFlag is not available
+      setProperty(notedata, FLAG_USE_REVEALED, true);
+      setProperty(notedata, FLAG_IS_REVEALED,  visible);
+      // Default tint based on GM view
+      let tint = game.settings.get(PinCushion.MODULE_NAME, notedata.entryId ? "revealedNotesTintColorLink" : "revealedNotesTintColorNotLink");
+      if (tint?.length > 0) notedata.iconTint = tint;
+    }
   }
 }
 
@@ -1411,12 +1477,23 @@ Hooks.once('canvasInit', () => {
       PinCushion._noteRefresh,         
       'WRAPPER'
     );
-    libWrapper.register(
-      PinCushion.MODULE_NAME, 
-      'Note.prototype._drawControlIcon',          
-      PinCushion._drawControlIcon,         
-      'WRAPPER'
-    );
+
+    const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
+    if (enableBackgroundlessPins) {
+      libWrapper.register(
+        PinCushion.MODULE_NAME,
+        "Note.prototype._drawControlIcon",
+        PinCushion._drawControlIcon,
+        "OVERRIDE",
+      );
+    }else{
+      libWrapper.register(
+        PinCushion.MODULE_NAME, 
+        'Note.prototype._drawControlIcon',          
+        PinCushion._drawControlIcon2,         
+        'WRAPPER'
+      );
+    }
 	}
 });
 
