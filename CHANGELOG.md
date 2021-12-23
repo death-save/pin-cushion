@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.5.5]
+
+- Add feature [suggestion: journal entry selector sort](https://github.com/death-save/pin-cushion/issues/69)
+- Add feature[Add the ability to set a default folder for Pin Cushion JournalEntries](https://github.com/death-save/pin-cushion/issues/74)
+- Already patched [[Suggestion] Different icon for players when shared with them](https://github.com/death-save/pin-cushion/issues/59)
+- Already patched [[FEATURE] Backgroundless pins](https://github.com/death-save/pin-cushion/issues/55)
+- Add feature [Show image instead of text in preview](https://github.com/death-save/pin-cushion/issues/31)
+
+
 ## [1.5.4]
 
 - Start integration for foundryvtt 9

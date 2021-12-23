@@ -1,4 +1,4 @@
-// import PinCushionAboutApp from "./about.js";
+
 
 /**
  * A class for managing additional Map Pin functionality
@@ -27,7 +27,9 @@ class PinCushion {
     static get DIALOG() {
         const defaultPermission = game.settings.get(PinCushion.MODULE_NAME, "defaultJournalPermission");
         const defaultFolder = game.settings.get(PinCushion.MODULE_NAME, "defaultJournalFolder");
+        const settingSpecificFolder = game.settings.get(PinCushion.MODULE_NAME, "specificFolder");
         const folders = game.journal.directory.folders
+          .sort((a, b) => a.name.localeCompare(b.name))
           .filter((folder) => folder.displayed)
           .map((folder) => `<option value="${folder.id}">${folder.name}</option>`).join("\n");
         return {
@@ -49,6 +51,7 @@ class PinCushion {
                 <select id="cushion-folder" style="width: 100%;">
                   <option value="none" ${defaultFolder == "none" ? "selected" : ""}>${game.i18n.localize("PinCushion.None")}</option>
                   ${game.user.isGM ? `` : `<option value="perUser" ${defaultFolder == "perUser" ? "selected" : ""}>${game.i18n.localize("PinCushion.PerUser")}</option>`}
+                  <option value="specificFolder" ${defaultFolder == "specificFolder" ? "selected" : ""}>${game.i18n.localize("PinCushion.PerSpecificFolder")}</option>
                   <option disabled>──${game.i18n.localize("PinCushion.ExistingFolders")}──</option>
                   ${folders}
                 </select>
@@ -75,7 +78,8 @@ class PinCushion {
         HAS_BACKGROUND: "hasBackground",
         PLAYER_ICON_STATE : "PlayerIconState",
         PLAYER_ICON_PATH : "PlayerIconPath",
-        CUSHION_ICON : "cushionIcon"
+        CUSHION_ICON : "cushionIcon",
+        SHOW_IMAGE : "",
       }
     }
 
@@ -131,7 +135,9 @@ class PinCushion {
         // Get folder ID for Journal Entry
         let folder;
         const selectedFolder = $("#cushion-folder").val();
-        if (selectedFolder === "none") folder = undefined;
+        if (selectedFolder === "none") {
+          folder = undefined;
+        }
         else if (selectedFolder === "perUser") {
             folder = PinCushion.getFolder(game.user.name, selectedFolder);
             if (!game.user.isGM && folder === undefined) {
@@ -139,8 +145,14 @@ class PinCushion {
                 // Since only the ID is required, instantiating a Folder from the data is not necessary
                 folder = (await PinCushion.requestEvent({ action: "createFolder" }))?._id;
             }
-        } else folder = selectedFolder; // Folder is already given as ID
-
+        }
+        else if(selectedFolder === "specificFolder"){
+          const settingSpecificFolder = game.settings.get(PinCushion.MODULE_NAME, "specificFolder");
+          folder = PinCushion.getFolder(game.user.name, selectedFolder, settingSpecificFolder);
+        }
+        else {
+          folder = selectedFolder; // Folder is already given as ID
+        }
         const entry = await JournalEntry.create({name: `${input[0].value}`, permission, ...(folder && {folder})});
 
         if (!entry) {
@@ -189,9 +201,11 @@ class PinCushion {
      *
      * @static
      * @param {string} name - The player name to check folders against, defaults to current user's name
+     * @param {string} setting - The module setting set for journal default
+     * @param {string} folderName - The explicit name of the folder
      * @returns {string|undefined} The folder's ID, or undefined if there is no target folder
      */
-    static getFolder(name, setting) {
+    static getFolder(name, setting, folderName) {
         name = name ?? game.user.name;
         switch (setting) {
             // No target folder set
@@ -200,6 +214,8 @@ class PinCushion {
             // Target folder should match the user's name
             case "perUser":
                 return game.journal.directory.folders.find((f) => f.name === name)?.id ?? undefined;
+            case "specificFolder":
+                return game.journal.directory.folders.find((f) => f.name === folderName)?.id ?? undefined;
             default:
                 return name;
         }
@@ -291,6 +307,26 @@ class PinCushion {
   }
 
   /**
+   * Add show image field
+   * @param {*} app
+   * @param {*} html
+   * @param {*} data
+   */
+    static _addShowImageField(app, html, data) {
+      const showImage = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE) ?? false;
+      const iconTintGroup = html.find("[name=iconTint]").closest(".form-group");
+      iconTintGroup.after(`
+              <div class="form-group">
+                  <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE}">${game.i18n.localize("PinCushion.ShowImage")}</label>
+                  <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE}" data-dtype="Boolean" ${
+                    showImage ? "checked" : ""
+                  }>
+              </div>
+          `);
+      app.setPosition({ height: "auto" });
+    }
+
+  /**
    * Replaces icon selector in Notes Config form with filepicker and adds fields to set player-only note icons.
    * @param {*} app
    * @param {*} html
@@ -376,12 +412,12 @@ class PinCushion {
 
     // Check box to control use of REVEALED state
     let checked = (data.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_REVEALED) ?? true) ? "checked" : "";
-    let revealed_control = $(`<div class='form-group'><label>Revealed to Players</label><div class='form-fields'><input type='checkbox' name='${FLAG_IS_REVEALED}' ${checked}></div></div>`)
+    let revealed_control = $(`<div class='form-group'><label>${i18n('PinCushion.RevealedToPlayer')}</label><div class='form-fields'><input type='checkbox' name='${FLAG_IS_REVEALED}' ${checked}></div></div>`)
     html.find("select[name='entryId']").parent().parent().after(revealed_control);
 
     // Check box for REVEALED state
     let use_reveal = (data.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED) ?? false) ? "checked" : "";
-    let mode_control = $(`<div class='form-group'><label>Use Reveal State</label><div class='form-fields'><input type='checkbox' name='${FLAG_USE_REVEALED}' ${use_reveal}></div></div>`)
+    let mode_control = $(`<div class='form-group'><label>${i18n('PinCushion.UseRevealState')}</label><div class='form-fields'><input type='checkbox' name='${FLAG_USE_REVEALED}' ${use_reveal}></div></div>`)
     html.find("select[name='entryId']").parent().parent().after(mode_control);
 
     // Force a recalculation of the height
@@ -753,6 +789,7 @@ class PinCushion {
             choices: {
                 none: game.i18n.localize("PinCushion.None"),
                 perUser: game.i18n.localize("PinCushion.PerUser"),
+                specificFolder: game.i18n.localize("PinCushion.PerSpecificFolder")
             },
             default: "none",
             config: true,
@@ -762,6 +799,24 @@ class PinCushion {
                     PinCushion._createFolders();
                 }
             }
+        });
+
+        game.settings.register(PinCushion.MODULE_NAME, "specificFolder", {
+          name: game.i18n.localize("PinCushion.SETTINGS.SpecificFolderN"),
+          hint: game.i18n.localize("PinCushion.SETTINGS.SpecificFolderH"),
+          scope: "world",
+          type: String,
+          choices: () => {
+            const folders = game.journal.directory.folders
+              .sort((a, b) => a.name.localeCompare(b.name));
+            return Object.entries(folders).reduce((folder, [k, v]) => {
+                folder[k] = folder.name;
+                return folder;
+            }, {});
+          },
+          default: 0,
+          config: true,
+          onChange: (s) => {}
         });
 
        game.settings.register(PinCushion.MODULE_NAME, "enableBackgroundlessPins", {
@@ -893,16 +948,23 @@ class PinCushionHUD extends BasePlaceableHUD {
     getData() {
         const data = super.getData();
         const entry = this.object.entry;
-        const previewType = game.settings.get(PinCushion.MODULE_NAME, "previewType");
+
+        const showImage = this.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE);
+
         let content;
+        if(showImage){
+          content = "<img class='image' src='" + entry.data.img + "' alt='Journal Entry Image'></img>"
+        }else{
+          const previewType = game.settings.get(PinCushion.MODULE_NAME, "previewType");
 
-        if (previewType === "html") {
-            content = TextEditor.enrichHTML(entry.data.content, {secrets: entry.isOwner, entities: true});
-        } else if (previewType === "text") {
-            const previewMaxLength = game.settings.get(PinCushion.MODULE_NAME, "previewMaxLength");
+          if (previewType === "html") {
+              content = TextEditor.enrichHTML(entry.data.content, {secrets: entry.isOwner, entities: true});
+          } else if (previewType === "text") {
+              const previewMaxLength = game.settings.get(PinCushion.MODULE_NAME, "previewMaxLength");
 
-            const textContent = $(entry.data.content).text();
-            content = textContent.length > previewMaxLength ? `${textContent.substr(0, previewMaxLength)} ...` : textContent;
+              const textContent = $(entry.data.content).text();
+              content = textContent.length > previewMaxLength ? `${textContent.substr(0, previewMaxLength)} ...` : textContent;
+          }
         }
 
 
@@ -1374,6 +1436,8 @@ Hooks.on("renderNoteConfig", async (app, html, data) => {
   PinCushion._replaceIconSelector(app, html, data);
   await app.object.setFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON, tmp);
 
+  PinCushion._addShowImageField(app, html, data);
+
   const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
   if (enableBackgroundlessPins) {
     PinCushion._addBackgroundField(app, html, data);
@@ -1429,7 +1493,9 @@ Hooks.on("hoverNote", (note, hovered) => {
     }
 
     if (hovered) {
-        game.pinCushion.hoverTimer = setTimeout(function() { canvas.hud.pinCushion.bind(note) }, previewDelay);
+        game.pinCushion.hoverTimer = setTimeout(function() {
+          canvas.hud.pinCushion.bind(note)
+        }, previewDelay);
         return;
     }
 });
