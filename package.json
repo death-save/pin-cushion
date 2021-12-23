@@ -1,6 +1,6 @@
 {
   "name": "pin-cushion",
-  "version": "1.5.3",
+  "version": "1.5.5",
   "description": "Provides additional functionality around Map Pins",
   "main": "pin-cushion.js",
   "scripts": {

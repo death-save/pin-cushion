@@ -412,12 +412,12 @@ class PinCushion {
 
     // Check box to control use of REVEALED state
     let checked = (data.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_REVEALED) ?? true) ? "checked" : "";
-    let revealed_control = $(`<div class='form-group'><label>${i18n('PinCushion.RevealedToPlayer')}</label><div class='form-fields'><input type='checkbox' name='${FLAG_IS_REVEALED}' ${checked}></div></div>`)
+    let revealed_control = $(`<div class='form-group'><label>${game.i18n.localize('PinCushion.RevealedToPlayer')}</label><div class='form-fields'><input type='checkbox' name='${FLAG_IS_REVEALED}' ${checked}></div></div>`)
     html.find("select[name='entryId']").parent().parent().after(revealed_control);
 
     // Check box for REVEALED state
     let use_reveal = (data.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED) ?? false) ? "checked" : "";
-    let mode_control = $(`<div class='form-group'><label>${i18n('PinCushion.UseRevealState')}</label><div class='form-fields'><input type='checkbox' name='${FLAG_USE_REVEALED}' ${use_reveal}></div></div>`)
+    let mode_control = $(`<div class='form-group'><label>${game.i18n.localize('PinCushion.UseRevealState')}</label><div class='form-fields'><input type='checkbox' name='${FLAG_USE_REVEALED}' ${use_reveal}></div></div>`)
     html.find("select[name='entryId']").parent().parent().after(mode_control);
 
     // Force a recalculation of the height
@@ -809,8 +809,9 @@ class PinCushion {
           choices: () => {
             const folders = game.journal.directory.folders
               .sort((a, b) => a.name.localeCompare(b.name));
+            const arr = [];
             return Object.entries(folders).reduce((folder, [k, v]) => {
-                folder[k] = folder.name;
+                folder[k] = v.name;
                 return folder;
             }, {});
           },
