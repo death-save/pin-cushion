@@ -326,13 +326,13 @@ class PinCushion {
         <select name="icon">
         </select>
         -->
-        <input type="text" 
-          name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}" 
+        <input type="text"
+          name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}"
           title="Icon Path" class="icon-path" value="${path ? path : ``}"
         data-dtype="String">
 
-        <button type="button" name="file-picker" 
-          class="file-picker" data-type="image" 
+        <button type="button" name="file-picker"
+          class="file-picker" data-type="image"
           data-target="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}"
         title="Browse Files" tabindex="-1">
         <i class="fas fa-file-import fa-fw"></i>
@@ -350,15 +350,15 @@ class PinCushion {
     if (!gmtext) gmtext = "";
     let gm_text = $(`<div class='form-group'><label>GM Label</label><div class='form-fields'><textarea name='${gmNoteFlagRef}'>${gmtext}</textarea></div></div>`)
     html.find("input[name='text']").parent().parent().after(gm_text);
-    
+
     // Multiline input for Text Label
     let initial_text = data.data.text ?? data.entry.name;
     let label = $(`<div class='form-group'><label>Player Label</label><div class='form-fields'><textarea name='text' placeholder='${data.entry.name}'>${initial_text}</textarea></div></div>`)
     html.find("input[name='text']").parent().parent().after(label);
-    
+
     // Hide the old text label input field
     html.find("input[name='text']").parent().parent().remove();
-    
+
     //let reveal_icon = $(`<div class='form-group'><label>Icon follows Reveal</label><div class='form-fields'><input type='checkbox' name='useRevealIcon'></div></div>`)
     //html.find("select[name='icon']").parent().parent().after(reveal_icon);
 
@@ -378,12 +378,12 @@ class PinCushion {
     let checked = (data.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_REVEALED) ?? true) ? "checked" : "";
     let revealed_control = $(`<div class='form-group'><label>Revealed to Players</label><div class='form-fields'><input type='checkbox' name='${FLAG_IS_REVEALED}' ${checked}></div></div>`)
     html.find("select[name='entryId']").parent().parent().after(revealed_control);
-    
+
     // Check box for REVEALED state
     let use_reveal = (data.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED) ?? false) ? "checked" : "";
     let mode_control = $(`<div class='form-group'><label>Use Reveal State</label><div class='form-fields'><input type='checkbox' name='${FLAG_USE_REVEALED}' ${use_reveal}></div></div>`)
     html.find("select[name='entryId']").parent().parent().after(mode_control);
-    
+
     // Force a recalculation of the height
     if (!app._minimized) {
       let pos = app.position;
@@ -401,7 +401,7 @@ class PinCushion {
     // Only override default if flag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PIN_GM_TEXT) is set
     const newtext = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_GM_TEXT);
     if (!newtext || newtext.length===0) return wrapped(...args);
-    
+
     // Set a different label to be used while we call the original Note.prototype._drawTooltip
     //
     // Note#text          = get text()  { return this.document.label; }
@@ -438,7 +438,7 @@ class PinCushion {
     }
     return result;
   }
-  
+
     /* -------------------------------- Listeners ------------------------------- */
 
     /**
@@ -485,7 +485,7 @@ class PinCushion {
       const use_reveal = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
       if (use_reveal === undefined || !use_reveal){
         // return wrapped(...args);
-      }else{      
+      }else{
         const value = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
         if (value != undefined) {
           const is_linked = this.entry?.testUserPermission(game.user, "LIMITED");
@@ -542,7 +542,7 @@ class PinCushion {
       const use_reveal = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
       if (use_reveal === undefined || !use_reveal){
         // return wrapped(...args);
-      }else{      
+      }else{
         const value = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
         if (value != undefined) {
           const is_linked = this.entry?.testUserPermission(game.user, "LIMITED");
@@ -648,10 +648,15 @@ class PinCushion {
     }
 
   static _addJournalThumbnail(app, html, data) {
-    const lis = html.find("li.journal");
+    const lis = html.find("li.journal")?.length > 0
+      ?  html.find("li.journal") // foundryvtt 0.8.9
+      :  html.find('li.journalentry') // foundryvtt 9;
+      ;
     for (const li of lis) {
       const target = $(li);
-      const id = target.data("entity-id");
+      const id = target.data("entity-id")?.length > 0
+        ? target.data("entity-id") // foundryvtt 0.8.9
+        : target.data('document-id'); // foundryvtt 9
       const journalEntry = game.journal.get(id);
 
       if (journalEntry?.data?.img) {
@@ -1463,9 +1468,9 @@ Hooks.once('canvasInit', () => {
 	// This module is only required for GMs (game.user accessible from 'ready' event but not 'init' event)
 	if (game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "noteGM")) {
 		libWrapper.register(
-      PinCushion.MODULE_NAME, 
-      'Note.prototype._drawTooltip', 
-      PinCushion._addDrawTooltip, 
+      PinCushion.MODULE_NAME,
+      'Note.prototype._drawTooltip',
+      PinCushion._addDrawTooltip,
       'WRAPPER'
     );
 	}
@@ -1473,9 +1478,9 @@ Hooks.once('canvasInit', () => {
   const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
 	if (!game.user.isGM && revealedNotes) {
 		libWrapper.register(
-      PinCushion.MODULE_NAME, 
-      'Note.prototype.refresh',          
-      PinCushion._noteRefresh,         
+      PinCushion.MODULE_NAME,
+      'Note.prototype.refresh',
+      PinCushion._noteRefresh,
       'WRAPPER'
     );
   }
@@ -1490,9 +1495,9 @@ Hooks.once('canvasInit', () => {
   }else{
     if(!game.user.isGM && revealedNotes){
       libWrapper.register(
-        PinCushion.MODULE_NAME, 
-        'Note.prototype._drawControlIcon',          
-        PinCushion._drawControlIcon2,         
+        PinCushion.MODULE_NAME,
+        'Note.prototype._drawControlIcon',
+        PinCushion._drawControlIcon2,
         'WRAPPER'
       );
     }
@@ -1505,7 +1510,7 @@ Hooks.on("renderSettingsConfig", (app, html, data) => {
 	name   = `${PinCushion.MODULE_NAME}.revealedNotesTintColorLink`;
 	colour = game.settings.get(PinCushion.MODULE_NAME, "revealedNotesTintColorLink");
 	$('<input>').attr('type', 'color').attr('data-edit', name).val(colour).insertAfter($(`input[name="${name}"]`, html).addClass('color'));
-	
+
 	name   = `${PinCushion.MODULE_NAME}.revealedNotesTintColorNotLink`;
 	colour = game.settings.get(PinCushion.MODULE_NAME, "revealedNotesTintColorNotLink");
 	$('<input>').attr('type', 'color').attr('data-edit', name).val(colour).insertAfter($(`input[name="${name}"]`, html).addClass('color'));

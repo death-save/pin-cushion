@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.5.4]
+
+- Start integration for foundryvtt 9
 ## [1.5.3]
 
 - Removed integration of [Point of Interest Teleporter](https://github.com/zeel01/poi-teleport)' it's work but it seem out of context for the module
