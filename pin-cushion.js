@@ -81,7 +81,7 @@ class PinCushion {
         PLAYER_ICON_STATE : "PlayerIconState",
         PLAYER_ICON_PATH : "PlayerIconPath",
         CUSHION_ICON : "cushionIcon",
-        SHOW_IMAGE : "",
+        SHOW_IMAGE : "showImage",
       }
     }
 
