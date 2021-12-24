@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.5.6]
+
+- Added MeusRex Feature from the fork [MeusRex - FVTT-Backgroundless-Pins](https://github.com/MeusRex/FVTT-Backgroundless-Pins): Added Support for Rectangular Notes.
+- Added MeusRex Feature from the fork [MeusRex - FVTT-Backgroundless-Pins](https://github.com/MeusRex/FVTT-Backgroundless-Pins): Added option to always show text.
+- Sync bug fixing from the fork [Kandashi - FVTT-Backgroundless-Pins](https://github.com/kandashi/FVTT-Backgroundless-Pins) comaptible foundryvtt 9
+
 ## [1.5.5]
 
 - Add feature[Add the ability to set a default folder for Pin Cushion JournalEntries](https://github.com/death-save/pin-cushion/issues/74)

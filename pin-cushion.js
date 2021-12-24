@@ -76,6 +76,8 @@ class PinCushion {
         PIN_IS_REVEALED  : "pinIsRevealed",
         PIN_GM_TEXT : "gmNote",
         HAS_BACKGROUND: "hasBackground",
+        RATIO: "ratio",
+        TEXT_ALWAYS_VISIBLE: "textAlwaysVisible",
         PLAYER_ICON_STATE : "PlayerIconState",
         PLAYER_ICON_PATH : "PlayerIconPath",
         CUSHION_ICON : "cushionIcon",
@@ -295,6 +297,11 @@ class PinCushion {
   static _addBackgroundField(app, html, data) {
     const hasBackground = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND) ?? false;
     const iconTintGroup = html.find("[name=iconTint]").closest(".form-group");
+    const ratio = noteConfig.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO) ?? 1;
+    const iconSizeGroup = html.find("[name=iconSize]").closest(".form-group");
+    const textAlwaysVisible = noteConfig.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE);
+    const textAnchorGroup = html.find("[name=textAnchor]").closest(".form-group");
+
     iconTintGroup.after(`
             <div class="form-group">
                 <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}">${game.i18n.localize("PinCushion.HasBackground")}</label>
@@ -303,6 +310,22 @@ class PinCushion {
                 }>
             </div>
         `);
+
+    iconSizeGroup.after(`
+      <div class="form-group">
+          <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.RATIO}">${game.i18n.localize("PinCushion.HasBackgroundRatio")}</label>
+          <input type="text" name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.RATIO}" data-dtype="Number" value="${ratio}">
+      </div>
+    `);
+
+    textAnchorGroup.after(`
+      <div class="form-group">
+        <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE}">${game.i18n.localize("PinCushion.TextAlwaysVisible")}</label>
+        <div class="form-fields">
+          <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE}" data-dtype="Boolean" ${textAlwaysVisible ? "checked" : ""}>
+        </div>
+      </div>
+    `);
     app.setPosition({ height: "auto" });
   }
 
@@ -472,6 +495,24 @@ class PinCushion {
     if (value != undefined) {
       result.visible  = value;
     }
+
+    // Keep tooltip always visible
+	  // Though could make an option out of that too. Would be nicer
+    this.position.set(this.data.x, this.data.y);
+		this.controlIcon.border.visible = this._hover;
+    let textAlwaysVisible = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE) ?? false;
+    let textVisible = true;
+    if (textAlwaysVisible == false){
+      textVisible = this._hover;
+    }
+    this.tooltip.visible = textVisible;
+		this.visible = this.entry?.testUserPermission(game.user, "LIMITED") ?? true;
+
+    // Text is created bevor this point. So we can modify it here.
+    let ratio = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO);
+    let text = this.children[1]; // 0 is the ControlIcon, 1 is the PreciseText
+    text.x = (this.size * (ratio - 1)) / 2; // correct shifting for the new scale.
+
     return result;
   }
 
@@ -507,62 +548,81 @@ class PinCushion {
         game.pinCushion._createDialog(data);
     }
 
+    static _drawControlIconInternal(){
+      // Wraps the default Note#_drawControlIcon so that we can override the stored this.data.iconTint based
+      // on whether the link is accessible for the current player (or not). This is only done for links which
+      // are using the "revealed" flag.
+      const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
+      if(!game.user.isGM && revealedNotes){
+        const use_reveal = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
+        if (use_reveal === undefined || !use_reveal){
+          // return wrapped(...args);
+        }else{
+          const value = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
+          if (value != undefined) {
+            const is_linked = this.entry?.testUserPermission(game.user, "LIMITED");
+            const colour = game.settings.get(PinCushion.MODULE_NAME, is_linked ? "revealedNotesTintColorLink" : "revealedNotesTintColorNotLink");
+            if (colour?.length > 0){
+              this.data.iconTint = colour;
+            }
+          }
+        }
+      }
+
+      const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
+      if (enableBackgroundlessPins) {
+        let tint = this.data.iconTint ? colorStringToHex(this.data.iconTint) : null;
+        let iconData = { texture: this.data.icon, size: this.size, tint: tint };
+        let icon;
+        // this is note
+        if(this.document && this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)){
+          icon = new ControlIcon(iconData);
+        } else if (this.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) { // compatibility 0.8.9
+          icon = new ControlIcon(iconData);
+        } else {
+          icon = new BackgroundlessControlIcon(iconData);
+          if(this.document){
+            icon.scale.x = this.document.getFlag(PinCushion.MODULE_NAME,  PinCushion.FLAGS.RATIO);
+          }else{
+            icon.scale.x = this.getFlag(PinCushion.MODULE_NAME,  PinCushion.FLAGS.RATIO); // compatibility 0.8.9
+          }
+          // need to centre text
+        }
+        // PATCH MODULE autoIconFlags
+        if (this.data?.flags?.autoIconFlags) {
+          const flagsAutomaticJournalIconNumbers = {
+              autoIcon: this.data?.flags.autoIconFlags.autoIcon,
+              iconType: this.data?.flags.autoIconFlags.iconType,
+              iconText: this.data?.flags.autoIconFlags.iconText,
+              foreColor: this.data?.flags.autoIconFlags.foreColor,
+              backColor: this.data?.flags.autoIconFlags.backColor,
+              fontFamily: this.data?.flags.autoIconFlags.fontFamily
+          }
+          if(flagsAutomaticJournalIconNumbers.fontFamily){
+            this.data.fontFamily = flagsAutomaticJournalIconNumbers.fontFamily;
+          }
+          //this.controlIcon?.bg?.fill = flagsAutomaticJournalIconNumbers.backColor;
+        }
+        icon.x -= this.size / 2;
+        icon.y -= this.size / 2;
+        return icon;
+      }else{
+        return undefined;
+      }
+    }
+
   /**
    * Handles draw control icon
    * @param {*} event
    */
   // static _drawControlIcon(wrapped, ...args) {
   static _drawControlIcon(event) {
-    // Wraps the default Note#_drawControlIcon so that we can override the stored this.data.iconTint based
-    // on whether the link is accessible for the current player (or not). This is only done for links which
-    // are using the "revealed" flag.
-    const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
-    if(!game.user.isGM && revealedNotes){
-      const use_reveal = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
-      if (use_reveal === undefined || !use_reveal){
-        // return wrapped(...args);
-      }else{
-        const value = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
-        if (value != undefined) {
-          const is_linked = this.entry?.testUserPermission(game.user, "LIMITED");
-          const colour = game.settings.get(PinCushion.MODULE_NAME, is_linked ? "revealedNotesTintColorLink" : "revealedNotesTintColorNotLink");
-          if (colour?.length > 0){
-            this.data.iconTint = colour;
-          }
-        }
-      }
+    const res = this._drawControlIconInternal();
+    if(res == undefined){
+      // return wrapped(...args);
+    }else{
+      return res;
     }
-
-    const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
-    if (enableBackgroundlessPins) {
-      let tint = this.data.iconTint ? colorStringToHex(this.data.iconTint) : null;
-      let iconData = { texture: this.data.icon, size: this.size, tint: tint };
-      let icon;
-      if (this.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) {
-        icon = new ControlIcon(iconData);
-      } else {
-        icon = new BackgroundlessControlIcon(iconData);
-      }
-      // PATCH MODULE autoIconFlags
-      if (this.data?.flags?.autoIconFlags) {
-        const flagsAutomaticJournalIconNumbers = {
-            autoIcon: this.data?.flags.autoIconFlags.autoIcon,
-            iconType: this.data?.flags.autoIconFlags.iconType,
-            iconText: this.data?.flags.autoIconFlags.iconText,
-            foreColor: this.data?.flags.autoIconFlags.foreColor,
-            backColor: this.data?.flags.autoIconFlags.backColor,
-            fontFamily: this.data?.flags.autoIconFlags.fontFamily
-        }
-        if(flagsAutomaticJournalIconNumbers.fontFamily){
-          this.data.fontFamily = flagsAutomaticJournalIconNumbers.fontFamily;
-        }
-        //this.controlIcon?.bg?.fill = flagsAutomaticJournalIconNumbers.backColor;
-      }
-      icon.x -= this.size / 2;
-      icon.y -= this.size / 2;
-      return icon;
-    }
-    // return wrapped(...args);
   }
 
 /**
@@ -570,56 +630,12 @@ class PinCushion {
    * @param {*} event
    */
   static _drawControlIcon2(wrapped, ...args) {
-    // Wraps the default Note#_drawControlIcon so that we can override the stored this.data.iconTint based
-    // on whether the link is accessible for the current player (or not). This is only done for links which
-    // are using the "revealed" flag.
-    const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
-    if(!game.user.isGM && revealedNotes){
-      const use_reveal = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
-      if (use_reveal === undefined || !use_reveal){
-        // return wrapped(...args);
-      }else{
-        const value = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
-        if (value != undefined) {
-          const is_linked = this.entry?.testUserPermission(game.user, "LIMITED");
-          const colour = game.settings.get(PinCushion.MODULE_NAME, is_linked ? "revealedNotesTintColorLink" : "revealedNotesTintColorNotLink");
-          if (colour?.length > 0){
-            this.data.iconTint = colour;
-          }
-        }
-      }
+    const res = this._drawControlIconInternal();
+    if(res == undefined){
+      return wrapped(...args);
+    }else{
+      return res;
     }
-
-    const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
-    if (enableBackgroundlessPins) {
-      let tint = this.data.iconTint ? colorStringToHex(this.data.iconTint) : null;
-      let iconData = { texture: this.data.icon, size: this.size, tint: tint };
-      let icon;
-      if (this.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) {
-        icon = new ControlIcon(iconData);
-      } else {
-        icon = new BackgroundlessControlIcon(iconData);
-      }
-      // PATCH MODULE autoIconFlags
-      if (this.data?.flags?.autoIconFlags) {
-        const flagsAutomaticJournalIconNumbers = {
-            autoIcon: this.data?.flags.autoIconFlags.autoIcon,
-            iconType: this.data?.flags.autoIconFlags.iconType,
-            iconText: this.data?.flags.autoIconFlags.iconText,
-            foreColor: this.data?.flags.autoIconFlags.foreColor,
-            backColor: this.data?.flags.autoIconFlags.backColor,
-            fontFamily: this.data?.flags.autoIconFlags.fontFamily
-        }
-        if(flagsAutomaticJournalIconNumbers.fontFamily){
-          this.data.fontFamily = flagsAutomaticJournalIconNumbers.fontFamily;
-        }
-        //this.controlIcon?.bg?.fill = flagsAutomaticJournalIconNumbers.backColor;
-      }
-      icon.x -= this.size / 2;
-      icon.y -= this.size / 2;
-      return icon;
-    }
-    return wrapped(...args);
   }
 
   /**
@@ -837,16 +853,7 @@ class PinCushion {
             default: true,
             config: true,
        });
-       /* REMOVED POI TELEPORT FOR NOW SEEM OUT OF CONTEXT FOR THE MODULE WE CAN USE TRIIGER HAPPY FOR THIS
-       game.settings.register(PinCushion.MODULE_NAME, "enablePoiTeleport", {
-        name: game.i18n.localize("PinCushion.SETTINGS.EnablePoiTeleportN"),
-        hint: game.i18n.localize("PinCushion.SETTINGS.EnablePoiTeleportH"),
-        scope: "world",
-        type: Boolean,
-        default: false,
-        config: true,
-       });
-       */
+
        game.settings.register(PinCushion.MODULE_NAME, "playerIconAutoOverride", {
             name: game.i18n.localize("PinCushion.SETTINGS.PlayerIconAutoOverrideN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.PlayerIconAutoOverrideH"),
@@ -1012,317 +1019,6 @@ class BackgroundlessControlIcon extends ControlIcon {
     return this;
   }
 }
-// REMOVED POI TELEPORT FOR NOW SEEM OUT OF CONTEXT FOR THE MODULE WE CAN USE TRIIGER HAPPY FOR THIS
-// /**
-//  * @class PointOfInterestTeleporter
-//  */
-//  class PointOfInterestTeleporter {
-//
-// 	/**
-// 	 * Handles on the canvasReady Hook.
-// 	 *
-// 	 * Checks all notes, and adds event listeners for
-// 	 * closing the note context menu.
-// 	 *
-// 	 * @static
-// 	 * @memberof PointOfInterestTeleporter
-// 	 */
-//   static onReady() {
-// 		canvas.notes.placeables.forEach(n => this.checkNote(n));
-//
-// 		canvas.mouseInteractionManager.target.on("rightdown", () => canvas.hud.poiTp.clear());
-// 		canvas.mouseInteractionManager.target.on("mousedown", () => canvas.hud.poiTp.clear());
-// 	}
-//
-// 	/**
-// 	 * Handles renderHeadsUpDisplay Hook.
-// 	 *
-// 	 * Creates a new HUD for map notes,
-// 	 * and adds it to the document.
-// 	 *
-// 	 * @static
-// 	 * @param {HeadsUpDisplay} hud - The heads up display container class
-// 	 * @param {jquery} html - The html of the HUD
-// 	 * @memberof PointOfInterestTeleporter
-// 	 */
-// 	static renderHeadsUpDisplay(hud, html) {
-// 		hud.poiTp = new PoiTpHUD();
-// 		const hudTemp = document.createElement("template");
-// 		hudTemp.id = "pin-cushion-poi-tp-ctx-menu";
-// 		html.append(hudTemp);
-// 	}
-// 	/**
-// 	 * Handles the createNote Hook.
-// 	 *
-// 	 * Looks up the new note, and checks it.
-// 	 *
-// 	 * @static
-// 	 * @param {Scene} scene - The scene that the new note was created in
-// 	 * @param {object} noteData - A data object from the note, but not the first-class Note object
-// 	 * @return {void} Returns early if the new note couldn't be found
-// 	 * @memberof PointOfInterestTeleporter
-// 	 */
-// 	static createNote(scene, noteData) {
-// 		const note = canvas.notes.placeables.find(n => n.id == noteData._id);
-// 		if (!note) return;
-// 		this.checkNote(note);
-// 	}
-// 	/**
-// 	 * Handles the getSceneDirectoryEntryContext Hook.
-// 	 *
-// 	 * Adds a new item to the scene directory context
-// 	 * menu. The new item allows for a new scene note
-// 	 * to be created in one click.
-// 	 *
-// 	 * The new option appears in place of the "Scene Notes"
-// 	 * option in the context menu if the scene doesn't have notes.
-// 	 *
-// 	 * @static
-// 	 * @param {jquery} html - The HTML of the directory tab
-// 	 * @param {object[]} options - An array of objects defining options in the context menu
-// 	 * @memberof PointOfInterestTeleporter
-// 	 */
-// 	static getSceneDirEnCtx(html, options) {
-// 		// Add this option at the third index, so that it appears in the same place that
-// 		// the scene notes option would appear
-// 		options.splice(2, 0, {
-// 			name: "PinCushion.poiTeleport.createNote",
-// 			icon: '<i class="fas fa-scroll"></i>',
-// 			/**
-// 			 * Checks whether or not this option should be shown
-// 			 *
-// 			 * @param {jquery} li - The list item of this option
-// 			 * @return {boolean} True if the scene doesn't have a journal entry defined
-// 			 */
-// 			condition: li => {
-// 				const scene = game.scenes.get(li.data("entityId"));
-// 				return !scene.journal;
-// 			},
-// 			/**
-// 			 * Creates a new Journal Entry for the scene,
-// 			 * with the same name as the scene. Then sets
-// 			 * the new note as the scene notes for that scene.
-// 			 *
-// 			 * @param {jquery} li - The list item of this option
-// 			 */
-// 			callback: li => {
-// 				const scene = game.scenes.get(li.data("entityId"));
-// 				JournalEntry.create({
-// 					name: scene.name,
-// 					type: "base",
-// 					types: "base",
-//           img: scene.data.img
-// 				}, { renderSheet: true })
-// 				.then(entry => scene.update({ "journal": entry.id }));
-// 			}
-// 		});
-// 	}
-// 	/**
-// 	 * Checks if the supplied note is associated with a scene,
-// 	 * if so creates a new PointOfInterestTeleporter for that note.
-// 	 *
-// 	 * @static
-// 	 * @param {Note} note - A map note to check
-// 	 * @memberof PointOfInterestTeleporter
-// 	 */
-// 	static checkNote(note) {
-// 		const scene = game.scenes.find(s => s.data?.journal == note?.entry?.id);
-// 		if (scene) new PointOfInterestTeleporter(note, scene);
-// 	}
-//
-// 	/**
-// 	 * Creates an instance of PointOfInterestTeleporter.
-// 	 *
-// 	 * @param {Note} note - A map note
-// 	 * @param {Scene} scene - A target scene
-// 	 * @memberof PointOfInterestTeleporter
-// 	 */
-// 	constructor(note, scene) {
-// 		this.note = note;
-// 		this.scene = scene;
-
-// 		this.activateListeners();
-// 	}
-// 	/**
-// 	 * Activate any event handlers
-// 	 *
-// 	 * @memberof PointOfInterestTeleporter
-// 	 */
-// 	activateListeners() {
-// 		this.note.mouseInteractionManager.target.on("rightdown", this._contextMenu.bind(this));
-// 	}
-// 	/**
-// 	 * Handle the right click event
-// 	 *
-// 	 * Binds this note to the context menu HUD
-// 	 * and prevents the event from bubbling
-// 	 *
-// 	 * @param {Event} event - The event that triggered this callback
-// 	 * @memberof PointOfInterestTeleporter
-// 	 */
-// 	_contextMenu(event) {
-// 		event.stopPropagation();
-// 		canvas.hud.poiTp.bind(this);
-// 	}
-
-// 	/**
-// 	 * Convenience alias for the note x coordniate
-// 	 *
-// 	 * @readonly
-// 	 * @memberof PointOfInterestTeleporter
-// 	 */
-// 	get x() { return this.note.x; }
-// 	/**
-// 	* Convenience alias for the note y coordniate
-// 	*
-// 	* @readonly
-// 	* @memberof PointOfInterestTeleporter
-// 	*/
-// 	get y() { return this.note.y; }
-
-// 	/**
-// 	 * @typedef ContextMenuOption
-// 	 * @property {string} icon - A string of HTML representing a Font Awesome icon
-// 	 * @property {string} title - The text, or i18n reference, for the text to display on the option
-// 	 * @property {string} trigger - The name of a method of PointOfInterestTeleporter to call in response to clicking this option
-// 	 *//**
-// 	 * Returns an array of menu option for the context menu.
-// 	 *
-// 	 * @return {ContextMenuOption[]}
-// 	 * @memberof PointOfInterestTeleporter
-// 	 */
-// 	getOptions() {
-// 		const options = [
-// 			{
-// 				icon: `<i class="fas fa-eye fa-fw"></i>`,
-// 				title: "PinCushion.poiTeleport.view",
-// 				trigger: "viewScene"
-// 			}
-// 		];
-// 		const gmOptions = game.user.isGM ? [
-// 			{
-// 				icon: `<i class="fas fa-bullseye fa-fw"></i>`,
-// 				title: "PinCushion.poiTeleport.activate",
-// 				trigger: "activateScene"
-// 			},
-// 			{
-// 				icon: `<i class="fas fa-scroll fa-fw"></i>`,
-// 				title: "PinCushion.poiTeleport.toggleNav",
-// 				trigger: "toggleNav"
-// 			}
-// 		] : [];
-
-// 		return options.concat(gmOptions);
-// 	}
-
-// 	/**
-// 	 * Activates the scene.
-// 	 *
-// 	 * @memberof PointOfInterestTeleporter
-// 	 */
-// 	activateScene() {
-// 		this.scene.activate();
-// 	}
-// 	/**
-// 	 * Shows the scene, but doens't activate it.
-// 	 *
-// 	 * @memberof PointOfInterestTeleporter
-// 	 */
-// 	viewScene() {
-// 		this.scene.view();
-// 	}
-// 	/**
-// 	 * Toggles whether or not the scene is shown in the navigation bar.
-// 	 *
-// 	 * @memberof PointOfInterestTeleporter
-// 	 */
-// 	toggleNav() {
-// 		this.scene.update({ navigation: !this.scene.data.navigation });
-// 	}
-// }
-
-// /**
-//  * The HUD used as a context menu for map notes.
-//  *
-//  * @class PoiTpHUD
-//  * @extends {BasePlaceableHUD}
-//  */
-// class PoiTpHUD extends BasePlaceableHUD {
-// 	/**
-// 	 * Assign the default options which are supported by the entity edit sheet
-// 	 * @type {Object}
-// 	 */
-// 	static get defaultOptions() {
-// 		return mergeObject(super.defaultOptions, {
-// 			id: "pin-cushion-poi-tp-ctx-menu",
-// 			template: `modules/${PinCushion.MODULE_NAME}/templates/poi-hud.html`
-// 		});
-// 	}
-// 	/**
-// 	 * Binds an entity to the HUD
-// 	 *
-// 	 * The PointOfInterestTeleporter is stored,
-// 	 * and the note associated with it is bound.
-// 	 *
-// 	 * @override
-// 	 * @param {PointOfInterestTeleporter} poitp
-// 	 * @memberof PoiTpHUD
-// 	 */
-// 	bind(poitp) {
-// 		this.poitp = poitp;
-// 		super.bind(poitp.note);
-// 	}
-// 	/**
-// 	 * @typedef PoiTpHudData - Data to be sent to the POI TP HUD template
-// 	 * @property {ContextMenuOption[]} options - The set of options
-// 	 *//**
-// 	 * Creates a data object to be passed to this HUD's Handlesbars template
-// 	 *
-// 	 * @override
-// 	 * @return {PoiTpHudData}
-// 	 * @memberof PoiTpHUD - Data to be sent to the POI TP HUD template
-// 	 */
-// 	getData() {
-// 		/** @type PoiTpHudData */
-// 		const data = {};
-
-// 		data.options = this.poitp.getOptions();
-
-// 		return data;
-// 	}
-// 	/**
-// 	 * Activate any event listenders on the HUD
-// 	 *
-// 	 * Activates a click listener to prevent propagation,
-// 	 * as activates click listeners for all menu options.
-// 	 *
-// 	 * Each option has its own handler, stored in its data-trigger.
-// 	 *
-// 	 * @override
-// 	 * @param {jquery} html - The html of the HUD
-// 	 * @memberof PoiTpHUD
-// 	 */
-// 	activateListeners(html) {
-// 		super.activateListeners(html);
-// 		html.click(e => e.stopPropagation());
-// 		html.find("[data-trigger]")
-// 			.click((event) => this.poitp[event.currentTarget.dataset.trigger](event));
-// 	}
-
-// 	/**
-// 	 * Set's the position of the HUD to match the position of the map note.
-// 	 *
-// 	 * @override
-// 	 * @memberof PoiTpHUD
-// 	 */
-// 	setPosition() {
-// 		const position = {
-// 			left: this.object.x,
-// 			top: this.object.y
-// 		};
-// 		this.element.css(position);
-// 	}
-// }
 
 /**
  * Sets whether this Note is revealed (visible) to players; overriding the default FoundryVTT rules.
@@ -1469,12 +1165,6 @@ Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
         html.append(`<template id="pin-cushion-hud"></template>`);
         canvas.hud.pinCushion = new PinCushionHUD();
     }
-    /* REMOVED POI TELEPORT FOR NOW SEEM OUT OF CONTEXT FOR THE MODULE WE CAN USE TRIIGER HAPPY FOR THIS
-    const enablePoiTeleportFeature = game.settings.get(PinCushion.MODULE_NAME, "enablePoiTeleport");
-    if(enablePoiTeleportFeature){
-      PointOfInterestTeleporter.renderHeadsUpDisplay(app, html, data);
-    }
-    */
 });
 
 /**
@@ -1507,29 +1197,6 @@ Hooks.on("hoverNote", (note, hovered) => {
 Hooks.on("renderJournalDirectory", (app, html, data) => {
   PinCushion._addJournalThumbnail(app, html, data);
 });
-
-/* REMOVED POI TELEPORT FOR NOW SEEM OUT OF CONTEXT FOR THE MODULE WE CAN USE TRIIGER HAPPY FOR THIS
-Hooks.on("getSceneDirectoryEntryContext", (html, options) => {
-  const enablePoiTeleportFeature = game.settings.get(PinCushion.MODULE_NAME, "enablePoiTeleport");
-  if(enablePoiTeleportFeature){
-    PointOfInterestTeleporter.getSceneDirEnCtx(html, options);
-  }
-});
-
-Hooks.on("canvasReady", () => {
-  const enablePoiTeleportFeature = game.settings.get(PinCushion.MODULE_NAME, "enablePoiTeleport");
-  if(enablePoiTeleportFeature){
-    PointOfInterestTeleporter.onReady();
-  }
-});
-
-Hooks.on("createNote", (scene, noteData) => {
-  const enablePoiTeleportFeature = game.settings.get(PinCushion.MODULE_NAME, "enablePoiTeleport");
-  if(enablePoiTeleportFeature){
-    PointOfInterestTeleporter.createNote(scene, noteData);
-  }
-});
-*/
 
 Hooks.once('canvasInit', () => {
 	// This module is only required for GMs (game.user accessible from 'ready' event but not 'init' event)

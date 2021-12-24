@@ -60,6 +60,8 @@
       "MissingPinName": "Missing Map Pin Name!"
     },
     "HasBackground": "Show Background ?",
+    "HasBackgroundRatio": "Width to Size Ratio",
+    "TextAlwaysVisible": "Text Always Visible ?",
     "ShowImage": "Show Image instead of text ?",
     "poiTeleport.name": "Point of Interest Teleporter",
     "poiTeleport.createNote": "Create Scene Notes",
