@@ -584,17 +584,18 @@ class PinCushion {
         // this is note
         if(noteInternal.document && noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)){
           icon = new ControlIcon(iconData);
-        } else if (noteInternal.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) { // compatibility 0.8.9
-          icon = new ControlIcon(iconData);
+        // } else if (noteInternal.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) { // compatibility 0.8.9
+        //   icon = new ControlIcon(iconData);
         } else {
           icon = new BackgroundlessControlIcon(iconData);
         }
         if(noteInternal.document.getFlag(PinCushion.MODULE_NAME,  PinCushion.FLAGS.RATIO) > 1){
           if(noteInternal.document){
             icon.scale.x = noteInternal.document.getFlag(PinCushion.MODULE_NAME,  PinCushion.FLAGS.RATIO);
-          }else{
-            icon.scale.x = noteInternal.getFlag(PinCushion.MODULE_NAME,  PinCushion.FLAGS.RATIO); // compatibility 0.8.9
           }
+          // else{
+          //   icon.scale.x = noteInternal.getFlag(PinCushion.MODULE_NAME,  PinCushion.FLAGS.RATIO); // compatibility 0.8.9
+          // }
           // TODO need to centre text
         }
         // PATCH MODULE autoIconFlags
@@ -632,67 +633,6 @@ class PinCushion {
     }else{
       return res;
     }
-    
-    // // Wraps the default Note#_drawControlIcon so that we can override the stored this.data.iconTint based
-    // // on whether the link is accessible for the current player (or not). This is only done for links which
-    // // are using the "revealed" flag.
-    // const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
-    // if(!game.user.isGM && revealedNotes){
-    //   const use_reveal = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
-    //   if (use_reveal === undefined || !use_reveal){
-    //     // return wrapped(...args);
-    //   }else{
-    //     const value = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
-    //     if (value != undefined) {
-    //       const is_linked = this.entry?.testUserPermission(game.user, "LIMITED");
-    //       const colour = game.settings.get(PinCushion.MODULE_NAME, is_linked ? "revealedNotesTintColorLink" : "revealedNotesTintColorNotLink");
-    //       if (colour?.length > 0){
-    //         this.data.iconTint = colour;
-    //       }
-    //     }
-    //   }
-    // }
-
-    // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
-    // if (enableBackgroundlessPins) {
-    //   let tint = this.data.iconTint ? colorStringToHex(this.data.iconTint) : null;
-    //   let iconData = { texture: this.data.icon, size: this.size, tint: tint };
-    //   let icon;
-    //   // this is note
-    //   if(this.document && this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)){
-    //     icon = new ControlIcon(iconData);
-    //   } else if (this.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) { // compatibility 0.8.9
-    //     icon = new ControlIcon(iconData);
-    //   } else {
-    //     icon = new BackgroundlessControlIcon(iconData);
-    //     // if(this.document){
-    //     //   icon.scale.x = this.document.getFlag(PinCushion.MODULE_NAME,  PinCushion.FLAGS.RATIO);
-    //     // }else{
-    //     //   icon.scale.x = this.getFlag(PinCushion.MODULE_NAME,  PinCushion.FLAGS.RATIO); // compatibility 0.8.9
-    //     // }
-    //     // need to centre text
-    //   }
-    //   // PATCH MODULE autoIconFlags
-    //   if (this.data?.flags?.autoIconFlags) {
-    //     const flagsAutomaticJournalIconNumbers = {
-    //         autoIcon: this.data?.flags.autoIconFlags.autoIcon,
-    //         iconType: this.data?.flags.autoIconFlags.iconType,
-    //         iconText: this.data?.flags.autoIconFlags.iconText,
-    //         foreColor: this.data?.flags.autoIconFlags.foreColor,
-    //         backColor: this.data?.flags.autoIconFlags.backColor,
-    //         fontFamily: this.data?.flags.autoIconFlags.fontFamily
-    //     }
-    //     if(flagsAutomaticJournalIconNumbers.fontFamily){
-    //       this.data.fontFamily = flagsAutomaticJournalIconNumbers.fontFamily;
-    //     }
-    //     //this.controlIcon?.bg?.fill = flagsAutomaticJournalIconNumbers.backColor;
-    //   }
-    //   icon.x -= this.size / 2;
-    //   icon.y -= this.size / 2;
-    //   return icon;
-    // }else{
-    //   // return undefined;
-    // }
   }
 
 /**
@@ -707,67 +647,6 @@ class PinCushion {
     }else{
       return res;
     }
-    
-    // // Wraps the default Note#_drawControlIcon so that we can override the stored this.data.iconTint based
-    // // on whether the link is accessible for the current player (or not). This is only done for links which
-    // // are using the "revealed" flag.
-    // const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
-    // if(!game.user.isGM && revealedNotes){
-    //   const use_reveal = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
-    //   if (use_reveal === undefined || !use_reveal){
-    //     // return wrapped(...args);
-    //   }else{
-    //     const value = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
-    //     if (value != undefined) {
-    //       const is_linked = this.entry?.testUserPermission(game.user, "LIMITED");
-    //       const colour = game.settings.get(PinCushion.MODULE_NAME, is_linked ? "revealedNotesTintColorLink" : "revealedNotesTintColorNotLink");
-    //       if (colour?.length > 0){
-    //         this.data.iconTint = colour;
-    //       }
-    //     }
-    //   }
-    // }
-
-    // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
-    // if (enableBackgroundlessPins) {
-    //   let tint = this.data.iconTint ? colorStringToHex(this.data.iconTint) : null;
-    //   let iconData = { texture: this.data.icon, size: this.size, tint: tint };
-    //   let icon;
-    //   // this is note
-    //   if(this.document && this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)){
-    //     icon = new ControlIcon(iconData);
-    //   } else if (this.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) { // compatibility 0.8.9
-    //     icon = new ControlIcon(iconData);
-    //   } else {
-    //     icon = new BackgroundlessControlIcon(iconData);
-    //     // if(this.document){
-    //     //   icon.scale.x = this.document.getFlag(PinCushion.MODULE_NAME,  PinCushion.FLAGS.RATIO);
-    //     // }else{
-    //     //   icon.scale.x = this.getFlag(PinCushion.MODULE_NAME,  PinCushion.FLAGS.RATIO); // compatibility 0.8.9
-    //     // }
-    //     // need to centre text
-    //   }
-    //   // PATCH MODULE autoIconFlags
-    //   if (this.data?.flags?.autoIconFlags) {
-    //     const flagsAutomaticJournalIconNumbers = {
-    //         autoIcon: this.data?.flags.autoIconFlags.autoIcon,
-    //         iconType: this.data?.flags.autoIconFlags.iconType,
-    //         iconText: this.data?.flags.autoIconFlags.iconText,
-    //         foreColor: this.data?.flags.autoIconFlags.foreColor,
-    //         backColor: this.data?.flags.autoIconFlags.backColor,
-    //         fontFamily: this.data?.flags.autoIconFlags.fontFamily
-    //     }
-    //     if(flagsAutomaticJournalIconNumbers.fontFamily){
-    //       this.data.fontFamily = flagsAutomaticJournalIconNumbers.fontFamily;
-    //     }
-    //     //this.controlIcon?.bg?.fill = flagsAutomaticJournalIconNumbers.backColor;
-    //   }
-    //   icon.x -= this.size / 2;
-    //   icon.y -= this.size / 2;
-    //   return icon;
-    // }else{
-    //   return wrapped(...args);
-    // }
   }
 
   /**
@@ -782,9 +661,9 @@ class PinCushion {
         this.data.icon = this.document.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_PATH);
       }
       // Foundry 0.8.9
-      else if(this.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_PATH)){
-        this.data.icon = this.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_PATH);
-      }
+      // else if(this.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_PATH)){
+      //   this.data.icon = this.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_PATH);
+      // }
     }
   }
 
