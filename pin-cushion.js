@@ -777,8 +777,14 @@ class PinCushion {
     wrapped();
 
     // IF not GM and IF  = enabled then take flag path as note.data.icon
-    if (!game.user.isGM && this.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_STATE)){
-      this.data.icon = this.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_PATH);
+    if (!game.user.isGM){
+      if(this.document && this.document.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_STATE)){
+        this.data.icon = this.document.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_PATH);
+      }
+      // Foundry 0.8.9
+      else if(this.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_PATH)){
+        this.data.icon = this.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_PATH);
+      }
     }
   }
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.7]
+
+- Some bug fix for foundry 9
+
 ## [1.5.6]
 
 - Added MeusRex Feature from the fork [MeusRex - FVTT-Backgroundless-Pins](https://github.com/MeusRex/FVTT-Backgroundless-Pins): Added Support for Rectangular Notes.
