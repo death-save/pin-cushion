@@ -296,15 +296,15 @@ class PinCushion {
    */
   static _addBackgroundField(app, html, data) {
     const hasBackground = (app.document
-      ? app.document.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)
+      ? getProperty(app.document.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.HAS_BACKGROUND)
       : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) ?? 0;
     const iconTintGroup = html.find("[name=iconTint]").closest(".form-group");
     const ratio = (app.document
-      ? app.document.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO) 
+      ? getProperty(app.document.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.RATIO) 
       : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO)) ?? 1;
     const iconSizeGroup = html.find("[name=iconSize]").closest(".form-group");
     const textAlwaysVisible = (app.document
-      ? app.document.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE)
+      ? getProperty(app.document.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE)
       : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE)) ?? false;
     const textAnchorGroup = html.find("[name=textAnchor]").closest(".form-group");
 

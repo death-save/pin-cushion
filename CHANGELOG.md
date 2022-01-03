@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.8]
+
+- Some bug fix for foundry 9
+
 ## [1.5.7]
 
 - Some bug fix for foundry 9
