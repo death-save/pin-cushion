@@ -468,6 +468,12 @@ class PinCushionHUD extends BasePlaceableHUD {
     getData() {
         const data = super.getData();
         const entry = this.object.entry;
+        if (!entry)
+        {
+            // Do nothing b/c this doesn't have an entry
+            return;
+        }
+
         const previewType = game.settings.get(PinCushion.MODULE_NAME, "previewType");
         let content;
 
