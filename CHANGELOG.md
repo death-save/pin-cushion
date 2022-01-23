@@ -3,7 +3,7 @@
 ## [1.5.9]
 
 - Bug fix [Fix a null ref for when there was a pin on the map that didn't have an entry](https://github.com/death-save/pin-cushion/pull/78/files)
-- Add feature [[FEATURE] Hide Label or Title Text](https://github.com/death-save/pin-cushion/issues/79) add a new voice 'None' to the text anchor dropdown
+- Add feature [[FEATURE] Hide Label or Title Text](https://github.com/death-save/pin-cushion/issues/79) add a new option 'Hide Label' to the note configuration dialog
 - Clean up:Remove poi of interest template
 - Clean up:Remove poi of interest css
 
