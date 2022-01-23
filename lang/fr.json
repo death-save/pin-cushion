@@ -37,10 +37,10 @@
     "PlayerIconHint": "Activez cette option pour remplacer l'icône que les joueurs verront.",
     "PlayerIconPath": "Chemin de l'icône du joueur",
 
-    "Warn": {
-      "AllowPlayerNotes": "Les joueurs ont également besoin de la permission Core Foundry \"{permission}\" pour créer des épingles de carte.",
-      "MissingPinName": "Nom de l'épingle de la carte manquante !"
-    },
+
+    "AllowPlayerNotes": "Les joueurs ont également besoin de la permission Core Foundry \"{permission}\" pour créer des épingles de carte.",
+    "MissingPinName": "Nom de l'épingle de la carte manquante !",
+
     "HasBackground": "Afficher le fond ?"
   }
 }

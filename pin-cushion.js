@@ -82,6 +82,7 @@ class PinCushion {
         PLAYER_ICON_PATH : "PlayerIconPath",
         CUSHION_ICON : "cushionIcon",
         SHOW_IMAGE : "showImage",
+        HIDE_LABEL : "hideLabel"
       }
     }
 
@@ -125,7 +126,7 @@ class PinCushion {
         const input = html.find("input[name='name']");
 
         if (!input[0].value) {
-            ui.notifications.warn(game.i18n.localize("PinCushion.Warn.MissingPinName"));
+            ui.notifications.warn(game.i18n.localize("PinCushion.MissingPinName"));
             return;
         }
         // Permissions the Journal Entry will be created with
@@ -457,15 +458,42 @@ class PinCushion {
     }
   }
 
+  static _addHideLabel(app, html, data){
+    const hideLabel = (app.document
+      ? getProperty(app.document.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.HIDE_LABEL)
+      : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)) ?? false;
+    const textGroup = html.find("[name=text]").closest(".form-group");
+    textGroup.after(`
+      <div class="form-group">
+        <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HIDE_LABEL}">${game.i18n.localize("PinCushion.HideLabel")}</label>
+        <div class="form-fields">
+          <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HIDE_LABEL}" data-dtype="Boolean" ${hideLabel ? "checked" : ""}>
+        </div>
+      </div>
+    `);
+  }
+
   /**
    * If the Note has a GM-NOTE on it, then display that as the tooltip instead of the normal text
    * @param {function} [wrapped] The wrapped function provided by libWrapper
    * @param {object}   [args]    The normal arguments to Note#drawTooltip
-   */
+   * @returns {PIXI.Text} 
+  */
   static _addDrawTooltip(wrapped, ...args) {
+
+    const hideLabel = (this.document
+      ? getProperty(this.document.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.HIDE_LABEL)
+      : this.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)) ?? false;
+
     // Only override default if flag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PIN_GM_TEXT) is set
     const newtext = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_GM_TEXT);
-    if (!newtext || newtext.length===0) return wrapped(...args);
+    if (!newtext || newtext.length===0){
+      let result = wrapped(...args);
+      if ( hideLabel ){
+        result.text = '';
+      }
+      return result;
+    }
 
     // Set a different label to be used while we call the original Note.prototype._drawTooltip
     //
@@ -477,6 +505,27 @@ class PinCushion {
     this.document.data.text = newtext;
     let result = wrapped(...args);
     this.document.data.text = saved_text;
+
+    if ( hideLabel ){
+      result.text = '';
+    }
+
+    return result;
+  }
+
+  /**
+ * Draw the map note Tooltip as a Text object
+ * @returns {PIXI.Text}
+ */
+  static _addDrawTooltip2(wrapped, ...args) {
+    const hideLabel = (this.document
+      ? getProperty(this.document.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.HIDE_LABEL)
+      : this.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)) ?? false;
+
+    let result = wrapped(...args);
+    if ( hideLabel ){
+      result.text = '';
+    }
     return result;
   }
 
@@ -540,7 +589,7 @@ class PinCushion {
         // Warn user when notes can be created, but journal entries cannot
         if (!game.user.can("JOURNAL_CREATE")) {
             ui.notifications.warn(
-                game.i18n.format("PinCushion.Warn.AllowPlayerNotes", {
+                game.i18n.format("PinCushion.AllowPlayerNotes", {
                     permission: game.i18n.localize("PERMISSION.JournalCreate"),
                 })
             );
@@ -973,7 +1022,11 @@ class PinCushionHUD extends BasePlaceableHUD {
     getData() {
         const data = super.getData();
         const entry = this.object.entry;
-
+        if (!entry)
+        {
+            // Do nothing b/c this doesn't have an entry
+            return;
+        }
         const showImage = this.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE);
 
         let content;
@@ -1171,6 +1224,8 @@ Hooks.on("renderNoteConfig", async (app, html, data) => {
   if (enableNoteTintColorLink) {
     PinCushion._addNoteTintColorLink(app, html, data);
   }
+
+  PinCushion._addHideLabel(app, html, data);
 });
 
 /**
@@ -1224,7 +1279,14 @@ Hooks.once('canvasInit', () => {
       PinCushion._addDrawTooltip,
       'WRAPPER'
     );
-	}
+	} else {
+    libWrapper.register(
+      PinCushion.MODULE_NAME,
+      'Note.prototype._drawTooltip',
+      PinCushion._addDrawTooltip2,
+      'MIXED'
+    );
+  }
   // This is only required for Players, not GMs (game.user accessible from 'ready' event but not 'init' event)
   const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
 	if (!game.user.isGM && revealedNotes) {

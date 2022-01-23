@@ -55,10 +55,9 @@
     "PlayerIconHint": "Enable to override the icon players will see.",
     "PlayerIconPath": "Player Icon Path",
 
-    "Warn": {
-      "AllowPlayerNotes": "Players also need the Core Foundry Permission \"{permission}\" to create map pins.",
-      "MissingPinName": "Missing Map Pin Name!"
-    },
+    "AllowPlayerNotes": "Players also need the Core Foundry Permission \"{permission}\" to create map pins.",
+    "MissingPinName": "Missing Map Pin Name!",
+    
     "HasBackground": "Show Background ?",
     "HasBackgroundRatio": "Width to Size Ratio",
     "TextAlwaysVisible": "Text Always Visible ?",
@@ -69,6 +68,7 @@
     "poiTeleport.view": "View Scene",
     "poiTeleport.toggleNav": "Toggle Navigation",
     "RevealedToPlayer": "Revealed to Players",
-    "UseRevealState": "Use Reveal State"
+    "UseRevealState": "Use Reveal State",
+    "HideLabel": "Hide Label"
   }
 }

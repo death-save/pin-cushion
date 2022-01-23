@@ -24,10 +24,9 @@
     "CreateMissingFoldersT": "Crear directorios no presentes",
     "CreateMissingFoldersC": "<b>¿Crear un directorio de entradas en el diario para cada jugador?</b><br>Así se asegura que cada jugador tiene su propio directorio donde crear nuevas entradas",
 
-    "Warn": {
-      "AllowPlayerNotes": "Los jugadores necesitan que se les conceda el permiso \"{permission}\" en el núcleo de Foundry para crear chinchetas en el mapa",
-      "MissingPinName": "¡No se ha encontrado el nombre de la chincheta en el mapa!"
-    },
+    "AllowPlayerNotes": "Los jugadores necesitan que se les conceda el permiso \"{permission}\" en el núcleo de Foundry para crear chinchetas en el mapa",
+    "MissingPinName": "¡No se ha encontrado el nombre de la chincheta en el mapa!",
+
     "SETTINGS.EnablePoiTeleportN": "Enable Point of Interest Teleporter",
     "SETTINGS.EnablePoiTeleportH": "Embedded integration of the seem abbandoned 'Point of Interest Teleporter' module",
     "poiTeleport.name": "Teleportador a punto de interés",
