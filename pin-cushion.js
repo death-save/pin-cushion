@@ -297,15 +297,15 @@ class PinCushion {
    */
   static _addBackgroundField(app, html, data) {
     const hasBackground = (app.document
-      ? getProperty(app.document.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.HAS_BACKGROUND)
+      ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)
       : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) ?? 0;
     const iconTintGroup = html.find("[name=iconTint]").closest(".form-group");
     const ratio = (app.document
-      ? getProperty(app.document.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.RATIO) 
+      ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO)
       : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO)) ?? 1;
     const iconSizeGroup = html.find("[name=iconSize]").closest(".form-group");
     const textAlwaysVisible = (app.document
-      ? getProperty(app.document.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE)
+      ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE)
       : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE)) ?? false;
     const textAnchorGroup = html.find("[name=textAnchor]").closest(".form-group");
 
@@ -460,7 +460,7 @@ class PinCushion {
 
   static _addHideLabel(app, html, data){
     const hideLabel = (app.document
-      ? getProperty(app.document.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.HIDE_LABEL)
+      ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)
       : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)) ?? false;
     const textGroup = html.find("[name=text]").closest(".form-group");
     textGroup.after(`
@@ -482,7 +482,7 @@ class PinCushion {
   static _addDrawTooltip(wrapped, ...args) {
 
     const hideLabel = (this.document
-      ? getProperty(this.document.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.HIDE_LABEL)
+      ? this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)
       : this.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)) ?? false;
 
     // Only override default if flag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PIN_GM_TEXT) is set
@@ -519,7 +519,7 @@ class PinCushion {
  */
   static _addDrawTooltip2(wrapped, ...args) {
     const hideLabel = (this.document
-      ? getProperty(this.document.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.HIDE_LABEL)
+      ? this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)
       : this.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)) ?? false;
 
     let result = wrapped(...args);
@@ -1027,7 +1027,7 @@ class PinCushionHUD extends BasePlaceableHUD {
             // Do nothing b/c this doesn't have an entry
             return;
         }
-        const showImage = this.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE);
+        const showImage = this.object.data.flags[PinCushion.MODULE_NAME].showImage;
 
         let content;
         if(showImage){
@@ -1036,7 +1036,7 @@ class PinCushionHUD extends BasePlaceableHUD {
           const previewType = game.settings.get(PinCushion.MODULE_NAME, "previewType");
 
           if (previewType === "html") {
-              content = TextEditor.enrichHTML(entry.data.content, {secrets: entry.isOwner, entities: true});
+              content = TextEditor.enrichHTML(entry.data.content, {secrets: entry.isOwner, documents: true});
           } else if (previewType === "text") {
               const previewMaxLength = game.settings.get(PinCushion.MODULE_NAME, "previewMaxLength");
 
@@ -1196,12 +1196,14 @@ Hooks.on("renderNoteConfig", async (app, html, data) => {
       data.data.icon = journal.data.img;
     }
   }
-  let tmp = data.data.icon;
+  //let tmp = data.data.icon; //Doesn't do anything since the await below is commented out.
   if (app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)) {
     data.data.icon = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON);
   }
   PinCushion._replaceIconSelector(app, html, data);
-  await app.object.setFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON, tmp);
+  //await app.object.setFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON, tmp); 
+  //Causes a bug when attempting to place an journal entry onto the canvas in Foundry 9. 
+  //It will still take on the right icon when you hit 'Update Map Note' to confirm placement, so I don't see this as a huge loss for now.
 
   PinCushion._addShowImageField(app, html, data);
 

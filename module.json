@@ -77,7 +77,7 @@
   "readme": "https://github.com/death-save/pin-cushion/blob/v1.5.9/README.md",
   "changelog": "https://github.com/death-save/pin-cushion/blob/v1.5.9/changelog.md",
   "bugs": "https://github.com/death-save/pin-cushion/issues",
-  "minimumCoreVersion": "0.8.9",
+  "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",
   "allowBugReporter": true,
   "manifestPlusVersion": "1.2.0",
