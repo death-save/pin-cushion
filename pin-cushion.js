@@ -477,7 +477,7 @@ class PinCushion {
    * If the Note has a GM-NOTE on it, then display that as the tooltip instead of the normal text
    * @param {function} [wrapped] The wrapped function provided by libWrapper
    * @param {object}   [args]    The normal arguments to Note#drawTooltip
-   * @returns {PIXI.Text} 
+   * @returns {PIXI.Text}
   */
   static _addDrawTooltip(wrapped, ...args) {
 
@@ -675,7 +675,7 @@ class PinCushion {
    * @param {*} event
    */
   static _drawControlIcon(event) {
-    
+
     const res = PinCushion._drawControlIconInternal(this);
     if(res == undefined){
       // return wrapped(...args);
@@ -689,7 +689,7 @@ class PinCushion {
    * @param {*} event
    */
   static _drawControlIcon2(wrapped, ...args) {
-    
+
     const res = PinCushion._drawControlIconInternal(this);
     if(res == undefined){
       return wrapped(...args);
@@ -1027,7 +1027,9 @@ class PinCushionHUD extends BasePlaceableHUD {
             // Do nothing b/c this doesn't have an entry
             return;
         }
-        const showImage = this.object.data.flags[PinCushion.MODULE_NAME].showImage;
+        // TODO The getFlag was returning as 'not a function', for whatever reason...
+        // const showImage = this.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE);
+        const showImage = getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.SHOW_IMAGE);
 
         let content;
         if(showImage){
@@ -1196,14 +1198,14 @@ Hooks.on("renderNoteConfig", async (app, html, data) => {
       data.data.icon = journal.data.img;
     }
   }
-  //let tmp = data.data.icon; //Doesn't do anything since the await below is commented out.
+  let tmp = data.data.icon;
   if (app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)) {
     data.data.icon = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON);
   }
   PinCushion._replaceIconSelector(app, html, data);
-  //await app.object.setFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON, tmp); 
-  //Causes a bug when attempting to place an journal entry onto the canvas in Foundry 9. 
-  //It will still take on the right icon when you hit 'Update Map Note' to confirm placement, so I don't see this as a huge loss for now.
+  //Causes a bug when attempting to place an journal entry onto the canvas in Foundry 9.
+  //await app.object.setFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON, tmp);
+  setProperty(app.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.CUSHION_ICON,tmp);
 
   PinCushion._addShowImageField(app, html, data);
 
