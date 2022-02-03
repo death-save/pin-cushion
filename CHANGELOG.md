@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.10]
+
+- Add PR [Foundry 9 Update Compatibility](https://github.com/p4535992/pin-cushion/pull/4) from [PenguinMancer](https://github.com/PenguinMancer) ty to @PenguinMancer
+
 ## [1.5.9]
 
 - Bug fix [Fix a null ref for when there was a pin on the map that didn't have an entry](https://github.com/death-save/pin-cushion/pull/78/files)

@@ -1189,6 +1189,9 @@ Hooks.on("ready", () => {
  * @param {object] data       The object of data used when rendering the application (from NoteConfig#getData)
  */
 Hooks.on("renderNoteConfig", async (app, html, data) => {
+  if(!app.object.data.flags[PinCushion.MODULE_NAME]){
+    app.object.data.flags[PinCushion.MODULE_NAME] = {};
+  }
   const showJournalImageByDefault = game.settings.get(PinCushion.MODULE_NAME, "showJournalImageByDefault");
 
   if (showJournalImageByDefault) {
