@@ -192,6 +192,7 @@ Any issues, bugs, or feature requests are always welcome to be reported directly
 - [Point of Interest Teleporter](https://github.com/zeel01/poi-teleport) ([MIT](https://github.com/zeel01/poi-teleport/blob/master/LICENSE))
 - [vtt-gmtext-in-notes](https://github.com/farling42/fvtt-gmtext-in-notes) ([MIT](https://github.com/farling42/fvtt-gmtext-in-notes/blob/master/LICENSE))
 - [fvtt-revealed-notes-manager](https://github.com/farling42/fvtt-revealed-notes-manager) ([MIT](https://github.com/farling42/fvtt-gmtext-in-notes/blob/master/LICENSE))
+- [journal-sidebar-images](https://github.com/jessev14/journal-sidebar-images) ([MIT](https://github.com/jessev14/journal-sidebar-images/blob/master/LICENSE))
 
 This package is under an [GPLv3 License](LICENSE) and the [Foundry Virtual Tabletop Limited License Agreement for module development](https://foundryvtt.com/article/license/).
 
@@ -202,3 +203,4 @@ This package is under an [GPLv3 License](LICENSE) and the [Foundry Virtual Table
 - Thank you to [zeel](https://github.com/zeel01) for the module [Point of Interest Teleporter](https://github.com/zeel01/poi-teleport)
 - Thank you to [farling42](https://github.com/farling42) and the module [vtt-gmtext-in-notes](https://github.com/farling42/fvtt-gmtext-in-notes)
 - Thank you to [farling42](https://github.com/farling42) and the module [fvtt-revealed-notes-manager](https://github.com/farling42/fvtt-revealed-notes-manager)
+- Thank you to [jessev14]((https://github.com/jessev14) and the module [journal-sidebar-images](https://github.com/jessev14/journal-sidebar-images)

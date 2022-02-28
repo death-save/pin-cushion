@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.11]
+
+- Abbandoned support for FVTT 0.8.9
+- Better journal thumbnail
+- Add new module settings 'enableJournalThumbnailForGMs'
+- Add new module settings 'enableJournalThumbnailForPlayers'
+
 ## [1.5.10]
 
 - Add PR [Foundry 9 Update Compatibility](https://github.com/p4535992/pin-cushion/pull/4) from [PenguinMancer](https://github.com/PenguinMancer) ty to @PenguinMancer

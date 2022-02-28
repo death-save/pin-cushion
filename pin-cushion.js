@@ -766,23 +766,39 @@ class PinCushion {
     }
 
   static _addJournalThumbnail(app, html, data) {
-    const lis = html.find("li.journal")?.length > 0
-      ?  html.find("li.journal") // foundryvtt 0.8.9
-      :  html.find('li.journalentry') // foundryvtt 9;
-      ;
-    for (const li of lis) {
-      const target = $(li);
-      const id = target.data("entity-id")?.length > 0
-        ? target.data("entity-id") // foundryvtt 0.8.9
-        : target.data('document-id'); // foundryvtt 9
-      const journalEntry = game.journal.get(id);
+    if (
+      (game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "enableJournalThumbnailForGMs"))
+      || (!game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "enableJournalThumbnailForPlayers"))
+    ) {
+        app.documents.forEach(j => {
+            if (!j.data.img){
+              return;
+            }
+            const htmlEntry = html.find(`.directory-item.document[data-document-id="${j.id}"]`);
+            if (htmlEntry.length !== 1){
+              return;
+            }
+            htmlEntry.prepend(`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${j.data.img}" title="${j.name}" 
+              alt='Journal Entry Thumbnail'>`);
+        });
+        // const lis = html.find("li.journal")?.length > 0
+        //   ?  html.find("li.journal") // foundryvtt 0.8.9
+        //   :  html.find('li.journalentry') // foundryvtt 9;
+        //   ;
+        // for (const li of lis) {
+        //   const target = $(li);
+        //   const id = target.data("entity-id")?.length > 0
+        //     ? target.data("entity-id") // foundryvtt 0.8.9
+        //     : target.data('document-id'); // foundryvtt 9
+        //   const journalEntry = game.journal.get(id);
 
-      if (journalEntry?.data?.img) {
-        const thumbnail = $(
-          "<img class='thumbnail' src='" + journalEntry.data.img + "' alt='Journal Entry Thumbnail'>"
-        );
-        target.append(thumbnail);
-      }
+        //   if (journalEntry?.data?.img) {
+        //     const thumbnail = $(
+        //       "<img class='thumbnail' src='" + journalEntry.data.img + "' alt='Journal Entry Thumbnail'>"
+        //     );
+        //     target.append(thumbnail);
+        //   }
+        // }
     }
   }
 
@@ -985,6 +1001,26 @@ class PinCushion {
             //for (let note of canvas.notes.objects) note.draw();
           }
         }
+      });
+
+      game.settings.register(PinCushion.MODULE_NAME, "enableJournalThumbnailForGMs", {
+        name: game.i18n.localize("PinCushion.SETTINGS.enableJournalThumbnailForGMsN"),
+        hint: game.i18n.localize("PinCushion.SETTINGS.enableJournalThumbnailForGMsH"),
+        scope: "world",
+        type: Boolean,
+        default: true,
+        config: true,
+        onchange: () => window.location.reload()
+      });
+
+      game.settings.register(PinCushion.MODULE_NAME, "enableJournalThumbnailForPlayers", {
+        name: game.i18n.localize("PinCushion.SETTINGS.enableJournalThumbnailForPlayersN"),
+        hint: game.i18n.localize("PinCushion.SETTINGS.enableJournalThumbnailForPlayersH"),
+        scope: "world",
+        type: Boolean,
+        default: true,
+        config: true,
+        onchange: () => window.location.reload()
       });
 
     }

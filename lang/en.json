@@ -40,6 +40,10 @@
     "SETTINGS.revealedNotesTintColorNotLinkH":"For players, the RGB value to be used to tint scene Notes if they do not have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import",
     "SETTINGS.SpecificFolderN":"Select Specific Folder",
     "SETTINGS.SpecificFolderH":"Make sense only with the module setting 'Default Journal Entry Folder' set with value 'Specific folder'",
+    "SETTINGS.enableJournalThumbnailForGMsN": "Enable Sidebar Journal Images for GM Users",
+    "SETTINGS.enableJournalThumbnailForGMsH": " ",
+    "SETTINGS.enableJournalThumbnailForPlayersN": "Enable Sidebar Journal Images for Player Users",
+    "SETTINGS.enableJournalThumbnailForPlayersH": " ",
 
     "Name": "Name:",
     "None": "None",
