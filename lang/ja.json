@@ -21,10 +21,7 @@
     "PerUser": "ユーザーごと",
     "CreateMissingFoldersT": "資料フォルダの作成",
     "CreateMissingFoldersC": "<b>プレイヤーごとの資料フォルダを作成しますか？</b><br>これにより、各プレイヤーが地点メモを作成したときに保存する場所が準備されます。",
-
-
     "AllowPlayerNotes": "プレイヤーが地点メモを作成するには、Foundryコアの権限 \"{permission}\" が必要です。",
     "MissingPinName": "地点メモの名前がありません！"
-
   }
 }

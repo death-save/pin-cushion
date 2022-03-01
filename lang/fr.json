@@ -18,7 +18,6 @@
     "SETTINGS.EnableBackgroundlessPinsH": "Supprime le cadre de fond des notes de carte.",
     "SETTINGS.ShowJournalImageByDefaultN": "Afficher par défaut l'image de l'icône du journal sur la note de la carte.",
     "SETTINGS.ShowJournalImageByDefaultH": "Si une image est placée sur le journal, par défaut, c'est la première image placée depuis Pin Cushion.",
-
     "SETTINGS.PlayerIconAutoOverrideN": "Activer par défaut les icônes réservées au joueurs",
     "SETTINGS.PlayerIconAutoOverrideH": "Les icônes réservées aux joueurs seront automatiquement activées pour les notes nouvellement créées.",
     "SETTINGS.PlayerIconPathDefaultN": "Icône de note par défaut pour les joueurs",
@@ -32,15 +31,11 @@
     "DefaultPermission": "Permission par défaut (pour tous les joueurs) :",
     "CreateMissingFoldersT": "Créer des dossiers manquants",
     "CreateMissingFoldersC": "<b>Créer un dossier d'entrée de journal pour chaque joueur ?</b><br>Cela permet de s'assurer que chaque joueur a son propre dossier dans lequel les entrées seront créées.",
-
     "UsePlayerIcon": "Utiliser une icône réservée aux joueurs",
     "PlayerIconHint": "Activez cette option pour remplacer l'icône que les joueurs verront.",
     "PlayerIconPath": "Chemin de l'icône du joueur",
-
-
     "AllowPlayerNotes": "Les joueurs ont également besoin de la permission Core Foundry \"{permission}\" pour créer des épingles de carte.",
     "MissingPinName": "Nom de l'épingle de la carte manquante !",
-
     "HasBackground": "Afficher le fond ?"
   }
 }

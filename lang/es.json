@@ -19,20 +19,26 @@
     "SETTINGS.DefaultJournalFolderN": "Directorio por defecto para las entradas del diario",
     "SETTINGS.DefaultJournalFolderH": "Las entradas del diario serán creadas en el directorio por defecto al crear chinchetas en el mapa con doble clic",
 
+    "Name": "Name:",
     "None": "Ninguno",
     "PerUser": "Por usuario",
+    "PerSpecificFolder": "Specific folder",
+    "Folder": "Journal Entry Folder:",
+    "ExistingFolders": "Existing Folders",
+    "DefaultPermission": "Default Permission (for all players):",
     "CreateMissingFoldersT": "Crear directorios no presentes",
     "CreateMissingFoldersC": "<b>¿Crear un directorio de entradas en el diario para cada jugador?</b><br>Así se asegura que cada jugador tiene su propio directorio donde crear nuevas entradas",
-
+    "UsePlayerIcon": "Use a Player-Only Icon",
+    "PlayerIconHint": "Enable to override the icon players will see.",
+    "PlayerIconPath": "Player Icon Path",
     "AllowPlayerNotes": "Los jugadores necesitan que se les conceda el permiso \"{permission}\" en el núcleo de Foundry para crear chinchetas en el mapa",
     "MissingPinName": "¡No se ha encontrado el nombre de la chincheta en el mapa!",
-
-    "SETTINGS.EnablePoiTeleportN": "Enable Point of Interest Teleporter",
-    "SETTINGS.EnablePoiTeleportH": "Embedded integration of the seem abbandoned 'Point of Interest Teleporter' module",
-    "poiTeleport.name": "Teleportador a punto de interés",
-    "poiTeleport.createNote": "Crear notas de escena",
-    "poiTeleport.activate": "Activar escena",
-    "poiTeleport.view": "Ver escena",
-    "poiTeleport.toggleNav": "Alternar navegación"
+    "HasBackground": "Show Background ?",
+    "HasBackgroundRatio": "Width to Size Ratio",
+    "TextAlwaysVisible": "Text Always Visible ?",
+    "ShowImage": "Show Image instead of text ?",
+    "RevealedToPlayer": "Revealed to Players",
+    "UseRevealState": "Use Reveal State",
+    "HideLabel": "Hide Label"
   }
 }

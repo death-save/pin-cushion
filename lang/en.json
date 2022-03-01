@@ -17,21 +17,15 @@
     "SETTINGS.EnableBackgroundlessPinsN": "Enable feature Backgroundless Pins",
     "SETTINGS.EnableBackgroundlessPinsH": "Removes the background box from map notes.",
     "SETTINGS.ShowJournalImageByDefaultN": "Show by default the icon image of the journal on the map note.",
-    "SETTINGS.ShowJournalImageByDefaultH": "If a image is setted on the journal by default is the first image setted from Pin Cushion",
-
+    "SETTINGS.ShowJournalImageByDefaultH": "If a image is set on the journal by default is the first image set from Pin Cushion",
     "SETTINGS.PlayerIconAutoOverrideN": "Enable Player-Only Icons by default",
     "SETTINGS.PlayerIconAutoOverrideH": "Newly created notes will have player-only icons enabled automatically.",
     "SETTINGS.PlayerIconPathDefaultN": "Default Note Icon for Players",
     "SETTINGS.PlayerIconPathDefaultH": "The default icon used for player-only icons",
-
-    "SETTINGS.EnablePoiTeleportN": "Enable Point of Interest Teleporter",
-    "SETTINGS.EnablePoiTeleportH": "Embedded integration of the seem abbandoned 'Point of Interest Teleporter' module",
-
     "SETTINGS.noteGMN": "GM Label",
     "SETTINGS.noteGMH": "Add the ability for Note tooltips to be configured so that GMs see different text to Players. So secret information can be displayed to GMs whilst players see the 'public' information about the Note.",
-
     "SETTINGS.revealedNotesN":"Add an option to have a 'revealed' state on scene Notes.",
-    "SETTINGS.revealedNotesH":"When enabled, then the 'revealed' state will be used to determine if the Note is visible to players. (The default Foundry VTT behaviour is for Notes to be visible to players only if the linked document is accessible by the player.)",
+    "SETTINGS.revealedNotesH":"When enabled, then the 'revealed' state will be used to determine if the Note is visible to players. (The default Foundry VTT behavior is for Notes to be visible to players only if the linked document is accessible by the player.)",
     "SETTINGS.revealedNotesTintColorN":"Add an option to have a 'revealed' state on scene Notes.",
     "SETTINGS.revealedNotesTintColorH":"is an option to set the tint colour of the Note icon to indicate if the linked document is reachable or not (if the Note has no linked document, then it will always be displayed in the 'unreachable' tint).",
     "SETTINGS.revealedNotesTintColorLinkN":"Note Tint Colour when linked",
@@ -54,23 +48,15 @@
     "DefaultPermission": "Default Permission (for all players):",
     "CreateMissingFoldersT": "Create Missing Folders",
     "CreateMissingFoldersC": "<b>Create a Journal Entry folder for each player?</b><br>This ensures that each player has their own folder for entries to be created in.",
-
     "UsePlayerIcon": "Use a Player-Only Icon",
     "PlayerIconHint": "Enable to override the icon players will see.",
     "PlayerIconPath": "Player Icon Path",
-
     "AllowPlayerNotes": "Players also need the Core Foundry Permission \"{permission}\" to create map pins.",
     "MissingPinName": "Missing Map Pin Name!",
-    
     "HasBackground": "Show Background ?",
     "HasBackgroundRatio": "Width to Size Ratio",
     "TextAlwaysVisible": "Text Always Visible ?",
     "ShowImage": "Show Image instead of text ?",
-    "poiTeleport.name": "Point of Interest Teleporter",
-    "poiTeleport.createNote": "Create Scene Notes",
-    "poiTeleport.activate": "Activate Scene",
-    "poiTeleport.view": "View Scene",
-    "poiTeleport.toggleNav": "Toggle Navigation",
     "RevealedToPlayer": "Revealed to Players",
     "UseRevealState": "Use Reveal State",
     "HideLabel": "Hide Label"

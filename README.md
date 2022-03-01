@@ -26,7 +26,7 @@ To install this module manually:
 4.  Click 'Install' and wait for installation to complete
 5.  Don't forget to enable the module in game using the "Manage Module" button
 
-## Installation (developement branch for foundryvtt 9)
+## Installation (developement branch)
 
 It's always easiest to install modules from the in game add-on browser.
 
@@ -54,17 +54,15 @@ To install this module manually:
 
 - **Enable feature Backgroundless Pins**: Removes the background box from map notes.
 
-- **Show by default the icon image of the journal on the map note.**: If a image is setted on the journal by default is the first image setted from Pin Cushion
+- **Show by default the icon image of the journal on the map note.**: If a image is set on the journal by default is the first image set from Pin Cushion
 
 - **Enable Player-Only Icons by default**: Newly created notes will have player-only icons enabled automatically.
 
 - **Default Note Icon for Players**: The default icon used for player-only icons
 
-- **Enable Point of Interest Teleporter**: Embedded integration of the seem abbandoned 'Point of Interest Teleporter' module
-
 - **GM Label**: Add the ability for Note tooltips to be configured so that GMs see different text to Players. So secret information can be displayed to GMs whilst players see the 'public' information about the Note.
 
-- **Add an option to have a 'revealed' state on scene Notes.**: When enabled, then the 'revealed' state will be used to determine if the Note is visible to players. (The default Foundry VTT behaviour is for Notes to be visible to players only if the linked document is accessible by the player.)
+- **Add an option to have a 'revealed' state on scene Notes.**: When enabled, then the 'revealed' state will be used to determine if the Note is visible to players. (The default Foundry VTT behavior is for Notes to be visible to players only if the linked document is accessible by the player.)
 
 - **Add an option to have a 'revealed' state on scene Notes.**: is an option to set the tint colour of the Note icon to indicate if the linked document is reachable or not (if the Note has no linked document, then it will always be displayed in the 'unreachable' tint).
 
@@ -73,6 +71,10 @@ To install this module manually:
 - **Note Tint Colour when not linked**: For players, the RGB value to be used to tint scene Notes if they do not have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import
 
 - **Select Specific Folder**: Make sense only with the module setting 'Default Journal Entry Folder' set with value 'Specific folder'
+
+- **Enable Sidebar Journal Images for GM Users**:
+
+- **Enable Sidebar Journal Images for Player Users**:
 
 ## Features
 
@@ -203,4 +205,4 @@ This package is under an [GPLv3 License](LICENSE) and the [Foundry Virtual Table
 - Thank you to [zeel](https://github.com/zeel01) for the module [Point of Interest Teleporter](https://github.com/zeel01/poi-teleport)
 - Thank you to [farling42](https://github.com/farling42) and the module [vtt-gmtext-in-notes](https://github.com/farling42/fvtt-gmtext-in-notes)
 - Thank you to [farling42](https://github.com/farling42) and the module [fvtt-revealed-notes-manager](https://github.com/farling42/fvtt-revealed-notes-manager)
-- Thank you to [jessev14]((https://github.com/jessev14) and the module [journal-sidebar-images](https://github.com/jessev14/journal-sidebar-images)
+- Thank you to [jessev14](https://github.com/jessev14) and the module [journal-sidebar-images](https://github.com/jessev14/journal-sidebar-images)
