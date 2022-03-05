@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.12]
+
+- Added changelog and conflict
+
 ## [1.5.11]
 
 - Abbandoned support for FVTT 0.8.9
