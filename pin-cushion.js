@@ -1,5 +1,53 @@
 
 
+/* ------------------------------------ */
+/* Other Hooks							*/
+/* ------------------------------------ */
+
+Hooks.once('libChangelogsReady', function () {
+  //@ts-ignore
+  libChangelogs.registerConflict(
+    PinCushion.MODULE_NAME,
+    'backgroundless-pins',
+    `Redundancy of features you can disable 'FVTT Backgroundless Pins' module if you want`,
+    'major',
+  );
+  //@ts-ignore
+  libChangelogs.registerConflict(
+    PinCushion.MODULE_NAME,
+    'journal-thumbnail',
+    `Redundancy of features you can disable 'Thumbnails for Journal Entries' module if you want`,
+    'major',
+  );
+  //@ts-ignore
+  libChangelogs.registerConflict(
+    PinCushion.MODULE_NAME,
+    'gmtext-in-notes',
+    `Redundancy of features you can disable 'GM-only tooltips for Notes' module if you want`,
+    'major',
+  );
+  //@ts-ignore
+  libChangelogs.registerConflict(
+    PinCushion.MODULE_NAME,
+    'revealed-notes-manager',
+    `Redundancy of features you can disable 'Revealed Notes Manager' module if you want`,
+    'major',
+  );
+  //@ts-ignore
+  libChangelogs.registerConflict(
+    PinCushion.MODULE_NAME,
+    'journal-sidebar-images',
+    `Redundancy of features you can disable 'Journal Sidebar Images' module if you want`,
+    'major',
+  );
+  //@ts-ignore
+  libChangelogs.register(
+    PinCushion.MODULE_NAME,
+    `Added changelog and conflict`,
+    'minor',
+  );
+});
+
 /**
  * A class for managing additional Map Pin functionality
  * @author Evan Clarke (errational#2007)

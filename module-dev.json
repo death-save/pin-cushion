@@ -2,7 +2,7 @@
   "name": "pin-cushion",
   "title": "Pin Cushion",
   "description": "Adds additional map pin (Journal Note/Scene Note) functionality",
-  "version": "1.5.11",
+  "version": "1.5.12",
   "author": "Evan Clarke [errational#2007], p4535992",
   "authors": [
     {
@@ -62,20 +62,15 @@
   ],
   "scripts": [],
   "system": [],
-  "esmodules": [
-    "./pin-cushion.js",
-    "./about.js"
-  ],
-  "styles": [
-    "./pin-cushion.css"
-  ],
+  "esmodules": ["./pin-cushion.js", "./about.js"],
+  "styles": ["./pin-cushion.css"],
   "socket": true,
   "packs": [],
   "url": "https://github.com/p4535992/pin-cushion",
   "manifest": "https://github.com/p4535992/pin-cushion/releases/latest/download/module.json",
-  "download": "https://github.com/p4535992/pin-cushion/releases/download/v1.5.11/module.zip",
-  "readme": "https://github.com/p4535992/pin-cushion/blob/v1.5.11/README.md",
-  "changelog": "https://github.com/p4535992/pin-cushion/blob/v1.5.11/changelog.md",
+  "download": "https://github.com/p4535992/pin-cushion/releases/download/v1.5.12/module.zip",
+  "readme": "https://github.com/p4535992/pin-cushion/blob/v1.5.12/README.md",
+  "changelog": "https://github.com/p4535992/pin-cushion/blob/v1.5.12/changelog.md",
   "bugs": "https://github.com/p4535992/pin-cushion/issues",
   "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",
