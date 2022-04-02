@@ -322,12 +322,13 @@ class PinCushion {
      * @param {*} data
      */
     static _replaceIconSelector(app, html, data) {
+      // you can see this only if you have the file browser permissions
+      if(game.user.can("FILES_BROWSE")){
         const filePickerHtml =
         `<input type="text" name="icon" title="Icon Path" class="icon-path" value="${data.data.icon}" placeholder="/icons/example.svg" data-dtype="String">
         <button type="button" name="file-picker" class="file-picker" data-type="image" data-target="icon" title="Browse Files" tabindex="-1">
         <i class="fas fa-file-import fa-fw"></i>
         </button>`
-
         const iconSelector = html.find("select[name='icon']");
 
         iconSelector.replaceWith(filePickerHtml);
@@ -335,6 +336,7 @@ class PinCushion {
         // Detect and activate file-picker buttons
         //html.find("button.file-picker").on("click", app._activateFilePicker.bind(app));
         html.find("button.file-picker").each((i, button) => (button.onclick = app._activateFilePicker.bind(app)));
+      }
     }
 
   /**
