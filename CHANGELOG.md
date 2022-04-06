@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.14]
+
+- Bug fix feature "Text Always Visible"
+
 ## [1.5.13]
 
 - Add check for "FILES_BROWSE" permission for the file picker for this request [Icon Selector Replacement Options](https://github.com/p4535992/pin-cushion/issues/6)

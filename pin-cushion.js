@@ -43,7 +43,7 @@ Hooks.once('libChangelogsReady', function () {
   //@ts-ignore
   libChangelogs.register(
     PinCushion.MODULE_NAME,
-    `Added changelog and conflict`,
+    `Bug fix feature "Text Always Visible"`,
     'minor',
   );
 });
@@ -600,6 +600,37 @@ class PinCushion {
     if (value != undefined) {
       result.visible  = value;
     }
+
+    // Keep tooltip always visible
+	  // Though could make an option out of that too. Would be nicer
+    this.position.set(this.data.x, this.data.y);
+		this.controlIcon.border.visible = this._hover;
+    // TODO Something seem not work...
+    let textAlwaysVisible = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE) ?? false;
+    let textVisible = true;
+    if (textAlwaysVisible == false){
+      textVisible = this._hover;
+    }
+    this.tooltip.visible = textVisible;
+		this.visible = this.entry?.testUserPermission(game.user, "LIMITED") ?? true;
+
+    // Text is created bevor this point. So we can modify it here.
+    let ratio = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO);
+    let text = this.children[1]; // 0 is the ControlIcon, 1 is the PreciseText
+    text.x = (this.size * (ratio - 1)) / 2; // correct shifting for the new scale.
+
+    return result;
+  }
+
+  /**
+   * Wraps the default Note#refresh to allow the visibility of scene Notes to be controlled by the reveal
+   * state stored in the Note (overriding the default visibility which is based on link accessibility).
+   * @param {function} [wrapped] The wrapper function provided by libWrapper
+   * @param {Object}   [args]    The arguments for Note#refresh
+   * @return [Note]    This Note
+   */
+  static _noteRefresh2(wrapped, ...args) {
+    let result = wrapped(...args);
 
     // Keep tooltip always visible
 	  // Though could make an option out of that too. Would be nicer
@@ -1387,6 +1418,13 @@ Hooks.once('canvasInit', () => {
       PinCushion.MODULE_NAME,
       'Note.prototype.refresh',
       PinCushion._noteRefresh,
+      'WRAPPER'
+    );
+  }else{
+    libWrapper.register(
+      PinCushion.MODULE_NAME,
+      'Note.prototype.refresh',
+      PinCushion._noteRefresh2,
       'WRAPPER'
     );
   }
