@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.15]
+
+- Bug fix https://github.com/p4535992/pin-cushion/issues/7
+
 ## [1.5.14]
 
 - Bug fix feature "Text Always Visible"

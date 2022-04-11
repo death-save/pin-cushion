@@ -43,7 +43,7 @@ Hooks.once('libChangelogsReady', function () {
   //@ts-ignore
   libChangelogs.register(
     PinCushion.MODULE_NAME,
-    `Bug fix feature "Text Always Visible"`,
+    `- Bug fix https://github.com/p4535992/pin-cushion/issues/7`,
     'minor',
   );
 });
@@ -589,29 +589,19 @@ class PinCushion {
   static _noteRefresh(wrapped, ...args) {
     let result = wrapped(...args);
 
-    setNoteRevealed(this.data, undefined);
-
-    const use_reveal = result.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
-    if (use_reveal === undefined || !use_reveal) return result;
-
-    const value = result.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_REVEALED);
-    // Use the revealed state as the visibility of the Note.
-    // If the linked topic is not visible to the player then clicking will do nothing.
-    if (value != undefined) {
-      result.visible  = value;
-    }
-
     let textAlwaysVisible = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE) ?? false;
-    let textVisible = this._hover;
+    // let textVisible = this._hover;
     if (textAlwaysVisible == true){
       // Keep tooltip always visible
       // Though could make an option out of that too. Would be nicer
       // TODO it's seem we don't need this
       // this.position.set(this.data.x, this.data.y);
       // this.controlIcon.border.visible = this._hover;
-      textVisible = true;
+
+      // textVisible = true;
+      this.tooltip.visible = true;
     }
-    this.tooltip.visible = textVisible;
+    // this.tooltip.visible = textVisible;
 		//this.visible = this.entry?.testUserPermission(game.user, "LIMITED") ?? true;
 
     // Text is created bevor this point. So we can modify it here.
@@ -620,6 +610,20 @@ class PinCushion {
       let text = this.children[1]; // 0 is the ControlIcon, 1 is the PreciseText
       text.x = (this.size * (ratio - 1)) / 2; // correct shifting for the new scale.
     }
+
+    setNoteRevealed(this.data, undefined);
+
+    const use_reveal = result.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
+    if (use_reveal === undefined || !use_reveal){
+      return result;
+    }
+    const value = result.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_REVEALED);
+    // Use the revealed state as the visibility of the Note.
+    // If the linked topic is not visible to the player then clicking will do nothing.
+    if (value != undefined) {
+      result.visible  = value;
+    }
+
     return result;
   }
 
@@ -634,16 +638,18 @@ class PinCushion {
     let result = wrapped(...args);
 
     let textAlwaysVisible = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE) ?? false;
-    let textVisible = this._hover;
+    // let textVisible = this._hover;
     if (textAlwaysVisible == true){
       // Keep tooltip always visible
       // Though could make an option out of that too. Would be nicer
       // TODO it's seem we don't need this
       // this.position.set(this.data.x, this.data.y);
       // this.controlIcon.border.visible = this._hover;
-      textVisible = true;
+
+      // textVisible = true;
+      this.tooltip.visible = true;
     }
-    this.tooltip.visible = textVisible;
+    // this.tooltip.visible = textVisible;
 		//this.visible = this.entry?.testUserPermission(game.user, "LIMITED") ?? true;
 
     // Text is created bevor this point. So we can modify it here.
