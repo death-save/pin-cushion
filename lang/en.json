@@ -59,6 +59,7 @@
     "ShowImage": "Show Image instead of text ?",
     "RevealedToPlayer": "Revealed to Players",
     "UseRevealState": "Use Reveal State",
-    "HideLabel": "Hide Label"
+    "HideLabel": "Hide Label",
+    "DoNotshowJournalPreview": "Do not show Journal Preview to players"
   }
 }

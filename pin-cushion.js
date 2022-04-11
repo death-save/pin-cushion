@@ -43,7 +43,10 @@ Hooks.once('libChangelogsReady', function () {
   //@ts-ignore
   libChangelogs.register(
     PinCushion.MODULE_NAME,
-    `- Bug fix https://github.com/p4535992/pin-cushion/issues/7`,
+    `
+    - change default value of module setting 'showJournalPreview' from false to true
+    - Add new note config setting 'doNotShowJournalPreview' for hide the tooltip preview to players
+    `,
     'minor',
   );
 });
@@ -130,7 +133,8 @@ class PinCushion {
         PLAYER_ICON_PATH : "PlayerIconPath",
         CUSHION_ICON : "cushionIcon",
         SHOW_IMAGE : "showImage",
-        HIDE_LABEL : "hideLabel"
+        HIDE_LABEL : "hideLabel",
+        DO_NOT_SHOW_JOURNAL_PREVIEW : "doNotShowJournalPreview",
       }
     }
 
@@ -523,6 +527,22 @@ class PinCushion {
     `);
   }
 
+  static _addDoNotshowJournalPreview(app, html, data){
+    const doNotShowJournalPreview = (app.document
+      ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)
+      : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)) ?? false;
+
+    const textGroup = html.find("[name=text]").closest(".form-group");
+    textGroup.after(`
+      <div class="form-group">
+        <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}">${game.i18n.localize("PinCushion.DoNotshowJournalPreview")}</label>
+        <div class="form-fields">
+          <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}" data-dtype="Boolean" ${doNotShowJournalPreview ? "checked" : ""}>
+        </div>
+      </div>
+    `);
+  }
+
   /**
    * If the Note has a GM-NOTE on it, then display that as the tooltip instead of the normal text
    * @param {function} [wrapped] The wrapped function provided by libWrapper
@@ -909,7 +929,7 @@ class PinCushion {
             hint: game.i18n.localize("PinCushion.SETTINGS.ShowJournalPreviewH"),
             scope: "client",
             type: Boolean,
-            default: false,
+            default: true,
             config: true,
             onChange: (s) => {
                 if (!s) {
@@ -1358,6 +1378,8 @@ Hooks.on("renderNoteConfig", async (app, html, data) => {
   }
 
   PinCushion._addHideLabel(app, html, data);
+  PinCushion._addDoNotshowJournalPreview(app, html, data);
+
 });
 
 /**
@@ -1377,8 +1399,11 @@ Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
 Hooks.on("hoverNote", (note, hovered) => {
     const showPreview = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
     const previewDelay = game.settings.get(PinCushion.MODULE_NAME, "previewDelay");
+    const doNotShowJournalPreview = 
+      !game.user.isGM &&
+      getProperty(note, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}`);
 
-    if (!showPreview) {
+    if (!showPreview || doNotShowJournalPreview) {
         return;
     }
 

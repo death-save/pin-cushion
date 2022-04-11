@@ -100,7 +100,11 @@ This module add many new settings for many use case on the Note config dialog, h
 
 - **Add an option to set the tint colour of the Note:** Icon to indicate if the linked document is reachable or not (if the Note has no linked document, then it will always be displayed in the "unreachable" tint).
 
-- **Add an option to hide the label:** When you hover on the note, it useful for avoid the "double" test given from the 'label' and 'title' attributes.
+- **Add an option to hide the label text:** It will hide the label text when you hover on the note, it useful for avoid the "double" test given from the 'label' and 'title' attributes.
+
+- **Add an option to always show the label text:** The label of the note is always visible without the need to go to _hover_ the note useful for note on a map or any use case.
+
+- **Add an option to do not show Journal Preview:** Do not show the journal preview to the player can be useful in some case.
 
 ### libWrapper
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.5.16]
+
+- change default value of module setting `showJournalPreview` from false to true
+- Add new note config setting `doNotShowJournalPreview` for hide the tooltip preview to players
+
 ## [1.5.15]
 
 - Bug fix https://github.com/p4535992/pin-cushion/issues/7
