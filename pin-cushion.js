@@ -601,24 +601,25 @@ class PinCushion {
       result.visible  = value;
     }
 
-    // Keep tooltip always visible
-	  // Though could make an option out of that too. Would be nicer
-    this.position.set(this.data.x, this.data.y);
-		this.controlIcon.border.visible = this._hover;
-    // TODO Something seem not work...
     let textAlwaysVisible = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE) ?? false;
-    let textVisible = true;
-    if (textAlwaysVisible == false){
-      textVisible = this._hover;
+    let textVisible = this._hover;
+    if (textAlwaysVisible == true){
+      // Keep tooltip always visible
+      // Though could make an option out of that too. Would be nicer
+      // TODO it's seem we don't need this
+      // this.position.set(this.data.x, this.data.y);
+      // this.controlIcon.border.visible = this._hover;
+      textVisible = true;
     }
     this.tooltip.visible = textVisible;
-		this.visible = this.entry?.testUserPermission(game.user, "LIMITED") ?? true;
+		//this.visible = this.entry?.testUserPermission(game.user, "LIMITED") ?? true;
 
     // Text is created bevor this point. So we can modify it here.
     let ratio = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO);
-    let text = this.children[1]; // 0 is the ControlIcon, 1 is the PreciseText
-    text.x = (this.size * (ratio - 1)) / 2; // correct shifting for the new scale.
-
+    if(ratio){
+      let text = this.children[1]; // 0 is the ControlIcon, 1 is the PreciseText
+      text.x = (this.size * (ratio - 1)) / 2; // correct shifting for the new scale.
+    }
     return result;
   }
 
@@ -632,24 +633,25 @@ class PinCushion {
   static _noteRefresh2(wrapped, ...args) {
     let result = wrapped(...args);
 
-    // Keep tooltip always visible
-	  // Though could make an option out of that too. Would be nicer
-    this.position.set(this.data.x, this.data.y);
-		this.controlIcon.border.visible = this._hover;
-    // TODO Something seem not work...
     let textAlwaysVisible = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE) ?? false;
-    let textVisible = true;
-    if (textAlwaysVisible == false){
-      textVisible = this._hover;
+    let textVisible = this._hover;
+    if (textAlwaysVisible == true){
+      // Keep tooltip always visible
+      // Though could make an option out of that too. Would be nicer
+      // TODO it's seem we don't need this
+      // this.position.set(this.data.x, this.data.y);
+      // this.controlIcon.border.visible = this._hover;
+      textVisible = true;
     }
     this.tooltip.visible = textVisible;
-		this.visible = this.entry?.testUserPermission(game.user, "LIMITED") ?? true;
+		//this.visible = this.entry?.testUserPermission(game.user, "LIMITED") ?? true;
 
     // Text is created bevor this point. So we can modify it here.
     let ratio = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO);
-    let text = this.children[1]; // 0 is the ControlIcon, 1 is the PreciseText
-    text.x = (this.size * (ratio - 1)) / 2; // correct shifting for the new scale.
-
+    if(ratio){
+      let text = this.children[1]; // 0 is the ControlIcon, 1 is the PreciseText
+      text.x = (this.size * (ratio - 1)) / 2; // correct shifting for the new scale.
+    }
     return result;
   }
 
@@ -859,7 +861,7 @@ class PinCushion {
             if (htmlEntry.length !== 1){
               return;
             }
-            htmlEntry.prepend(`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${j.data.img}" title="${j.name}" 
+            htmlEntry.prepend(`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${j.data.img}" title="${j.name}"
               alt='Journal Entry Thumbnail'>`);
         });
         // const lis = html.find("li.journal")?.length > 0
