@@ -135,6 +135,8 @@ class PinCushion {
         SHOW_IMAGE : "showImage",
         HIDE_LABEL : "hideLabel",
         DO_NOT_SHOW_JOURNAL_PREVIEW : "doNotShowJournalPreview",
+        TOOLTIP_PLACEMENT: "tooltipPlacement",
+        TOOLTIP_COLOR: "tooltipColor"
       }
     }
 
@@ -341,6 +343,57 @@ class PinCushion {
         //html.find("button.file-picker").on("click", app._activateFilePicker.bind(app));
         html.find("button.file-picker").each((i, button) => (button.onclick = app._activateFilePicker.bind(app)));
       }
+    }
+
+    static _tooltipHandler(app, html, data) {
+      const iconAnchor = html.find("[name=icon]").closest(".form-group");
+      const tooltipPlacement = (app.document
+        ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_PLACEMENT)
+        : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_PLACEMENT)) ?? 'e';
+
+      const tooltipColor = (app.document
+          ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_COLOR)
+          : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_COLOR)) ?? '';
+
+      iconAnchor.after(`
+        <div class="form-group">
+          <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_PLACEMENT}">${game.i18n.localize("PinCushion.Tooltip.Placement.title")}</label>
+          <div class="form-fields">
+            <select id="cushion-permission" style="width: 100%;" name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_PLACEMENT}">
+              <option value="nw-alt" ${tooltipPlacement == "nw-alt" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Placement.choices.north-west-alt")}</option>
+              <option value="nw" ${tooltipPlacement == "nw" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Placement.choices.north-west")}</option>
+              <option value="n" ${tooltipPlacement == "n" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Placement.choices.north")}</option>
+              <option value="ne" ${tooltipPlacement == "ne" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Placement.choices.north-east")}</option>
+              <option value="ne-alt" ${tooltipPlacement == "ne-alt" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Placement.choices.north-east-alt")}</option>
+              <option value="w" ${tooltipPlacement == "w" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Placement.choices.west")}</option>
+              <option value="e" ${tooltipPlacement == "e" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Placement.choices.east")}</option>
+              <option value="sw-alt" ${tooltipPlacement == "sw-alt" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Placement.choices.south-west-alt")}</option>
+              <option value="sw" ${tooltipPlacement == "sw" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Placement.choices.south-west")}</option>
+              <option value="s" ${tooltipPlacement == "s" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Placement.choices.south")}</option>
+              <option value="se" ${tooltipPlacement == "se" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Placement.choices.south-east")}</option>
+              <option value="se-alt" ${tooltipPlacement == "se-alt" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Placement.choices.south-east-alt")}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">${game.i18n.localize("PinCushion.Tooltip.Color.title")}</label>
+          <div class="form-fields">
+            <select id="cushion-permission" style="width: 100%;" name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">
+              <option value="" ${tooltipColor == "" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Color.choices.default")}</option>
+              <option value="blue" ${tooltipColor == "blue" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Color.choices.blue")}</option>
+              <option value="dark" ${tooltipColor == "dark" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Color.choices.dark")}</option>
+              <option value="green" ${tooltipColor == "green" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Color.choices.green")}</option>
+              <option value="light" ${tooltipColor == "light" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Color.choices.light")}</option>
+              <option value="orange" ${tooltipColor == "orange" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Color.choices.orange")}</option>
+              <option value="purple" ${tooltipColor == "purple" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Color.choices.purple")}</option>
+              <option value="red" ${tooltipColor == "red" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Color.choices.red")}</option>
+              <option value="yellow" ${tooltipColor == "yellow" ? "selected" : ""}>${game.i18n.localize("PinCushion.Tooltip.Color.choices.yellow")}</option>
+            </select>
+          </div>
+        </div>
+      `);
+
+      app.setPosition({ height: "auto" });
     }
 
   /**
@@ -1146,20 +1199,20 @@ class PinCushionHUD extends BasePlaceableHUD {
         this.data = note;
     }
 
-    /**
-     * Retrieve and override default options for this application
-     */
-    static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
-            id: "pin-cushion-hud",
-            classes: [...super.defaultOptions.classes, "pin-cushion-hud"],
-            width: 400,
-            height: 200,
-            minimizable: false,
-            resizable: false,
-            template: "modules/pin-cushion/templates/journal-preview.html"
-        });
-    }
+    // /**
+    //  * Retrieve and override default options for this application
+    //  */
+    // static get defaultOptions() {
+    //     return mergeObject(super.defaultOptions, {
+    //         id: "pin-cushion-hud",
+    //         classes: [...super.defaultOptions.classes, "pin-cushion-hud"],
+    //         width: 400,
+    //         height: 200,
+    //         minimizable: false,
+    //         resizable: false,
+    //         template: "modules/pin-cushion/templates/journal-preview.html"
+    //     });
+    // }
 
     /**
      * Get data for template
@@ -1213,6 +1266,43 @@ class PinCushionHUD extends BasePlaceableHUD {
             "font-size": canvas.grid.size / 5 + "px"
         };
         this.element.css(position);
+    }
+
+    activateListeners(html) {
+      super.activateListeners(html);
+
+      let tooltipPlacement = getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_PLACEMENT);
+      let tooltipColor = getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_COLOR);
+
+      let htmlToUse = `
+        <form id="${this.data.id}" class="${this.data.classes}" onsubmit="event.preventDefault()">
+            <div id="container">
+                <div id="header">
+                    <h3>${this.data.title}</h3>
+                </div>
+                <div id="content">
+                  ${this.data.body}
+                </div>
+            </div>
+        </form>
+      `;
+
+      let mouseOnDiv = this.element;
+			let tipContent = $(htmlToUse);
+			mouseOnDiv.data('powertipjq', tipContent);
+			mouseOnDiv.powerTip({
+				placement: tooltipPlacement ?? 'e',
+				mouseOnToPopup: true,
+        followMouse: false, // TODO ADD A NOTE CONFIG SETTING MAYBE ???
+        popupClass: tooltipColor && tooltipColor.length >  0 ? tooltipColor : null,
+			});
+      // html.find('.moveToNote').click(ev => this._moveToNotes());
+      // $(mouseOnDiv).on('click', function() {
+			// 	$.powerTip.show(mouseOnDiv);
+			// });
+			// $(mouseOnDiv).on('click', function() {
+			// 	$.powerTip.hide();
+			// });
     }
 }
 
@@ -1399,7 +1489,7 @@ Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
 Hooks.on("hoverNote", (note, hovered) => {
     const showPreview = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
     const previewDelay = game.settings.get(PinCushion.MODULE_NAME, "previewDelay");
-    const doNotShowJournalPreview = 
+    const doNotShowJournalPreview =
       !game.user.isGM &&
       getProperty(note, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}`);
 

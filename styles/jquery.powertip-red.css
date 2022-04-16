@@ -1,0 +1,106 @@
+/**
+ * PowerTip
+ * https://stevenbenner.github.io/jquery-powertip/
+ *
+ * Stylesheet for the red theme.
+ */
+
+#powerTip.red {
+	cursor: default;
+	background-color: #ffc8c3;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.5) inset, 0 -2px 2px #f5aa9b inset;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.5) inset, 0 -2px 2px #f5aa9b inset;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.5) inset, 0 -2px 2px #f5aa9b inset;
+	border: 1px solid #eb5037;
+	border-radius: 6px;
+	color: #000000;
+	display: none;
+	padding: 10px;
+	position: absolute;
+	white-space: nowrap;
+	z-index: 2147483647;
+}
+#powerTip.red:before {
+	content: attr(class) " ";
+	position: absolute;
+	height: 0;
+	width: 0;
+	text-indent: 100%;
+	overflow: hidden;
+}
+#powerTip.red.n:before, #powerTip.red.s:before {
+	border-right: 5px solid transparent;
+	border-left: 5px solid transparent;
+	left: 50%;
+	margin-left: -5px;
+}
+#powerTip.red.e:before, #powerTip.red.w:before {
+	border-bottom: 5px solid transparent;
+	border-top: 5px solid transparent;
+	margin-top: -5px;
+	top: 50%;
+}
+#powerTip.red.n:before,
+#powerTip.red.ne:before, #powerTip.red.nw:before {
+	bottom: -10px;
+}
+#powerTip.red.n:before,
+#powerTip.red.ne:before, #powerTip.red.nw:before ,
+#powerTip.red.nw-alt:before, #powerTip.red.ne-alt:before {
+	border-top-color: inherit;
+	border-top-style: solid;
+	border-top-width: 10px;
+}
+#powerTip.red.e:before {
+	border-right-color: inherit;
+	border-right-style: solid;
+	border-right-width: 10px;
+	left: -10px;
+}
+#powerTip.red.s:before,
+#powerTip.red.se:before, #powerTip.red.sw:before {
+	top: -10px;
+}
+#powerTip.red.s:before,
+#powerTip.red.se:before, #powerTip.red.sw:before ,
+#powerTip.red.sw-alt:before, #powerTip.red.se-alt:before {
+	border-bottom-color: inherit;
+	border-bottom-style: solid;
+	border-bottom-width: 10px;
+}
+#powerTip.red.w:before {
+	border-left-color: inherit;
+	border-left-style: solid;
+	border-left-width: 10px;
+	right: -10px;
+}
+#powerTip.red.ne:before, #powerTip.red.se:before {
+	border-right: 10px solid transparent;
+	border-left: 0;
+	left: 10px;
+}
+#powerTip.red.nw:before, #powerTip.red.sw:before {
+	border-left: 10px solid transparent;
+	border-right: 0;
+	right: 10px;
+}
+#powerTip.red.nw-alt:before, #powerTip.red.ne-alt:before,
+#powerTip.red.sw-alt:before, #powerTip.red.se-alt:before {
+	bottom: -10px;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	left: 10px;
+}
+#powerTip.red.ne-alt:before {
+	left: auto;
+	right: 10px;
+}
+#powerTip.red.sw-alt:before, #powerTip.red.se-alt:before {
+	border-top: none;
+	bottom: auto;
+	top: -10px;
+}
+#powerTip.red.se-alt:before {
+	left: auto;
+	right: 10px;
+}

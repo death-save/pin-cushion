@@ -63,10 +63,23 @@
       "path": "./lang/ja.json"
     }
   ],
-  "scripts": [],
+  "scripts": [
+    "./module/lib/jquery.powertip.js"
+  ],
   "system": [],
   "esmodules": ["./pin-cushion.js", "./about.js"],
-  "styles": ["./pin-cushion.css"],
+  "styles": [
+    "./styles/pin-cushion.css",
+    "./styles/jquery.powertip.css",
+    "./styles/jquery.powertip-blue.css",
+    "./styles/jquery.powertip-dark.css",
+    "./styles/jquery.powertip-green.css",
+    "./styles/jquery.powertip-light.css",
+    "./styles/jquery.powertip-orange.css",
+    "./styles/jquery.powertip-purple.css",
+    "./styles/jquery.powertip-red.css",
+    "./styles/jquery.powertip-yellow.css"
+  ],
   "socket": true,
   "packs": [],
   "url": "https://github.com/death-save/pin-cushion",

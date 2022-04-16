@@ -1,0 +1,106 @@
+/**
+ * PowerTip
+ * https://stevenbenner.github.io/jquery-powertip/
+ *
+ * Stylesheet for the purple theme.
+ */
+
+#powerTip.purple {
+	cursor: default;
+	background-color: #ebd2fa;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.5) inset, 0 -2px 2px #d796ff inset;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.5) inset, 0 -2px 2px #d796ff inset;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.5) inset, 0 -2px 2px #d796ff inset;
+	border: 1px solid #914bd2;
+	border-radius: 6px;
+	color: #000000;
+	display: none;
+	padding: 10px;
+	position: absolute;
+	white-space: nowrap;
+	z-index: 2147483647;
+}
+#powerTip.purple:before {
+	content: attr(class) " ";
+	position: absolute;
+	height: 0;
+	width: 0;
+	text-indent: 100%;
+	overflow: hidden;
+}
+#powerTip.purple.n:before, #powerTip.purple.s:before {
+	border-right: 5px solid transparent;
+	border-left: 5px solid transparent;
+	left: 50%;
+	margin-left: -5px;
+}
+#powerTip.purple.e:before, #powerTip.purple.w:before {
+	border-bottom: 5px solid transparent;
+	border-top: 5px solid transparent;
+	margin-top: -5px;
+	top: 50%;
+}
+#powerTip.purple.n:before,
+#powerTip.purple.ne:before, #powerTip.purple.nw:before {
+	bottom: -10px;
+}
+#powerTip.purple.n:before,
+#powerTip.purple.ne:before, #powerTip.purple.nw:before ,
+#powerTip.purple.nw-alt:before, #powerTip.purple.ne-alt:before {
+	border-top-color: inherit;
+	border-top-style: solid;
+	border-top-width: 10px;
+}
+#powerTip.purple.e:before {
+	border-right-color: inherit;
+	border-right-style: solid;
+	border-right-width: 10px;
+	left: -10px;
+}
+#powerTip.purple.s:before,
+#powerTip.purple.se:before, #powerTip.purple.sw:before {
+	top: -10px;
+}
+#powerTip.purple.s:before,
+#powerTip.purple.se:before, #powerTip.purple.sw:before ,
+#powerTip.purple.sw-alt:before, #powerTip.purple.se-alt:before {
+	border-bottom-color: inherit;
+	border-bottom-style: solid;
+	border-bottom-width: 10px;
+}
+#powerTip.purple.w:before {
+	border-left-color: inherit;
+	border-left-style: solid;
+	border-left-width: 10px;
+	right: -10px;
+}
+#powerTip.purple.ne:before, #powerTip.purple.se:before {
+	border-right: 10px solid transparent;
+	border-left: 0;
+	left: 10px;
+}
+#powerTip.purple.nw:before, #powerTip.purple.sw:before {
+	border-left: 10px solid transparent;
+	border-right: 0;
+	right: 10px;
+}
+#powerTip.purple.nw-alt:before, #powerTip.purple.ne-alt:before,
+#powerTip.purple.sw-alt:before, #powerTip.purple.se-alt:before {
+	bottom: -10px;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	left: 10px;
+}
+#powerTip.purple.ne-alt:before {
+	left: auto;
+	right: 10px;
+}
+#powerTip.purple.sw-alt:before, #powerTip.purple.se-alt:before {
+	border-top: none;
+	bottom: auto;
+	top: -10px;
+}
+#powerTip.purple.se-alt:before {
+	left: auto;
+	right: 10px;
+}
