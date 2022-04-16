@@ -1237,6 +1237,9 @@ class PinCushion {
  * A HUD extension that shows the Note preview
  */
 class PinCushionHUD extends BasePlaceableHUD {
+
+    // contentTooltip;
+
     constructor(note, options) {
         super(note, options);
         this.data = note;
@@ -1248,7 +1251,7 @@ class PinCushionHUD extends BasePlaceableHUD {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             id: "pin-cushion-hud",
-            classes: [...super.defaultOptions.classes, "pin-cushion-hud"],
+            classes: [...super.defaultOptions.classes, "pin-cushion-hud","powerTip"],
             // width: 400,
             // height: 200,
             minimizable: false,
@@ -1292,6 +1295,18 @@ class PinCushionHUD extends BasePlaceableHUD {
         data.title = entry.data.name;
         data.body = content;
 
+        // this.contentTooltip = `
+        //   <form id="${this.options.id}" class="${this.options.classes.join(',')}" onsubmit="event.preventDefault()">
+        //     <div id="container">
+        //         <div id="header">
+        //             <h3>${data.title}</h3>
+        //         </div>
+        //         <div id="content">
+        //           ${data.body}
+        //         </div>
+        //     </div>
+        //   </form>
+        // `;
         return data;
     }
 
@@ -1301,62 +1316,43 @@ class PinCushionHUD extends BasePlaceableHUD {
     setPosition() {
       if (!this.object) return;
 
-      // const position = {
-      //     width: 400,
-      //     height: 500,
-      //     left: this.object.x,
-      //     top: this.object.y,
-      //     "font-size": canvas.grid.size / 5 + "px"
-      // };
-      // this.element.css(position);
       const position = {
-        width: this.object.width,
-        height: this.object.height,
-        left: this.object.x,
-        top: this.object.y,
+          width: 400,
+          height: 500,
+          left: this.object.x,
+          top: this.object.y,
+          "font-size": canvas.grid.size / 5 + "px"
       };
       this.element.css(position);
+      // const position = {
+      //   width: this.object.width,
+      //   height: this.object.height,
+      //   left: this.object.x,
+      //   top: this.object.y - this.object.height/2,
+      // };
+      // this.element.css(position);
     }
 
     activateListeners(html) {
       super.activateListeners(html);
-
+      /*
       let tooltipPlacement = 
         getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_PLACEMENT) ?? 'e';
       let tooltipColor = 
         getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_COLOR) ?? '';
 
-      // let htmlToUse = `
-      //   <form id="${this.data.id}" class="${this.data.classes}" onsubmit="event.preventDefault()">
-      //       <div id="container">
-      //           <div id="header">
-      //               <h3>${this.data.title}</h3>
-      //           </div>
-      //           <div id="content">
-      //             ${this.data.body}
-      //           </div>
-      //       </div>
-      //   </form>
-      // `;
-
       let mouseOnDiv = this.element;
-			let tipContent = $("<p>Bla blabla</p>");
+			let tipContent = $(this.contentTooltip);
 			mouseOnDiv.data('powertipjq', tipContent);
 			mouseOnDiv.powerTip({
 				placement: 'w', // tooltipPlacement ?? 'e',
 				mouseOnToPopup: true,
         // followMouse: false, // TODO ADD A NOTE CONFIG SETTING MAYBE ???
         popupClass: tooltipColor && tooltipColor.length >  0 ? tooltipColor : null,
-        offset: 20,
+        offset: this.object.width,
 			});
       $.powerTip.show(mouseOnDiv);
-      // html.find('.moveToNote').click(ev => this._moveToNotes());
-      // $(mouseOnDiv).on('click', function() {
-			// 	$.powerTip.show(mouseOnDiv);
-			// });
-			// $(mouseOnDiv).on('click', function() {
-			// 	$.powerTip.hide();
-			// });
+      */
     }
 }
 
