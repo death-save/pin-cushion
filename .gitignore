@@ -117,6 +117,5 @@ out
 # Foundry
 foundry.js
 /.vscode
-/package-lock.json
 /dist
 /package

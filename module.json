@@ -67,7 +67,10 @@
     "./module/lib/jquery.powertip.js"
   ],
   "system": [],
-  "esmodules": ["./pin-cushion.js", "./about.js"],
+  "esmodules": [
+    "./pin-cushion.js", 
+    "./about.js"
+  ],
   "styles": [
     "./styles/pin-cushion.css",
     "./styles/jquery.powertip.css",

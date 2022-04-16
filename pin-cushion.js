@@ -4,6 +4,44 @@
 /* Other Hooks							*/
 /* ------------------------------------ */
 
+import API from "./module/api.js";
+import CONSTANTS from "./module/constants.js";
+import { log, debug } from "./module/lib/lib.js";
+import { pinCushionSocket, registerSocket } from "./module/socket.js";
+
+/**
+ * Initialization helper, to set API.
+ * @param api to set to game module.
+ */
+export function setApi(api) {
+  const data = game.modules.get(CONSTANTS.MODULE_NAME);
+  data.api = api;
+}
+/**
+* Returns the set API.
+* @returns Api from games module.
+*/
+export function getApi() {
+  const data = game.modules.get(CONSTANTS.MODULE_NAME);
+  return data.api;
+}
+/**
+* Initialization helper, to set Socket.
+* @param socket to set to game module.
+*/
+export function setSocket(socket) {
+  const data = game.modules.get(CONSTANTS.MODULE_NAME);
+  data.socket = socket;
+}
+/*
+* Returns the set socket.
+* @returns Socket from games module.
+*/
+export function getSocket() {
+  const data = game.modules.get(CONSTANTS.MODULE_NAME);
+  return data.socket;
+}
+
 Hooks.once('libChangelogsReady', function () {
   //@ts-ignore
   libChangelogs.registerConflict(
@@ -64,15 +102,18 @@ class PinCushion {
     /* -------------------------------- Constants ------------------------------- */
 
     static get MODULE_NAME() {
-        return "pin-cushion";
+      return CONSTANTS.MODULE_NAME;
+      // return "pin-cushion";
     }
 
     static get MODULE_TITLE() {
-        return "Pin Cushion";
+      return CONSTANTS.MODULE_TITLE;
+      // return "Pin Cushion";
     }
 
     static get PATH() {
-        return "modules/pin-cushion";
+      return CONSTANTS.PATH;
+      // return "modules/pin-cushion";
     }
 
     static get DIALOG() {
@@ -200,7 +241,9 @@ class PinCushion {
             if (!game.user.isGM && folder === undefined) {
                 // Request folder creation when perUser is set and the entry is created by a user
                 // Since only the ID is required, instantiating a Folder from the data is not necessary
-                folder = (await PinCushion.requestEvent({ action: "createFolder" }))?._id;
+                // folder = (await PinCushion.requestEvent({ action: "createFolder" }))?._id;
+                // TODO for some reason this will give me a error
+                // folder = (await pinCushionSocket.executeAsGM('requestEvent', { action: "createFolder" }))?._id;
             }
         }
         else if(selectedFolder === "specificFolder"){
@@ -228,30 +271,30 @@ class PinCushion {
         await canvas.activeLayer._onDropData(eventData, entryData);
     }
 
-    /**
-     * Request an action to be executed with GM privileges.
-     *
-     * @static
-     * @param {object} message - The object that will get emitted via socket
-     * @param {string} message.action - The specific action to execute
-     * @returns {Promise} The promise of the action which will be resolved after execution by the GM
-     */
-    static requestEvent(message) {
-        // A request has to define what action should be executed by the GM
-        if (!"action" in message) return;
+    // /**
+    //  * Request an action to be executed with GM privileges.
+    //  *
+    //  * @static
+    //  * @param {object} message - The object that will get emitted via socket
+    //  * @param {string} message.action - The specific action to execute
+    //  * @returns {Promise} The promise of the action which will be resolved after execution by the GM
+    //  */
+    // static requestEvent(message) {
+    //     // A request has to define what action should be executed by the GM
+    //     if (!"action" in message) return;
 
-        const promise = new Promise((resolve, reject) => {
-            const id = `${game.user.id}_${Date.now()}_${randomID()}`;
-            message.id = id;
-            game.pinCushion._requests[id] = {resolve, reject};
-            game.socket.emit(`module.${PinCushion.MODULE_NAME}`, message);
-            setTimeout(() => {
-                delete game.pinCushion._requests[id];
-                reject(new Error (`${PinCushion.MODULE_TITLE} | Call to ${message.action} timed out`));
-            }, 5000);
-        });
-        return promise;
-    }
+    //     const promise = new Promise((resolve, reject) => {
+    //         const id = `${game.user.id}_${Date.now()}_${randomID()}`;
+    //         message.id = id;
+    //         game.pinCushion._requests[id] = {resolve, reject};
+    //         game.socket.emit(`module.${PinCushion.MODULE_NAME}`, message);
+    //         setTimeout(() => {
+    //             delete game.pinCushion._requests[id];
+    //             reject(new Error (`${PinCushion.MODULE_TITLE} | Call to ${message.action} timed out`));
+    //         }, 5000);
+    //     });
+    //     return promise;
+    // }
 
     /**
      * Gets the JournalEntry Folder ID to be used for JournalEntry creations, if any.
@@ -345,7 +388,7 @@ class PinCushion {
       }
     }
 
-    static _tooltipHandler(app, html, data) {
+    static _addTooltipHandler(app, html, data) {
       const iconAnchor = html.find("[name=icon]").closest(".form-group");
       const tooltipPlacement = (app.document
         ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_PLACEMENT)
@@ -1199,20 +1242,20 @@ class PinCushionHUD extends BasePlaceableHUD {
         this.data = note;
     }
 
-    // /**
-    //  * Retrieve and override default options for this application
-    //  */
-    // static get defaultOptions() {
-    //     return mergeObject(super.defaultOptions, {
-    //         id: "pin-cushion-hud",
-    //         classes: [...super.defaultOptions.classes, "pin-cushion-hud"],
-    //         width: 400,
-    //         height: 200,
-    //         minimizable: false,
-    //         resizable: false,
-    //         template: "modules/pin-cushion/templates/journal-preview.html"
-    //     });
-    // }
+    /**
+     * Retrieve and override default options for this application
+     */
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, {
+            id: "pin-cushion-hud",
+            classes: [...super.defaultOptions.classes, "pin-cushion-hud"],
+            // width: 400,
+            // height: 200,
+            minimizable: false,
+            resizable: false,
+            template: "modules/pin-cushion/templates/journal-preview.html"
+        });
+    }
 
     /**
      * Get data for template
@@ -1231,7 +1274,7 @@ class PinCushionHUD extends BasePlaceableHUD {
 
         let content;
         if(showImage){
-          content = "<img class='image' src='" + entry.data.img + "' alt='Journal Entry Image'></img>"
+          content = `<img class='image' src='${entry.data.img}' alt='Journal Entry Image'></img>`;
         }else{
           const previewType = game.settings.get(PinCushion.MODULE_NAME, "previewType");
 
@@ -1245,7 +1288,7 @@ class PinCushionHUD extends BasePlaceableHUD {
           }
         }
 
-
+        data.tooltipId = this.object.id
         data.title = entry.data.name;
         data.body = content;
 
@@ -1256,46 +1299,57 @@ class PinCushionHUD extends BasePlaceableHUD {
      * Set app position
      */
     setPosition() {
-        if (!this.object) return;
+      if (!this.object) return;
 
-        const position = {
-            width: 400,
-            height: 500,
-            left: this.object.x,
-            top: this.object.y,
-            "font-size": canvas.grid.size / 5 + "px"
-        };
-        this.element.css(position);
+      // const position = {
+      //     width: 400,
+      //     height: 500,
+      //     left: this.object.x,
+      //     top: this.object.y,
+      //     "font-size": canvas.grid.size / 5 + "px"
+      // };
+      // this.element.css(position);
+      const position = {
+        width: this.object.width,
+        height: this.object.height,
+        left: this.object.x,
+        top: this.object.y,
+      };
+      this.element.css(position);
     }
 
     activateListeners(html) {
       super.activateListeners(html);
 
-      let tooltipPlacement = getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_PLACEMENT);
-      let tooltipColor = getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_COLOR);
+      let tooltipPlacement = 
+        getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_PLACEMENT) ?? 'e';
+      let tooltipColor = 
+        getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_COLOR) ?? '';
 
-      let htmlToUse = `
-        <form id="${this.data.id}" class="${this.data.classes}" onsubmit="event.preventDefault()">
-            <div id="container">
-                <div id="header">
-                    <h3>${this.data.title}</h3>
-                </div>
-                <div id="content">
-                  ${this.data.body}
-                </div>
-            </div>
-        </form>
-      `;
+      // let htmlToUse = `
+      //   <form id="${this.data.id}" class="${this.data.classes}" onsubmit="event.preventDefault()">
+      //       <div id="container">
+      //           <div id="header">
+      //               <h3>${this.data.title}</h3>
+      //           </div>
+      //           <div id="content">
+      //             ${this.data.body}
+      //           </div>
+      //       </div>
+      //   </form>
+      // `;
 
       let mouseOnDiv = this.element;
-			let tipContent = $(htmlToUse);
+			let tipContent = $("<p>Bla blabla</p>");
 			mouseOnDiv.data('powertipjq', tipContent);
 			mouseOnDiv.powerTip({
-				placement: tooltipPlacement ?? 'e',
+				placement: 'w', // tooltipPlacement ?? 'e',
 				mouseOnToPopup: true,
-        followMouse: false, // TODO ADD A NOTE CONFIG SETTING MAYBE ???
+        // followMouse: false, // TODO ADD A NOTE CONFIG SETTING MAYBE ???
         popupClass: tooltipColor && tooltipColor.length >  0 ? tooltipColor : null,
+        offset: 20,
 			});
+      $.powerTip.show(mouseOnDiv);
       // html.find('.moveToNote').click(ev => this._moveToNotes());
       // $(mouseOnDiv).on('click', function() {
 			// 	$.powerTip.show(mouseOnDiv);
@@ -1368,14 +1422,18 @@ export function setNoteGMtext(notedata,text) {
 /*                                    Hooks                                   */
 /* -------------------------------------------------------------------------- */
 
-/**
- * Hook on init
- */
-Hooks.on("init", () => {
+/* ------------------------------------ */
+/* Initialize module					*/
+/* ------------------------------------ */
+Hooks.once('init', function () {
+  log(' init ' + CONSTANTS.MODULE_NAME);
+
   globalThis.PinCushion = PinCushion;
   // globalThis.setNoteRevealed = setNoteRevealed; // Seem not necessary
   // globalThis.setNoteGMtext = setNoteGMtext // Seem not necessary
   PinCushion._registerSettings();
+
+  Hooks.once('socketlib.ready', registerSocket);
 
   libWrapper.register(
     PinCushion.MODULE_NAME,
@@ -1405,14 +1463,32 @@ Hooks.on("init", () => {
   }
 });
 
-/*
- * Hook on ready
- */
-Hooks.on("ready", () => {
-    // Instantiate PinCushion instance for central socket request handling
-    game.pinCushion = new PinCushion();
-    // Wait for game to exist, then register socket handler
-    game.socket.on(`module.${PinCushion.MODULE_NAME}`, game.pinCushion._onSocket);
+/* ------------------------------------ */
+/* Setup module							*/
+/* ------------------------------------ */
+Hooks.once('setup', function () {
+  setApi(API);
+});
+
+/* ------------------------------------ */
+/* When ready							*/
+/* ------------------------------------ */
+
+Hooks.once('ready', function () {
+  if (!game.modules.get('lib-wrapper')?.active && game.user?.isGM) {
+    let word = 'install and activate';
+    if (game.modules.get('lib-wrapper')) word = 'activate';
+    throw error(`Requires the 'libWrapper' module. Please ${word} it.`);
+  }
+  if (!game.modules.get('socketlib')?.active && game.user?.isGM) {
+    let word = 'install and activate';
+    if (game.modules.get('socketlib')) word = 'activate';
+    throw error(`Requires the 'socketlib' module. Please ${word} it.`);
+  }
+  // Instantiate PinCushion instance for central socket request handling
+  game.pinCushion = new PinCushion();
+  // Wait for game to exist, then register socket handler
+  // game.socket.on(`module.${PinCushion.MODULE_NAME}`, game.pinCushion._onSocket);
 });
 
 /**
@@ -1469,6 +1545,7 @@ Hooks.on("renderNoteConfig", async (app, html, data) => {
 
   PinCushion._addHideLabel(app, html, data);
   PinCushion._addDoNotshowJournalPreview(app, html, data);
+  PinCushion._addTooltipHandler(app, html, data);
 
 });
 
