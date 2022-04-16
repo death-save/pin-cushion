@@ -1251,7 +1251,7 @@ class PinCushionHUD extends BasePlaceableHUD {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             id: "pin-cushion-hud",
-            classes: [...super.defaultOptions.classes, "pin-cushion-hud","powerTip"],
+            classes: [...super.defaultOptions.classes, "pin-cushion-hud"],
             // width: 400,
             // height: 200,
             minimizable: false,
