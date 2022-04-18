@@ -1277,7 +1277,7 @@ class PinCushionHUD extends BasePlaceableHUD {
 
         let content;
         if(showImage){
-          content = `<img class='image' src='${entry.data.img}' alt='Journal Entry Image'></img>`;
+          content = `<img class='image' src='${entry.data.img}' alt=''></img>`;
         }else{
           const previewType = game.settings.get(PinCushion.MODULE_NAME, "previewType");
 
@@ -1291,22 +1291,25 @@ class PinCushionHUD extends BasePlaceableHUD {
           }
         }
 
+        let bodyPlaceHolder = `<img class='image' src='${CONSTANTS.PATH_TRANSPARENT}' alt=''></img>`;
+
         data.tooltipId = this.object.id
         data.title = entry.data.name;
-        data.body = content;
+        // data.body = content;
+        data.body = bodyPlaceHolder;
 
-        // this.contentTooltip = `
-        //   <form id="${this.options.id}" class="${this.options.classes.join(',')}" onsubmit="event.preventDefault()">
-        //     <div id="container">
-        //         <div id="header">
-        //             <h3>${data.title}</h3>
-        //         </div>
-        //         <div id="content">
-        //           ${data.body}
-        //         </div>
-        //     </div>
-        //   </form>
-        // `;
+        this.contentTooltip = `
+          <form id="${this.options.id}" class="${this.options.classes.join(',')}" onsubmit="event.preventDefault()">
+            <div id="container">
+                <div id="header">
+                    <h3>${data.title}</h3>
+                </div>
+                <div id="content">
+                  ${data.body}
+                </div>
+            </div>
+          </form>
+        `;
         return data;
     }
 
@@ -1316,26 +1319,69 @@ class PinCushionHUD extends BasePlaceableHUD {
     setPosition() {
       if (!this.object) return;
 
-      const position = {
-          width: 400,
-          height: 500,
-          left: this.object.x,
-          top: this.object.y,
-          "font-size": canvas.grid.size / 5 + "px"
-      };
-      this.element.css(position);
+      /*
+      let w = target.w || target?.data?.width || target.width;
+      if (target?.object) {
+        w = target?.object?.w || target?.object?.data?.width || target?.object?.width || w;
+      }
+      let h = target?.h || target?.data?.height || target?.height;
+      if (target?.object) {
+        h = target?.object?.h || target?.object?.data?.height || target?.object?.height || h;
+      }
+      let x = target.x || target?.data?.x;
+      if (target?.object) {
+        x = target?.object?.x || target?.object?.data?.x || x;
+      }
+      let y = target?.y || target?.data?.y;
+      if (target?.object) {
+        y = target?.object?.y || target?.object?.data?.y || target?.object?.y || y;
+      }
+      */
+
       // const position = {
-      //   width: this.object.width,
-      //   height: this.object.height,
-      //   left: this.object.x,
-      //   top: this.object.y - this.object.height/2,
+      //     width: 400,
+      //     height: 500,
+      //     left: this.object.x,
+      //     top: this.object.y,
+      //     "font-size": canvas.grid.size / 5 + "px"
       // };
       // this.element.css(position);
+
+      // const offset2 = getOffset(this.object);
+      // const offset2 = this.element.parent()[0].style;
+      // const offset = 0; //this.object.width;
+
+      // const x = this.object.center.x || this.object.x;
+      // const y = this.object.center.y || this.object.y;
+      // const ratio = this.object.data.flags[PinCushion.MODULE_NAME].ratio || 1;
+      // const width = (this.object.size * ratio) + 'px'; //this.object.width * ratio;
+      // const height = this.object.height;
+      // const left = x - width/2 + 'px'; // - this.object.width/2 + offset,
+      // const top = y - height/2 + 'px'; // - this.object.height/2 + offset
+
+      const offset = 0; //this.object.width;
+      const x = this.object.center.x || this.object.x;
+      const y = this.object.center.y || this.object.y;
+      const ratio = this.object.data.flags[PinCushion.MODULE_NAME].ratio || 1;
+      const width = this.object.size * ratio; //this.object.width * ratio;
+      const height = this.object.height; // this.object.size;
+      const left = x - this.object.size/2;  // - this.object.width/2 + offset,
+      const top = y - this.object.size/2; // - this.object.height/2 + offset
+
+      const position = {
+        // width: this.object.width,
+        // height: this.object.height,
+        // height: height + 'px',
+        width: width + 'px', 
+        left: left + 'px',
+        top: top + 'px', 
+      };
+      this.element.css(position);
     }
 
     activateListeners(html) {
       super.activateListeners(html);
-      /*
+      
       let tooltipPlacement = 
         getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_PLACEMENT) ?? 'e';
       let tooltipColor = 
@@ -1351,8 +1397,8 @@ class PinCushionHUD extends BasePlaceableHUD {
         popupClass: tooltipColor && tooltipColor.length >  0 ? tooltipColor : null,
         offset: this.object.width,
 			});
-      $.powerTip.show(mouseOnDiv);
-      */
+      // $.powerTip.show(mouseOnDiv);
+      
     }
 }
 
@@ -1563,7 +1609,6 @@ Hooks.on("hoverNote", (note, hovered) => {
     const showPreview = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
     const previewDelay = game.settings.get(PinCushion.MODULE_NAME, "previewDelay");
     const doNotShowJournalPreview =
-      !game.user.isGM &&
       getProperty(note, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}`);
 
     if (!showPreview || doNotShowJournalPreview) {

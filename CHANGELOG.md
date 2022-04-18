@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.0]
+
+- Update design pattern
+- Modify the setting note config `doNotShowJournalPreview` to inlcude even GM not only the players
+- Integration with
+
 ## [1.5.16]
 
 - change default value of module setting `showJournalPreview` from false to true
