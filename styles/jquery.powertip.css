@@ -5,6 +5,11 @@
  * Stylesheet for the monochrome (default) theme.
  */
 
+#powerTip .pin-cushion-hud-container{
+	overflow-y: scroll;
+	max-height: 500px;
+}
+
 #powerTip {
 	cursor: default;
 	background-color: #333;
@@ -12,11 +17,11 @@
 	border-color: #333;
 	border-color: rgba(0, 0, 0, 0.8);
 	border-radius: 6px;
-	color: #fff;
+	/* color: #fff; */
 	display: none;
 	padding: 10px;
 	position: absolute;
-	white-space: nowrap;
+	/* white-space: nowrap; */
 	z-index: 2147483647;
 }
 #powerTip:before {

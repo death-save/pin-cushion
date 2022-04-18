@@ -6,7 +6,7 @@
 
 import API from "./module/api.js";
 import CONSTANTS from "./module/constants.js";
-import { log, debug } from "./module/lib/lib.js";
+import { log, debug, is_real_number } from "./module/lib/lib.js";
 import { pinCushionSocket, registerSocket } from "./module/socket.js";
 
 /**
@@ -1299,16 +1299,16 @@ class PinCushionHUD extends BasePlaceableHUD {
         data.body = bodyPlaceHolder;
 
         this.contentTooltip = `
-          <form id="${this.options.id}" class="${this.options.classes.join(',')}" onsubmit="event.preventDefault()">
-            <div id="container">
+  
+            <div id="container" class="pin-cushion-hud-container">
                 <div id="header">
-                    <h3>${data.title}</h3>
+                    <h3>${entry.data.name}</h3>
                 </div>
                 <div id="content">
-                  ${data.body}
+                  ${content}
                 </div>
             </div>
-          </form>
+
         `;
         return data;
     }
@@ -1316,7 +1316,7 @@ class PinCushionHUD extends BasePlaceableHUD {
     /**
      * Set app position
      */
-    setPosition() {
+    setPosition() { // {left, top, width, height, scale}={}){
       if (!this.object) return;
 
       /*
@@ -1362,7 +1362,8 @@ class PinCushionHUD extends BasePlaceableHUD {
       const offset = 0; //this.object.width;
       const x = this.object.center.x || this.object.x;
       const y = this.object.center.y || this.object.y;
-      const ratio = this.object.data.flags[PinCushion.MODULE_NAME].ratio || 1;
+      const ratio = (is_real_number(this.object.data.flags[PinCushion.MODULE_NAME].ratio) && this.object.data.flags[PinCushion.MODULE_NAME].ratio > 0  ? this.object.data.flags[PinCushion.MODULE_NAME].ratio : 1) || 1;
+      
       const width = this.object.size * ratio; //this.object.width * ratio;
       const height = this.object.height; // this.object.size;
       const left = x - this.object.size/2;  // - this.object.width/2 + offset,
@@ -1371,35 +1372,48 @@ class PinCushionHUD extends BasePlaceableHUD {
       const position = {
         // width: this.object.width,
         // height: this.object.height,
-        // height: height + 'px',
+        height: height + 'px',
         width: width + 'px', 
         left: left + 'px',
-        top: top + 'px', 
+        top: top + 'px',
       };
       this.element.css(position);
     }
 
     activateListeners(html) {
       super.activateListeners(html);
-      
+
       let tooltipPlacement = 
         getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_PLACEMENT) ?? 'e';
       let tooltipColor = 
         getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_COLOR) ?? '';
 
-      let mouseOnDiv = this.element;
-			let tipContent = $(this.contentTooltip);
-			mouseOnDiv.data('powertipjq', tipContent);
-			mouseOnDiv.powerTip({
-				placement: 'w', // tooltipPlacement ?? 'e',
-				mouseOnToPopup: true,
+      let tipContent = $(this.contentTooltip);
+      let mouseOnDiv = html; // this.element; // this.element.parent()[0];
+      if(!mouseOnDiv.data){
+		    mouseOnDiv = $(mouseOnDiv);
+      }
+
+      mouseOnDiv.data('powertipjq', tipContent);
+      mouseOnDiv.powerTip({
+        placement: 'w', // tooltipPlacement ?? 'e',
+        mouseOnToPopup: true,
         // followMouse: false, // TODO ADD A NOTE CONFIG SETTING MAYBE ???
         popupClass: tooltipColor && tooltipColor.length >  0 ? tooltipColor : null,
-        offset: this.object.width,
-			});
-      // $.powerTip.show(mouseOnDiv);
-      
+        // offset: this.object.width,
+      });
+
+      $.powerTip.show(mouseOnDiv); 
+
     }
+
+    // clear(){
+    //   let mouseOnDiv = this.element; // this.element.parent()[0];
+    //   if(!mouseOnDiv.data){
+		//     mouseOnDiv = $(mouseOnDiv);
+    //   }
+    //   $.powerTip.hide(mouseOnDiv);
+    // }
 }
 
 class BackgroundlessControlIcon extends ControlIcon {

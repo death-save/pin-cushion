@@ -1,0 +1,10 @@
+<form id="{{id}}" class="{{classes}}" onsubmit="event.preventDefault()">
+    <div id="container">
+        <div id="header">
+            <h3>{{title}}</h3>
+        </div>
+        <div id="content">
+            {{{body}}}
+        </div>
+    </div>
+</form>
