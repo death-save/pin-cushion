@@ -260,7 +260,7 @@ class PinCushion {
             return;
         }
 
-        // Manually add fields required by Foundry's drop handling
+        // offsely add fields required by Foundry's drop handling
         const entryData = entry.data.toJSON();
         entryData.id = entry.id;
         entryData.type = "JournalEntry";
@@ -1104,26 +1104,7 @@ class PinCushionHUD extends BasePlaceableHUD {
     setPosition() { // {left, top, width, height, scale}={}){
       if (!this.object) return;
 
-      /*
-      let w = target.w || target?.data?.width || target.width;
-      if (target?.object) {
-        w = target?.object?.w || target?.object?.data?.width || target?.object?.width || w;
-      }
-      let h = target?.h || target?.data?.height || target?.height;
-      if (target?.object) {
-        h = target?.object?.h || target?.object?.data?.height || target?.object?.height || h;
-      }
-      let x = target.x || target?.data?.x;
-      if (target?.object) {
-        x = target?.object?.x || target?.object?.data?.x || x;
-      }
-      let y = target?.y || target?.data?.y;
-      if (target?.object) {
-        y = target?.object?.y || target?.object?.data?.y || target?.object?.y || y;
-      }
-      */
-
-      const offset = 0; //this.object.width;
+      // const offset = 0; //this.object.width;
       const x = this.object.x ||  this.object.center.x;
       const y = this.object.y || this.object.center.y;
       const ratio = (is_real_number(this.object.data.flags[PinCushion.MODULE_NAME].ratio) && this.object.data.flags[PinCushion.MODULE_NAME].ratio > 0  ? this.object.data.flags[PinCushion.MODULE_NAME].ratio : 1) || 1;
@@ -1143,11 +1124,12 @@ class PinCushionHUD extends BasePlaceableHUD {
       };
       this.element.css(position);
     }
+    
 
     activateListeners(html) {
       super.activateListeners(html);
       
-      const offset = 0; //this.object.width;
+      // const offset = 0; //this.object.width;
       const x = this.object.x ||  this.object.center.x;
       const y = this.object.y || this.object.center.y;
       const ratio = 
@@ -1176,6 +1158,9 @@ class PinCushionHUD extends BasePlaceableHUD {
       let tooltipColor = 
         getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_COLOR) ?? '';
 
+      // let popupId = tooltipColor ? 'powerTip-'+tooltipColor : 'powerTip';
+      let popupClass = tooltipColor ? 'pin-cushion-hud-tooltip-'+tooltipColor : 'pin-cushion-hud-tooltip';
+
       let tipContent = $(this.contentTooltip);
       // let mouseOnDiv = html; // this.element; // this.element.parent()[0];
       if(!html.data){
@@ -1184,11 +1169,12 @@ class PinCushionHUD extends BasePlaceableHUD {
 
       html.data('powertipjq', tipContent);
       html.powerTip({
+        // popupId: popupId,
         placement: tooltipPlacement, // tooltipPlacement ?? 'e',
         mouseOnToPopup: true,
         // followMouse: false, // TODO ADD A NOTE CONFIG SETTING MAYBE ???
-        popupClass: 'pin-cushion-hud-tooltip', // tooltipColor && tooltipColor.length >  0 ? tooltipColor : null,
-        // offset: 0,
+        popupClass: popupClass, // tooltipColor && tooltipColor.length >  0 ? tooltipColor : null,
+        offset: 10,
         closeDelay: 0,
       });
 
