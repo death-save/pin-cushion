@@ -1,6 +1,13 @@
+#powerTip .pin-cushion-hud-container{
+	overflow-y: scroll;
+	max-height: 500px;
+}
+
+/*
 .pin-cushion-hud #container {
   border: 1px solid black;
 }
+*/
 
 /*
 .pin-cushion-hud #container {

@@ -7,6 +7,7 @@
 import API from "./module/api.js";
 import CONSTANTS from "./module/constants.js";
 import { log, debug, is_real_number } from "./module/lib/lib.js";
+import { registerSettings } from "./module/settings.js";
 import { pinCushionSocket, registerSocket } from "./module/socket.js";
 
 /**
@@ -1011,223 +1012,7 @@ class PinCushion {
     * Helper function to register settings
     */
     static _registerSettings() {
-        // game.settings.registerMenu(PinCushion.MODULE_NAME, "aboutApp", {
-        //     name: game.i18n.localize("PinCushion.SETTINGS.AboutAppN"),
-        //     label: game.i18n.localize("PinCushion.SETTINGS.AboutAppN"),
-        //     hint: game.i18n.localize("PinCushion.SETTINGS.AboutAppH"),
-        //     icon: "fas fa-question",
-        //     type: PinCushionAboutApp,
-        //     restricted: false
-        // });
-
-        game.settings.register(PinCushion.MODULE_NAME, "showJournalPreview", {
-            name: game.i18n.localize("PinCushion.SETTINGS.ShowJournalPreviewN"),
-            hint: game.i18n.localize("PinCushion.SETTINGS.ShowJournalPreviewH"),
-            scope: "client",
-            type: Boolean,
-            default: true,
-            config: true,
-            onChange: (s) => {
-                if (!s) {
-                    delete canvas.hud.pinCushion;
-                }
-
-                canvas.hud.render();
-            }
-        });
-
-        game.settings.register(PinCushion.MODULE_NAME, "previewType", {
-            name: game.i18n.localize("PinCushion.SETTINGS.PreviewTypeN"),
-            hint: game.i18n.localize("PinCushion.SETTINGS.PreviewTypeH"),
-            scope: "client",
-            type: String,
-            choices: {
-                html: "HTML",
-                text: "Text Snippet"
-            },
-            default: "html",
-            config: true,
-            onChange: (s) => {}
-        });
-
-        game.settings.register(PinCushion.MODULE_NAME, "previewMaxLength", {
-            name: game.i18n.localize("PinCushion.SETTINGS.PreviewMaxLengthN"),
-            hint: game.i18n.localize("PinCushion.SETTINGS.PreviewMaxLengthH"),
-            scope: "client",
-            type: Number,
-            default: 500,
-            config: true,
-            onChange: (s) => {}
-        });
-
-        game.settings.register(PinCushion.MODULE_NAME, "previewDelay", {
-            name: game.i18n.localize("PinCushion.SETTINGS.PreviewDelayN"),
-            hint: game.i18n.localize("PinCushion.SETTINGS.PreviewDelayH"),
-            scope: "client",
-            type: Number,
-            default: 500,
-            config: true,
-            onChange: (s) => {}
-        });
-
-        game.settings.register(PinCushion.MODULE_NAME, "defaultJournalPermission", {
-            name: game.i18n.localize("PinCushion.SETTINGS.DefaultJournalPermissionN"),
-            hint: game.i18n.localize("PinCushion.SETTINGS.DefaultJournalPermissionH"),
-            scope: "world",
-            type: Number,
-            choices: Object.entries(CONST.ENTITY_PERMISSIONS).reduce((acc, [perm, key]) => {
-                acc[key] = game.i18n.localize(`PERMISSION.${perm}`);
-                return acc;
-            }, {}),
-            default: 0,
-            config: true,
-            onChange: (s) => {}
-        });
-
-        game.settings.register(PinCushion.MODULE_NAME, "defaultJournalFolder", {
-            name: game.i18n.localize("PinCushion.SETTINGS.DefaultJournalFolderN"),
-            hint: game.i18n.localize("PinCushion.SETTINGS.DefaultJournalFolderH"),
-            scope: "world",
-            type: String,
-            choices: {
-                none: game.i18n.localize("PinCushion.None"),
-                perUser: game.i18n.localize("PinCushion.PerUser"),
-                specificFolder: game.i18n.localize("PinCushion.PerSpecificFolder")
-            },
-            default: "none",
-            config: true,
-            onChange: (s) => {
-                // Only run check for folder creation for the main GM
-                if (s === "perUser" && game.user === game.users.find((u) => u.isGM && u.active)) {
-                    PinCushion._createFolders();
-                }
-            }
-        });
-
-        game.settings.register(PinCushion.MODULE_NAME, "specificFolder", {
-          name: game.i18n.localize("PinCushion.SETTINGS.SpecificFolderN"),
-          hint: game.i18n.localize("PinCushion.SETTINGS.SpecificFolderH"),
-          scope: "world",
-          type: String,
-          choices: () => {
-            const folders = game.journal.directory.folders
-              .sort((a, b) => a.name.localeCompare(b.name));
-            const arr = [];
-            return Object.entries(folders).reduce((folder, [k, v]) => {
-                folder[k] = v.name;
-                return folder;
-            }, {});
-          },
-          default: 0,
-          config: true,
-          onChange: (s) => {}
-        });
-
-       game.settings.register(PinCushion.MODULE_NAME, "enableBackgroundlessPins", {
-            name: game.i18n.localize("PinCushion.SETTINGS.EnableBackgroundlessPinsN"),
-            hint: game.i18n.localize("PinCushion.SETTINGS.EnableBackgroundlessPinsH"),
-            scope: "world",
-            type: Boolean,
-            default: false,
-            config: true,
-      });
-
-       game.settings.register(PinCushion.MODULE_NAME, "showJournalImageByDefault", {
-            name: game.i18n.localize("PinCushion.SETTINGS.ShowJournalImageByDefaultN"),
-            hint: game.i18n.localize("PinCushion.SETTINGS.ShowJournalImageByDefaultH"),
-            scope: "world",
-            type: Boolean,
-            default: true,
-            config: true,
-       });
-
-       game.settings.register(PinCushion.MODULE_NAME, "playerIconAutoOverride", {
-            name: game.i18n.localize("PinCushion.SETTINGS.PlayerIconAutoOverrideN"),
-            hint: game.i18n.localize("PinCushion.SETTINGS.PlayerIconAutoOverrideH"),
-            scope: "world",
-            config: true,
-            default: false,
-            type: Boolean,
-       });
-
-       game.settings.register(PinCushion.MODULE_NAME, "playerIconPathDefault", {
-            name: game.i18n.localize("PinCushion.SETTINGS.PlayerIconPathDefaultN"),
-            hint: game.i18n.localize("PinCushion.SETTINGS.PlayerIconPathDefaultH"),
-            scope: "world",
-            config: true,
-            default: "icons/svg/book.svg",
-            type: String,
-            filePicker: true,
-       });
-
-      game.settings.register(PinCushion.MODULE_NAME, "noteGM", {
-        name: game.i18n.localize("PinCushion.SETTINGS.noteGMN"),
-        hint: game.i18n.localize("PinCushion.SETTINGS.noteGMH"),
-        scope: "world",
-        config: true,
-        default: false,
-        type: Boolean,
-      });
-
-      game.settings.register(PinCushion.MODULE_NAME, "revealedNotes", {
-        name: game.i18n.localize("PinCushion.SETTINGS.revealedNotesN"),
-        hint: game.i18n.localize("PinCushion.SETTINGS.revealedNotesH"),
-        scope: "world",
-        config: true,
-        default: false,
-        type: Boolean,
-      });
-
-      game.settings.register(PinCushion.MODULE_NAME, 'revealedNotesTintColorLink', {
-        name: game.i18n.localize("PinCushion.SETTINGS.revealedNotesTintColorLinkN"),
-        hint: game.i18n.localize("PinCushion.SETTINGS.revealedNotesTintColorLinkH"),
-        scope: "world",
-        type:  String,
-        default: '#7CFC00',
-        config: true,
-        onChange: () => {
-          if (canvas?.ready) {
-            canvas.notes.placeables.forEach(note => note.draw());
-            //for (let note of canvas.notes.objects) note.draw();
-          }
-        }
-      });
-
-      game.settings.register(PinCushion.MODULE_NAME, 'revealedNotesTintColorNotLink', {
-        name: game.i18n.localize("PinCushion.SETTINGS.revealedNotesTintColorNotLinkN"),
-        hint: game.i18n.localize("PinCushion.SETTINGS.revealedNotesTintColorNotLinkH"),
-        scope: "world",
-        type:  String,
-        default: '#c000c0',
-        config: true,
-        onChange: () => {
-          if (canvas?.ready) {
-            canvas.notes.placeables.forEach(note => note.draw());
-            //for (let note of canvas.notes.objects) note.draw();
-          }
-        }
-      });
-
-      game.settings.register(PinCushion.MODULE_NAME, "enableJournalThumbnailForGMs", {
-        name: game.i18n.localize("PinCushion.SETTINGS.enableJournalThumbnailForGMsN"),
-        hint: game.i18n.localize("PinCushion.SETTINGS.enableJournalThumbnailForGMsH"),
-        scope: "world",
-        type: Boolean,
-        default: true,
-        config: true,
-        onchange: () => window.location.reload()
-      });
-
-      game.settings.register(PinCushion.MODULE_NAME, "enableJournalThumbnailForPlayers", {
-        name: game.i18n.localize("PinCushion.SETTINGS.enableJournalThumbnailForPlayersN"),
-        hint: game.i18n.localize("PinCushion.SETTINGS.enableJournalThumbnailForPlayersH"),
-        scope: "world",
-        type: Boolean,
-        default: true,
-        config: true,
-        onchange: () => window.location.reload()
-      });
-
+      registerSettings();
     }
 }
 
@@ -1338,34 +1123,13 @@ class PinCushionHUD extends BasePlaceableHUD {
       }
       */
 
-      // const position = {
-      //     width: 400,
-      //     height: 500,
-      //     left: this.object.x,
-      //     top: this.object.y,
-      //     "font-size": canvas.grid.size / 5 + "px"
-      // };
-      // this.element.css(position);
-
-      // const offset2 = getOffset(this.object);
-      // const offset2 = this.element.parent()[0].style;
-      // const offset = 0; //this.object.width;
-
-      // const x = this.object.center.x || this.object.x;
-      // const y = this.object.center.y || this.object.y;
-      // const ratio = this.object.data.flags[PinCushion.MODULE_NAME].ratio || 1;
-      // const width = (this.object.size * ratio) + 'px'; //this.object.width * ratio;
-      // const height = this.object.height;
-      // const left = x - width/2 + 'px'; // - this.object.width/2 + offset,
-      // const top = y - height/2 + 'px'; // - this.object.height/2 + offset
-
       const offset = 0; //this.object.width;
-      const x = this.object.center.x || this.object.x;
-      const y = this.object.center.y || this.object.y;
+      const x = this.object.x ||  this.object.center.x;
+      const y = this.object.y || this.object.center.y;
       const ratio = (is_real_number(this.object.data.flags[PinCushion.MODULE_NAME].ratio) && this.object.data.flags[PinCushion.MODULE_NAME].ratio > 0  ? this.object.data.flags[PinCushion.MODULE_NAME].ratio : 1) || 1;
       
       const width = this.object.size * ratio; //this.object.width * ratio;
-      const height = this.object.height; // this.object.size;
+      const height = this.object.height - this.object.tooltip.height;  // this.object.size;
       const left = x - this.object.size/2;  // - this.object.width/2 + offset,
       const top = y - this.object.size/2; // - this.object.height/2 + offset
 
@@ -1382,32 +1146,57 @@ class PinCushionHUD extends BasePlaceableHUD {
 
     activateListeners(html) {
       super.activateListeners(html);
+      
+      const offset = 0; //this.object.width;
+      const x = this.object.x ||  this.object.center.x;
+      const y = this.object.y || this.object.center.y;
+      const ratio = 
+        (is_real_number(this.object.data.flags[PinCushion.MODULE_NAME].ratio) && this.object.data.flags[PinCushion.MODULE_NAME].ratio > 0  ? this.object.data.flags[PinCushion.MODULE_NAME].ratio : 1) 
+        || 1;
+      
+      const width = this.object.size * ratio; //this.object.width * ratio;
+      const height = this.object.height - this.object.tooltip.height; // this.object.size;
+      const left = x - this.object.size/2;  // - this.object.width/2 + offset,
+      const top = y - this.object.size/2; // - this.object.height/2 + offset
+
+      const position = {
+        // width: this.object.width,
+        // height: this.object.height,
+        height: height + 'px',
+        width: width + 'px', 
+        left: left + 'px',
+        top: top + 'px',
+      };
+      html.css(position);
+      
+      // $.powerTip.hide(html);
 
       let tooltipPlacement = 
-        getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_PLACEMENT) ?? 'e';
+        getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_PLACEMENT) ?? 'w';
       let tooltipColor = 
         getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_COLOR) ?? '';
 
       let tipContent = $(this.contentTooltip);
-      let mouseOnDiv = html; // this.element; // this.element.parent()[0];
-      if(!mouseOnDiv.data){
-		    mouseOnDiv = $(mouseOnDiv);
+      // let mouseOnDiv = html; // this.element; // this.element.parent()[0];
+      if(!html.data){
+		    html = $(html);
       }
 
-      mouseOnDiv.data('powertipjq', tipContent);
-      mouseOnDiv.powerTip({
-        placement: 'w', // tooltipPlacement ?? 'e',
+      html.data('powertipjq', tipContent);
+      html.powerTip({
+        placement: tooltipPlacement, // tooltipPlacement ?? 'e',
         mouseOnToPopup: true,
         // followMouse: false, // TODO ADD A NOTE CONFIG SETTING MAYBE ???
-        popupClass: tooltipColor && tooltipColor.length >  0 ? tooltipColor : null,
-        // offset: this.object.width,
+        popupClass: 'pin-cushion-hud-tooltip', // tooltipColor && tooltipColor.length >  0 ? tooltipColor : null,
+        // offset: 0,
+        closeDelay: 0,
       });
 
-      $.powerTip.show(mouseOnDiv); 
+      $.powerTip.show(html); 
 
     }
 
-    // clear(){
+    // hide(){
     //   let mouseOnDiv = this.element; // this.element.parent()[0];
     //   if(!mouseOnDiv.data){
 		//     mouseOnDiv = $(mouseOnDiv);
