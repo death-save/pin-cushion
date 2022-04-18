@@ -228,6 +228,24 @@ export const registerSettings = function () {
         onchange: () => window.location.reload()
     });
 
+    game.settings.register(CONSTANTS.MODULE_NAME, "fontSize", {
+        name: game.i18n.localize("PinCushion.SETTINGS.fontSizeN"),
+        hint: game.i18n.localize("PinCushion.SETTINGS.fontSizeH"),
+        scope: "client",
+        type: String,
+        default: "",
+        config: true,
+    });
+    
+    game.settings.register(CONSTANTS.MODULE_NAME, "maxWidth", {
+        name: game.i18n.localize("PinCushion.SETTINGS.maxWidthN"),
+        hint: game.i18n.localize("PinCushion.SETTINGS.maxWidthH"),
+        scope: "client",
+        type: Number,
+        default: 800,
+        config: true,
+    });
+
     // const settings = defaultSettings();
     // for (const [name, data] of Object.entries(settings)) {
     //   game.settings.register(CONSTANTS.MODULE_NAME, name, <any>data);
@@ -490,6 +508,24 @@ function otherSettings(apply = false) {
             default: true,
             config: true,
             onchange: () => window.location.reload()
+        },
+
+        "fontSize": {
+            name: game.i18n.localize("PinCushion.SETTINGS.fontSizeN"),
+            hint: game.i18n.localize("PinCushion.SETTINGS.fontSizeH"),
+            scope: "client",
+            type: String,
+            default: "",
+            config: true,
+        },
+        
+        "maxWidth": {
+            name: game.i18n.localize("PinCushion.SETTINGS.maxWidthN"),
+            hint: game.i18n.localize("PinCushion.SETTINGS.maxWidthH"),
+            scope: "client",
+            type: Number,
+            default: 800,
+            config: true,
         }
     };
 }

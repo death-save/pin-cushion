@@ -39,6 +39,11 @@
     "SETTINGS.enableJournalThumbnailForPlayersN": "Enable Sidebar Journal Images for Player Users",
     "SETTINGS.enableJournalThumbnailForPlayersH": " ",
 
+    "SETTINGS.fontSizeN": "Text size override",
+    "SETTINGS.fontSizeH": "Override the base text size for the journal entry display. Example: 1.5rem.",
+    "SETTINGS.maxWidthN": "Maximum Width",
+    "SETTINGS.maxWidthH": "The maximum width the entry display can grow to before it'll force wrapping.",
+
     "Tooltip.Placement.title": "Tooltip Placement",
     "Tooltip.Placement.choices.north-west-alt": "North West Alt",
     "Tooltip.Placement.choices.north-west": "North West",

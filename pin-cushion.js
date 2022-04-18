@@ -1104,16 +1104,30 @@ class PinCushionHUD extends BasePlaceableHUD {
     setPosition() { // {left, top, width, height, scale}={}){
       if (!this.object) return;
 
-      // const offset = 0; //this.object.width;
+      const fontSize = game.settings.get(CONSTANTS.MODULE_NAME, "fontSize") || canvas.grid.size / 5;
+      const maxWidth = game.settings.get(CONSTANTS.MODULE_NAME, "maxWidth");
+
+      // WITH TOOLTIP
+      
       const x = this.object.x ||  this.object.center.x;
       const y = this.object.y || this.object.center.y;
       const ratio = (is_real_number(this.object.data.flags[PinCushion.MODULE_NAME].ratio) && this.object.data.flags[PinCushion.MODULE_NAME].ratio > 0  ? this.object.data.flags[PinCushion.MODULE_NAME].ratio : 1) || 1;
       
+      const viewWidth = visualViewport.width;
+      const width = this.object.controlIcon.width * ratio;
+      const height = this.object.controlIcon.height;
+      const orientation =
+        (this.object.getGlobalPosition()?.x ?? 0) < viewWidth / 2 ? "right" : "left";
+      // const top = y - height / 2;
+      // const left = orientation === "right" ? x + width : x - width;
+      const left = x - this.object.size/2;
+      const top = y - this.object.size/2;
+      /*
       const width = this.object.size * ratio; //this.object.width * ratio;
       const height = this.object.height - this.object.tooltip.height;  // this.object.size;
       const left = x - this.object.size/2;  // - this.object.width/2 + offset,
       const top = y - this.object.size/2; // - this.object.height/2 + offset
-
+      */
       const position = {
         // width: this.object.width,
         // height: this.object.height,
@@ -1121,25 +1135,39 @@ class PinCushionHUD extends BasePlaceableHUD {
         width: width + 'px', 
         left: left + 'px',
         top: top + 'px',
+        "font-size": fontSize + 'px',
+        "max-width": maxWidth + 'px',
       };
       this.element.css(position);
     }
-    
 
     activateListeners(html) {
       super.activateListeners(html);
       
-      // const offset = 0; //this.object.width;
+      // WITH TOOLTIP
+
       const x = this.object.x ||  this.object.center.x;
       const y = this.object.y || this.object.center.y;
       const ratio = 
         (is_real_number(this.object.data.flags[PinCushion.MODULE_NAME].ratio) && this.object.data.flags[PinCushion.MODULE_NAME].ratio > 0  ? this.object.data.flags[PinCushion.MODULE_NAME].ratio : 1) 
         || 1;
+
+      const viewWidth = visualViewport.width;
+      const width = this.object.controlIcon.width * ratio;
+      const height = this.object.controlIcon.height;
+      const orientation =
+        (this.object.getGlobalPosition()?.x ?? 0) < viewWidth / 2 ? "right" : "left";
+      // const top = y - height / 2;
+      // const left = orientation === "right" ? x + width : x - width;
+      const left = x - this.object.size/2;
+      const top = y - this.object.size/2;
       
+      /*
       const width = this.object.size * ratio; //this.object.width * ratio;
       const height = this.object.height - this.object.tooltip.height; // this.object.size;
       const left = x - this.object.size/2;  // - this.object.width/2 + offset,
       const top = y - this.object.size/2; // - this.object.height/2 + offset
+      */
 
       const position = {
         // width: this.object.width,
@@ -1409,11 +1437,14 @@ Hooks.on("hoverNote", (note, hovered) => {
         return canvas.hud.pinCushion.clear();
     }
 
-    if (hovered) {
+    // If the note is hovered by the mouse cursor (not via alt/option)
+    if (hovered && note.mouseInteractionManager.state === 1) {
         game.pinCushion.hoverTimer = setTimeout(function() {
           canvas.hud.pinCushion.bind(note)
         }, previewDelay);
         return;
+    }else{
+      canvas.hud.pinCushion.clear();
     }
 });
 

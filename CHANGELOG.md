@@ -6,6 +6,8 @@
 - Modify the setting note config `doNotShowJournalPreview` to inlcude even GM not only the players
 - Integration with
 - Set default value of the module setting `noteGM` to true
+- Add module setting `maxWidth`
+- Add module setting `fontSize`
 
 ## [1.5.16]
 
