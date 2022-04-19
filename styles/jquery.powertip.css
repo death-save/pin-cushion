@@ -4,7 +4,8 @@
  *
  * Stylesheet for the monochrome (default) theme.
  */
-.pin-cushion-hud-tooltip {
+
+ /* #powerTip {
 	cursor: default;
 	background-color: #333;
 	background-color: rgba(0, 0, 0, 0.8);
@@ -15,10 +16,10 @@
 	display: none;
 	padding: 10px;
 	position: absolute;
-	/* white-space: nowrap; */
+	white-space: nowrap;
 	z-index: 2147483647;
-}
-.pin-cushion-hud-tooltip:before {
+} */
+#powerTip:before {
 	content: attr(class) " ";
 	position: absolute;
 	height: 0;
@@ -26,79 +27,79 @@
 	text-indent: 100%;
 	overflow: hidden;
 }
-.pin-cushion-hud-tooltip.n:before, .pin-cushion-hud-tooltip.s:before {
+#powerTip.n:before, #powerTip.s:before {
 	border-right: 5px solid transparent;
 	border-left: 5px solid transparent;
 	left: 50%;
 	margin-left: -5px;
 }
-.pin-cushion-hud-tooltip.e:before, .pin-cushion-hud-tooltip.w:before {
+#powerTip.e:before, #powerTip.w:before {
 	border-bottom: 5px solid transparent;
 	border-top: 5px solid transparent;
 	margin-top: -5px;
 	top: 50%;
 }
-.pin-cushion-hud-tooltip.n:before,
-.pin-cushion-hud-tooltip.ne:before, .pin-cushion-hud-tooltip.nw:before {
+#powerTip.n:before,
+#powerTip.ne:before, #powerTip.nw:before {
 	bottom: -10px;
 }
-.pin-cushion-hud-tooltip.n:before,
-.pin-cushion-hud-tooltip.ne:before, .pin-cushion-hud-tooltip.nw:before ,
-.pin-cushion-hud-tooltip.nw-alt:before, .pin-cushion-hud-tooltip.ne-alt:before {
+#powerTip.n:before,
+#powerTip.ne:before, #powerTip.nw:before ,
+#powerTip.nw-alt:before, #powerTip.ne-alt:before {
 	border-top-color: inherit;
 	border-top-style: solid;
 	border-top-width: 10px;
 }
-.pin-cushion-hud-tooltip.e:before {
+#powerTip.e:before {
 	border-right-color: inherit;
 	border-right-style: solid;
 	border-right-width: 10px;
 	left: -10px;
 }
-.pin-cushion-hud-tooltip.s:before,
-.pin-cushion-hud-tooltip.se:before, .pin-cushion-hud-tooltip.sw:before {
+#powerTip.s:before,
+#powerTip.se:before, #powerTip.sw:before {
 	top: -10px;
 }
-.pin-cushion-hud-tooltip.s:before,
-.pin-cushion-hud-tooltip.se:before, .pin-cushion-hud-tooltip.sw:before ,
-.pin-cushion-hud-tooltip.sw-alt:before, .pin-cushion-hud-tooltip.se-alt:before {
+#powerTip.s:before,
+#powerTip.se:before, #powerTip.sw:before ,
+#powerTip.sw-alt:before, #powerTip.se-alt:before {
 	border-bottom-color: inherit;
 	border-bottom-style: solid;
 	border-bottom-width: 10px;
 }
-.pin-cushion-hud-tooltip.w:before {
+#powerTip.w:before {
 	border-left-color: inherit;
 	border-left-style: solid;
 	border-left-width: 10px;
 	right: -10px;
 }
-.pin-cushion-hud-tooltip.ne:before, .pin-cushion-hud-tooltip.se:before {
+#powerTip.ne:before, #powerTip.se:before {
 	border-right: 10px solid transparent;
 	border-left: 0;
 	left: 10px;
 }
-.pin-cushion-hud-tooltip.nw:before, .pin-cushion-hud-tooltip.sw:before {
+#powerTip.nw:before, #powerTip.sw:before {
 	border-left: 10px solid transparent;
 	border-right: 0;
 	right: 10px;
 }
-.pin-cushion-hud-tooltip.nw-alt:before, .pin-cushion-hud-tooltip.ne-alt:before,
-.pin-cushion-hud-tooltip.sw-alt:before, .pin-cushion-hud-tooltip.se-alt:before {
+#powerTip.nw-alt:before, #powerTip.ne-alt:before,
+#powerTip.sw-alt:before, #powerTip.se-alt:before {
 	bottom: -10px;
 	border-left: 5px solid transparent;
 	border-right: 5px solid transparent;
 	left: 10px;
 }
-.pin-cushion-hud-tooltip.ne-alt:before {
+#powerTip.ne-alt:before {
 	left: auto;
 	right: 10px;
 }
-.pin-cushion-hud-tooltip.sw-alt:before, .pin-cushion-hud-tooltip.se-alt:before {
+#powerTip.sw-alt:before, #powerTip.se-alt:before {
 	border-top: none;
 	bottom: auto;
 	top: -10px;
 }
-.pin-cushion-hud-tooltip.se-alt:before {
+#powerTip.se-alt:before {
 	left: auto;
 	right: 10px;
 }

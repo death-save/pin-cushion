@@ -236,7 +236,7 @@ export const registerSettings = function () {
         default: "",
         config: true,
     });
-    
+
     game.settings.register(CONSTANTS.MODULE_NAME, "maxWidth", {
         name: game.i18n.localize("PinCushion.SETTINGS.maxWidthN"),
         hint: game.i18n.localize("PinCushion.SETTINGS.maxWidthH"),
@@ -313,11 +313,11 @@ function otherSettings(apply = false) {
                 if (!s) {
                     delete canvas.hud.pinCushion;
                 }
-    
+
                 canvas.hud.render();
             }
         },
-    
+
         "previewType": {
             name: game.i18n.localize("PinCushion.SETTINGS.PreviewTypeN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.PreviewTypeH"),
@@ -331,7 +331,7 @@ function otherSettings(apply = false) {
             config: true,
             onChange: (s) => {}
         },
-    
+
         "previewMaxLength": {
             name: game.i18n.localize("PinCushion.SETTINGS.PreviewMaxLengthN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.PreviewMaxLengthH"),
@@ -341,7 +341,7 @@ function otherSettings(apply = false) {
             config: true,
             onChange: (s) => {}
         },
-    
+
         "previewDelay": {
             name: game.i18n.localize("PinCushion.SETTINGS.PreviewDelayN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.PreviewDelayH"),
@@ -351,7 +351,7 @@ function otherSettings(apply = false) {
             config: true,
             onChange: (s) => {}
         },
-    
+
         "defaultJournalPermission": {
             name: game.i18n.localize("PinCushion.SETTINGS.DefaultJournalPermissionN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.DefaultJournalPermissionH"),
@@ -365,7 +365,7 @@ function otherSettings(apply = false) {
             config: true,
             onChange: (s) => {}
         },
-    
+
         "defaultJournalFolder": {
             name: game.i18n.localize("PinCushion.SETTINGS.DefaultJournalFolderN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.DefaultJournalFolderH"),
@@ -385,7 +385,7 @@ function otherSettings(apply = false) {
                 }
             }
         },
-    
+
         "specificFolder": {
             name: game.i18n.localize("PinCushion.SETTINGS.SpecificFolderN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.SpecificFolderH"),
@@ -404,7 +404,7 @@ function otherSettings(apply = false) {
             config: true,
             onChange: (s) => {}
         },
-    
+
         "enableBackgroundlessPins": {
             name: game.i18n.localize("PinCushion.SETTINGS.EnableBackgroundlessPinsN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.EnableBackgroundlessPinsH"),
@@ -413,7 +413,7 @@ function otherSettings(apply = false) {
             default: false,
             config: true,
         },
-    
+
         "showJournalImageByDefault": {
             name: game.i18n.localize("PinCushion.SETTINGS.ShowJournalImageByDefaultN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.ShowJournalImageByDefaultH"),
@@ -422,7 +422,7 @@ function otherSettings(apply = false) {
             default: true,
             config: true,
         },
-    
+
         "playerIconAutoOverride": {
             name: game.i18n.localize("PinCushion.SETTINGS.PlayerIconAutoOverrideN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.PlayerIconAutoOverrideH"),
@@ -431,7 +431,7 @@ function otherSettings(apply = false) {
             default: false,
             type: Boolean,
         },
-    
+
         "playerIconPathDefault": {
             name: game.i18n.localize("PinCushion.SETTINGS.PlayerIconPathDefaultN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.PlayerIconPathDefaultH"),
@@ -441,7 +441,7 @@ function otherSettings(apply = false) {
             type: String,
             filePicker: true,
         },
-    
+
         "noteGM": {
             name: game.i18n.localize("PinCushion.SETTINGS.noteGMN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.noteGMH"),
@@ -450,7 +450,7 @@ function otherSettings(apply = false) {
             default: true,
             type: Boolean,
         },
-    
+
         "revealedNotes": {
             name: game.i18n.localize("PinCushion.SETTINGS.revealedNotesN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.revealedNotesH"),
@@ -459,7 +459,7 @@ function otherSettings(apply = false) {
             default: false,
             type: Boolean,
         },
-    
+
         'revealedNotesTintColorLink': {
             name: game.i18n.localize("PinCushion.SETTINGS.revealedNotesTintColorLinkN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.revealedNotesTintColorLinkH"),
@@ -474,7 +474,7 @@ function otherSettings(apply = false) {
                 }
             }
         },
-    
+
         'revealedNotesTintColorNotLink': {
             name: game.i18n.localize("PinCushion.SETTINGS.revealedNotesTintColorNotLinkN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.revealedNotesTintColorNotLinkH"),
@@ -489,7 +489,7 @@ function otherSettings(apply = false) {
                 }
             }
         },
-    
+
         "enableJournalThumbnailForGMs": {
             name: game.i18n.localize("PinCushion.SETTINGS.enableJournalThumbnailForGMsN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.enableJournalThumbnailForGMsH"),
@@ -499,7 +499,7 @@ function otherSettings(apply = false) {
             config: true,
             onchange: () => window.location.reload()
         },
-    
+
         "enableJournalThumbnailForPlayers": {
             name: game.i18n.localize("PinCushion.SETTINGS.enableJournalThumbnailForPlayersN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.enableJournalThumbnailForPlayersH"),
@@ -518,7 +518,7 @@ function otherSettings(apply = false) {
             default: "",
             config: true,
         },
-        
+
         "maxWidth": {
             name: game.i18n.localize("PinCushion.SETTINGS.maxWidthN"),
             hint: game.i18n.localize("PinCushion.SETTINGS.maxWidthH"),

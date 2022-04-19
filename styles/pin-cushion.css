@@ -1,12 +1,4 @@
-#powerTip .pin-cushion-hud-container,
-#powerTip-blue .pin-cushion-hud-container,
-#powerTip-dark .pin-cushion-hud-container,
-#powerTip-green .pin-cushion-hud-container,
-#powerTip-light .pin-cushion-hud-container,
-#powerTip-orange .pin-cushion-hud-container,
-#powerTip-purple .pin-cushion-hud-container,
-#powerTip-red .pin-cushion-hud-container,
-#powerTip-yellow .pin-cushion-hud-container {
+#powerTip .pin-cushion-hud-container {
 	overflow-y: scroll;
 	max-height: 500px;
   /* max-width: 400px; */
@@ -27,7 +19,7 @@
 .pin-cushion-hud #container {
   background-color: rgba(255, 255, 255, 0.9);
   overflow: hidden;
-  overflow-y: scroll; 
+  overflow-y: scroll;
   padding: 2px;
   border: 1px solid black;
   width: fit-content;

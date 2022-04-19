@@ -93,13 +93,15 @@ export class PinCushionHUD extends BasePlaceableHUD {
 
     const x = this.object.x ||  this.object.center.x;
     const y = this.object.y || this.object.center.y;
-    const ratio = (is_real_number(this.object.data.flags[PinCushion.MODULE_NAME].ratio) && this.object.data.flags[PinCushion.MODULE_NAME].ratio > 0  ? this.object.data.flags[PinCushion.MODULE_NAME].ratio : 1) || 1;
+    const ratio =
+      (is_real_number(this.object.data.flags[PinCushion.MODULE_NAME].ratio) && this.object.data.flags[PinCushion.MODULE_NAME].ratio > 0  ? this.object.data.flags[PinCushion.MODULE_NAME].ratio : 1)
+      || 1;
 
     const viewWidth = visualViewport.width;
     const width = this.object.controlIcon.width * ratio;
     const height = this.object.controlIcon.height;
-    const orientation =
-      (this.object.getGlobalPosition()?.x ?? 0) < viewWidth / 2 ? "right" : "left";
+    // const orientation =
+    //   (this.object.getGlobalPosition()?.x ?? 0) < viewWidth / 2 ? "right" : "left";
     // const top = y - height / 2;
     // const left = orientation === "right" ? x + width : x - width;
     const left = x - this.object.size/2;
@@ -126,6 +128,16 @@ export class PinCushionHUD extends BasePlaceableHUD {
   activateListeners(html) {
     super.activateListeners(html);
 
+    // const elementToTooltip = html;
+    const elementToTooltip = this.element;
+    // let mouseOnDiv = html; // this.element; // this.element.parent()[0];
+    if(!elementToTooltip.data){
+      elementToTooltip = $(elementToTooltip);
+    }
+
+    const fontSize = game.settings.get(CONSTANTS.MODULE_NAME, "fontSize") || canvas.grid.size / 5;
+    const maxWidth = game.settings.get(CONSTANTS.MODULE_NAME, "maxWidth");
+
     // WITH TOOLTIP
 
     const x = this.object.x ||  this.object.center.x;
@@ -137,8 +149,8 @@ export class PinCushionHUD extends BasePlaceableHUD {
     const viewWidth = visualViewport.width;
     const width = this.object.controlIcon.width * ratio;
     const height = this.object.controlIcon.height;
-    const orientation =
-      (this.object.getGlobalPosition()?.x ?? 0) < viewWidth / 2 ? "right" : "left";
+    // const orientation =
+    //   (this.object.getGlobalPosition()?.x ?? 0) < viewWidth / 2 ? "right" : "left";
     // const top = y - height / 2;
     // const left = orientation === "right" ? x + width : x - width;
     const left = x - this.object.size/2;
@@ -159,7 +171,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
       left: left + 'px',
       top: top + 'px',
     };
-    html.css(position);
+    elementToTooltip.css(position);
 
     // $.powerTip.hide(html);
 
@@ -169,26 +181,46 @@ export class PinCushionHUD extends BasePlaceableHUD {
       getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_COLOR) ?? '';
 
     // let popupId = tooltipColor ? 'powerTip-'+tooltipColor : 'powerTip';
-    let popupClass = tooltipColor ? 'pin-cushion-hud-tooltip-'+tooltipColor : 'pin-cushion-hud-tooltip';
+    let popupClass = tooltipColor ? 'pin-cushion-hud-tooltip-'+tooltipColor : 'pin-cushion-hud-tooltip-default';
 
     let tipContent = $(this.contentTooltip);
-    // let mouseOnDiv = html; // this.element; // this.element.parent()[0];
-    if(!html.data){
-      html = $(html);
-    }
 
-    html.data('powertipjq', tipContent);
-    html.powerTip({
-      // popupId: popupId,
-      placement: tooltipPlacement, // tooltipPlacement ?? 'e',
+    elementToTooltip.data('powertipjq', tipContent);
+    elementToTooltip.powerTip({
+      // popupId: popupId, // e.g. default 'powerTip'
+
+      // Values can be n, e, s, w, nw, ne, sw, se, nw-alt, ne-alt, sw-alt, or se-alt (as in north, east, south, and west).
+      // This only matters if followMouse is set to false.
+      placement: tooltipPlacement,
+
+      // Boolean Allow the mouse to hover on the tooltip. This lets users interact with the content in the tooltip. Only works if followMouse is set to false.
       mouseOnToPopup: true,
+
+      // Boolean If set to true the tooltip will follow the users mouse cursor.
       // followMouse: false, // TODO ADD A NOTE CONFIG SETTING MAYBE ???
-      popupClass: popupClass, // tooltipColor && tooltipColor.length >  0 ? tooltipColor : null,
+
+      popupClass: popupClass,
+
+      // Number  Pixel offset of the tooltip. This will be the offset from the element the tooltip is open for, or from from mouse cursor if followMouse is true.
       offset: 10,
+
+      // Time in milliseconds to wait after mouse cursor leaves the element before closing the tooltip.
+      // This serves two purposes: first, it is the mechanism that lets the mouse cursor reach the tooltip (cross the gap between the element and the tooltip div) for mouseOnToPopup tooltips.
+
+      // And, second, it lets the cursor briefly leave the element and return without causing the whole fade-out, intent test, and fade-in cycle to happen.
       closeDelay: 0,
+
+      // Hover intent polling interval in milliseconds.
+      intentPollInterval: 0,
     });
 
-    $.powerTip.show(html);
+    const styleCustom = {
+      "font-size": fontSize + 'px',
+      "max-width": maxWidth + 'px',
+    };
+    $.powerTip.css(styleCustom);
+
+    $.powerTip.show(elementToTooltip);
 
   }
 
