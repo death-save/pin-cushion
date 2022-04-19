@@ -5,16 +5,16 @@
  * Stylesheet for the monochrome (default) theme.
  */
 .pin-cushion-hud-tooltip {
-	cursor: default;
-	background-color: #333;
-	background-color: rgba(0, 0, 0, 0.8);
-	border-color: #333;
-	border-color: rgba(0, 0, 0, 0.8);
-	border-radius: 6px;
-	color: #fff;
-	display: none;
-	padding: 10px;
-	position: absolute;
-	/* white-space: nowrap; */
-	z-index: 2147483647;
+  cursor: default;
+  background-color: #333;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-color: #333;
+  border-color: rgba(0, 0, 0, 0.8);
+  border-radius: 6px;
+  color: #fff;
+  display: none;
+  padding: 10px;
+  position: absolute;
+  /* white-space: nowrap; */
+  z-index: 2147483647;
 }

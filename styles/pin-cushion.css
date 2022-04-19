@@ -1,6 +1,6 @@
 #powerTip .pin-cushion-hud-container {
-	overflow-y: scroll;
-	max-height: 500px;
+  overflow-y: scroll;
+  max-height: 500px;
   /* max-width: 400px; */
 }
 

@@ -1,14 +1,12 @@
-
-
 /* ------------------------------------ */
 /* Other Hooks							*/
 /* ------------------------------------ */
 
-import API from "./module/api.js";
-import CONSTANTS from "./module/constants.js";
-import { log, debug, is_real_number } from "./module/lib/lib.js";
-import { registerSettings } from "./module/settings.js";
-import { pinCushionSocket, registerSocket } from "./module/socket.js";
+import API from './module/api.js';
+import CONSTANTS from './module/constants.js';
+import { log, debug, is_real_number } from './module/lib/lib.js';
+import { registerSettings } from './module/settings.js';
+import { pinCushionSocket, registerSocket } from './module/socket.js';
 import { BackgroundlessControlIcon } from './module/apps/BackgroundlessControlIcon';
 import { PinCushionHUD } from './module/apps/PinCushionHUD.js';
 import { PinCushion } from './module/apps/PinCushion.js';
@@ -22,25 +20,25 @@ export function setApi(api) {
   data.api = api;
 }
 /**
-* Returns the set API.
-* @returns Api from games module.
-*/
+ * Returns the set API.
+ * @returns Api from games module.
+ */
 export function getApi() {
   const data = game.modules.get(CONSTANTS.MODULE_NAME);
   return data.api;
 }
 /**
-* Initialization helper, to set Socket.
-* @param socket to set to game module.
-*/
+ * Initialization helper, to set Socket.
+ * @param socket to set to game module.
+ */
 export function setSocket(socket) {
   const data = game.modules.get(CONSTANTS.MODULE_NAME);
   data.socket = socket;
 }
 /*
-* Returns the set socket.
-* @returns Socket from games module.
-*/
+ * Returns the set socket.
+ * @returns Socket from games module.
+ */
 export function getSocket() {
   const data = game.modules.get(CONSTANTS.MODULE_NAME);
   return data.socket;
@@ -119,9 +117,9 @@ Hooks.once('init', function () {
 
   libWrapper.register(
     PinCushion.MODULE_NAME,
-    "NotesLayer.prototype._onClickLeft2",
+    'NotesLayer.prototype._onClickLeft2',
     PinCushion._onDoubleClick,
-    "OVERRIDE",
+    'OVERRIDE',
   );
 
   // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
@@ -134,13 +132,13 @@ Hooks.once('init', function () {
   //   );
   // }
 
-  const enablePlayerIconAutoOverride = game.settings.get(PinCushion.MODULE_NAME, "playerIconAutoOverride");
+  const enablePlayerIconAutoOverride = game.settings.get(PinCushion.MODULE_NAME, 'playerIconAutoOverride');
   if (enablePlayerIconAutoOverride) {
     libWrapper.register(
       PinCushion.MODULE_NAME,
-      "NoteDocument.prototype.prepareData",
+      'NoteDocument.prototype.prepareData',
       PinCushion._onPrepareNoteData,
-      "WRAPPER",
+      'WRAPPER',
     );
   }
 });
@@ -181,11 +179,11 @@ Hooks.once('ready', function () {
  * @param {jQuery} html       The inner HTML of the document that will be displayed and may be modified
  * @param {object] data       The object of data used when rendering the application (from NoteConfig#getData)
  */
-Hooks.on("renderNoteConfig", async (app, html, data) => {
-  if(!app.object.data.flags[PinCushion.MODULE_NAME]){
+Hooks.on('renderNoteConfig', async (app, html, data) => {
+  if (!app.object.data.flags[PinCushion.MODULE_NAME]) {
     app.object.data.flags[PinCushion.MODULE_NAME] = {};
   }
-  const showJournalImageByDefault = game.settings.get(PinCushion.MODULE_NAME, "showJournalImageByDefault");
+  const showJournalImageByDefault = game.settings.get(PinCushion.MODULE_NAME, 'showJournalImageByDefault');
 
   if (showJournalImageByDefault) {
     // Journal id
@@ -201,26 +199,26 @@ Hooks.on("renderNoteConfig", async (app, html, data) => {
   PinCushion._replaceIconSelector(app, html, data);
   //Causes a bug when attempting to place an journal entry onto the canvas in Foundry 9.
   //await app.object.setFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON, tmp);
-  setProperty(app.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.CUSHION_ICON,tmp);
+  setProperty(app.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.CUSHION_ICON, tmp);
 
   PinCushion._addShowImageField(app, html, data);
 
-  const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
+  const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
   if (enableBackgroundlessPins) {
     PinCushion._addBackgroundField(app, html, data);
   }
 
-  const enablePlayerIcon = game.settings.get(PinCushion.MODULE_NAME, "playerIconAutoOverride");
-  if (enablePlayerIcon ) {
+  const enablePlayerIcon = game.settings.get(PinCushion.MODULE_NAME, 'playerIconAutoOverride');
+  if (enablePlayerIcon) {
     PinCushion._addPlayerIconField(app, html, data);
   }
 
-  const enableNoteGM = game.settings.get(PinCushion.MODULE_NAME, "noteGM");
+  const enableNoteGM = game.settings.get(PinCushion.MODULE_NAME, 'noteGM');
   if (enableNoteGM) {
     PinCushion._addNoteGM(app, html, data);
   }
 
-  const enableNoteTintColorLink = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
+  const enableNoteTintColorLink = game.settings.get(PinCushion.MODULE_NAME, 'revealedNotes');
   if (enableNoteTintColorLink) {
     PinCushion._addNoteTintColorLink(app, html, data);
   }
@@ -228,118 +226,107 @@ Hooks.on("renderNoteConfig", async (app, html, data) => {
   PinCushion._addHideLabel(app, html, data);
   PinCushion._addDoNotshowJournalPreview(app, html, data);
   PinCushion._addTooltipHandler(app, html, data);
-
 });
 
 /**
  * Hook on render HUD
  */
-Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
-    const showPreview = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
-    if (showPreview) {
-        html.append(`<template id="pin-cushion-hud"></template>`);
-        canvas.hud.pinCushion = new PinCushionHUD();
-    }
+Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
+  const showPreview = game.settings.get(PinCushion.MODULE_NAME, 'showJournalPreview');
+  if (showPreview) {
+    html.append(`<template id="pin-cushion-hud"></template>`);
+    canvas.hud.pinCushion = new PinCushionHUD();
+  }
 });
 
 /**
  * Hook on Note hover
  */
-Hooks.on("hoverNote", (note, hovered) => {
-    const showPreview = game.settings.get(PinCushion.MODULE_NAME, "showJournalPreview");
-    const previewDelay = game.settings.get(PinCushion.MODULE_NAME, "previewDelay");
-    const doNotShowJournalPreview =
-      getProperty(note, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}`);
+Hooks.on('hoverNote', (note, hovered) => {
+  const showPreview = game.settings.get(PinCushion.MODULE_NAME, 'showJournalPreview');
+  const previewDelay = game.settings.get(PinCushion.MODULE_NAME, 'previewDelay');
+  const doNotShowJournalPreview = getProperty(
+    note,
+    `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}`,
+  );
 
-    if (!showPreview || doNotShowJournalPreview) {
-        return;
-    }
+  if (!showPreview || doNotShowJournalPreview) {
+    return;
+  }
 
-    if (!hovered) {
-        clearTimeout(game.pinCushion.hoverTimer);
-        return canvas.hud.pinCushion.clear();
-    }
+  if (!hovered) {
+    clearTimeout(game.pinCushion.hoverTimer);
+    return canvas.hud.pinCushion.clear();
+  }
 
-    // If the note is hovered by the mouse cursor (not via alt/option)
-    if (hovered && note.mouseInteractionManager.state === 1) {
-        game.pinCushion.hoverTimer = setTimeout(function() {
-          canvas.hud.pinCushion.bind(note)
-        }, previewDelay);
-        return;
-    }else{
-      canvas.hud.pinCushion.clear();
-    }
+  // If the note is hovered by the mouse cursor (not via alt/option)
+  if (hovered && note.mouseInteractionManager.state === 1) {
+    game.pinCushion.hoverTimer = setTimeout(function () {
+      canvas.hud.pinCushion.bind(note);
+    }, previewDelay);
+    return;
+  } else {
+    canvas.hud.pinCushion.clear();
+  }
 });
 
 /**
  * Hook on render Journal Directory
  */
-Hooks.on("renderJournalDirectory", (app, html, data) => {
+Hooks.on('renderJournalDirectory', (app, html, data) => {
   PinCushion._addJournalThumbnail(app, html, data);
 });
 
 Hooks.once('canvasInit', () => {
-	// This module is only required for GMs (game.user accessible from 'ready' event but not 'init' event)
-	if (game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "noteGM")) {
-		libWrapper.register(
-      PinCushion.MODULE_NAME,
-      'Note.prototype._drawTooltip',
-      PinCushion._addDrawTooltip,
-      'WRAPPER'
-    );
-	} else {
-    libWrapper.register(
-      PinCushion.MODULE_NAME,
-      'Note.prototype._drawTooltip',
-      PinCushion._addDrawTooltip2,
-      'MIXED'
-    );
+  // This module is only required for GMs (game.user accessible from 'ready' event but not 'init' event)
+  if (game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, 'noteGM')) {
+    libWrapper.register(PinCushion.MODULE_NAME, 'Note.prototype._drawTooltip', PinCushion._addDrawTooltip, 'WRAPPER');
+  } else {
+    libWrapper.register(PinCushion.MODULE_NAME, 'Note.prototype._drawTooltip', PinCushion._addDrawTooltip2, 'MIXED');
   }
   // This is only required for Players, not GMs (game.user accessible from 'ready' event but not 'init' event)
-  const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
-	if (!game.user.isGM && revealedNotes) {
-		libWrapper.register(
-      PinCushion.MODULE_NAME,
-      'Note.prototype.refresh',
-      PinCushion._noteRefresh,
-      'WRAPPER'
-    );
-  }else{
-    libWrapper.register(
-      PinCushion.MODULE_NAME,
-      'Note.prototype.refresh',
-      PinCushion._noteRefresh2,
-      'WRAPPER'
-    );
+  const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, 'revealedNotes');
+  if (!game.user.isGM && revealedNotes) {
+    libWrapper.register(PinCushion.MODULE_NAME, 'Note.prototype.refresh', PinCushion._noteRefresh, 'WRAPPER');
+  } else {
+    libWrapper.register(PinCushion.MODULE_NAME, 'Note.prototype.refresh', PinCushion._noteRefresh2, 'WRAPPER');
   }
-  const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
+  const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
   if (enableBackgroundlessPins) {
     libWrapper.register(
       PinCushion.MODULE_NAME,
-      "Note.prototype._drawControlIcon",
+      'Note.prototype._drawControlIcon',
       PinCushion._drawControlIcon,
-      "OVERRIDE",
+      'OVERRIDE',
     );
-  }else{
-    if(!game.user.isGM && revealedNotes){
+  } else {
+    if (!game.user.isGM && revealedNotes) {
       libWrapper.register(
         PinCushion.MODULE_NAME,
         'Note.prototype._drawControlIcon',
         PinCushion._drawControlIcon2,
-        'WRAPPER'
+        'WRAPPER',
       );
     }
   }
 });
 
-Hooks.on("renderSettingsConfig", (app, html, data) => {
-	// Add colour pickers to the Configure Game Settings: Module Settings menu
-	let name,colour;
-	name   = `${PinCushion.MODULE_NAME}.revealedNotesTintColorLink`;
-	colour = game.settings.get(PinCushion.MODULE_NAME, "revealedNotesTintColorLink");
-	$('<input>').attr('type', 'color').attr('data-edit', name).val(colour).insertAfter($(`input[name="${name}"]`, html).addClass('color'));
+Hooks.on('renderSettingsConfig', (app, html, data) => {
+  // Add colour pickers to the Configure Game Settings: Module Settings menu
+  let name, colour;
+  name = `${PinCushion.MODULE_NAME}.revealedNotesTintColorLink`;
+  colour = game.settings.get(PinCushion.MODULE_NAME, 'revealedNotesTintColorLink');
+  $('<input>')
+    .attr('type', 'color')
+    .attr('data-edit', name)
+    .val(colour)
+    .insertAfter($(`input[name="${name}"]`, html).addClass('color'));
 
-	name   = `${PinCushion.MODULE_NAME}.revealedNotesTintColorNotLink`;
-	colour = game.settings.get(PinCushion.MODULE_NAME, "revealedNotesTintColorNotLink");
-	$('<input>').attr('type', 'color').attr('data-edit', name).val(colour).insertAfter($(`input[name="${name}"]`, html).addClass('color'));
+  name = `${PinCushion.MODULE_NAME}.revealedNotesTintColorNotLink`;
+  colour = game.settings.get(PinCushion.MODULE_NAME, 'revealedNotesTintColorNotLink');
+  $('<input>')
+    .attr('type', 'color')
+    .attr('data-edit', name)
+    .val(colour)
+    .insertAfter($(`input[name="${name}"]`, html).addClass('color'));
 });

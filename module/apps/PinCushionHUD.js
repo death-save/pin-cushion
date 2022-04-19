@@ -4,68 +4,67 @@
  * A HUD extension that shows the Note preview
  */
 export class PinCushionHUD extends BasePlaceableHUD {
-
   // contentTooltip;
 
   constructor(note, options) {
-      super(note, options);
-      this.data = note;
+    super(note, options);
+    this.data = note;
   }
 
   /**
    * Retrieve and override default options for this application
    */
   static get defaultOptions() {
-      return mergeObject(super.defaultOptions, {
-          id: "pin-cushion-hud",
-          classes: [...super.defaultOptions.classes, "pin-cushion-hud"],
-          // width: 400,
-          // height: 200,
-          minimizable: false,
-          resizable: false,
-          template: "modules/pin-cushion/templates/journal-preview.html"
-      });
+    return mergeObject(super.defaultOptions, {
+      id: 'pin-cushion-hud',
+      classes: [...super.defaultOptions.classes, 'pin-cushion-hud'],
+      // width: 400,
+      // height: 200,
+      minimizable: false,
+      resizable: false,
+      template: 'modules/pin-cushion/templates/journal-preview.html',
+    });
   }
 
   /**
    * Get data for template
    */
   getData() {
-      const data = super.getData();
-      const entry = this.object.entry;
-      if (!entry)
-      {
-          // Do nothing b/c this doesn't have an entry
-          return;
+    const data = super.getData();
+    const entry = this.object.entry;
+    if (!entry) {
+      // Do nothing b/c this doesn't have an entry
+      return;
+    }
+    // TODO The getFlag was returning as 'not a function', for whatever reason...
+    // const showImage = this.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE);
+    const showImage = getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.SHOW_IMAGE);
+
+    let content;
+    if (showImage) {
+      content = `<img class='image' src='${entry.data.img}' alt=''></img>`;
+    } else {
+      const previewType = game.settings.get(PinCushion.MODULE_NAME, 'previewType');
+
+      if (previewType === 'html') {
+        content = TextEditor.enrichHTML(entry.data.content, { secrets: entry.isOwner, documents: true });
+      } else if (previewType === 'text') {
+        const previewMaxLength = game.settings.get(PinCushion.MODULE_NAME, 'previewMaxLength');
+
+        const textContent = $(entry.data.content).text();
+        content =
+          textContent.length > previewMaxLength ? `${textContent.substr(0, previewMaxLength)} ...` : textContent;
       }
-      // TODO The getFlag was returning as 'not a function', for whatever reason...
-      // const showImage = this.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE);
-      const showImage = getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.SHOW_IMAGE);
+    }
 
-      let content;
-      if(showImage){
-        content = `<img class='image' src='${entry.data.img}' alt=''></img>`;
-      }else{
-        const previewType = game.settings.get(PinCushion.MODULE_NAME, "previewType");
+    let bodyPlaceHolder = `<img class='image' src='${CONSTANTS.PATH_TRANSPARENT}' alt=''></img>`;
 
-        if (previewType === "html") {
-            content = TextEditor.enrichHTML(entry.data.content, {secrets: entry.isOwner, documents: true});
-        } else if (previewType === "text") {
-            const previewMaxLength = game.settings.get(PinCushion.MODULE_NAME, "previewMaxLength");
+    data.tooltipId = this.object.id;
+    data.title = entry.data.name;
+    // data.body = content;
+    data.body = bodyPlaceHolder;
 
-            const textContent = $(entry.data.content).text();
-            content = textContent.length > previewMaxLength ? `${textContent.substr(0, previewMaxLength)} ...` : textContent;
-        }
-      }
-
-      let bodyPlaceHolder = `<img class='image' src='${CONSTANTS.PATH_TRANSPARENT}' alt=''></img>`;
-
-      data.tooltipId = this.object.id
-      data.title = entry.data.name;
-      // data.body = content;
-      data.body = bodyPlaceHolder;
-
-      this.contentTooltip = `
+    this.contentTooltip = `
 
           <div id="container" class="pin-cushion-hud-container">
               <div id="header">
@@ -77,25 +76,28 @@ export class PinCushionHUD extends BasePlaceableHUD {
           </div>
 
       `;
-      return data;
+    return data;
   }
 
   /**
    * Set app position
    */
-  setPosition() { // {left, top, width, height, scale}={}){
+  setPosition() {
+    // {left, top, width, height, scale}={}){
     if (!this.object) return;
 
-    const fontSize = game.settings.get(CONSTANTS.MODULE_NAME, "fontSize") || canvas.grid.size / 5;
-    const maxWidth = game.settings.get(CONSTANTS.MODULE_NAME, "maxWidth");
+    const fontSize = game.settings.get(CONSTANTS.MODULE_NAME, 'fontSize') || canvas.grid.size / 5;
+    const maxWidth = game.settings.get(CONSTANTS.MODULE_NAME, 'maxWidth');
 
     // WITH TOOLTIP
 
-    const x = this.object.x ||  this.object.center.x;
+    const x = this.object.x || this.object.center.x;
     const y = this.object.y || this.object.center.y;
     const ratio =
-      (is_real_number(this.object.data.flags[PinCushion.MODULE_NAME].ratio) && this.object.data.flags[PinCushion.MODULE_NAME].ratio > 0  ? this.object.data.flags[PinCushion.MODULE_NAME].ratio : 1)
-      || 1;
+      (is_real_number(this.object.data.flags[PinCushion.MODULE_NAME].ratio) &&
+      this.object.data.flags[PinCushion.MODULE_NAME].ratio > 0
+        ? this.object.data.flags[PinCushion.MODULE_NAME].ratio
+        : 1) || 1;
 
     const viewWidth = visualViewport.width;
     const width = this.object.controlIcon.width * ratio;
@@ -104,8 +106,8 @@ export class PinCushionHUD extends BasePlaceableHUD {
     //   (this.object.getGlobalPosition()?.x ?? 0) < viewWidth / 2 ? "right" : "left";
     // const top = y - height / 2;
     // const left = orientation === "right" ? x + width : x - width;
-    const left = x - this.object.size/2;
-    const top = y - this.object.size/2;
+    const left = x - this.object.size / 2;
+    const top = y - this.object.size / 2;
     /*
     const width = this.object.size * ratio; //this.object.width * ratio;
     const height = this.object.height - this.object.tooltip.height;  // this.object.size;
@@ -119,8 +121,8 @@ export class PinCushionHUD extends BasePlaceableHUD {
       width: width + 'px',
       left: left + 'px',
       top: top + 'px',
-      "font-size": fontSize + 'px',
-      "max-width": maxWidth + 'px',
+      'font-size': fontSize + 'px',
+      'max-width': maxWidth + 'px',
     };
     this.element.css(position);
   }
@@ -131,20 +133,22 @@ export class PinCushionHUD extends BasePlaceableHUD {
     // const elementToTooltip = html;
     const elementToTooltip = this.element;
     // let mouseOnDiv = html; // this.element; // this.element.parent()[0];
-    if(!elementToTooltip.data){
+    if (!elementToTooltip.data) {
       elementToTooltip = $(elementToTooltip);
     }
 
-    const fontSize = game.settings.get(CONSTANTS.MODULE_NAME, "fontSize") || canvas.grid.size / 5;
-    const maxWidth = game.settings.get(CONSTANTS.MODULE_NAME, "maxWidth");
+    const fontSize = game.settings.get(CONSTANTS.MODULE_NAME, 'fontSize') || canvas.grid.size / 5;
+    const maxWidth = game.settings.get(CONSTANTS.MODULE_NAME, 'maxWidth');
 
     // WITH TOOLTIP
 
-    const x = this.object.x ||  this.object.center.x;
+    const x = this.object.x || this.object.center.x;
     const y = this.object.y || this.object.center.y;
     const ratio =
-      (is_real_number(this.object.data.flags[PinCushion.MODULE_NAME].ratio) && this.object.data.flags[PinCushion.MODULE_NAME].ratio > 0  ? this.object.data.flags[PinCushion.MODULE_NAME].ratio : 1)
-      || 1;
+      (is_real_number(this.object.data.flags[PinCushion.MODULE_NAME].ratio) &&
+      this.object.data.flags[PinCushion.MODULE_NAME].ratio > 0
+        ? this.object.data.flags[PinCushion.MODULE_NAME].ratio
+        : 1) || 1;
 
     const viewWidth = visualViewport.width;
     const width = this.object.controlIcon.width * ratio;
@@ -153,8 +157,8 @@ export class PinCushionHUD extends BasePlaceableHUD {
     //   (this.object.getGlobalPosition()?.x ?? 0) < viewWidth / 2 ? "right" : "left";
     // const top = y - height / 2;
     // const left = orientation === "right" ? x + width : x - width;
-    const left = x - this.object.size/2;
-    const top = y - this.object.size/2;
+    const left = x - this.object.size / 2;
+    const top = y - this.object.size / 2;
 
     /*
     const width = this.object.size * ratio; //this.object.width * ratio;
@@ -176,12 +180,12 @@ export class PinCushionHUD extends BasePlaceableHUD {
     // $.powerTip.hide(html);
 
     let tooltipPlacement =
-      getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_PLACEMENT) ?? 'w';
+      getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TOOLTIP_PLACEMENT) ?? 'w';
     let tooltipColor =
-      getProperty(this.object.data.flags[PinCushion.MODULE_NAME],PinCushion.FLAGS.TOOLTIP_COLOR) ?? '';
+      getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TOOLTIP_COLOR) ?? '';
 
     // let popupId = tooltipColor ? 'powerTip-'+tooltipColor : 'powerTip';
-    let popupClass = tooltipColor ? 'pin-cushion-hud-tooltip-'+tooltipColor : 'pin-cushion-hud-tooltip-default';
+    let popupClass = tooltipColor ? 'pin-cushion-hud-tooltip-' + tooltipColor : 'pin-cushion-hud-tooltip-default';
 
     let tipContent = $(this.contentTooltip);
 
@@ -215,13 +219,12 @@ export class PinCushionHUD extends BasePlaceableHUD {
     });
 
     const styleCustom = {
-      "font-size": fontSize + 'px',
-      "max-width": maxWidth + 'px',
+      'font-size': fontSize + 'px',
+      'max-width': maxWidth + 'px',
     };
     $.powerTip.css(styleCustom);
 
     $.powerTip.show(elementToTooltip);
-
   }
 
   // clear(){
