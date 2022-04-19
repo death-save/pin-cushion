@@ -71,6 +71,7 @@
     "./styles/jquery.powertip.css",
     "./styles/jquery.powertip-blue.css",
     "./styles/jquery.powertip-dark.css",
+    "./styles/jquery.powertip-default.css",
     "./styles/jquery.powertip-green.css",
     "./styles/jquery.powertip-light.css",
     "./styles/jquery.powertip-orange.css",

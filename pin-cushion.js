@@ -7,7 +7,6 @@ import CONSTANTS from './module/constants.js';
 import { log, debug, is_real_number } from './module/lib/lib.js';
 import { registerSettings } from './module/settings.js';
 import { pinCushionSocket, registerSocket } from './module/socket.js';
-import { BackgroundlessControlIcon } from './module/apps/BackgroundlessControlIcon';
 import { PinCushionHUD } from './module/apps/PinCushionHUD.js';
 import { PinCushion } from './module/apps/PinCushion.js';
 

@@ -1,3 +1,6 @@
+import CONSTANTS from "../constants.js";
+import { is_real_number } from "../lib/lib.js";
+
 /**
  * @class PinCushionHUD
  *
@@ -64,9 +67,12 @@ export class PinCushionHUD extends BasePlaceableHUD {
     // data.body = content;
     data.body = bodyPlaceHolder;
 
+    const fontSize = game.settings.get(CONSTANTS.MODULE_NAME, 'fontSize') || canvas.grid.size / 5;
+    const maxWidth = game.settings.get(CONSTANTS.MODULE_NAME, 'maxWidth') || 400;
+
     this.contentTooltip = `
 
-          <div id="container" class="pin-cushion-hud-container">
+          <div id="container" class="pin-cushion-hud-container" style="font-size:${fontSize}px; max-width:${maxWidth}px">
               <div id="header">
                   <h3>${entry.data.name}</h3>
               </div>
@@ -217,12 +223,6 @@ export class PinCushionHUD extends BasePlaceableHUD {
       // Hover intent polling interval in milliseconds.
       intentPollInterval: 0,
     });
-
-    const styleCustom = {
-      'font-size': fontSize + 'px',
-      'max-width': maxWidth + 'px',
-    };
-    $.powerTip.css(styleCustom);
 
     $.powerTip.show(elementToTooltip);
   }

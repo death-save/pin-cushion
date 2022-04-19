@@ -1,3 +1,7 @@
+import CONSTANTS from "../constants.js";
+import { registerSettings } from "../settings.js";
+import { BackgroundlessControlIcon } from "./BackgroundlessControlIcon.js";
+
 /**
  * A class for managing additional Map Pin functionality
  * @author Evan Clarke (errational#2007)
