@@ -408,7 +408,7 @@ function otherSettings(apply = false) {
       hint: game.i18n.localize('PinCushion.SETTINGS.EnableBackgroundlessPinsH'),
       scope: 'world',
       type: Boolean,
-      default: false,
+      default: true,
       config: true,
     },
 

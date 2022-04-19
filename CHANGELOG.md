@@ -2,12 +2,14 @@
 
 ## [1.6.0]
 
-- Update design pattern
+- Update design pattern, split apps by fil
+- Add API
+- Add integration with SocketLib
 - Modify the setting note config `doNotShowJournalPreview` to inlcude even GM not only the players
-- Integration with
 - Set default value of the module setting `noteGM` to true
 - Add module setting `maxWidth`
 - Add module setting `fontSize`
+- Set default value of the module setting `enableBackgroundlessPins` to true
 
 ## [1.5.16]
 

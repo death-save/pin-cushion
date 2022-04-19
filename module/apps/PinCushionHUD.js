@@ -1,5 +1,5 @@
-import CONSTANTS from "../constants.js";
-import { is_real_number } from "../lib/lib.js";
+import CONSTANTS from '../constants.js';
+import { is_real_number } from '../lib/lib.js';
 
 /**
  * @class PinCushionHUD
