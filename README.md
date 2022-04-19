@@ -114,6 +114,11 @@ This module add many new settings for many use case on the Note config dialog, h
 
 - **Add an option to do not show Journal Preview:** Do not show the journal preview to the player can be useful in some case.
 
+- **Add an option for setup the tooltip placement**
+- **Add an option for setup the tooltip stylish color**
+
+![img](./img/example_1.gif)
+
 ### libWrapper
 
 This module uses the [libWrapper](https://github.com/ruipin/fvtt-lib-wrapper) library for wrapping core methods. It is a hard dependency and it is recommended for the best experience and compatibility with other modules.
