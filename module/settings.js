@@ -3,8 +3,8 @@ import { i18n } from './lib/lib.js';
 
 export const registerSettings = function () {
   game.settings.registerMenu(CONSTANTS.MODULE_NAME, 'resetAllSettings', {
-    name: `${CONSTANTS.MODULE_NAME}.setting.reset.name`,
-    hint: `${CONSTANTS.MODULE_NAME}.setting.reset.hint`,
+    name: `PinCushion.SETTINGS.reset.name`,
+    hint: `PinCushion.SETTINGS.reset.hint`,
     icon: 'fas fa-coins',
     type: ResetSettingsDialog,
     restricted: true,
@@ -258,15 +258,15 @@ class ResetSettingsDialog extends FormApplication {
     super(...args);
     //@ts-ignore
     return new Dialog({
-      title: game.i18n.localize(`${CONSTANTS.MODULE_NAME}.dialogs.resetsettings.title`),
+      title: game.i18n.localize(`PinCushion.SETTINGS.dialogs.resetsettings.title`),
       content:
         '<p style="margin-bottom:1rem;">' +
-        game.i18n.localize(`${CONSTANTS.MODULE_NAME}.dialogs.resetsettings.content`) +
+        game.i18n.localize(`PinCushion.SETTINGS.dialogs.resetsettings.content`) +
         '</p>',
       buttons: {
         confirm: {
           icon: '<i class="fas fa-check"></i>',
-          label: game.i18n.localize(`${CONSTANTS.MODULE_NAME}.dialogs.resetsettings.confirm`),
+          label: game.i18n.localize(`PinCushion.SETTINGS.dialogs.resetsettings.confirm`),
           callback: async () => {
             await applyDefaultSettings();
             window.location.reload();
@@ -274,7 +274,7 @@ class ResetSettingsDialog extends FormApplication {
         },
         cancel: {
           icon: '<i class="fas fa-times"></i>',
-          label: game.i18n.localize(`${CONSTANTS.MODULE_NAME}.dialogs.resetsettings.cancel`),
+          label: game.i18n.localize(`PinCushion.SETTINGS.dialogs.resetsettings.cancel`),
         },
       },
       default: 'cancel',

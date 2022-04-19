@@ -78,16 +78,24 @@ To install this module manually:
 
 ## Features
 
-This module add many new settings for many use case on the Note config dialog, here some of the most interesting, but there is more
+This module add many new settings for many use case on the Note config dialog, here some of the most interesting, but there is more:
 
+- **Create Pin on canvas with double click**
+- 
 ![create-pin](./img/create_pin.png)
+
+- **Customized note configuration**
+
 ![note-config](./img/note-config.png)
+
+- **Journal preview on the sidebar**
+
 ![journal-preview](./img/journal-preview.png)
 
-- Changes the dropdown of map pin icons into a filepicker so users can select any icons they like
-- Adds the ability to double-click the canvas while on the Notes Layer and create a map pin (and corresponding Journal Entry)
-- Adds a preview of the associated Journal Entry when you hover over a map pin
-- Removes the background box from map notes
+- **Changes the dropdown of map pin icons into a filepicker so users can select any icons they like**
+- **Adds the ability to double-click the canvas while on the Notes Layer and create a map pin (and corresponding Journal Entry)**
+- **Adds a preview of the associated Journal Entry when you hover over a map pin**
+- **Removes the background box from map notes**
 
 ![img](./img/backgroundless-pins-preview.gif)
 
