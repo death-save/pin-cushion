@@ -14,6 +14,16 @@
 
 ![GitHub all releases](https://img.shields.io/github/downloads/death-save/pin-cushion/total?style=for-the-badge)
 
+## Development badge
+
+![Latest Release Download Count](https://img.shields.io/github/downloads/p4535992/pin-cushion/latest/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge) 
+
+![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fp4535992%2Fpin-cushion%2Fmaster%2Fmodule.json&label=Foundry%20Version&query=$.compatibleCoreVersion&colorB=orange&style=for-the-badge)
+
+![Latest Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fp4535992%2Fpin-cushion%2Fmaster%2Fmodule.json&label=Latest%20Release&prefix=v&query=$.version&colorB=red&style=for-the-badge)
+
+![GitHub all releases](https://img.shields.io/github/downloads/p4535992/pin-cushion/total?style=for-the-badge)
+
 ## Installation
 
 It's always easiest to install modules from the in game add-on browser.
