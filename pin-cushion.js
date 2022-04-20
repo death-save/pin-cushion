@@ -90,8 +90,12 @@ Hooks.once('libChangelogsReady', function () {
   libChangelogs.register(
     PinCushion.MODULE_NAME,
     `
-    - change default value of module setting 'showJournalPreview' from false to true
-    - Add new note config setting 'doNotShowJournalPreview' for hide the tooltip preview to players
+    - Removed module setting 'showJournalPreview'
+    - Removed module setting 'previewType' and put as a new note configuration field 'previewTypeAsTextSnippet'
+    - Update the module setting 'previewMaxLength' scope from 'client' to 'world'
+    - Update the module setting 'previewDelay' scope from 'client' to 'world'
+    - Removed module setting 'enableBackgroundlessPins' we just use on the specific note configuration
+    - Remove method '_registerSettings' from pin cushion on favor of the new design pattern method 'registerSettings'
     `,
     'minor',
   );
@@ -110,7 +114,7 @@ Hooks.once('init', function () {
   globalThis.PinCushion = PinCushion;
   // globalThis.setNoteRevealed = setNoteRevealed; // Seem not necessary
   // globalThis.setNoteGMtext = setNoteGMtext // Seem not necessary
-  PinCushion._registerSettings();
+  registerSettings();
 
   Hooks.once('socketlib.ready', registerSocket);
 
@@ -202,10 +206,10 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
 
   PinCushion._addShowImageField(app, html, data);
 
-  const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
-  if (enableBackgroundlessPins) {
+  // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
+  // if (enableBackgroundlessPins) {
     PinCushion._addBackgroundField(app, html, data);
-  }
+  // }
 
   const enablePlayerIcon = game.settings.get(PinCushion.MODULE_NAME, 'playerIconAutoOverride');
   if (enablePlayerIcon) {
@@ -223,7 +227,8 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
   }
 
   PinCushion._addHideLabel(app, html, data);
-  PinCushion._addDoNotshowJournalPreview(app, html, data);
+  PinCushion._addPreviewAsTextSnippet(app, html, data);
+  PinCushion._addDoNotShowJournalPreview(app, html, data);
   PinCushion._addTooltipHandler(app, html, data);
 });
 
@@ -231,25 +236,26 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
  * Hook on render HUD
  */
 Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
-  const showPreview = game.settings.get(PinCushion.MODULE_NAME, 'showJournalPreview');
-  if (showPreview) {
-    html.append(`<template id="pin-cushion-hud"></template>`);
+  // const showPreview = game.settings.get(PinCushion.MODULE_NAME, 'showJournalPreview');
+  // if (showPreview) {
+    html.append(`<template id="${CONSTANTS.MODULE_NAME}"></template>`);
     canvas.hud.pinCushion = new PinCushionHUD();
-  }
+  // }
 });
 
 /**
  * Hook on Note hover
  */
 Hooks.on('hoverNote', (note, hovered) => {
-  const showPreview = game.settings.get(PinCushion.MODULE_NAME, 'showJournalPreview');
+  // const showPreview = game.settings.get(PinCushion.MODULE_NAME, 'showJournalPreview');
   const previewDelay = game.settings.get(PinCushion.MODULE_NAME, 'previewDelay');
   const doNotShowJournalPreview = getProperty(
     note,
     `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}`,
   );
 
-  if (!showPreview || doNotShowJournalPreview) {
+  // if (!showPreview || doNotShowJournalPreview) {
+  if (doNotShowJournalPreview) {
     return;
   }
 
@@ -290,24 +296,24 @@ Hooks.once('canvasInit', () => {
   } else {
     libWrapper.register(PinCushion.MODULE_NAME, 'Note.prototype.refresh', PinCushion._noteRefresh2, 'WRAPPER');
   }
-  const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
-  if (enableBackgroundlessPins) {
+  // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
+  // if (enableBackgroundlessPins) {
     libWrapper.register(
       PinCushion.MODULE_NAME,
       'Note.prototype._drawControlIcon',
       PinCushion._drawControlIcon,
       'OVERRIDE',
     );
-  } else {
-    if (!game.user.isGM && revealedNotes) {
-      libWrapper.register(
-        PinCushion.MODULE_NAME,
-        'Note.prototype._drawControlIcon',
-        PinCushion._drawControlIcon2,
-        'WRAPPER',
-      );
-    }
-  }
+  // } else {
+  //   if (!game.user.isGM && revealedNotes) {
+  //     libWrapper.register(
+  //       PinCushion.MODULE_NAME,
+  //       'Note.prototype._drawControlIcon',
+  //       PinCushion._drawControlIcon2,
+  //       'WRAPPER',
+  //     );
+  //   }
+  // }
 });
 
 Hooks.on('renderSettingsConfig', (app, html, data) => {

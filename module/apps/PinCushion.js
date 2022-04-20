@@ -110,6 +110,7 @@ export class PinCushion {
       DO_NOT_SHOW_JOURNAL_PREVIEW: 'doNotShowJournalPreview',
       TOOLTIP_PLACEMENT: 'tooltipPlacement',
       TOOLTIP_COLOR: 'tooltipColor',
+      PREVIEW_AS_TEXT_SNIPPET: 'previewAsTextSnippet'
     };
   }
 
@@ -643,7 +644,7 @@ export class PinCushion {
     `);
   }
 
-  static _addDoNotshowJournalPreview(app, html, data) {
+  static _addDoNotShowJournalPreview(app, html, data) {
     const doNotShowJournalPreview =
       (app.document
         ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)
@@ -654,11 +655,32 @@ export class PinCushion {
       <div class="form-group">
         <label for="flags.${PinCushion.MODULE_NAME}.${
       PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW
-    }">${game.i18n.localize('PinCushion.DoNotshowJournalPreview')}</label>
+    }">${game.i18n.localize('PinCushion.DoNotShowJournalPreview')}</label>
         <div class="form-fields">
           <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${
       PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW
     }" data-dtype="Boolean" ${doNotShowJournalPreview ? 'checked' : ''}>
+        </div>
+      </div>
+    `);
+  }
+
+  static _addPreviewAsTextSnippet(app, html, data) {
+    const previewAsTextSnippet =
+      (app.document
+        ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET)
+        : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET)) ?? false;
+
+    const textGroup = html.find('[name=text]').closest('.form-group');
+    textGroup.after(`
+      <div class="form-group">
+        <label for="flags.${PinCushion.MODULE_NAME}.${
+      PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET
+    }">${game.i18n.localize('PinCushion.PreviewAsTextSnippet')}</label>
+        <div class="form-fields">
+          <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${
+      PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET
+    }" data-dtype="Boolean" ${previewAsTextSnippet ? 'checked' : ''}>
         </div>
       </div>
     `);
@@ -861,8 +883,8 @@ export class PinCushion {
       }
     }
 
-    const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
-    if (enableBackgroundlessPins) {
+    // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
+    // if (enableBackgroundlessPins) {
       let tint = noteInternal.data.iconTint ? colorStringToHex(noteInternal.data.iconTint) : null;
       let iconData = { texture: noteInternal.data.icon, size: noteInternal.size, tint: tint };
       let icon;
@@ -904,16 +926,16 @@ export class PinCushion {
       icon.x -= noteInternal.size / 2;
       icon.y -= noteInternal.size / 2;
       return icon;
-    } else {
-      return undefined;
-    }
+    // } else {
+    //   return undefined;
+    // }
   }
 
   /**
    * Handles draw control icon
    * @param {*} event
    */
-  static _drawControlIcon(event) {
+  static _drawControlIcon(...args) {
     const res = PinCushion._drawControlIconInternal(this);
     if (res == undefined) {
       // return wrapped(...args);
@@ -922,18 +944,18 @@ export class PinCushion {
     }
   }
 
-  /**
-   * Handles draw control icon
-   * @param {*} event
-   */
-  static _drawControlIcon2(wrapped, ...args) {
-    const res = PinCushion._drawControlIconInternal(this);
-    if (res == undefined) {
-      return wrapped(...args);
-    } else {
-      return res;
-    }
-  }
+  // /**
+  //  * Handles draw control icon
+  //  * @param {*} event
+  //  */
+  // static _drawControlIcon2(wrapped, ...args) {
+  //   const res = PinCushion._drawControlIconInternal(this);
+  //   if (res == undefined) {
+  //     return wrapped(...args);
+  //   } else {
+  //     return res;
+  //   }
+  // }
 
   /**
    * Defines the icon to be drawn for players if enabled.
@@ -953,57 +975,57 @@ export class PinCushion {
     }
   }
 
-  /**
-   * Socket handler
-   *
-   * @param {object} message - The socket event's content
-   * @param {string} message.action - The action the socket receiver should take
-   * @param {Data} [message.data] - The data to be used for Document actions
-   * @param {string} [message.id] - The ID used to handle promises
-   * @param {string} userId - The ID of the user emitting the socket event
-   * @returns {void}
-   */
-  _onSocket(message, userId) {
-    const { action, data, id } = message;
-    const isFirstGM = game.user === game.users.find((u) => u.isGM && u.active);
+  // /**
+  //  * Socket handler
+  //  *
+  //  * @param {object} message - The socket event's content
+  //  * @param {string} message.action - The action the socket receiver should take
+  //  * @param {Data} [message.data] - The data to be used for Document actions
+  //  * @param {string} [message.id] - The ID used to handle promises
+  //  * @param {string} userId - The ID of the user emitting the socket event
+  //  * @returns {void}
+  //  */
+  // _onSocket(message, userId) {
+  //   const { action, data, id } = message;
+  //   const isFirstGM = game.user === game.users.find((u) => u.isGM && u.active);
 
-    // Handle resolving or rejecting promises for GM priviliged requests
-    if (action === 'return') {
-      const promise = game.pinCushion._requests[message.id];
-      if (promise) {
-        delete game.pinCushion._requests[message.id];
-        if ('error' in message) promise.reject(message.error);
-        promise.resolve(data);
-      }
-      return;
-    }
+  //   // Handle resolving or rejecting promises for GM priviliged requests
+  //   if (action === 'return') {
+  //     const promise = game.pinCushion._requests[message.id];
+  //     if (promise) {
+  //       delete game.pinCushion._requests[message.id];
+  //       if ('error' in message) promise.reject(message.error);
+  //       promise.resolve(data);
+  //     }
+  //     return;
+  //   }
 
-    if (!isFirstGM) return;
+  //   if (!isFirstGM) return;
 
-    // Create a Journal Entry Folder
-    if (action === 'createFolder') {
-      const userName = game.users.get(userId).name;
-      return Folder.create({ name: userName, type: 'JournalEntry', parent: null, sorting: 'a' })
-        .then((response) => {
-          game.socket.emit(
-            `module.${PinCushion.MODULE_NAME}`,
-            {
-              action: 'return',
-              data: response.data,
-              id: id,
-            },
-            { recipients: [userId] },
-          );
-        })
-        .catch((error) => {
-          game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {
-            action: 'return',
-            error: error,
-            id: id,
-          });
-        });
-    }
-  }
+  //   // Create a Journal Entry Folder
+  //   if (action === 'createFolder') {
+  //     const userName = game.users.get(userId).name;
+  //     return Folder.create({ name: userName, type: 'JournalEntry', parent: null, sorting: 'a' })
+  //       .then((response) => {
+  //         game.socket.emit(
+  //           `module.${PinCushion.MODULE_NAME}`,
+  //           {
+  //             action: 'return',
+  //             data: response.data,
+  //             id: id,
+  //           },
+  //           { recipients: [userId] },
+  //         );
+  //       })
+  //       .catch((error) => {
+  //         game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {
+  //           action: 'return',
+  //           error: error,
+  //           id: id,
+  //         });
+  //       });
+  //   }
+  // }
 
   static _addJournalThumbnail(app, html, data) {
     if (
@@ -1085,10 +1107,10 @@ export class PinCushion {
     setProperty(notedata, `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_GM_TEXT}`, text);
   }
 
-  /**
-   * Helper function to register settings
-   */
-  static _registerSettings() {
-    registerSettings();
-  }
+  // /**
+  //  * Helper function to register settings
+  //  */
+  // static _registerSettings() {
+  //   registerSettings();
+  // }
 }

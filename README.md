@@ -36,7 +36,7 @@ To install this module manually:
 4.  Click 'Install' and wait for installation to complete
 5.  Don't forget to enable the module in game using the "Manage Module" button
 
-## Installation (developement branch)
+## Installation (development branch)
 
 It's always easiest to install modules from the in game add-on browser.
 
@@ -48,11 +48,10 @@ To install this module manually:
 4.  Click 'Install' and wait for installation to complete
 5.  Don't forget to enable the module in game using the "Manage Module" button
 
+## Known issue
+
+- From 1.6.0 with the new management the tooltip offset position with respect to the note is not static as you would expect it is based on a combination of x, y coordinates which also depend on the zoom level on the canvas, unfortunately it is something that I have not been able to solve, any help in such sense is welcome. On the plus side, the tooltip tends to always show towards the center of the view, perhaps in the mobile environment it is preferable for it to behave this way, so perhaps it is a more benign than evil bug. Waited for some feedback before trying to fix this again.
 ## Settings
-
-- **Show Journal Preview**: Shows a Journal preview when hovering over a map pin
-
-- **Journal Preview Type**: The type of Journal preview to show (HTML or Text snippet)
 
 - **Preview Maximum Length**: **TEXT PREVIEW ONLY** How many characters should the text preview show?
 
@@ -62,9 +61,7 @@ To install this module manually:
 
 - **Default Journal Entry Folder**: The default folder journal entries will be created in when creating Map Pins with a double-click
 
-- **Enable feature Backgroundless Pins**: Removes the background box from map notes.
-
-- **Show by default the icon image of the journal on the map note.**: If a image is set on the journal by default is the first image set from Pin Cushion
+- **Show by default the icon image of the journal on the map note**: If a image is set on the journal by default is the first image set from Pin Cushion
 
 - **Enable Player-Only Icons by default**: Newly created notes will have player-only icons enabled automatically.
 
@@ -74,7 +71,7 @@ To install this module manually:
 
 - **Add an option to have a 'revealed' state on scene Notes.**: When enabled, then the 'revealed' state will be used to determine if the Note is visible to players. (The default Foundry VTT behavior is for Notes to be visible to players only if the linked document is accessible by the player.)
 
-- **Add an option to have a 'revealed' state on scene Notes.**: is an option to set the tint colour of the Note icon to indicate if the linked document is reachable or not (if the Note has no linked document, then it will always be displayed in the 'unreachable' tint).
+- **Add an option to have a 'revealed' state on scene Notes.**: is an option to set the tint color of the Note icon to indicate if the linked document is reachable or not (if the Note has no linked document, then it will always be displayed in the 'unreachable' tint).
 
 - **Note Tint Colour when linked**: For players, the RGB value to be used to tint scene Notes if they have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import
 
@@ -91,7 +88,7 @@ To install this module manually:
 This module add many new settings for many use case on the Note config dialog, here some of the most interesting, but there is more:
 
 - **Create Pin on canvas with double click**
-- 
+ 
 ![create-pin](./img/create_pin.png)
 
 - **Customized note configuration**
@@ -109,7 +106,7 @@ This module add many new settings for many use case on the Note config dialog, h
 
 ![img](./img/backgroundless-pins-preview.gif)
 
-- Add the possibility to add a thubnail preview of the journal
+- **Add the possibility to add a thumbnail preview of the journal**
 
 ![img](./img/journal-thumbnail.png)
 
