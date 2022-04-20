@@ -94,7 +94,7 @@ Hooks.once('libChangelogsReady', function () {
     - Removed module setting 'previewType' and put as a new note configuration field 'previewTypeAsTextSnippet'
     - Update the module setting 'previewMaxLength' scope from 'client' to 'world'
     - Update the module setting 'previewDelay' scope from 'client' to 'world'
-    - Removed module setting 'enableBackgroundlessPins' we just use on the specific note configuration
+    - Removed module setting 'enableBackgroundlessPins' we just use on the note configuration field
     - Remove method '_registerSettings' from pin cushion on favor of the new design pattern method 'registerSettings'
     `,
     'minor',
@@ -238,7 +238,7 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
 Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
   // const showPreview = game.settings.get(PinCushion.MODULE_NAME, 'showJournalPreview');
   // if (showPreview) {
-    html.append(`<template id="${CONSTANTS.MODULE_NAME}"></template>`);
+    html.append(`<template id="pin-cushion-hud"></template>`);
     canvas.hud.pinCushion = new PinCushionHUD();
   // }
 });
@@ -259,10 +259,10 @@ Hooks.on('hoverNote', (note, hovered) => {
     return;
   }
 
-  // if (!hovered) {
-  //   clearTimeout(game.pinCushion.hoverTimer);
-  //   return canvas.hud.pinCushion.clear();
-  // }
+  if (!hovered) {
+    clearTimeout(game.pinCushion.hoverTimer);
+    return canvas.hud.pinCushion.clear();
+  }
 
   // If the note is hovered by the mouse cursor (not via alt/option)
   if (hovered && note.mouseInteractionManager.state === 1) {
@@ -271,6 +271,7 @@ Hooks.on('hoverNote', (note, hovered) => {
     }, previewDelay);
     return;
   } else {
+    // THis code should be never reached
     if (!hovered) {
       clearTimeout(game.pinCushion.hoverTimer);
       return canvas.hud.pinCushion.clear();

@@ -47,6 +47,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
     if (showImage) {
       content = `<img class='image' src='${entry.data.img}' alt=''></img>`;
     } else {
+      /*
       const previewType = game.settings.get(PinCushion.MODULE_NAME, 'previewType');
 
       if (previewType === 'html') {
@@ -54,6 +55,16 @@ export class PinCushionHUD extends BasePlaceableHUD {
       } else if (previewType === 'text') {
         const previewMaxLength = game.settings.get(PinCushion.MODULE_NAME, 'previewMaxLength');
 
+        const textContent = $(entry.data.content).text();
+        content =
+          textContent.length > previewMaxLength ? `${textContent.substr(0, previewMaxLength)} ...` : textContent;
+      }
+      */
+      const previewTypeAdText = getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET);
+      if(!previewTypeAdText){
+        content = TextEditor.enrichHTML(entry.data.content, { secrets: entry.isOwner, documents: true });
+      }else{
+        const previewMaxLength = game.settings.get(PinCushion.MODULE_NAME, 'previewMaxLength');
         const textContent = $(entry.data.content).text();
         content =
           textContent.length > previewMaxLength ? `${textContent.substr(0, previewMaxLength)} ...` : textContent;
