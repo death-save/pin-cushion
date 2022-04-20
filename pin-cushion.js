@@ -259,10 +259,10 @@ Hooks.on('hoverNote', (note, hovered) => {
     return;
   }
 
-  if (!hovered) {
-    clearTimeout(game.pinCushion.hoverTimer);
-    return canvas.hud.pinCushion.clear();
-  }
+  // if (!hovered) {
+  //   clearTimeout(game.pinCushion.hoverTimer);
+  //   return canvas.hud.pinCushion.clear();
+  // }
 
   // If the note is hovered by the mouse cursor (not via alt/option)
   if (hovered && note.mouseInteractionManager.state === 1) {
@@ -271,7 +271,10 @@ Hooks.on('hoverNote', (note, hovered) => {
     }, previewDelay);
     return;
   } else {
-    canvas.hud.pinCushion.clear();
+    if (!hovered) {
+      clearTimeout(game.pinCushion.hoverTimer);
+      return canvas.hud.pinCushion.clear();
+    }
   }
 });
 
