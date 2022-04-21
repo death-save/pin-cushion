@@ -220,7 +220,6 @@ Any issues, bugs, or feature requests are always welcome to be reported directly
 - [fvtt-revealed-notes-manager](https://github.com/farling42/fvtt-revealed-notes-manager) ([MIT](https://github.com/farling42/fvtt-gmtext-in-notes/blob/master/LICENSE))
 - [journal-sidebar-images](https://github.com/jessev14/journal-sidebar-images) ([MIT](https://github.com/jessev14/journal-sidebar-images/blob/master/LICENSE))
 - [jquery-powertip](https://github.com/stevenbenner/jquery-powertip) ([MIT](https://github.com/stevenbenner/jquery-powertip/blob/master/LICENSE.txt))
-- [tippyjs](https://github.com/atomiks/tippyjs) ([MIT](https://github.com/atomiks/tippyjs/blob/master/LICENSE))
 
 This package is under an [GPLv3 License](LICENSE) and the [Foundry Virtual Tabletop Limited License Agreement for module development](https://foundryvtt.com/article/license/).
 
@@ -233,5 +232,3 @@ This package is under an [GPLv3 License](LICENSE) and the [Foundry Virtual Table
 - Thank you to [farling42](https://github.com/farling42) and the module [fvtt-revealed-notes-manager](https://github.com/farling42/fvtt-revealed-notes-manager)
 - Thank you to [jessev14](https://github.com/jessev14) and the module [journal-sidebar-images](https://github.com/jessev14/journal-sidebar-images)
 - Thank you to [stevenbenner](https://github.com/stevenbenner) and the javascript project [jquery-powertip](https://github.com/stevenbenner/jquery-powertip)
-- Thank you to [atomiks](https://github.com/atomiks) and the javascript project [tippyjs](https://github.com/atomiks/tippyjs/)
-

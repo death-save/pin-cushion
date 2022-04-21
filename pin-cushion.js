@@ -208,7 +208,7 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
 
   // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
   // if (enableBackgroundlessPins) {
-    PinCushion._addBackgroundField(app, html, data);
+  PinCushion._addBackgroundField(app, html, data);
   // }
 
   const enablePlayerIcon = game.settings.get(PinCushion.MODULE_NAME, 'playerIconAutoOverride');
@@ -238,8 +238,8 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
 Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
   // const showPreview = game.settings.get(PinCushion.MODULE_NAME, 'showJournalPreview');
   // if (showPreview) {
-    html.append(`<template id="pin-cushion-hud"></template>`);
-    canvas.hud.pinCushion = new PinCushionHUD();
+  html.append(`<template id="pin-cushion-hud"></template>`);
+  canvas.hud.pinCushion = new PinCushionHUD();
   // }
 });
 
@@ -302,12 +302,12 @@ Hooks.once('canvasInit', () => {
   }
   // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
   // if (enableBackgroundlessPins) {
-    libWrapper.register(
-      PinCushion.MODULE_NAME,
-      'Note.prototype._drawControlIcon',
-      PinCushion._drawControlIcon,
-      'OVERRIDE',
-    );
+  libWrapper.register(
+    PinCushion.MODULE_NAME,
+    'Note.prototype._drawControlIcon',
+    PinCushion._drawControlIcon,
+    'OVERRIDE',
+  );
   // } else {
   //   if (!game.user.isGM && revealedNotes) {
   //     libWrapper.register(

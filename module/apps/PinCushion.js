@@ -110,7 +110,7 @@ export class PinCushion {
       DO_NOT_SHOW_JOURNAL_PREVIEW: 'doNotShowJournalPreview',
       TOOLTIP_PLACEMENT: 'tooltipPlacement',
       TOOLTIP_COLOR: 'tooltipColor',
-      PREVIEW_AS_TEXT_SNIPPET: 'previewAsTextSnippet'
+      PREVIEW_AS_TEXT_SNIPPET: 'previewAsTextSnippet',
     };
   }
 
@@ -674,9 +674,9 @@ export class PinCushion {
     const textGroup = html.find('[name=text]').closest('.form-group');
     textGroup.after(`
       <div class="form-group">
-        <label for="flags.${PinCushion.MODULE_NAME}.${
-      PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET
-    }">${game.i18n.localize('PinCushion.PreviewAsTextSnippet')}</label>
+        <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET}">${game.i18n.localize(
+      'PinCushion.PreviewAsTextSnippet',
+    )}</label>
         <div class="form-fields">
           <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${
       PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET
@@ -885,47 +885,47 @@ export class PinCushion {
 
     // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
     // if (enableBackgroundlessPins) {
-      let tint = noteInternal.data.iconTint ? colorStringToHex(noteInternal.data.iconTint) : null;
-      let iconData = { texture: noteInternal.data.icon, size: noteInternal.size, tint: tint };
-      let icon;
-      // this is note
-      if (
-        noteInternal.document &&
-        noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)
-      ) {
-        icon = new ControlIcon(iconData);
-        // } else if (noteInternal.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) { // compatibility 0.8.9
-        //   icon = new ControlIcon(iconData);
-      } else {
-        icon = new BackgroundlessControlIcon(iconData);
+    let tint = noteInternal.data.iconTint ? colorStringToHex(noteInternal.data.iconTint) : null;
+    let iconData = { texture: noteInternal.data.icon, size: noteInternal.size, tint: tint };
+    let icon;
+    // this is note
+    if (
+      noteInternal.document &&
+      noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)
+    ) {
+      icon = new ControlIcon(iconData);
+      // } else if (noteInternal.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) { // compatibility 0.8.9
+      //   icon = new ControlIcon(iconData);
+    } else {
+      icon = new BackgroundlessControlIcon(iconData);
+    }
+    if (noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO) > 1) {
+      if (noteInternal.document) {
+        icon.scale.x = noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO);
       }
-      if (noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO) > 1) {
-        if (noteInternal.document) {
-          icon.scale.x = noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO);
-        }
-        // else{
-        //   icon.scale.x = noteInternal.getFlag(PinCushion.MODULE_NAME,  PinCushion.FLAGS.RATIO); // compatibility 0.8.9
-        // }
-        // TODO need to centre text
+      // else{
+      //   icon.scale.x = noteInternal.getFlag(PinCushion.MODULE_NAME,  PinCushion.FLAGS.RATIO); // compatibility 0.8.9
+      // }
+      // TODO need to centre text
+    }
+    // PATCH MODULE autoIconFlags
+    if (noteInternal.data?.flags?.autoIconFlags) {
+      const flagsAutomaticJournalIconNumbers = {
+        autoIcon: noteInternal.data?.flags.autoIconFlags.autoIcon,
+        iconType: noteInternal.data?.flags.autoIconFlags.iconType,
+        iconText: noteInternal.data?.flags.autoIconFlags.iconText,
+        foreColor: noteInternal.data?.flags.autoIconFlags.foreColor,
+        backColor: noteInternal.data?.flags.autoIconFlags.backColor,
+        fontFamily: noteInternal.data?.flags.autoIconFlags.fontFamily,
+      };
+      if (flagsAutomaticJournalIconNumbers.fontFamily) {
+        noteInternal.data.fontFamily = flagsAutomaticJournalIconNumbers.fontFamily;
       }
-      // PATCH MODULE autoIconFlags
-      if (noteInternal.data?.flags?.autoIconFlags) {
-        const flagsAutomaticJournalIconNumbers = {
-          autoIcon: noteInternal.data?.flags.autoIconFlags.autoIcon,
-          iconType: noteInternal.data?.flags.autoIconFlags.iconType,
-          iconText: noteInternal.data?.flags.autoIconFlags.iconText,
-          foreColor: noteInternal.data?.flags.autoIconFlags.foreColor,
-          backColor: noteInternal.data?.flags.autoIconFlags.backColor,
-          fontFamily: noteInternal.data?.flags.autoIconFlags.fontFamily,
-        };
-        if (flagsAutomaticJournalIconNumbers.fontFamily) {
-          noteInternal.data.fontFamily = flagsAutomaticJournalIconNumbers.fontFamily;
-        }
-        //noteInternal.controlIcon?.bg?.fill = flagsAutomaticJournalIconNumbers.backColor;
-      }
-      icon.x -= noteInternal.size / 2;
-      icon.y -= noteInternal.size / 2;
-      return icon;
+      //noteInternal.controlIcon?.bg?.fill = flagsAutomaticJournalIconNumbers.backColor;
+    }
+    icon.x -= noteInternal.size / 2;
+    icon.y -= noteInternal.size / 2;
+    return icon;
     // } else {
     //   return undefined;
     // }

@@ -1,6 +1,5 @@
 import CONSTANTS from '../constants.js';
 import { is_real_number } from '../lib/lib.js';
-import tippy, {followCursor} from '../lib/tippy-bundle.umd.js';
 
 /**
  * @class PinCushionHUD
@@ -61,10 +60,13 @@ export class PinCushionHUD extends BasePlaceableHUD {
           textContent.length > previewMaxLength ? `${textContent.substr(0, previewMaxLength)} ...` : textContent;
       }
       */
-      const previewTypeAdText = getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET);
-      if(!previewTypeAdText){
+      const previewTypeAdText = getProperty(
+        this.object.data.flags[PinCushion.MODULE_NAME],
+        PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET,
+      );
+      if (!previewTypeAdText) {
         content = TextEditor.enrichHTML(entry.data.content, { secrets: entry.isOwner, documents: true });
-      }else{
+      } else {
         const previewMaxLength = game.settings.get(PinCushion.MODULE_NAME, 'previewMaxLength');
         const textContent = $(entry.data.content).text();
         content =
@@ -158,6 +160,8 @@ export class PinCushionHUD extends BasePlaceableHUD {
     const fontSize = game.settings.get(CONSTANTS.MODULE_NAME, 'fontSize') || canvas.grid.size / 5;
     const maxWidth = game.settings.get(CONSTANTS.MODULE_NAME, 'maxWidth');
 
+    // WITH TOOLTIP
+
     const x = this.object.x || this.object.center.x;
     const y = this.object.y || this.object.center.y;
     const ratio =
@@ -183,8 +187,6 @@ export class PinCushionHUD extends BasePlaceableHUD {
     const top = y - this.object.size/2; // - this.object.height/2 + offset
     */
 
-    // TODO WE REALLY NEED TO DO THIS ????
-
     const position = {
       // width: this.object.width,
       // height: this.object.height,
@@ -195,6 +197,8 @@ export class PinCushionHUD extends BasePlaceableHUD {
     };
     elementToTooltip.css(position);
 
+    // $.powerTip.hide(html);
+
     let tooltipPlacement =
       getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TOOLTIP_PLACEMENT) ?? 'w';
     let tooltipColor =
@@ -204,10 +208,6 @@ export class PinCushionHUD extends BasePlaceableHUD {
     let popupClass = tooltipColor ? 'pin-cushion-hud-tooltip-' + tooltipColor : 'pin-cushion-hud-tooltip-default';
 
     let tipContent = $(this.contentTooltip);
-
-    /*
-
-    // WITH TOOLTIP
 
     elementToTooltip.data('powertipjq', tipContent);
     elementToTooltip.powerTip({
@@ -239,74 +239,6 @@ export class PinCushionHUD extends BasePlaceableHUD {
     });
 
     $.powerTip.show(elementToTooltip);
-    */
-
-    // https://atomiks.github.io/tippyjs/v6/all-props/
-
-    tippy(elementToTooltip, {
-      content: tipContent,
-
-      // duration: 0,
-
-      arrow: true,
-
-      // show delay is 1000ms, hide delay is 1000ms
-      delay: [1000, 1000],
-
-      // enable it
-      interactive: true,
-
-      allowHTML: true,
-
-      // default (takes reference as an argument)
-      // appendTo: () => document.body,
-      // // append to reference's parentNode
-      // appendTo: 'parent',
-      // // append to an Element
-      // appendTo: element,
-      // default
-      maxWidth: maxWidth,
-
-      // default [skidding, distance]
-      // offset: [0, 10],
-
-      // // default
-      // trigger: 'mouseenter focus',
-      // // others:
-      // trigger: 'click',
-      // trigger: 'focusin',
-      // trigger: 'mouseenter click',
-      // // only programmatically trigger it
-      // trigger: 'manual',
-
-      // default
-      // zIndex: 9999,
-
-      // default
-      // placement: 'top',
-
-      // // full list:
-      placement: 'left',
-      // placement: 'top-start', // North East Alt
-      // placement: 'top-end', // North West Alt
-
-      // placement: 'right',
-      // placement: 'right-start',
-      // placement: 'right-end',
-
-      // placement: 'bottom',
-      // placement: 'bottom-start',
-      // placement: 'bottom-end',
-
-      // placement: 'left',
-      // placement: 'left-start',
-      // placement: 'left-end',
-
-      // // choose the side with most space
-      // placement: 'auto',
-      // placement: 'auto-start',
-      // placement: 'auto-end',
-    });
   }
 
   // clear(){

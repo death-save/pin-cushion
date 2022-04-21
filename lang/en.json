@@ -56,8 +56,6 @@
     "SETTINGS.dialogs.resetsettings.confirm": "Reset Module Settings",
     "SETTINGS.dialogs.resetsettings.cancel": "Cancel",
 
-
-
     "Tooltip.Placement.title": "Tooltip Placement",
     "Tooltip.Placement.choices.north-west-alt": "North West Alt",
     "Tooltip.Placement.choices.north-west": "North West",
