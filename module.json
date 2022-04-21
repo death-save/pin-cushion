@@ -63,7 +63,11 @@
       "path": "./lang/ja.json"
     }
   ],
-  "scripts": ["./module/lib/jquery.powertip.js"],
+  "scripts": [
+    "./module/lib/jquery.powertip.js",
+    "./module/lib/popper.js",
+    "./module/lib/tippy-bundle.umd.js"
+  ],
   "system": [],
   "esmodules": ["./pin-cushion.js", "./about.js"],
   "styles": [
