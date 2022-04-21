@@ -1,5 +1,9 @@
 # Changelog
 
+### [1.6.3]
+
+- Bug fix for the GM NOte feature
+
 ### [1.6.2]
 
 - Add the note configuration setting 'Tooltip Force Remove'

@@ -719,10 +719,10 @@ export class PinCushion {
     // NoteDocument#label = get label() { return this.data.text || this.entry?.name || "Unknown"; }
     // but NoteDocument#data.text can be modified :-)
     //
-    let saved_text = this.document.data.text;
+    // let saved_text = this.document.data.text;
     this.document.data.text = newtext;
     let result = wrapped(...args);
-    this.document.data.text = saved_text;
+    // this.document.data.text = saved_text;
 
     if (hideLabel) {
       result.text = '';
