@@ -1,5 +1,9 @@
 # Changelog
 
+### [1.6.2]
+
+- Add the note configuration setting 'Tooltip Force Remove'
+
 ### [1.6.1]
 
 - Removed module setting 'showJournalPreview'

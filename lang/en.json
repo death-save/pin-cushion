@@ -81,6 +81,8 @@
     "Tooltip.Color.choices.red": "Red",
     "Tooltip.Color.choices.yellow": "Yellow",
 
+    "Tooltip.ForceRemove.title": "Tooltip Force remove when not on hover. Note: do not use this if you need a interactive note.",
+
     "Name": "Name:",
     "None": "None",
     "PerUser": "User",

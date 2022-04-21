@@ -253,6 +253,10 @@ Hooks.on('hoverNote', (note, hovered) => {
     note,
     `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}`,
   );
+  const tooltipForceRemove = getProperty(
+    note,
+    `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}`,
+  );
 
   // if (!showPreview || doNotShowJournalPreview) {
   if (doNotShowJournalPreview) {
@@ -261,6 +265,9 @@ Hooks.on('hoverNote', (note, hovered) => {
 
   if (!hovered) {
     clearTimeout(game.pinCushion.hoverTimer);
+    if(tooltipForceRemove){
+      $('#powerTip').remove();
+    }
     return canvas.hud.pinCushion.clear();
   }
 
