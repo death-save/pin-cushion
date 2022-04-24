@@ -121,7 +121,10 @@ export class PinCushionHUD extends BasePlaceableHUD {
 
     const viewWidth = visualViewport.width;
     const width = this.object.controlIcon.width * ratio;
-    const height = this.object.controlIcon.height;
+    const height = this.object.controlIcon.texture?.height 
+      ? this.object.controlIcon.texture?.height  - this.object.tooltip.height
+      : this.object.controlIcon.height - this.object.tooltip.height;
+    // const height = this.object.controlIcon.height - this.object.tooltip.height;
     // const orientation =
     //   (this.object.getGlobalPosition()?.x ?? 0) < viewWidth / 2 ? "right" : "left";
     // const top = y - height / 2;
@@ -172,7 +175,10 @@ export class PinCushionHUD extends BasePlaceableHUD {
 
     const viewWidth = visualViewport.width;
     const width = this.object.controlIcon.width * ratio;
-    const height = this.object.controlIcon.height;
+    const height = this.object.controlIcon.texture?.height 
+      ? this.object.controlIcon.texture?.height  - this.object.tooltip.height
+      : this.object.controlIcon.height - this.object.tooltip.height;
+    // const height = this.object.controlIcon.height - this.object.tooltip.height;
     // const orientation =
     //   (this.object.getGlobalPosition()?.x ?? 0) < viewWidth / 2 ? "right" : "left";
     // const top = y - height / 2;
