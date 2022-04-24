@@ -90,12 +90,8 @@ Hooks.once('libChangelogsReady', function () {
   libChangelogs.register(
     PinCushion.MODULE_NAME,
     `
-    - Removed module setting 'showJournalPreview'
-    - Removed module setting 'previewType' and put as a new note configuration field 'previewTypeAsTextSnippet'
-    - Update the module setting 'previewMaxLength' scope from 'client' to 'world'
-    - Update the module setting 'previewDelay' scope from 'client' to 'world'
-    - Removed module setting 'enableBackgroundlessPins' we just use on the note configuration field
-    - Remove method '_registerSettings' from pin cushion on favor of the new design pattern method 'registerSettings'
+    - Some bug fix on height
+    - Set the default value of note configuration field 'doNotShowJournalPreview' from false to true, for retrocompatibility
     `,
     'minor',
   );

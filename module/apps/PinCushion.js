@@ -653,7 +653,7 @@ export class PinCushion {
     const doNotShowJournalPreview =
       (app.document
         ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)
-        : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)) ?? false;
+        : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)) ?? true;
 
     const textGroup = html.find('[name=text]').closest('.form-group');
     textGroup.after(`

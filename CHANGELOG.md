@@ -1,5 +1,10 @@
 # Changelog
 
+### [1.6.4]
+
+- Some bug fix on height
+- Set the default value of note configuration field `doNotShowJournalPreview` from false to true, for retrocompatibility
+
 ### [1.6.3]
 
 - Bug fix for the GM NOte feature
