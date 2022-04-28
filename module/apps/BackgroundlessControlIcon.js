@@ -1,3 +1,5 @@
+import { error } from '../lib/lib.js';
+
 export class BackgroundlessControlIcon extends ControlIcon {
   /**
    * Override ControlIcon#draw to remove drawing of the background.
@@ -12,9 +14,13 @@ export class BackgroundlessControlIcon extends ControlIcon {
     this.border.visible = false;
 
     // Draw icon
-    this.icon.texture = this.texture ?? (this.iconSrc ? await loadTexture(this.iconSrc) : '');
-    this.icon.width = this.icon.height = this.size;
-    this.icon.tint = Number.isNumeric(this.tintColor) ? this.tintColor : 0xffffff;
+    try{
+      this.icon.texture = this.texture ?? (this.iconSrc ? await loadTexture(this.iconSrc) : '');
+      this.icon.width = this.icon.height = this.size;
+      this.icon.tint = Number.isNumeric(this.tintColor) ? this.tintColor : 0xffffff;
+    }catch(e){
+      error(e.stack);
+    }
     return this;
   }
 }
