@@ -42,10 +42,12 @@ export class PinCushion {
     return {
       content: `
             <div class="form-group">
-              <p class="notes">${i18n('PinCushion.Name')}</p>
+              <label>
+                <p class="notes">${i18n('PinCushion.Name')}</p>
               </label>
-              <input name="name" type="text">
-              <p class="notes">${i18n('PinCushion.DefaultPermission')}</p>
+              <input name="name" type="text"/>
+              <label>
+                <p class="notes">${i18n('PinCushion.DefaultPermission')}</p>
               </label>
               <select id="cushion-permission" style="width: 100%;">
                 <option value="0" ${defaultPermission == '0' ? 'selected' : ''}>${i18n('PERMISSION.NONE')}</option>
@@ -53,10 +55,15 @@ export class PinCushion {
                 <option value="2" ${defaultPermission == '2' ? 'selected' : ''}>${i18n('PERMISSION.OBSERVER')}</option>
                 <option value="3" ${defaultPermission == '3' ? 'selected' : ''}>${i18n('PERMISSION.OWNER')}</option>
               </select>
-              <p class="notes">${i18n('PinCushion.Folder')}</p>
+              <label>
+                <p class="notes">${i18n('PinCushion.Folder')}</p>
               </label>
               <select id="cushion-folder" style="width: 100%;">
-                <option value="none" ${defaultFolder == 'none' ? 'selected' : ''}>${i18n('PinCushion.None')}</option>
+                <option 
+                  value="none" 
+                  ${defaultFolder == 'none' ? 'selected' : ''}>
+                    ${i18n('PinCushion.None')}
+                </option>
                 ${
                   game.user.isGM
                     ? ``
@@ -64,9 +71,11 @@ export class PinCushion {
                         'PinCushion.PerUser',
                       )}</option>`
                 }
-                <option value="specificFolder" ${defaultFolder == 'specificFolder' ? 'selected' : ''}>${i18n(
-        'PinCushion.PerSpecificFolder',
-      )}</option>
+                <option 
+                  value="specificFolder" 
+                  ${defaultFolder == 'specificFolder' ? 'selected' : ''}>
+                    ${i18n('PinCushion.PerSpecificFolder')}
+                </option>
                 <option disabled>──${i18n('PinCushion.ExistingFolders')}──</option>
                 ${folders}
               </select>
@@ -373,98 +382,146 @@ export class PinCushion {
 
     iconAnchor.after(`
       <div class="form-group">
-        <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_PLACEMENT}">${i18n(
-      'PinCushion.Tooltip.Placement.title',
-    )}</label>
+        <label 
+          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_PLACEMENT}">
+          ${i18n('PinCushion.Tooltip.Placement.title')}
+        </label>
         <div class="form-fields">
-          <select id="cushion-permission" style="width: 100%;" name="flags.${PinCushion.MODULE_NAME}.${
-      PinCushion.FLAGS.TOOLTIP_PLACEMENT
-    }">
-            <option value="nw-alt" ${tooltipPlacement == 'nw-alt' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Placement.choices.north-west-alt',
-    )}</option>
-            <option value="nw" ${tooltipPlacement == 'nw' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Placement.choices.north-west',
-    )}</option>
-            <option value="n" ${tooltipPlacement == 'n' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Placement.choices.north',
-    )}</option>
-            <option value="ne" ${tooltipPlacement == 'ne' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Placement.choices.north-east',
-    )}</option>
-            <option value="ne-alt" ${tooltipPlacement == 'ne-alt' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Placement.choices.north-east-alt',
-    )}</option>
-            <option value="w" ${tooltipPlacement == 'w' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Placement.choices.west',
-    )}</option>
-            <option value="e" ${tooltipPlacement == 'e' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Placement.choices.east',
-    )}</option>
-            <option value="sw-alt" ${tooltipPlacement == 'sw-alt' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Placement.choices.south-west-alt',
-    )}</option>
-            <option value="sw" ${tooltipPlacement == 'sw' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Placement.choices.south-west',
-    )}</option>
-            <option value="s" ${tooltipPlacement == 's' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Placement.choices.south',
-    )}</option>
-            <option value="se" ${tooltipPlacement == 'se' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Placement.choices.south-east',
-    )}</option>
-            <option value="se-alt" ${tooltipPlacement == 'se-alt' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Placement.choices.south-east-alt',
-    )}</option>
+          <select 
+            id="cushion-permission" 
+            style="width: 100%;" 
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_PLACEMENT}">
+            <option 
+              value="nw-alt" 
+              ${tooltipPlacement == 'nw-alt' ? 'selected' : ''}>
+                ${i18n('PinCushion.Tooltip.Placement.choices.north-west-alt')}
+            </option>
+            <option 
+              value="nw" 
+              ${tooltipPlacement == 'nw' ? 'selected' : ''}>
+                ${i18n('PinCushion.Tooltip.Placement.choices.north-west')}
+            </option>
+            <option 
+              value="n" 
+              ${tooltipPlacement == 'n' ? 'selected' : ''}>
+                ${i18n('PinCushion.Tooltip.Placement.choices.north')}
+              </option>
+            <option 
+              value="ne" 
+              ${tooltipPlacement == 'ne' ? 'selected' : ''}>
+                ${i18n('PinCushion.Tooltip.Placement.choices.north-east')}
+              </option>
+            <option 
+              value="ne-alt" 
+              ${tooltipPlacement == 'ne-alt' ? 'selected' : ''}>
+                ${i18n('PinCushion.Tooltip.Placement.choices.north-east-alt')}
+              </option>
+            <option 
+              value="w" 
+              ${tooltipPlacement == 'w' ? 'selected' : ''}>
+                ${i18n('PinCushion.Tooltip.Placement.choices.west')}
+              </option>
+            <option 
+              value="e" 
+              ${tooltipPlacement == 'e' ? 'selected' : ''}>
+                ${i18n('PinCushion.Tooltip.Placement.choices.east')}
+              </option>
+            <option 
+              value="sw-alt" 
+              ${tooltipPlacement == 'sw-alt' ? 'selected' : ''}>
+                ${i18n('PinCushion.Tooltip.Placement.choices.south-west-alt')}
+              </option>
+            <option 
+              value="sw" 
+              ${tooltipPlacement == 'sw' ? 'selected' : ''}>
+                ${i18n('PinCushion.Tooltip.Placement.choices.south-west')}
+            </option>
+            <option 
+              value="s" 
+              ${tooltipPlacement == 's' ? 'selected' : ''}>
+                ${i18n('PinCushion.Tooltip.Placement.choices.south')}
+            </option>
+            <option 
+              value="se" 
+              ${tooltipPlacement == 'se' ? 'selected' : ''}>
+                ${i18n('PinCushion.Tooltip.Placement.choices.south-east')}
+            </option>
+            <option 
+              value="se-alt" 
+              ${tooltipPlacement == 'se-alt' ? 'selected' : ''}>
+                ${i18n('PinCushion.Tooltip.Placement.choices.south-east-alt')}
+            </option>
           </select>
         </div>
       </div>
       <div class="form-group">
-        <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">${i18n(
-      'PinCushion.Tooltip.Color.title',
-    )}</label>
+        <label 
+          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">
+            ${i18n('PinCushion.Tooltip.Color.title')}
+        </label>
         <div class="form-fields">
-          <select id="cushion-permission" style="width: 100%;" name="flags.${PinCushion.MODULE_NAME}.${
-      PinCushion.FLAGS.TOOLTIP_COLOR
-    }">
-            <option value="" ${tooltipColor == '' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Color.choices.default',
-    )}</option>
-            <option value="blue" ${tooltipColor == 'blue' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Color.choices.blue',
-    )}</option>
-            <option value="dark" ${tooltipColor == 'dark' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Color.choices.dark',
-    )}</option>
-            <option value="green" ${tooltipColor == 'green' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Color.choices.green',
-    )}</option>
-            <option value="light" ${tooltipColor == 'light' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Color.choices.light',
-    )}</option>
-            <option value="orange" ${tooltipColor == 'orange' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Color.choices.orange',
-    )}</option>
-            <option value="purple" ${tooltipColor == 'purple' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Color.choices.purple',
-    )}</option>
-            <option value="red" ${tooltipColor == 'red' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Color.choices.red',
-    )}</option>
-            <option value="yellow" ${tooltipColor == 'yellow' ? 'selected' : ''}>${i18n(
-      'PinCushion.Tooltip.Color.choices.yellow',
-    )}</option>
+          <select 
+            id="cushion-permission" 
+            style="width: 100%;" 
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">
+            <option 
+            value="" ${tooltipColor == '' ? 'selected' : ''}>
+              ${i18n('PinCushion.Tooltip.Color.choices.default')}
+            </option>
+            <option 
+            value="blue" 
+            ${tooltipColor == 'blue' ? 'selected' : ''}>
+              ${i18n('PinCushion.Tooltip.Color.choices.blue')}
+            </option>
+            <option 
+            value="dark" 
+            ${tooltipColor == 'dark' ? 'selected' : ''}>
+              ${i18n('PinCushion.Tooltip.Color.choices.dark')}
+            </option>
+            <option 
+            value="green" 
+            ${tooltipColor == 'green' ? 'selected' : ''}>
+              ${i18n('PinCushion.Tooltip.Color.choices.green')}
+            </option>
+            <option 
+            value="light" 
+            ${tooltipColor == 'light' ? 'selected' : ''}>
+              ${i18n('PinCushion.Tooltip.Color.choices.light')}
+            </option>
+            <option 
+            value="orange" 
+            ${tooltipColor == 'orange' ? 'selected' : ''}>
+              ${i18n('PinCushion.Tooltip.Color.choices.orange')}
+            </option>
+            <option value="purple" 
+            ${tooltipColor == 'purple' ? 'selected' : ''}>
+              ${i18n('PinCushion.Tooltip.Color.choices.purple')}
+            </option>
+            <option 
+            value="red" 
+            ${tooltipColor == 'red' ? 'selected' : ''}>
+              ${i18n('PinCushion.Tooltip.Color.choices.red')}
+            </option>
+            <option 
+            value="yellow" 
+            ${tooltipColor == 'yellow' ? 'selected' : ''}>
+              ${i18n('PinCushion.Tooltip.Color.choices.yellow')}
+            </option>
           </select>
         </div>
       </div>
       <div class="form-group">
-            <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}">${i18n(
-      'PinCushion.Tooltip.ForceRemove.title',
-    )}</label>
-            <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${
-      PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE
-    }" data-dtype="Boolean" ${tooltipForceRemove ? 'checked' : ''}>
+        <label 
+          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}">
+            ${i18n('PinCushion.Tooltip.ForceRemove.title')}
+        </label>
+        <div class="form-fields">
+          <input 
+            type="checkbox" 
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}" 
+            data-dtype="Boolean" ${tooltipForceRemove ? 'checked' : ''} />
         </div>
+      </div>
     `);
 
     app.setPosition({ height: 'auto' });
@@ -494,24 +551,32 @@ export class PinCushion {
     const textAnchorGroup = html.find('[name=textAnchor]').closest('.form-group');
 
     iconTintGroup.after(`
-            <div class="form-group">
-                <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}">${i18n(
-      'PinCushion.HasBackground',
-    )}</label>
-                <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${
-      PinCushion.FLAGS.HAS_BACKGROUND
-    }" data-dtype="Boolean" ${hasBackground ? 'checked' : ''}>
-            </div>
-        `);
+      <div class="form-group">
+        <label 
+          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}">
+          ${i18n('PinCushion.HasBackground')}
+        </label>
+        <div class="form-fields">
+          <input 
+            type="checkbox" 
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}" 
+            data-dtype="Boolean" ${hasBackground ? 'checked' : ''} />
+        </div>
+      </div>`);
 
     iconSizeGroup.after(`
       <div class="form-group">
-          <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.RATIO}">${i18n(
-      'PinCushion.HasBackgroundRatio',
-    )}</label>
-          <input type="text" name="flags.${PinCushion.MODULE_NAME}.${
-      PinCushion.FLAGS.RATIO
-    }" data-dtype="Number" value="${ratio}">
+        <label 
+          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.RATIO}">
+            ${i18n('PinCushion.HasBackgroundRatio')}
+        </label>
+        <div class="form-fields">
+          <input 
+            type="text" 
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.RATIO}" 
+            data-dtype="Number" 
+            value="${ratio}" />
+        </div>
       </div>
     `);
 
@@ -574,11 +639,13 @@ export class PinCushion {
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE}">
           ${i18n('PinCushion.ShowImage')}
         </label>
-        <input
-          type="checkbox"
-          name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE}"
-          data-dtype="Boolean" ${showImage ? 'checked' : ''}>
-        </input>
+        <div class="form-fields">
+          <input
+            type="checkbox"
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE}"
+            data-dtype="Boolean" ${showImage ? 'checked' : ''}>
+          </input>
+        </div>
       </div>
       ${filePickerHtml}
     `);
@@ -609,35 +676,43 @@ export class PinCushion {
     const playerIconHtml = `<hr>
         <!-- Button to Enable overrides -->
         <div class="form-group">
-        <label>${i18n('PinCushion.UsePlayerIcon')}</label>
-        <div class="form-fields">
-        <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${
-      PinCushion.FLAGS.PLAYER_ICON_STATE
-    }" data-dtype="Boolean" ${state ? 'checked' : ``} />
+          <label>${i18n('PinCushion.UsePlayerIcon')}</label>
+          <div class="form-fields">
+            <input 
+              type="checkbox" 
+              name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_STATE}" 
+              data-dtype="Boolean" ${state ? 'checked' : ``} />
+          </div>
+          <p class="notes">${i18n('PinCushion.PlayerIconHint')}</p>
         </div>
-        <p class="notes">${i18n('PinCushion.PlayerIconHint')}</p>
-        </div>
-
         <!-- Player Icon -->
         <div class="form-group">
-        <label>${i18n('PinCushion.PlayerIconPath')}</label>
-        <!--
-        <div class="form-fields">
-        <select name="icon">
-        </select>
-        -->
-        <input type="text"
-          name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}"
-          title="Icon Path" class="icon-path" value="${path ? path : ``}"
-        data-dtype="String">
+          <label>${i18n('PinCushion.PlayerIconPath')}</label>
+          <div class="form-fields">
+            <!--
+            <select name="icon">
+            </select>
+            -->
+            <input type="text"
+              name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}"
+              title="Icon Path" class="icon-path" value="${path ? path : ``}"
+              data-dtype="String" />
+            ${this.filePicker(
+              'image',
+              `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}`,
+              `file-picker`,
+            )}
+          </div>
+        </div>`;
 
+    /*
         <button type="button" name="file-picker"
-          class="file-picker" data-type="image"
-          data-target="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}"
+            class="file-picker" data-type="image"
+            data-target="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}"
         title="Browse Files" tabindex="-1">
         <i class="fas fa-file-import fa-fw"></i>
         </button>
-        </div>`;
+        */
 
     // Insert Player Icon handling at end of config
     html.find("button[name='submit']").before(playerIconHtml);
@@ -649,18 +724,28 @@ export class PinCushion {
     let gmtext = data.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_GM_TEXT);
     if (!gmtext) gmtext = '';
     let gm_text = $(
-      `<div class='form-group'><label>GM Label</label><div class='form-fields'><textarea name='${gmNoteFlagRef}'>${
-        gmtext ?? ''
-      }</textarea></div></div>`,
+      `<div class='form-group'>
+        <label>GM Label</label>
+        <div class='form-fields'>
+          <textarea 
+            name='${gmNoteFlagRef}'>
+            ${gmtext ?? ''}</textarea>
+        </div>
+      </div>`,
     );
     html.find("input[name='text']").parent().parent().after(gm_text);
 
     // Multiline input for Text Label
     let initial_text = data.data.text ?? data.entry.name;
     let label = $(
-      `<div class='form-group'><label>Player Label</label><div class='form-fields'><textarea name='text' placeholder='${
-        data.entry.name
-      }'>${initial_text ?? ''}</textarea></div></div>`,
+      `<div class='form-group'>
+        <label>Player Label</label>
+        <div class='form-fields'>
+          <textarea name='text' 
+          placeholder='${data.entry.name}'>
+          ${initial_text ?? ''}</textarea>
+        </div>
+      </div>`,
     );
     html.find("input[name='text']").parent().parent().after(label);
 
@@ -686,9 +771,14 @@ export class PinCushion {
     let checked =
       data.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_REVEALED) ?? true ? 'checked' : '';
     let revealed_control = $(
-      `<div class='form-group'><label>${i18n(
-        'PinCushion.RevealedToPlayer',
-      )}</label><div class='form-fields'><input type='checkbox' name='${FLAG_IS_REVEALED}' ${checked}></div></div>`,
+      `<div class='form-group'>
+        <label>${i18n('PinCushion.RevealedToPlayer')}</label>
+        <div class='form-fields'>
+          <input 
+          type='checkbox' 
+          name='${FLAG_IS_REVEALED}' ${checked} />
+        </div>
+      </div>`,
     );
     html.find("select[name='entryId']").parent().parent().after(revealed_control);
 
@@ -696,9 +786,14 @@ export class PinCushion {
     let use_reveal =
       data.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED) ?? false ? 'checked' : '';
     let mode_control = $(
-      `<div class='form-group'><label>${i18n(
-        'PinCushion.UseRevealState',
-      )}</label><div class='form-fields'><input type='checkbox' name='${FLAG_USE_REVEALED}' ${use_reveal}></div></div>`,
+      `<div class='form-group'>
+        <label>${i18n('PinCushion.UseRevealState')}</label>
+        <div class='form-fields'>
+          <input 
+            type='checkbox' 
+            name='${FLAG_USE_REVEALED}' ${use_reveal} />
+        </div>
+      </div>`,
     );
     html.find("select[name='entryId']").parent().parent().after(mode_control);
 
@@ -718,13 +813,15 @@ export class PinCushion {
     const textGroup = html.find('[name=text]').closest('.form-group');
     textGroup.after(`
       <div class="form-group">
-        <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HIDE_LABEL}">${i18n(
-      'PinCushion.HideLabel',
-    )}</label>
+        <label 
+          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HIDE_LABEL}">
+            ${i18n('PinCushion.HideLabel')}
+        </label>
         <div class="form-fields">
-          <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${
-      PinCushion.FLAGS.HIDE_LABEL
-    }" data-dtype="Boolean" ${hideLabel ? 'checked' : ''}>
+          <input 
+            type="checkbox" 
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HIDE_LABEL}" 
+            data-dtype="Boolean" ${hideLabel ? 'checked' : ''} />
         </div>
       </div>
     `);
@@ -739,13 +836,15 @@ export class PinCushion {
     const textGroup = html.find('[name=text]').closest('.form-group');
     textGroup.after(`
       <div class="form-group">
-        <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}">${i18n(
-      'PinCushion.DoNotShowJournalPreview',
-    )}</label>
+        <label 
+          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}">
+          ${i18n('PinCushion.DoNotShowJournalPreview')}
+        </label>
         <div class="form-fields">
-          <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${
-      PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW
-    }" data-dtype="Boolean" ${doNotShowJournalPreview ? 'checked' : ''}>
+          <input 
+            type="checkbox" 
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}" 
+            data-dtype="Boolean" ${doNotShowJournalPreview ? 'checked' : ''} />
         </div>
       </div>
     `);
@@ -760,13 +859,15 @@ export class PinCushion {
     const textGroup = html.find('[name=text]').closest('.form-group');
     textGroup.after(`
       <div class="form-group">
-        <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET}">${i18n(
-      'PinCushion.PreviewAsTextSnippet',
-    )}</label>
+        <label 
+          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET}">
+          ${i18n('PinCushion.PreviewAsTextSnippet')}
+        </label>
         <div class="form-fields">
-          <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${
-      PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET
-    }" data-dtype="Boolean" ${previewAsTextSnippet ? 'checked' : ''}>
+          <input 
+            type="checkbox" 
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET}" 
+            data-dtype="Boolean" ${previewAsTextSnippet ? 'checked' : ''} />
         </div>
       </div>
     `);
