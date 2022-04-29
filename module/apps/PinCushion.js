@@ -431,10 +431,10 @@ export class PinCushion {
       <div class="form-group">
             <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}">${i18n(
       'PinCushion.Tooltip.ForceRemove.title',
-      )}</label>
+    )}</label>
             <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${
       PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE
-      }" data-dtype="Boolean" ${tooltipForceRemove ? 'checked' : ''}>
+    }" data-dtype="Boolean" ${tooltipForceRemove ? 'checked' : ''}>
         </div>
     `);
 
@@ -509,7 +509,8 @@ export class PinCushion {
    */
   static _addShowImageField(app, html, data) {
     const showImage = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE) ?? false;
-    const showImageExplicitSource = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? '';
+    const showImageExplicitSource =
+      app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? '';
 
     // you can see this only if you have the file browser permissions
     let filePickerHtml = '';
@@ -518,7 +519,7 @@ export class PinCushion {
         <div class="form-group">
             <label
               for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}">
-              ${i18n('PinCushion.ShowImageExplicitSource',)}
+              ${i18n('PinCushion.ShowImageExplicitSource')}
             </label>
             <input
               type="text"
@@ -547,7 +548,7 @@ export class PinCushion {
       <div class="form-group">
         <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE}">
-          ${i18n('PinCushion.ShowImage',)}
+          ${i18n('PinCushion.ShowImage')}
         </label>
         <input
           type="checkbox"

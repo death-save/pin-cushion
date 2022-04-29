@@ -42,15 +42,24 @@ export class PinCushionHUD extends BasePlaceableHUD {
     // TODO The getFlag was returning as 'not a function', for whatever reason...
     // const showImage = this.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE);
     const showImage = getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.SHOW_IMAGE);
-    const showImageExplicitSource = getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE);
+    const showImageExplicitSource = getProperty(
+      this.object.data.flags[PinCushion.MODULE_NAME],
+      PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE,
+    );
 
     let content;
     if (showImage || !entry.data.content) {
       const imgToShow = showImageExplicitSource ? showImageExplicitSource : entry.data.img;
       if (imgToShow && imgToShow.length > 0) {
-        content = TextEditor.enrichHTML(`<img class='image' src='${imgToShow}' alt=''></img>`, {secrets: entry.isOwner, documents: true });
-      }else{
-        content = TextEditor.enrichHTML(`<img class='image' src='${CONSTANTS.PATH_TRANSPARENT}' alt=''></img>`, {secrets: entry.isOwner, documents: true });
+        content = TextEditor.enrichHTML(`<img class='image' src='${imgToShow}' alt=''></img>`, {
+          secrets: entry.isOwner,
+          documents: true,
+        });
+      } else {
+        content = TextEditor.enrichHTML(`<img class='image' src='${CONSTANTS.PATH_TRANSPARENT}' alt=''></img>`, {
+          secrets: entry.isOwner,
+          documents: true,
+        });
       }
     } else {
       /*
@@ -128,7 +137,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
     const viewWidth = visualViewport.width;
     const width = this.object.controlIcon.width * ratio;
     const height = this.object.controlIcon.texture?.height
-      ? this.object.controlIcon.texture?.height  - this.object.tooltip.height
+      ? this.object.controlIcon.texture?.height - this.object.tooltip.height
       : this.object.controlIcon.height - this.object.tooltip.height;
     // const height = this.object.controlIcon.height - this.object.tooltip.height;
     // const orientation =
@@ -182,7 +191,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
     const viewWidth = visualViewport.width;
     const width = this.object.controlIcon.width * ratio;
     const height = this.object.controlIcon.texture?.height
-      ? this.object.controlIcon.texture?.height  - this.object.tooltip.height
+      ? this.object.controlIcon.texture?.height - this.object.tooltip.height
       : this.object.controlIcon.height - this.object.tooltip.height;
     // const height = this.object.controlIcon.height - this.object.tooltip.height;
     // const orientation =

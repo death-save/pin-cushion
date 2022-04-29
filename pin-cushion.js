@@ -261,7 +261,7 @@ Hooks.on('hoverNote', (note, hovered) => {
 
   if (!hovered) {
     clearTimeout(game.pinCushion.hoverTimer);
-    if(tooltipForceRemove){
+    if (tooltipForceRemove) {
       $('#powerTip').remove();
     }
     return canvas.hud.pinCushion.clear();
