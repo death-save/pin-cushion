@@ -1,5 +1,11 @@
 # Changelog
 
+### [1.6.5]
+
+- Bug fix: Add try-catch on BackgroundlessControlIcon for manage use case of not reachable texture on the server, but the journal still work
+- Bug fix: For the 'Show image instead text feature', for when no image is found on the linked journal/note and set the enrich html function for interaction
+- NEW REQUEST: Add feature for 'Show image instead text feature', with a new file picker field if you have file browser permissions, so you can now add a specific image for the note if you don't want to show the original image on the linked journal, can be useful in some case...
+
 ### [1.6.4]
 
 - Some bug fix on height

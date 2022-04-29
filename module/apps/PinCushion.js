@@ -97,6 +97,7 @@ export class PinCushion {
       PLAYER_ICON_PATH: 'PlayerIconPath',
       CUSHION_ICON: 'cushionIcon',
       SHOW_IMAGE: 'showImage',
+      SHOW_IMAGE_EXPLICIT_SOURCE: 'showImageExplicitSource',
       HIDE_LABEL: 'hideLabel',
       DO_NOT_SHOW_JOURNAL_PREVIEW: 'doNotShowJournalPreview',
       TOOLTIP_PLACEMENT: 'tooltipPlacement',
@@ -295,10 +296,25 @@ export class PinCushion {
   static _replaceIconSelector(app, html, data) {
     // you can see this only if you have the file browser permissions
     if (game.user.can('FILES_BROWSE')) {
-      const filePickerHtml = `<input type="text" name="icon" title="Icon Path" class="icon-path" value="${data.data.icon}" placeholder="/icons/example.svg" data-dtype="String">
-      <button type="button" name="file-picker" class="file-picker" data-type="image" data-target="icon" title="Browse Files" tabindex="-1">
-      <i class="fas fa-file-import fa-fw"></i>
-      </button>`;
+      const filePickerHtml = `
+        <input
+          type="text"
+          name="icon"
+          title="Icon Path"
+          class="icon-path"
+          value="${data.data.icon}"
+          placeholder="/icons/example.svg"
+          data-dtype="String"></input>
+          <button type="button"
+            name="file-picker"
+            class="file-picker"
+            data-type="image"
+            data-target="icon"
+            title="Browse Files"
+            tabindex="-1">
+            <i class="fas fa-file-import fa-fw"></i>
+          </button>
+        `;
       const iconSelector = html.find("select[name='icon']");
 
       iconSelector.replaceWith(filePickerHtml);
@@ -493,17 +509,54 @@ export class PinCushion {
    */
   static _addShowImageField(app, html, data) {
     const showImage = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE) ?? false;
+    const showImageExplicitSource = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? '';
+
+    // you can see this only if you have the file browser permissions
+    let filePickerHtml = '';
+    if (game.user.can('FILES_BROWSE')) {
+      filePickerHtml = `
+        <div class="form-group">
+            <label
+              for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}">
+              ${i18n('PinCushion.ShowImageExplicitSource',)}
+            </label>
+            <input
+              type="text"
+              name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
+              data-dtype="String"
+              title="Show Image Explicit Source"
+              class="icon-path"
+              value="${showImageExplicitSource}" placeholder=""
+              >
+            </input>
+            <button
+              type="button"
+              name="file-picker-${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
+              class="file-picker"
+              data-type="image"
+              data-target="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
+              title="Browse Files"
+              tabindex="-1">
+              <i class="fas fa-file-import fa-fw"></i>
+            </button>
+        </div>`;
+    }
+
     const iconTintGroup = html.find('[name=iconTint]').closest('.form-group');
     iconTintGroup.after(`
-            <div class="form-group">
-                <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE}">${i18n(
-      'PinCushion.ShowImage',
-    )}</label>
-                <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${
-      PinCushion.FLAGS.SHOW_IMAGE
-    }" data-dtype="Boolean" ${showImage ? 'checked' : ''}>
-            </div>
-        `);
+      <div class="form-group">
+        <label
+          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE}">
+          ${i18n('PinCushion.ShowImage',)}
+        </label>
+        <input
+          type="checkbox"
+          name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE}"
+          data-dtype="Boolean" ${showImage ? 'checked' : ''}>
+        </input>
+      </div>
+      ${filePickerHtml}
+    `);
     app.setPosition({ height: 'auto' });
   }
 
