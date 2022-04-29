@@ -48,7 +48,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
     );
 
     let content;
-    if (showImage || !entry.data.content) {
+    if (showImage) {
       const imgToShow = showImageExplicitSource ? showImageExplicitSource : entry.data.img;
       if (imgToShow && imgToShow.length > 0) {
         content = TextEditor.enrichHTML(`<img class='image' src='${imgToShow}' alt=''></img>`, {

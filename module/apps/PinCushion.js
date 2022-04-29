@@ -107,6 +107,30 @@ export class PinCushion {
     };
   }
 
+  /**
+   * Render a file-picker button linked to an <input> field
+   * @param {object} options              Helper options
+   * @param {string} [options.type]       The type of FilePicker instance to display
+   * @param {string} [options.target]     The field name in the target data
+   * @param {string} [options.customClass] The field name in the custom class
+   * @return {Handlebars.SafeString|string}
+   */
+  static filePicker(type,target,customClass='file-picker') {
+    // const type = options.hash['type'];
+    // const target = options.hash['target'];
+    if ( !target ) throw new Error("You must define the name of the target field.");
+
+    // Do not display the button for users who do not have browse permission
+    if ( game.world && !game.user.can("FILES_BROWSE" ) ) return "";
+
+    // Construct the HTML
+    const tooltip = game.i18n.localize("FILES.BrowseTooltip");
+    return new Handlebars.SafeString(`
+    <button type="button" name="${customClass}" class="${customClass}" data-type="${type}" data-target="${target}" title="${tooltip}" tabindex="-1">
+        <i class="fas fa-file-import fa-fw"></i>
+    </button>`);
+  }
+
   /* --------------------------------- Methods -------------------------------- */
 
   /**
@@ -305,16 +329,27 @@ export class PinCushion {
           value="${data.data.icon}"
           placeholder="/icons/example.svg"
           data-dtype="String"></input>
-          <button type="button"
-            name="file-picker"
-            class="file-picker"
-            data-type="image"
-            data-target="icon"
-            title="Browse Files"
-            tabindex="-1">
-            <i class="fas fa-file-import fa-fw"></i>
-          </button>
+          ${
+            this.filePicker(
+            'image',
+            `icon`,
+            `file-picker`
+            )
+          }
         `;
+
+      /*
+      <button type="button"
+        name="file-picker"
+        class="file-picker"
+        data-type="image"
+        data-target="icon"
+        title="Browse Files"
+        tabindex="-1">
+        <i class="fas fa-file-import fa-fw"></i>
+      </button>
+      */
+
       const iconSelector = html.find("select[name='icon']");
 
       iconSelector.replaceWith(filePickerHtml);
@@ -510,36 +545,33 @@ export class PinCushion {
   static _addShowImageField(app, html, data) {
     const showImage = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE) ?? false;
     const showImageExplicitSource =
-      app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? '';
+      app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon;
 
     // you can see this only if you have the file browser permissions
     let filePickerHtml = '';
     if (game.user.can('FILES_BROWSE')) {
       filePickerHtml = `
         <div class="form-group">
-            <label
-              for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}">
-              ${i18n('PinCushion.ShowImageExplicitSource')}
-            </label>
-            <input
-              type="text"
-              name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
-              data-dtype="String"
-              title="Show Image Explicit Source"
-              class="icon-path"
-              value="${showImageExplicitSource}" placeholder=""
-              >
-            </input>
-            <button
-              type="button"
-              name="file-picker-${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
-              class="file-picker"
-              data-type="image"
-              data-target="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
-              title="Browse Files"
-              tabindex="-1">
-              <i class="fas fa-file-import fa-fw"></i>
-            </button>
+            <label>${i18n('PinCushion.ShowImageExplicitSource')}</label>
+            <div class="form-fields">
+              <input
+                type="text"
+                name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
+                title="${i18n('PinCushion.ShowImageExplicitSource')}"
+                class="icon-path"
+                value="${showImageExplicitSource}" 
+                placeholder="/icons/example.svg"
+                data-dtype="String"
+                >
+              </input>
+              ${
+                this.filePicker(
+                'image',
+                `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}`,
+                `file-picker-showImageExplicitSource`
+                )
+              }
+            </div>
         </div>`;
     }
 
@@ -559,6 +591,7 @@ export class PinCushion {
       ${filePickerHtml}
     `);
     app.setPosition({ height: 'auto' });
+    html.find('button.file-picker-showImageExplicitSource').each((i, button) => (button.onclick = app._activateFilePicker.bind(app)));
   }
 
   /**
