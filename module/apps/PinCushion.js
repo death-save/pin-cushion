@@ -115,16 +115,16 @@ export class PinCushion {
    * @param {string} [options.customClass] The field name in the custom class
    * @return {Handlebars.SafeString|string}
    */
-  static filePicker(type,target,customClass='file-picker') {
+  static filePicker(type, target, customClass = 'file-picker') {
     // const type = options.hash['type'];
     // const target = options.hash['target'];
-    if ( !target ) throw new Error("You must define the name of the target field.");
+    if (!target) throw new Error('You must define the name of the target field.');
 
     // Do not display the button for users who do not have browse permission
-    if ( game.world && !game.user.can("FILES_BROWSE" ) ) return "";
+    if (game.world && !game.user.can('FILES_BROWSE')) return '';
 
     // Construct the HTML
-    const tooltip = game.i18n.localize("FILES.BrowseTooltip");
+    const tooltip = game.i18n.localize('FILES.BrowseTooltip');
     return new Handlebars.SafeString(`
     <button type="button" name="${customClass}" class="${customClass}" data-type="${type}" data-target="${target}" title="${tooltip}" tabindex="-1">
         <i class="fas fa-file-import fa-fw"></i>
@@ -329,13 +329,7 @@ export class PinCushion {
           value="${data.data.icon}"
           placeholder="/icons/example.svg"
           data-dtype="String"></input>
-          ${
-            this.filePicker(
-            'image',
-            `icon`,
-            `file-picker`
-            )
-          }
+          ${this.filePicker('image', `icon`, `file-picker`)}
         `;
 
       /*
@@ -564,13 +558,11 @@ export class PinCushion {
                 data-dtype="String"
                 >
               </input>
-              ${
-                this.filePicker(
+              ${this.filePicker(
                 'image',
                 `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}`,
-                `file-picker-showImageExplicitSource`
-                )
-              }
+                `file-picker-showImageExplicitSource`,
+              )}
             </div>
         </div>`;
     }
@@ -591,7 +583,9 @@ export class PinCushion {
       ${filePickerHtml}
     `);
     app.setPosition({ height: 'auto' });
-    html.find('button.file-picker-showImageExplicitSource').each((i, button) => (button.onclick = app._activateFilePicker.bind(app)));
+    html
+      .find('button.file-picker-showImageExplicitSource')
+      .each((i, button) => (button.onclick = app._activateFilePicker.bind(app)));
   }
 
   /**

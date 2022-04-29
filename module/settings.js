@@ -244,6 +244,15 @@ export const registerSettings = function () {
     config: true,
   });
 
+  game.settings.register(CONSTANTS.MODULE_NAME, 'tooltipUseMousePositionForCoordinates', {
+    name: game.i18n.localize('PinCushion.SETTINGS.tooltipUseMousePositionForCoordinatesN'),
+    hint: game.i18n.localize('PinCushion.SETTINGS.tooltipUseMousePositionForCoordinatesH'),
+    scope: 'world',
+    config: true,
+    default: true,
+    type: Boolean,
+  });
+
   // const settings = defaultSettings();
   // for (const [name, data] of Object.entries(settings)) {
   //   game.settings.register(CONSTANTS.MODULE_NAME, name, <any>data);

@@ -44,6 +44,9 @@
     "SETTINGS.maxWidthN": "Maximum Width",
     "SETTINGS.maxWidthH": "The maximum width the entry display can grow to before it'll force wrapping.",
 
+    "SETTINGS.tooltipUseMousePositionForCoordinatesN": "Use mouse position for show the tooltip",
+    "SETTINGS.tooltipUseMousePositionForCoordinatesH": "When you hover a note on the canvas the tooltip is build based on the current mouse position instead the journal icon position. This solution seem to be more dynamic.",
+
     "SETTINGS.reset.name": "Reset settings to default",
     "SETTINGS.reset.label": "Reset Settings To Default",
     "SETTINGS.reset.hint": "This will reset all of the settings of back to the active game system's default.",

@@ -50,7 +50,6 @@ To install this module manually:
 
 ## Known issue
 
-- From 1.6.0 with the new management the tooltip offset position with respect to the note is not static as you would expect it is based on a combination of x, y coordinates which also depend on the zoom level on the canvas, unfortunately it is something that I have not been able to solve, any help in such sense is welcome. On the plus side, the tooltip tends to always show towards the center of the view, perhaps in the mobile environment it is preferable for it to behave this way, so perhaps it is a more benign than evil bug. Waited for some feedback before trying to fix this again.
 ## Settings
 
 - **Preview Maximum Length**: **TEXT PREVIEW ONLY** How many characters should the text preview show?
@@ -82,6 +81,9 @@ To install this module manually:
 - **Enable Sidebar Journal Images for GM Users**:
 
 - **Enable Sidebar Journal Images for Player Users**:
+
+- **Use mouse position for show the tooltip**: When you hover a note on the canvas the tooltip is build based on the current mouse position instead the journal icon position. This solution seem to be more dynamic.
+
 
 ## Features
 
