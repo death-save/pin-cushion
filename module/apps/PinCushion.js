@@ -611,7 +611,9 @@ export class PinCushion {
     if (game.user.can('FILES_BROWSE')) {
       filePickerHtml = `
         <div class="form-group">
-            <label>${i18n('PinCushion.ShowImageExplicitSource')}</label>
+            <label 
+              for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
+              >${i18n('PinCushion.ShowImageExplicitSource')}</label>
             <div class="form-fields">
               <input
                 type="text"
@@ -723,31 +725,42 @@ export class PinCushion {
     // Input for GM Label
     let gmtext = data.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_GM_TEXT);
     if (!gmtext) gmtext = '';
-    let gm_text = $(
-      `<div class='form-group'>
-        <label>GM Label</label>
-        <div class='form-fields'>
+    let gm_text_h = $(
+      `<div class="form-group">
+        <label for="${gmNoteFlagRef}">GM Label</label>
+        <div class="form-fields">
           <textarea 
-            name='${gmNoteFlagRef}'>
-            ${gmtext ?? ''}</textarea>
+            name="${gmNoteFlagRef}">${gmtext.trim() ?? ''}</textarea>
         </div>
       </div>`,
     );
-    html.find("input[name='text']").parent().parent().after(gm_text);
+    html.find("input[name='text']").parent().parent().after(gm_text_h);
+
+    /*
+    <div class="form-group">
+        <label>Text Label</label>
+        <div class="form-fields">
+            <input type="text" name="text" value="as22" placeholder="TEST4">
+        </div>
+    </div>
+    */
+
+    // <input type="text" name="text" value="${initial_text.trim() ?? ''}" placeholder="${data.entry.name}">
 
     // Multiline input for Text Label
-    let initial_text = data.data.text ?? data.entry.name;
-    let label = $(
-      `<div class='form-group'>
-        <label>Player Label</label>
-        <div class='form-fields'>
-          <textarea name='text' 
-          placeholder='${data.entry.name}'>
-          ${initial_text ?? ''}</textarea>
+    // this.data.text || this.entry?.name || "Unknown"
+    let initial_text = data.data.text ?? data.entry?.name;
+    if (!initial_text) initial_text = '';
+    let initial_text_h = $(
+      `<div class="form-group">
+        <label for="text">Player Label</label>
+        <div class="form-fields">
+          <textarea name="text" 
+            placeholder="${data.entry?.name ?? ''}">${initial_text.trim() ?? ''}</textarea>
         </div>
       </div>`,
     );
-    html.find("input[name='text']").parent().parent().after(label);
+    html.find("input[name='text']").parent().parent().after(initial_text_h);
 
     // Hide the old text label input field
     html.find("input[name='text']").parent().parent().remove();
@@ -879,32 +892,40 @@ export class PinCushion {
    * @param {object}   [args]    The normal arguments to Note#drawTooltip
    * @returns {PIXI.Text}
    */
-  static _addDrawTooltip(wrapped, ...args) {
+  static _addDrawTooltipWithNoteGM(wrapped, ...args) {
+    //const enableNoteGM = game.settings.get(PinCushion.MODULE_NAME, 'noteGM');
+
     const hideLabel =
       (this.document
         ? this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)
         : this.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)) ?? false;
 
     // Only override default if flag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PIN_GM_TEXT) is set
-    const newtext = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_GM_TEXT);
-    if (!newtext || newtext.length === 0) {
-      let result = wrapped(...args);
-      if (hideLabel) {
-        result.text = '';
+    if (game.user.isGM) {
+      const newtextGM = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_GM_TEXT);
+      if (newtextGM && newtextGM.length > 0) {
+        let result = wrapped(...args);
+        if (hideLabel) {
+          result.text = '';
+          // this.document.data.text = '';
+        } else {
+          result.text = newtextGM;
+          // this.document.data.text = newtextGM;
+        }
+        return result;
       }
-      return result;
     }
 
-    // Set a different label to be used while we call the original Note.prototype._drawTooltip
-    //
-    // Note#text          = get text()  { return this.document.label; }
-    // NoteDocument#label = get label() { return this.data.text || this.entry?.name || "Unknown"; }
-    // but NoteDocument#data.text can be modified :-)
-    //
-    // let saved_text = this.document.data.text;
-    this.document.data.text = newtext;
+    //// Set a different label to be used while we call the original Note.prototype._drawTooltip
+    ////
+    //// Note#text          = get text()  { return this.document.label; }
+    //// NoteDocument#label = get label() { return this.data.text || this.entry?.name || "Unknown"; }
+    //// but NoteDocument#data.text can be modified :-)
+    ////
+    //// let saved_text = this.document.data.text;
+    // this.document.data.text = newtext;
     let result = wrapped(...args);
-    // this.document.data.text = saved_text;
+    //// this.document.data.text = saved_text;
 
     if (hideLabel) {
       result.text = '';
@@ -1283,16 +1304,16 @@ export class PinCushion {
     }
   }
 
-  /**
-   * Adds a GM-only string to be displayed on the Note *instead of* the normal note text for the GM,
-   * players will see the normal non-GM text.
-   * @param {NoteData} [notedata]  The NoteData to which GM-only text is to be added
-   * @param {String}   [text]      The text to be stored as the GM-only text for this note
-   */
-  static setNoteGMtext(notedata, text) {
-    // notedata might not exist as a Note, so setFlag is not available
-    setProperty(notedata, `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_GM_TEXT}`, text);
-  }
+  // /**
+  //  * Adds a GM-only string to be displayed on the Note *instead of* the normal note text for the GM,
+  //  * players will see the normal non-GM text.
+  //  * @param {NoteData} [notedata]  The NoteData to which GM-only text is to be added
+  //  * @param {String}   [text]      The text to be stored as the GM-only text for this note
+  //  */
+  // static setNoteGMtext(notedata, text) {
+  //   // notedata might not exist as a Note, so setFlag is not available
+  //   setProperty(notedata, `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_GM_TEXT}`, text);
+  // }
 
   // /**
   //  * Helper function to register settings

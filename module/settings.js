@@ -163,7 +163,7 @@ export const registerSettings = function () {
     hint: game.i18n.localize('PinCushion.SETTINGS.noteGMH'),
     scope: 'world',
     config: true,
-    default: true,
+    default: false,
     type: Boolean,
   });
 

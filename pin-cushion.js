@@ -292,7 +292,12 @@ Hooks.on('renderJournalDirectory', (app, html, data) => {
 Hooks.once('canvasInit', () => {
   // This module is only required for GMs (game.user accessible from 'ready' event but not 'init' event)
   if (game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, 'noteGM')) {
-    libWrapper.register(PinCushion.MODULE_NAME, 'Note.prototype._drawTooltip', PinCushion._addDrawTooltip, 'WRAPPER');
+    libWrapper.register(
+      PinCushion.MODULE_NAME,
+      'Note.prototype._drawTooltip',
+      PinCushion._addDrawTooltipWithNoteGM,
+      'WRAPPER',
+    );
   } else {
     libWrapper.register(PinCushion.MODULE_NAME, 'Note.prototype._drawTooltip', PinCushion._addDrawTooltip2, 'MIXED');
   }
