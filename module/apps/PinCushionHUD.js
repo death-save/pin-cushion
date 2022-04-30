@@ -1,5 +1,6 @@
 import CONSTANTS from '../constants.js';
 import { is_real_number } from '../lib/lib.js';
+import { PinCushion } from './PinCushion.js';
 
 /**
  * @class PinCushionHUD
@@ -112,7 +113,10 @@ export class PinCushionHUD extends BasePlaceableHUD {
     const maxWidth = game.settings.get(CONSTANTS.MODULE_NAME, 'maxWidth');
 
     const tooltipPlacement =
-      getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TOOLTIP_PLACEMENT) ?? 'w';
+      getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TOOLTIP_PLACEMENT) ?? 'e';
+
+    const tooltipSmartPlacement =
+      getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT) ?? false;
 
     let orientation = '';
     if (tooltipPlacement.includes('e')) {
@@ -187,7 +191,11 @@ export class PinCushionHUD extends BasePlaceableHUD {
     const maxWidth = game.settings.get(CONSTANTS.MODULE_NAME, 'maxWidth');
 
     const tooltipPlacement =
-      getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TOOLTIP_PLACEMENT) ?? 'w';
+      getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TOOLTIP_PLACEMENT) ?? 'e';
+
+    const tooltipSmartPlacement =
+      getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT) ?? false;
+
     let orientation = '';
     if (tooltipPlacement.includes('e')) {
       orientation = 'right';
@@ -263,11 +271,17 @@ export class PinCushionHUD extends BasePlaceableHUD {
       // This only matters if followMouse is set to false.
       placement: tooltipPlacement,
 
+      // (default: false) When enabled the plugin will try to keep tips inside the browser viewport.
+      // If a tooltip would extend outside of the viewport then its placement will be changed to an
+      // orientation that would be entirely within the current viewport.
+      // Only applies if followMouse is set to false.
+      smartPlacement: tooltipSmartPlacement,
+
       // Boolean Allow the mouse to hover on the tooltip. This lets users interact with the content in the tooltip. Only works if followMouse is set to false.
       mouseOnToPopup: true,
 
       // Boolean If set to true the tooltip will follow the users mouse cursor.
-      // followMouse: false, // TODO ADD A NOTE CONFIG SETTING MAYBE ???
+      followMouse: false, // TODO ADD A NOTE CONFIG SETTING MAYBE ???
 
       popupClass: popupClass,
 

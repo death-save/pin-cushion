@@ -90,9 +90,14 @@ Hooks.once('libChangelogsReady', function () {
   libChangelogs.register(
     PinCushion.MODULE_NAME,
     `
-    - Some bug fix on height
-    - Set the default value of note configuration field 'doNotShowJournalPreview' from false to true, for retrocompatibility
-    `,
+    - Bug fix: Add try-catch on BackgroundlessControlIcon for manage use case of not reachable texture on the server, but the journal still work
+    - Bug fix: For the 'Show image instead text feature', for when no image is found on the linked journal/note and set the enrich html function for interaction
+    - NEW REQUEST: Add feature for 'Show image instead text feature', with a new file picker field if you have file browser permissions, so you can now add a specific image for the note if you don't want to show the original image on the linked journal, can be useful in some case...
+    - NEW REQUEST: Add new module setting 'Use mouse position for show the tooltip'.
+    - Solved (at least for me) the "HEIGHT AND WIDTH BUG" started from 1.6.0 with the new management the tooltip offset position with respect to the note is not static as you would expect it is based on a combination of x, y coordinates which also depend on the zoom level on the canvas, ~~unfortunately it is something that I have not been able to solve, any help in such sense is welcome.~~ On the plus side, the tooltip tends to always show towards the center of the view, perhaps in the mobile environment it is preferable for it to behave this way, so perhaps it is a more benign than evil bug. Waited for some feedback before trying to fix this again.
+    - Module settings 'noteGM' default set to 'false'
+    - Bug fix: Some strange behaviour with the 'GM Note' feature, now should work as expected
+    - NEW FEATURE: Add the feature 'Smart Placement' on the note configuration from the [jquery-powertip](https://github.com/stevenbenner/jquery-powertip) plugin`,
     'minor',
   );
 });

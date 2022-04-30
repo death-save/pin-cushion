@@ -112,6 +112,7 @@ export class PinCushion {
       TOOLTIP_PLACEMENT: 'tooltipPlacement',
       TOOLTIP_COLOR: 'tooltipColor',
       TOOLTIP_FORCE_REMOVE: 'tooltipForceRemove',
+      TOOLTIP_SMART_PLACEMENT: 'tooltipSmartPlacement',
       PREVIEW_AS_TEXT_SNIPPET: 'previewAsTextSnippet',
     };
   }
@@ -378,7 +379,12 @@ export class PinCushion {
     const tooltipForceRemove =
       (app.document
         ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE)
-        : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE)) ?? '';
+        : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE)) ?? false;
+
+    const tooltipSmartPlacement =
+      (app.document
+        ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT)
+        : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT)) ?? false;
 
     iconAnchor.after(`
       <div class="form-group">
@@ -520,6 +526,18 @@ export class PinCushion {
             type="checkbox" 
             name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}" 
             data-dtype="Boolean" ${tooltipForceRemove ? 'checked' : ''} />
+        </div>
+      </div>
+      <div class="form-group">
+        <label 
+          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT}">
+            ${i18n('PinCushion.Tooltip.SmartPlacement.title')}
+        </label>
+        <div class="form-fields">
+          <input 
+            type="checkbox" 
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT}" 
+            data-dtype="Boolean" ${tooltipSmartPlacement ? 'checked' : ''} />
         </div>
       </div>
     `);
@@ -727,14 +745,14 @@ export class PinCushion {
     if (!gmtext) gmtext = '';
     let gm_text_h = $(
       `<div class="form-group">
-        <label for="${gmNoteFlagRef}">GM Label</label>
+        <label for="${gmNoteFlagRef}">${i18n('PinCushion.GMLabel')}</label>
         <div class="form-fields">
           <textarea 
             name="${gmNoteFlagRef}">${gmtext.trim() ?? ''}</textarea>
         </div>
       </div>`,
     );
-    html.find("input[name='text']").parent().parent().after(gm_text_h);
+    // html.find("input[name='text']").parent().parent().after(gm_text_h);
 
     /*
     <div class="form-group">
@@ -753,7 +771,7 @@ export class PinCushion {
     if (!initial_text) initial_text = '';
     let initial_text_h = $(
       `<div class="form-group">
-        <label for="text">Player Label</label>
+        <label for="text">${i18n('PinCushion.PlayerLabel')}</label>
         <div class="form-fields">
           <textarea name="text" 
             placeholder="${data.entry?.name ?? ''}">${initial_text.trim() ?? ''}</textarea>
@@ -764,6 +782,8 @@ export class PinCushion {
 
     // Hide the old text label input field
     html.find("input[name='text']").parent().parent().remove();
+
+    html.find("textarea[name='text']").parent().parent().before(gm_text_h);
 
     //let reveal_icon = $(`<div class='form-group'><label>Icon follows Reveal</label><div class='form-fields'><input type='checkbox' name='useRevealIcon'></div></div>`)
     //html.find("select[name='icon']").parent().parent().after(reveal_icon);

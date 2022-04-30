@@ -123,8 +123,11 @@ This module add many new settings for many use case on the Note config dialog, h
 
 - **Add an option to do not show Journal Preview:** Do not show the journal preview to the player can be useful in some case.
 
-- **Add an option for setup the tooltip placement**
+- **Add an option for setup the tooltip placement** (default: 'e') Placement location of the tooltip relative to the element it is open for. Values can be n, e, s, w, nw, ne, sw, se, nw-alt, ne-alt, sw-alt, or se-alt (as in north, east, south, and west). This only matters if followMouse is set to false.
+
 - **Add an option for setup the tooltip stylish color**
+
+- **Add an option for setup the tooltip smartplacement behaviour**:	(default: false) When enabled the plugin will try to keep tips inside the browser viewport. If a tooltip would extend outside of the viewport then its placement will be changed to an orientation that would be entirely within the current viewport.
 
 ![img](./img/example_1.gif)
 

@@ -2,7 +2,7 @@
   "name": "pin-cushion",
   "title": "Pin Cushion",
   "description": "Adds additional map pin (Journal Note/Scene Note) functionality",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "author": "Evan Clarke [errational#2007], p4535992",
   "authors": [
     {
@@ -17,6 +17,9 @@
       "ko-fi": "ethaks",
       "discord": "Ethaks#2903",
       "reddit": "u/ethaks"
+    },
+    {
+      "name": "p4535992"
     }
   ],
   "media": [
@@ -60,17 +63,29 @@
       "path": "./lang/ja.json"
     }
   ],
-  "scripts": [],
+  "scripts": ["./module/lib/jquery.powertip.js"],
   "system": [],
   "esmodules": ["./pin-cushion.js", "./about.js"],
-  "styles": ["./pin-cushion.css"],
+  "styles": [
+    "./styles/pin-cushion.css",
+    "./styles/jquery.powertip.css",
+    "./styles/jquery.powertip-blue.css",
+    "./styles/jquery.powertip-dark.css",
+    "./styles/jquery.powertip-default.css",
+    "./styles/jquery.powertip-green.css",
+    "./styles/jquery.powertip-light.css",
+    "./styles/jquery.powertip-orange.css",
+    "./styles/jquery.powertip-purple.css",
+    "./styles/jquery.powertip-red.css",
+    "./styles/jquery.powertip-yellow.css"
+  ],
   "socket": true,
   "packs": [],
   "url": "https://github.com/p4535992/pin-cushion",
   "manifest": "https://github.com/p4535992/pin-cushion/releases/latest/download/module.json",
-  "download": "https://github.com/p4535992/pin-cushion/releases/download/v1.6.4/module.zip",
-  "readme": "https://github.com/p4535992/pin-cushion/blob/v1.6.4/README.md",
-  "changelog": "https://github.com/p4535992/pin-cushion/blob/v1.6.4/changelog.md",
+  "download": "https://github.com/p4535992/pin-cushion/releases/download/v1.6.5/module.zip",
+  "readme": "https://github.com/p4535992/pin-cushion/blob/v1.6.5/README.md",
+  "changelog": "https://github.com/p4535992/pin-cushion/blob/v1.6.5/changelog.md",
   "bugs": "https://github.com/p4535992/pin-cushion/issues",
   "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",
