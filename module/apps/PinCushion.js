@@ -113,6 +113,7 @@ export class PinCushion {
       TOOLTIP_COLOR: 'tooltipColor',
       TOOLTIP_FORCE_REMOVE: 'tooltipForceRemove',
       TOOLTIP_SMART_PLACEMENT: 'tooltipSmartPlacement',
+      TOOLTIP_FOLLOW_MOUSE: 'tooltipFollowMouse',
       PREVIEW_AS_TEXT_SNIPPET: 'previewAsTextSnippet',
     };
   }
@@ -386,6 +387,11 @@ export class PinCushion {
         ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT)
         : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT)) ?? false;
 
+    const tooltipFollowMouse =
+      (app.document
+        ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE)
+        : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE)) ?? false;
+
     iconAnchor.after(`
       <div class="form-group">
         <label 
@@ -541,6 +547,22 @@ export class PinCushion {
         </div>
       </div>
     `);
+
+    // TODO 
+    /*
+    <div class="form-group">
+      <label 
+        for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE}">
+          ${i18n('PinCushion.Tooltip.FollowMouse.title')}
+      </label>
+      <div class="form-fields">
+        <input 
+          type="checkbox" 
+          name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE}" 
+          data-dtype="Boolean" ${tooltipFollowMouse ? 'checked' : ''} />
+      </div>
+    </div>
+    */
 
     app.setPosition({ height: 'auto' });
   }

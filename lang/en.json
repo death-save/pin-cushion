@@ -86,6 +86,7 @@
 
     "Tooltip.ForceRemove.title": "Tooltip Force remove when not on hover. Note: do not use this if you need a interactive note.",
     "Tooltip.SmartPlacement.title": "Tooltip activate Smartplacement feature",
+    "Tooltip.FollowMouse.title": "Tooltip activate Follow Mouse feature",
 
     "Name": "Name:",
     "None": "None",
