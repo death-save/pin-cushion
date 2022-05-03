@@ -133,6 +133,16 @@ export function dialogWarning(message, icon = 'fas fa-exclamation-triangle') {
     </p>`;
 }
 // =================================================================================
+
+export  function isPlacementVertical(tooltipPlacement){
+  // n, e, s, w, nw, ne, sw, se, nw-alt, ne-alt, sw-alt
+  const arr = ['n','s','nw', 'ne','sw', 'se', 'nw-alt', 'ne-alt', 'sw-alt'];
+  if(arr.includes(tooltipPlacement)){
+    return true;
+  }else{
+    return false;
+  }
+}
 /*
 function getOffsetSum(elem) {
     let top=0, left=0

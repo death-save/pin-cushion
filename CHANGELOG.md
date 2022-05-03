@@ -1,5 +1,9 @@
 # Changelog
 
+### [1.6.6]
+
+- Some little update
+
 ### [1.6.5]
 
 - Bug fix: Add try-catch on BackgroundlessControlIcon for manage use case of not reachable texture on the server, but the journal still work
