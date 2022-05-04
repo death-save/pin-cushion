@@ -138,8 +138,8 @@ export class PinCushionHUD extends BasePlaceableHUD {
       x = positionMouse.x;
       y = positionMouse.y;
     } else {
-      x = this.object.x || this.object.center.x;
-      y = this.object.y || this.object.center.y;
+      x = this.object.center ? this.object.center.x : this.object.x;
+      y = this.object.center ? this.object.center.y : this.object.y;
     }
 
     // if (isVertical) {
@@ -151,30 +151,26 @@ export class PinCushionHUD extends BasePlaceableHUD {
     //   this.object.data.flags[PinCushion.MODULE_NAME].ratio > 0
     //     ? this.object.data.flags[PinCushion.MODULE_NAME].ratio
     //     : 1) || 1;
-    const ratio = 1;
 
+    const ratio = 1;
     const viewWidth = visualViewport.width;
-    const width = this.object.controlIcon.width * ratio;
+
     // const height = this.object.controlIcon.texture?.height
     //   ? this.object.controlIcon.texture?.height - this.object.tooltip.height
     //   : this.object.controlIcon.height - this.object.tooltip.height;
-    const height = this.object.controlIcon.height - this.object.tooltip.height;
-    // const left = x - this.object.size; // x - this.object.size / 2
-    // const top = y - this.object.size / 2;
-    const left = x - (this.object.data?.iconSize / 2 || 0); // orientation === "right" ? x - width : x + width;
-    const top = y - height / 2;
-
-    // const orientation =
-    //   (this.object.getGlobalPosition()?.x ?? 0) < viewWidth / 2 ? "right" : "left";
-    // const top = y - height / 2;
-    // const left = orientation === "right" ? x + width : x - width;
 
     /*
-    const width = this.object.size * ratio; //this.object.width * ratio;
-    const height = this.object.height - this.object.tooltip.height;  // this.object.size;
-    const left = x - this.object.size/2;  // - this.object.width/2 + offset,
-    const top = y - this.object.size/2; // - this.object.height/2 + offset
+    const width = this.object.controlIcon.width * ratio;
+    const height = this.object.controlIcon.height - this.object.tooltip.height;
+    const left = x - (this.object.data?.iconSize / 2 || 0);
+    const top = y - height / 2;
     */
+
+    const width = this.object.width * ratio;
+    const height = this.object.height;
+    const left = x - width/2;
+    const top = y - height/2;
+
     const position = {
       height: height + 'px',
       width: width + 'px',
@@ -228,8 +224,8 @@ export class PinCushionHUD extends BasePlaceableHUD {
       x = positionMouse.x;
       y = positionMouse.y;
     } else {
-      x = this.object.x || this.object.center.x;
-      y = this.object.y || this.object.center.y;
+      x = this.object.center ? this.object.center.x : this.object.x;
+      y = this.object.center ? this.object.center.y : this.object.y;
     }
 
     // if (isVertical) {
@@ -241,18 +237,25 @@ export class PinCushionHUD extends BasePlaceableHUD {
     //   this.object.data.flags[PinCushion.MODULE_NAME].ratio > 0
     //     ? this.object.data.flags[PinCushion.MODULE_NAME].ratio
     //     : 1) || 1;
-    const ratio = 1;
 
+    const ratio = 1;
     const viewWidth = visualViewport.width;
-    const width = this.object.controlIcon.width * ratio;
+
     // const height = this.object.controlIcon.texture?.height
     //   ? this.object.controlIcon.texture?.height - this.object.tooltip.height
     //   : this.object.controlIcon.height - this.object.tooltip.height;
+
+    /*
+    const width = this.object.controlIcon.width * ratio;
     const height = this.object.controlIcon.height - this.object.tooltip.height;
-    // const left = x - this.object.size; //  this.object.size / 2;
-    // const top = y - this.object.size / 2;
     const left = x - (this.object.data?.iconSize / 2 || 0); // orientation === "right" ? x - width : x + width;
     const top = y - height / 2;
+    */
+
+    const width = this.object.width * ratio;
+    const height = this.object.height;
+    const left = x - width/2;
+    const top = y - height/2;
 
     // const orientation =
     //   (this.object.getGlobalPosition()?.x ?? 0) < viewWidth / 2 ? "right" : "left";
