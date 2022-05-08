@@ -2,7 +2,7 @@
   "name": "pin-cushion",
   "title": "Pin Cushion",
   "description": "Adds additional map pin (Journal Note/Scene Note) functionality",
-  "version": "1.6.6",
+  "version": "1.6.7",
   "author": "Evan Clarke [errational#2007], p4535992",
   "authors": [
     {
@@ -83,9 +83,9 @@
   "packs": [],
   "url": "https://github.com/death-save/pin-cushion",
   "manifest": "https://github.com/death-save/pin-cushion/releases/latest/download/module.json",
-  "download": "https://github.com/death-save/pin-cushion/releases/download/v1.6.6/module.zip",
-  "readme": "https://github.com/death-save/pin-cushion/blob/v1.6.6/README.md",
-  "changelog": "https://github.com/death-save/pin-cushion/blob/v1.6.6/changelog.md",
+  "download": "https://github.com/death-save/pin-cushion/releases/download/v1.6.7/module.zip",
+  "readme": "https://github.com/death-save/pin-cushion/blob/v1.6.7/README.md",
+  "changelog": "https://github.com/death-save/pin-cushion/blob/v1.6.7/changelog.md",
   "bugs": "https://github.com/death-save/pin-cushion/issues",
   "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",

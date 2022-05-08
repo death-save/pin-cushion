@@ -166,8 +166,8 @@ export class PinCushionHUD extends BasePlaceableHUD {
     const top = y - height / 2;
     */
 
-    const width = this.object.width * ratio;
-    const height = this.object.height;
+    const width = this.object.controlIcon.width * ratio;
+    const height = this.object.controlIcon.height;
     const left = x - width/2;
     const top = y - height/2;
 
@@ -252,8 +252,8 @@ export class PinCushionHUD extends BasePlaceableHUD {
     const top = y - height / 2;
     */
 
-    const width = this.object.width * ratio;
-    const height = this.object.height;
+    const width = this.object.controlIcon.width * ratio;
+    const height = this.object.controlIcon.height;
     const left = x - width/2;
     const top = y - height/2;
 
