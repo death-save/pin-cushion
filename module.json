@@ -19,7 +19,15 @@
       "reddit": "u/ethaks"
     },
     {
-      "name": "p4535992"
+      "name": "p4535992",
+      "url": "https://github.com/p4535992",
+      "discord": "",
+      "twitter": "",
+      "patreon": "p4535992",
+      "github": "p4535992",
+      "ko-fi": "",
+      "reddit": "",
+      "email": ""
     }
   ],
   "media": [
@@ -83,7 +91,7 @@
   "packs": [],
   "url": "https://github.com/death-save/pin-cushion",
   "manifest": "https://github.com/death-save/pin-cushion/releases/latest/download/module.json",
-  "download": "https://github.com/death-save/pin-cushion/releases/download/v1.6.7/module.zip",
+  "download": "https://github.com/death-save/pin-cushion/releases/latest/download/module.zip",
   "readme": "https://github.com/death-save/pin-cushion/blob/v1.6.7/README.md",
   "changelog": "https://github.com/death-save/pin-cushion/blob/v1.6.7/changelog.md",
   "bugs": "https://github.com/death-save/pin-cushion/issues",
@@ -95,5 +103,35 @@
     {
       "name": "lib-wrapper"
     }
-  ]
+  ],
+  "flags": {
+    "manifestPlusVersion": "1.2.0",
+    "allowBugReporter": true,
+    "conflicts": [
+      {
+        "name": "backgroundless-pins",
+        "description": "Redundancy of features you can disable 'FVTT Backgroundless Pins' module if you want"
+      },
+      {
+        "name": "journal-thumbnail",
+        "description": "Redundancy of features you can disable 'Thumbnails for Journal Entries' module if you want"
+      },
+      {
+        "name": "gmtext-in-notes",
+        "description": "Redundancy of features you can disable 'GM-only tooltips for Notes' module if you want"
+      },
+      {
+        "name": "revealed-notes-manager",
+        "description": "Redundancy of features you can disable 'Revealed Notes Manager' module if you want"
+      },
+      {
+        "name": "journal-sidebar-images",
+        "description": "Redundancy of features you can disable 'Journal Sidebar Images' module if you want"
+      },
+      {
+        "name": "map-note-hover-display",
+        "description": "Redundancy of features you can disable 'Map Note Hover Display' module if you want"
+      }
+    ]
+  }
 }
