@@ -49,6 +49,15 @@ export const registerSettings = function () {
   //   onChange: (s) => {},
   // });
 
+  game.settings.register(CONSTANTS.MODULE_NAME, 'forceToShowNotes', {
+    name: game.i18n.localize('PinCushion.SETTINGS.forceToShowNotesN'),
+    hint: game.i18n.localize('PinCushion.SETTINGS.forceToShowNotesH'),
+    scope: 'world',
+    config: true,
+    default: true,
+    type: Boolean,
+  });
+
   game.settings.register(CONSTANTS.MODULE_NAME, 'previewMaxLength', {
     name: game.i18n.localize('PinCushion.SETTINGS.PreviewMaxLengthN'),
     hint: game.i18n.localize('PinCushion.SETTINGS.PreviewMaxLengthH'),
@@ -339,6 +348,15 @@ function otherSettings(apply = false) {
     //   config: true,
     //   onChange: (s) => {},
     // },
+
+    forceToShowNotes: {
+      name: game.i18n.localize('PinCushion.SETTINGS.forceToShowNotesN'),
+      hint: game.i18n.localize('PinCushion.SETTINGS.forceToShowNotesH'),
+      scope: 'world',
+      config: true,
+      default: true,
+      type: Boolean,
+    },
 
     previewMaxLength: {
       name: game.i18n.localize('PinCushion.SETTINGS.PreviewMaxLengthN'),

@@ -47,6 +47,9 @@
     "SETTINGS.tooltipUseMousePositionForCoordinatesN": "Use mouse position for show the tooltip",
     "SETTINGS.tooltipUseMousePositionForCoordinatesH": "When you hover a note on the canvas the tooltip is build based on the current mouse position instead the journal icon position. This solution seem to be more dynamic.",
 
+    "SETTINGS.forceToShowNotesN": "Force to show notes",
+    "SETTINGS.forceToShowNotesH": "Automatically flag journal notes to show on the map without having to have your players turn it on themselves.",
+
     "SETTINGS.reset.name": "Reset settings to default",
     "SETTINGS.reset.label": "Reset Settings To Default",
     "SETTINGS.reset.hint": "This will reset all of the settings of back to the active game system's default.",

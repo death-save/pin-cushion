@@ -146,6 +146,12 @@ Hooks.once('init', function () {
 /* ------------------------------------ */
 Hooks.once('setup', function () {
   setApi(API);
+
+  const forceToShowNotes = game.settings.get(PinCushion.MODULE_NAME, 'forceToShowNotes');
+  if (forceToShowNotes) {
+    // Automatically flag journal notes to show on the map without having to have your players turn it on themselves.
+    game.settings.set('core', 'notesDisplayToggle', true);
+  }
 });
 
 /* ------------------------------------ */

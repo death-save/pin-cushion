@@ -1,5 +1,9 @@
 # Changelog
 
+### [1.6.8]
+
+- Add module settings for 'Force to show notes' on token layer
+
 ### [1.6.7]
 
 - Some little update
