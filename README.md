@@ -52,6 +52,8 @@ To install this module manually:
 
 ## Settings
 
+- **Force to show notes**: Automatically flag journal notes to show on the map without having to have your players turn it on themselves.
+
 - **Preview Maximum Length**: **TEXT PREVIEW ONLY** How many characters should the text preview show?
 
 - **Preview Delay**: How long before preview appears (in milliseconds)
