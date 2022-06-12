@@ -328,7 +328,7 @@ export class PinCushion {
    * @param {*} html
    * @param {*} data
    */
-  static _replaceIconSelector(app, html, data) {
+  static _replaceIconSelector(app, html, data, explicitImageValue) {
     // you can see this only if you have the file browser permissions
     if (game.user.can('FILES_BROWSE')) {
       const filePickerHtml = `
@@ -337,7 +337,7 @@ export class PinCushion {
           name="icon"
           title="Icon Path"
           class="icon-path"
-          value="${data.data.icon}"
+          value="${explicitImageValue ? explicitImageValue : data.data.icon}"
           placeholder="/icons/example.svg"
           data-dtype="String"></input>
           ${this.filePicker('image', `icon`, `file-picker`)}
@@ -642,9 +642,10 @@ export class PinCushion {
    * @param {*} data
    */
   static _addShowImageField(app, html, data) {
-    const showImage = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE) ?? false;
     const showImageExplicitSource =
       app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon;
+    const iconPinCushion =
+      app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon;
 
     // you can see this only if you have the file browser permissions
     let filePickerHtml = '';
@@ -674,6 +675,11 @@ export class PinCushion {
         </div>`;
     }
 
+    // Set to show image linked to the journal on the tooltip
+    // a cushion icon is setted it will show that instead 
+    // make sense ?
+
+    const showImage = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE) ?? false;
     const iconTintGroup = html.find('[name=iconTint]').closest('.form-group');
     iconTintGroup.after(`
       <div class="form-group">

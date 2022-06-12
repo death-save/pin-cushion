@@ -187,20 +187,28 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
   if (!app.object.data.flags[PinCushion.MODULE_NAME]) {
     app.object.data.flags[PinCushion.MODULE_NAME] = {};
   }
+  // TODO THIS CODE CAN B DONE MUCH BETTER...
   const showJournalImageByDefault = game.settings.get(PinCushion.MODULE_NAME, 'showJournalImageByDefault');
+  const showImageExplicitSource = 
+    app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon;
+  const iconPinCushion =
+    app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon;
 
-  if (showJournalImageByDefault) {
+  if (showJournalImageByDefault && 
+    data.data.entryId &&
+    !app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)) {
     // Journal id
     const journal = game.journal.get(data.data.entryId);
-    if (journal?.data.img && !app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)) {
-      data.data.icon = journal.data.img;
+    if (journal?.data.img) {
+      setProperty(data.data,'icon',journal.data.img);
     }
   }
-  let tmp = data.data.icon;
+  let tmp = app.object.data.icon ?? data.data.icon;
   if (app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)) {
-    data.data.icon = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON);
+    setProperty(data.data,'icon',app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON));
+    tmp = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON);
   }
-  PinCushion._replaceIconSelector(app, html, data);
+  PinCushion._replaceIconSelector(app, html, data, tmp);
   //Causes a bug when attempting to place an journal entry onto the canvas in Foundry 9.
   //await app.object.setFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON, tmp);
   setProperty(app.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.CUSHION_ICON, tmp);

@@ -1,5 +1,9 @@
 # Changelog
 
+### [1.6.10]
+
+- Bug fix (again) [[BUG] Entry Icon gets overwritten by the Journal Note Image](https://github.com/p4535992/pin-cushion/issues/10)
+
 ### [1.6.9]
 
 - Bug fix  [[BUG] Entry Icon gets overwritten by the Journal Note Image](https://github.com/p4535992/pin-cushion/issues/10)
