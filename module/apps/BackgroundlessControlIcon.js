@@ -1,4 +1,4 @@
-import { error } from '../lib/lib.js';
+import { error, warn } from '../lib/lib.js';
 
 export class BackgroundlessControlIcon extends ControlIcon {
   /**
@@ -15,11 +15,14 @@ export class BackgroundlessControlIcon extends ControlIcon {
 
     // Draw icon
     try {
-      this.icon.texture = this.texture ?? (this.iconSrc ? await loadTexture(this.iconSrc) : '');
+      this.icon.texture = this.texture ?? (this.iconSrc ? await loadTexture(this.iconSrc) : 'icons/svg/cancel.svg');
       this.icon.width = this.icon.height = this.size;
       this.icon.tint = Number.isNumeric(this.tintColor) ? this.tintColor : 0xffffff;
     } catch (e) {
-      error(e.stack);
+      warn(e.stack);
+      this.icon.texture = 'icons/svg/cancel.svg';
+      this.icon.width = this.icon.height = this.size;
+      this.icon.tint = Number.isNumeric(this.tintColor) ? this.tintColor : 0xffffff;
     }
     return this;
   }
