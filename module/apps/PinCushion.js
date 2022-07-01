@@ -1,5 +1,5 @@
 import CONSTANTS from '../constants.js';
-import { i18n } from '../lib/lib.js';
+import { i18n, stripQueryStringAndHashFromPath } from '../lib/lib.js';
 import { registerSettings } from '../settings.js';
 import { BackgroundlessControlIcon } from './BackgroundlessControlIcon.js';
 
@@ -59,8 +59,8 @@ export class PinCushion {
                 <p class="notes">${i18n('PinCushion.Folder')}</p>
               </label>
               <select id="cushion-folder" style="width: 100%;">
-                <option 
-                  value="none" 
+                <option
+                  value="none"
                   ${defaultFolder == 'none' ? 'selected' : ''}>
                     ${i18n('PinCushion.None')}
                 </option>
@@ -71,8 +71,8 @@ export class PinCushion {
                         'PinCushion.PerUser',
                       )}</option>`
                 }
-                <option 
-                  value="specificFolder" 
+                <option
+                  value="specificFolder"
                   ${defaultFolder == 'specificFolder' ? 'selected' : ''}>
                     ${i18n('PinCushion.PerSpecificFolder')}
                 </option>
@@ -329,6 +329,8 @@ export class PinCushion {
    * @param {*} data
    */
   static _replaceIconSelector(app, html, data, explicitImageValue) {
+
+    const currentIconSelector = stripQueryStringAndHashFromPath(explicitImageValue ? explicitImageValue : data.data.icon);
     // you can see this only if you have the file browser permissions
     if (game.user.can('FILES_BROWSE')) {
       const filePickerHtml = `
@@ -337,7 +339,7 @@ export class PinCushion {
           name="icon"
           title="Icon Path"
           class="icon-path"
-          value="${explicitImageValue ? explicitImageValue : data.data.icon}"
+          value="${currentIconSelector}"
           placeholder="/icons/example.svg"
           data-dtype="String"></input>
           ${this.filePicker('image', `icon`, `file-picker`)}
@@ -394,72 +396,72 @@ export class PinCushion {
 
     iconAnchor.after(`
       <div class="form-group">
-        <label 
+        <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_PLACEMENT}">
           ${i18n('PinCushion.Tooltip.Placement.title')}
         </label>
         <div class="form-fields">
-          <select 
-            id="cushion-permission" 
-            style="width: 100%;" 
+          <select
+            id="cushion-permission"
+            style="width: 100%;"
             name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_PLACEMENT}">
-            <option 
-              value="nw-alt" 
+            <option
+              value="nw-alt"
               ${tooltipPlacement == 'nw-alt' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.north-west-alt')}
             </option>
-            <option 
-              value="nw" 
+            <option
+              value="nw"
               ${tooltipPlacement == 'nw' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.north-west')}
             </option>
-            <option 
-              value="n" 
+            <option
+              value="n"
               ${tooltipPlacement == 'n' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.north')}
               </option>
-            <option 
-              value="ne" 
+            <option
+              value="ne"
               ${tooltipPlacement == 'ne' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.north-east')}
               </option>
-            <option 
-              value="ne-alt" 
+            <option
+              value="ne-alt"
               ${tooltipPlacement == 'ne-alt' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.north-east-alt')}
               </option>
-            <option 
-              value="w" 
+            <option
+              value="w"
               ${tooltipPlacement == 'w' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.west')}
               </option>
-            <option 
-              value="e" 
+            <option
+              value="e"
               ${tooltipPlacement == 'e' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.east')}
               </option>
-            <option 
-              value="sw-alt" 
+            <option
+              value="sw-alt"
               ${tooltipPlacement == 'sw-alt' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.south-west-alt')}
               </option>
-            <option 
-              value="sw" 
+            <option
+              value="sw"
               ${tooltipPlacement == 'sw' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.south-west')}
             </option>
-            <option 
-              value="s" 
+            <option
+              value="s"
               ${tooltipPlacement == 's' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.south')}
             </option>
-            <option 
-              value="se" 
+            <option
+              value="se"
               ${tooltipPlacement == 'se' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.south-east')}
             </option>
-            <option 
-              value="se-alt" 
+            <option
+              value="se-alt"
               ${tooltipPlacement == 'se-alt' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.south-east-alt')}
             </option>
@@ -467,55 +469,55 @@ export class PinCushion {
         </div>
       </div>
       <div class="form-group">
-        <label 
+        <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">
             ${i18n('PinCushion.Tooltip.Color.title')}
         </label>
         <div class="form-fields">
-          <select 
-            id="cushion-permission" 
-            style="width: 100%;" 
+          <select
+            id="cushion-permission"
+            style="width: 100%;"
             name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">
-            <option 
+            <option
             value="" ${tooltipColor == '' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.default')}
             </option>
-            <option 
-            value="blue" 
+            <option
+            value="blue"
             ${tooltipColor == 'blue' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.blue')}
             </option>
-            <option 
-            value="dark" 
+            <option
+            value="dark"
             ${tooltipColor == 'dark' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.dark')}
             </option>
-            <option 
-            value="green" 
+            <option
+            value="green"
             ${tooltipColor == 'green' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.green')}
             </option>
-            <option 
-            value="light" 
+            <option
+            value="light"
             ${tooltipColor == 'light' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.light')}
             </option>
-            <option 
-            value="orange" 
+            <option
+            value="orange"
             ${tooltipColor == 'orange' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.orange')}
             </option>
-            <option value="purple" 
+            <option value="purple"
             ${tooltipColor == 'purple' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.purple')}
             </option>
-            <option 
-            value="red" 
+            <option
+            value="red"
             ${tooltipColor == 'red' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.red')}
             </option>
-            <option 
-            value="yellow" 
+            <option
+            value="yellow"
             ${tooltipColor == 'yellow' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.yellow')}
             </option>
@@ -523,26 +525,26 @@ export class PinCushion {
         </div>
       </div>
       <div class="form-group">
-        <label 
+        <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}">
             ${i18n('PinCushion.Tooltip.ForceRemove.title')}
         </label>
         <div class="form-fields">
-          <input 
-            type="checkbox" 
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}" 
+          <input
+            type="checkbox"
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}"
             data-dtype="Boolean" ${tooltipForceRemove ? 'checked' : ''} />
         </div>
       </div>
       <div class="form-group">
-        <label 
+        <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT}">
             ${i18n('PinCushion.Tooltip.SmartPlacement.title')}
         </label>
         <div class="form-fields">
-          <input 
-            type="checkbox" 
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT}" 
+          <input
+            type="checkbox"
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT}"
             data-dtype="Boolean" ${tooltipSmartPlacement ? 'checked' : ''} />
         </div>
       </div>
@@ -551,14 +553,14 @@ export class PinCushion {
     // TODO
     /*
     <div class="form-group">
-      <label 
+      <label
         for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE}">
           ${i18n('PinCushion.Tooltip.FollowMouse.title')}
       </label>
       <div class="form-fields">
-        <input 
-          type="checkbox" 
-          name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE}" 
+        <input
+          type="checkbox"
+          name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE}"
           data-dtype="Boolean" ${tooltipFollowMouse ? 'checked' : ''} />
       </div>
     </div>
@@ -592,29 +594,29 @@ export class PinCushion {
 
     iconTintGroup.after(`
       <div class="form-group">
-        <label 
+        <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}">
           ${i18n('PinCushion.HasBackground')}
         </label>
         <div class="form-fields">
-          <input 
-            type="checkbox" 
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}" 
+          <input
+            type="checkbox"
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}"
             data-dtype="Boolean" ${hasBackground ? 'checked' : ''} />
         </div>
       </div>`);
 
     iconSizeGroup.after(`
       <div class="form-group">
-        <label 
+        <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.RATIO}">
             ${i18n('PinCushion.HasBackgroundRatio')}
         </label>
         <div class="form-fields">
-          <input 
-            type="text" 
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.RATIO}" 
-            data-dtype="Number" 
+          <input
+            type="text"
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.RATIO}"
+            data-dtype="Number"
             value="${ratio}" />
         </div>
       </div>
@@ -643,16 +645,16 @@ export class PinCushion {
    */
   static _addShowImageField(app, html, data) {
     const showImageExplicitSource =
-      app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon;
+      stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon);
     const iconPinCushion =
-      app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon;
+      stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon);
 
     // you can see this only if you have the file browser permissions
     let filePickerHtml = '';
     if (game.user.can('FILES_BROWSE')) {
       filePickerHtml = `
         <div class="form-group">
-            <label 
+            <label
               for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
               >${i18n('PinCushion.ShowImageExplicitSource')}</label>
             <div class="form-fields">
@@ -661,7 +663,7 @@ export class PinCushion {
                 name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
                 title="${i18n('PinCushion.ShowImageExplicitSource')}"
                 class="icon-path"
-                value="${showImageExplicitSource}" 
+                value="${showImageExplicitSource}"
                 placeholder="/icons/example.svg"
                 data-dtype="String"
                 >
@@ -676,7 +678,7 @@ export class PinCushion {
     }
 
     // Set to show image linked to the journal on the tooltip
-    // a cushion icon is setted it will show that instead 
+    // a cushion icon is setted it will show that instead
     // make sense ?
 
     const showImage = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE) ?? false;
@@ -718,7 +720,7 @@ export class PinCushion {
     const state =
       getProperty(data, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_STATE}`) ?? defaultState;
     const path =
-      getProperty(data, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}`) ?? defaultPath;
+      stripQueryStringAndHashFromPath(getProperty(data, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}`) ?? defaultPath);
 
     /* Set HTML to be added to the note-config */
     const playerIconHtml = `<hr>
@@ -726,9 +728,9 @@ export class PinCushion {
         <div class="form-group">
           <label>${i18n('PinCushion.UsePlayerIcon')}</label>
           <div class="form-fields">
-            <input 
-              type="checkbox" 
-              name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_STATE}" 
+            <input
+              type="checkbox"
+              name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_STATE}"
               data-dtype="Boolean" ${state ? 'checked' : ``} />
           </div>
           <p class="notes">${i18n('PinCushion.PlayerIconHint')}</p>
@@ -775,7 +777,7 @@ export class PinCushion {
       `<div class="form-group">
         <label for="${gmNoteFlagRef}">${i18n('PinCushion.GMLabel')}</label>
         <div class="form-fields">
-          <textarea 
+          <textarea
             name="${gmNoteFlagRef}">${gmtext.trim() ?? ''}</textarea>
         </div>
       </div>`,
@@ -801,7 +803,7 @@ export class PinCushion {
       `<div class="form-group">
         <label for="text">${i18n('PinCushion.PlayerLabel')}</label>
         <div class="form-fields">
-          <textarea name="text" 
+          <textarea name="text"
             placeholder="${data.entry?.name ?? ''}">${initial_text.trim() ?? ''}</textarea>
         </div>
       </div>`,
@@ -835,8 +837,8 @@ export class PinCushion {
       `<div class='form-group'>
         <label>${i18n('PinCushion.RevealedToPlayer')}</label>
         <div class='form-fields'>
-          <input 
-          type='checkbox' 
+          <input
+          type='checkbox'
           name='${FLAG_IS_REVEALED}' ${checked} />
         </div>
       </div>`,
@@ -850,8 +852,8 @@ export class PinCushion {
       `<div class='form-group'>
         <label>${i18n('PinCushion.UseRevealState')}</label>
         <div class='form-fields'>
-          <input 
-            type='checkbox' 
+          <input
+            type='checkbox'
             name='${FLAG_USE_REVEALED}' ${use_reveal} />
         </div>
       </div>`,
@@ -874,14 +876,14 @@ export class PinCushion {
     const textGroup = html.find('[name=text]').closest('.form-group');
     textGroup.after(`
       <div class="form-group">
-        <label 
+        <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HIDE_LABEL}">
             ${i18n('PinCushion.HideLabel')}
         </label>
         <div class="form-fields">
-          <input 
-            type="checkbox" 
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HIDE_LABEL}" 
+          <input
+            type="checkbox"
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HIDE_LABEL}"
             data-dtype="Boolean" ${hideLabel ? 'checked' : ''} />
         </div>
       </div>
@@ -897,14 +899,14 @@ export class PinCushion {
     const textGroup = html.find('[name=text]').closest('.form-group');
     textGroup.after(`
       <div class="form-group">
-        <label 
+        <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}">
           ${i18n('PinCushion.DoNotShowJournalPreview')}
         </label>
         <div class="form-fields">
-          <input 
-            type="checkbox" 
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}" 
+          <input
+            type="checkbox"
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}"
             data-dtype="Boolean" ${doNotShowJournalPreview ? 'checked' : ''} />
         </div>
       </div>
@@ -920,14 +922,14 @@ export class PinCushion {
     const textGroup = html.find('[name=text]').closest('.form-group');
     textGroup.after(`
       <div class="form-group">
-        <label 
+        <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET}">
           ${i18n('PinCushion.PreviewAsTextSnippet')}
         </label>
         <div class="form-fields">
-          <input 
-            type="checkbox" 
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET}" 
+          <input
+            type="checkbox"
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET}"
             data-dtype="Boolean" ${previewAsTextSnippet ? 'checked' : ''} />
         </div>
       </div>
@@ -1142,7 +1144,7 @@ export class PinCushion {
     // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
     // if (enableBackgroundlessPins) {
     let tint = noteInternal.data.iconTint ? colorStringToHex(noteInternal.data.iconTint) : null;
-    let iconData = { texture: noteInternal.data.icon, size: noteInternal.size, tint: tint };
+    let iconData = { texture: stripQueryStringAndHashFromPath(noteInternal.data.icon), size: noteInternal.size, tint: tint };
     let icon;
     // this is note
     if (
@@ -1222,11 +1224,11 @@ export class PinCushion {
     // IF not GM and IF  = enabled then take flag path as note.data.icon
     if (!game.user.isGM) {
       if (this.document && this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PLAYER_ICON_STATE)) {
-        this.data.icon = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PLAYER_ICON_PATH);
+        this.data.icon = stripQueryStringAndHashFromPath(this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PLAYER_ICON_PATH));
       }
       // Foundry 0.8.9
       // else if(this.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_PATH)){
-      //   this.data.icon = this.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_PATH);
+      //   this.data.icon = stripQueryStringAndHashFromPath(this.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_PATH));
       // }
     }
   }
@@ -1347,7 +1349,9 @@ export class PinCushion {
           PinCushion.MODULE_NAME,
           notedata.entryId ? 'revealedNotesTintColorLink' : 'revealedNotesTintColorNotLink',
         );
-        if (tint?.length > 0) notedata.iconTint = tint;
+        if (tint?.length > 0) {
+          notedata.iconTint = tint;
+        }
       }
     }
   }

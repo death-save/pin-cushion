@@ -149,7 +149,7 @@ function getOffsetSum(elem) {
     while(elem) {
         top = top + parseInt(elem.offsetTop)
         left = left + parseInt(elem.offsetLeft)
-        elem = elem.offsetParent        
+        elem = elem.offsetParent
     }
 
     return {top: top, left: left}
@@ -183,3 +183,17 @@ export function getOffset(elem) {
     }
 }
 */
+
+export function stripQueryStringAndHashFromPath(url){
+  let myUrl = url;
+  if(!myUrl){
+    return myUrl;
+  }
+  if(myUrl.includes('?')){
+    myUrl = myUrl.split('?')[0];
+  }
+  if(myUrl.includes('#')){
+    myUrl = myUrl.split('#')[0];
+  }
+  return myUrl;
+}

@@ -4,7 +4,7 @@
 
 import API from './module/api.js';
 import CONSTANTS from './module/constants.js';
-import { log, debug, is_real_number } from './module/lib/lib.js';
+import { log, debug, is_real_number, stripQueryStringAndHashFromPath } from './module/lib/lib.js';
 import { registerSettings } from './module/settings.js';
 import { pinCushionSocket, registerSocket } from './module/socket.js';
 import { PinCushionHUD } from './module/apps/PinCushionHUD.js';
@@ -189,24 +189,24 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
   }
   // TODO THIS CODE CAN B DONE MUCH BETTER...
   const showJournalImageByDefault = game.settings.get(PinCushion.MODULE_NAME, 'showJournalImageByDefault');
-  const showImageExplicitSource = 
-    app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon;
+  const showImageExplicitSource =
+    stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon);
   const iconPinCushion =
-    app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon;
+    stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon);
 
-  if (showJournalImageByDefault && 
+  if (showJournalImageByDefault &&
     data.data.entryId &&
     !app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)) {
     // Journal id
     const journal = game.journal.get(data.data.entryId);
     if (journal?.data.img) {
-      setProperty(data.data,'icon',journal.data.img);
+      setProperty(data.data,'icon',stripQueryStringAndHashFromPath(journal.data.img));
     }
   }
-  let tmp = app.object.data.icon ?? data.data.icon;
+  let tmp = stripQueryStringAndHashFromPath(app.object.data.icon ?? data.data.icon);
   if (app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)) {
-    setProperty(data.data,'icon',app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON));
-    tmp = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON);
+    setProperty(data.data,'icon',stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)));
+    tmp = stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON));
   }
   PinCushion._replaceIconSelector(app, html, data, tmp);
   //Causes a bug when attempting to place an journal entry onto the canvas in Foundry 9.
