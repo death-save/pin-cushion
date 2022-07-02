@@ -1,8 +1,14 @@
 # Changelog
 
+### [1.6.12]
+
+- Bug fix feature journal image default
+- Add image preview of note config
+
 ### [1.6.11]
 
 - Bug fix compatibility with Kanka Foundry module
+
 ### [1.6.10]
 
 - Bug fix (again) [[BUG] Entry Icon gets overwritten by the Journal Note Image](https://github.com/p4535992/pin-cushion/issues/10)

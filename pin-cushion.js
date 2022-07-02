@@ -204,6 +204,9 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
     }
   }
   let tmp = stripQueryStringAndHashFromPath(app.object.data.icon ?? data.data.icon);
+  if(app.object.data.icon == 'icons/svg/book.svg' && data.data.icon){
+    tmp = stripQueryStringAndHashFromPath(data.data.icon);
+  }
   if (app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)) {
     setProperty(data.data,'icon',stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)));
     tmp = stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON));

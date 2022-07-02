@@ -334,6 +334,7 @@ export class PinCushion {
     // you can see this only if you have the file browser permissions
     if (game.user.can('FILES_BROWSE')) {
       const filePickerHtml = `
+        <img class="pin-cushion-journal-icon" src="${currentIconSelector}" />
         <input
           type="text"
           name="icon"
@@ -658,6 +659,7 @@ export class PinCushion {
               for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
               >${i18n('PinCushion.ShowImageExplicitSource')}</label>
             <div class="form-fields">
+              <img class="pin-cushion-journal-icon" src="${showImageExplicitSource}" />
               <input
                 type="text"
                 name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
@@ -743,6 +745,7 @@ export class PinCushion {
             <select name="icon">
             </select>
             -->
+            <img class="pin-cushion-journal-icon" src="${path ? path : ``}" />
             <input type="text"
               name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}"
               title="Icon Path" class="icon-path" value="${path ? path : ``}"
@@ -1298,7 +1301,8 @@ export class PinCushion {
         if (htmlEntry.length !== 1) {
           return;
         }
-        htmlEntry.prepend(`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${j.data.img}" title="${j.name}"
+        const journalEntryImage = stripQueryStringAndHashFromPath(j.data.img);
+        htmlEntry.prepend(`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${journalEntryImage}" title="${j.name}"
               alt='Journal Entry Thumbnail'>`);
       });
       // const lis = html.find("li.journal")?.length > 0
@@ -1311,10 +1315,10 @@ export class PinCushion {
       //     ? target.data("entity-id") // foundryvtt 0.8.9
       //     : target.data('document-id'); // foundryvtt 9
       //   const journalEntry = game.journal.get(id);
-
-      //   if (journalEntry?.data?.img) {
+      //   const journalEntryImage = stripQueryStringAndHashFromPath(journalEntry?.data?.img);
+      //   if (journalEntryImage) {
       //     const thumbnail = $(
-      //       "<img class='thumbnail' src='" + journalEntry.data.img + "' alt='Journal Entry Thumbnail'>"
+      //       "<img class='thumbnail' src='" + journalEntryImage + "' alt='Journal Entry Thumbnail'>"
       //     );
       //     target.append(thumbnail);
       //   }

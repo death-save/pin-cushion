@@ -101,3 +101,15 @@
 #journal .directory-item.document {
   align-items: center;
 }
+
+.pin-cushion-journal-icon{
+  object-fit: initial;
+  height: 50px;
+  /* width: 30px;
+  height: 30px; */
+  border-radius: 4px;
+  border: 2px solid #000000;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2px;
+  flex: 0 0 30px;
+}
