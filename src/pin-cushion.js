@@ -136,26 +136,34 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
   }
   // TODO THIS CODE CAN B DONE MUCH BETTER...
   const showJournalImageByDefault = game.settings.get(PinCushion.MODULE_NAME, 'showJournalImageByDefault');
-  const showImageExplicitSource =
-    stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon);
-  const iconPinCushion =
-    stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon);
+  const showImageExplicitSource = stripQueryStringAndHashFromPath(
+    app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon,
+  );
+  const iconPinCushion = stripQueryStringAndHashFromPath(
+    app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon,
+  );
 
-  if (showJournalImageByDefault &&
+  if (
+    showJournalImageByDefault &&
     data.data.entryId &&
-    !app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)) {
+    !app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)
+  ) {
     // Journal id
     const journal = game.journal.get(data.data.entryId);
     if (journal?.data.img) {
-      setProperty(data.data,'icon',stripQueryStringAndHashFromPath(journal.data.img));
+      setProperty(data.data, 'icon', stripQueryStringAndHashFromPath(journal.data.img));
     }
   }
   let tmp = stripQueryStringAndHashFromPath(app.object.data.icon ?? data.data.icon);
-  if(app.object.data.icon == 'icons/svg/book.svg' && data.data.icon){
+  if (app.object.data.icon == 'icons/svg/book.svg' && data.data.icon) {
     tmp = stripQueryStringAndHashFromPath(data.data.icon);
   }
   if (app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)) {
-    setProperty(data.data,'icon',stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)));
+    setProperty(
+      data.data,
+      'icon',
+      stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)),
+    );
     tmp = stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON));
   }
   PinCushion._replaceIconSelector(app, html, data, tmp);

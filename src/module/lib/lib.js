@@ -134,12 +134,12 @@ export function dialogWarning(message, icon = 'fas fa-exclamation-triangle') {
 }
 // =================================================================================
 
-export  function isPlacementVertical(tooltipPlacement){
+export function isPlacementVertical(tooltipPlacement) {
   // n, e, s, w, nw, ne, sw, se, nw-alt, ne-alt, sw-alt
-  const arr = ['n','s','nw', 'ne','sw', 'se', 'nw-alt', 'ne-alt', 'sw-alt'];
-  if(arr.includes(tooltipPlacement)){
+  const arr = ['n', 's', 'nw', 'ne', 'sw', 'se', 'nw-alt', 'ne-alt', 'sw-alt'];
+  if (arr.includes(tooltipPlacement)) {
     return true;
-  }else{
+  } else {
     return false;
   }
 }
@@ -184,15 +184,15 @@ export function getOffset(elem) {
 }
 */
 
-export function stripQueryStringAndHashFromPath(url){
+export function stripQueryStringAndHashFromPath(url) {
   let myUrl = url;
-  if(!myUrl){
+  if (!myUrl) {
     return myUrl;
   }
-  if(myUrl.includes('?')){
+  if (myUrl.includes('?')) {
     myUrl = myUrl.split('?')[0];
   }
-  if(myUrl.includes('#')){
+  if (myUrl.includes('#')) {
     myUrl = myUrl.split('#')[0];
   }
   return myUrl;

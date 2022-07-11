@@ -329,8 +329,9 @@ export class PinCushion {
    * @param {*} data
    */
   static _replaceIconSelector(app, html, data, explicitImageValue) {
-
-    const currentIconSelector = stripQueryStringAndHashFromPath(explicitImageValue ? explicitImageValue : data.data.icon);
+    const currentIconSelector = stripQueryStringAndHashFromPath(
+      explicitImageValue ? explicitImageValue : data.data.icon,
+    );
     // you can see this only if you have the file browser permissions
     if (game.user.can('FILES_BROWSE')) {
       const filePickerHtml = `
@@ -645,10 +646,12 @@ export class PinCushion {
    * @param {*} data
    */
   static _addShowImageField(app, html, data) {
-    const showImageExplicitSource =
-      stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon);
-    const iconPinCushion =
-      stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon);
+    const showImageExplicitSource = stripQueryStringAndHashFromPath(
+      app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon,
+    );
+    const iconPinCushion = stripQueryStringAndHashFromPath(
+      app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon,
+    );
 
     // you can see this only if you have the file browser permissions
     let filePickerHtml = '';
@@ -721,8 +724,9 @@ export class PinCushion {
 
     const state =
       getProperty(data, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_STATE}`) ?? defaultState;
-    const path =
-      stripQueryStringAndHashFromPath(getProperty(data, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}`) ?? defaultPath);
+    const path = stripQueryStringAndHashFromPath(
+      getProperty(data, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}`) ?? defaultPath,
+    );
 
     /* Set HTML to be added to the note-config */
     const playerIconHtml = `<hr>
@@ -1147,7 +1151,11 @@ export class PinCushion {
     // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
     // if (enableBackgroundlessPins) {
     let tint = noteInternal.data.iconTint ? colorStringToHex(noteInternal.data.iconTint) : null;
-    let iconData = { texture: stripQueryStringAndHashFromPath(noteInternal.data.icon), size: noteInternal.size, tint: tint };
+    let iconData = {
+      texture: stripQueryStringAndHashFromPath(noteInternal.data.icon),
+      size: noteInternal.size,
+      tint: tint,
+    };
     let icon;
     // this is note
     if (
@@ -1227,7 +1235,9 @@ export class PinCushion {
     // IF not GM and IF  = enabled then take flag path as note.data.icon
     if (!game.user.isGM) {
       if (this.document && this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PLAYER_ICON_STATE)) {
-        this.data.icon = stripQueryStringAndHashFromPath(this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PLAYER_ICON_PATH));
+        this.data.icon = stripQueryStringAndHashFromPath(
+          this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PLAYER_ICON_PATH),
+        );
       }
       // Foundry 0.8.9
       // else if(this.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_PATH)){
