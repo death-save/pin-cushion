@@ -4,7 +4,7 @@
 
 import API from './module/api.js';
 import CONSTANTS from './module/constants.js';
-import { log, debug, is_real_number, stripQueryStringAndHashFromPath } from './module/lib/lib.js';
+import { log, debug, is_real_number, stripQueryStringAndHashFromPath, error } from './module/lib/lib.js';
 import { registerSettings } from './module/settings.js';
 import { pinCushionSocket, registerSocket } from './module/socket.js';
 import { PinCushionHUD } from './module/apps/PinCushionHUD.js';
@@ -60,6 +60,7 @@ Hooks.once('init', function () {
 
   Hooks.once('socketlib.ready', registerSocket);
 
+  // eslint-disable-next-line no-undef
   libWrapper.register(
     PinCushion.MODULE_NAME,
     'NotesLayer.prototype._onClickLeft2',
@@ -79,6 +80,7 @@ Hooks.once('init', function () {
 
   const enablePlayerIconAutoOverride = game.settings.get(PinCushion.MODULE_NAME, 'playerIconAutoOverride');
   if (enablePlayerIconAutoOverride) {
+    // eslint-disable-next-line no-undef
     libWrapper.register(
       PinCushion.MODULE_NAME,
       'NoteDocument.prototype.prepareData',
@@ -263,6 +265,7 @@ Hooks.on('renderJournalDirectory', (app, html, data) => {
 Hooks.once('canvasInit', () => {
   // This module is only required for GMs (game.user accessible from 'ready' event but not 'init' event)
   if (game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, 'noteGM')) {
+    // eslint-disable-next-line no-undef
     libWrapper.register(
       PinCushion.MODULE_NAME,
       'Note.prototype._drawTooltip',
@@ -270,17 +273,21 @@ Hooks.once('canvasInit', () => {
       'WRAPPER',
     );
   } else {
+    // eslint-disable-next-line no-undef
     libWrapper.register(PinCushion.MODULE_NAME, 'Note.prototype._drawTooltip', PinCushion._addDrawTooltip2, 'MIXED');
   }
   // This is only required for Players, not GMs (game.user accessible from 'ready' event but not 'init' event)
   const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, 'revealedNotes');
   if (!game.user.isGM && revealedNotes) {
+    // eslint-disable-next-line no-undef
     libWrapper.register(PinCushion.MODULE_NAME, 'Note.prototype.refresh', PinCushion._noteRefresh, 'WRAPPER');
   } else {
+    // eslint-disable-next-line no-undef
     libWrapper.register(PinCushion.MODULE_NAME, 'Note.prototype.refresh', PinCushion._noteRefresh2, 'WRAPPER');
   }
   // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
   // if (enableBackgroundlessPins) {
+  // eslint-disable-next-line no-undef
   libWrapper.register(
     PinCushion.MODULE_NAME,
     'Note.prototype._drawControlIcon',
