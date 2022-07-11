@@ -1,28 +1,18 @@
 # Pin Cushion
 
-![GitHub issues](https://img.shields.io/github/issues-raw/death-save/pin-cushion?style=for-the-badge) 
+![GitHub issues](https://img.shields.io/github/issues-raw/p4535992/foundryvtt-pin-cushion?style=for-the-badge)
 
-![Latest Release Download Count](https://img.shields.io/github/downloads/death-save/pin-cushion/latest/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge) 
+![Latest Release Download Count](https://img.shields.io/github/downloads/p4535992/foundryvtt-pin-cushion/latest/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge) 
 
 [![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fpin-cushion&colorB=006400&style=for-the-badge)](https://forge-vtt.com/bazaar#package=pin-cushion) 
-
-![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdeath-save%2Fpin-cushion%2Fmaster%2Fmodule.json&label=Foundry%20Version&query=$.compatibleCoreVersion&colorB=orange&style=for-the-badge)
-
-![Latest Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdeath-save%2Fpin-cushion%2Fmaster%2Fmodule.json&label=Latest%20Release&prefix=v&query=$.version&colorB=red&style=for-the-badge)
-
-[![Foundry Hub Endorsements](https://img.shields.io/endpoint?logoColor=white&url=https%3A%2F%2Fwww.foundryvtt-hub.com%2Fwp-json%2Fhubapi%2Fv1%2Fpackage%2Fpin-cushion%2Fshield%2Fendorsements&style=for-the-badge)](https://www.foundryvtt-hub.com/package/pin-cushion/)
-
-![GitHub all releases](https://img.shields.io/github/downloads/death-save/pin-cushion/total?style=for-the-badge)
-
-## Development badge
-
-![Latest Release Download Count](https://img.shields.io/github/downloads/p4535992/pin-cushion/latest/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge) 
 
 ![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fp4535992%2Fpin-cushion%2Fmaster%2Fmodule.json&label=Foundry%20Version&query=$.compatibleCoreVersion&colorB=orange&style=for-the-badge)
 
 ![Latest Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fp4535992%2Fpin-cushion%2Fmaster%2Fmodule.json&label=Latest%20Release&prefix=v&query=$.version&colorB=red&style=for-the-badge)
 
-![GitHub all releases](https://img.shields.io/github/downloads/p4535992/pin-cushion/total?style=for-the-badge)
+[![Foundry Hub Endorsements](https://img.shields.io/endpoint?logoColor=white&url=https%3A%2F%2Fwww.foundryvtt-hub.com%2Fwp-json%2Fhubapi%2Fv1%2Fpackage%2Fpin-cushion%2Fshield%2Fendorsements&style=for-the-badge)](https://www.foundryvtt-hub.com/package/pin-cushion/)
+
+![GitHub all releases](https://img.shields.io/github/downloads/p4535992/foundryvtt-pin-cushion/total?style=for-the-badge)
 
 ## Installation
 
@@ -32,23 +22,13 @@ To install this module manually:
 1.  Inside the Foundry "Configuration and Setup" screen, click "Add-on Modules"
 2.  Click "Install Module"
 3.  In the "Manifest URL" field, paste the following url:
-`https://raw.githubusercontent.com/death-save/pin-cushion/master/module.json`
-4.  Click 'Install' and wait for installation to complete
-5.  Don't forget to enable the module in game using the "Manage Module" button
-
-## Installation (development branch)
-
-It's always easiest to install modules from the in game add-on browser.
-
-To install this module manually:
-1.  Inside the Foundry "Configuration and Setup" screen, click "Add-on Modules"
-2.  Click "Install Module"
-3.  In the "Manifest URL" field, paste the following url:
-`https://raw.githubusercontent.com/p4535992/pin-cushion/master/module-dev.json`
+`https://raw.githubusercontent.com/p4535992/foundryvtt-pin-cushion/master/module-dev.json`
 4.  Click 'Install' and wait for installation to complete
 5.  Don't forget to enable the module in game using the "Manage Module" button
 
 ## Known issue
+
+## Note: About the transition form 1.5.0 to 1.7.0 [here you can find all the details](./wiki/md/table_feature_150_to_170.md)
 
 ## Settings
 
@@ -93,26 +73,26 @@ This module add many new settings for many use case on the Note config dialog, h
 
 - **Create Pin on canvas with double click**
  
-![create-pin](./img/create_pin.png)
+![create-pin](./wiki/img/create_pin.png)
 
 - **Customized note configuration**
 
-![note-config](./img/note-config.png)
+![note-config](./wiki/img/note-config.png)
 
 - **Journal preview on the sidebar**
 
-![journal-preview](./img/journal-preview.png)
+![journal-preview](./wiki/img/journal-preview.png)
 
 - **Changes the dropdown of map pin icons into a filepicker so users can select any icons they like**
 - **Adds the ability to double-click the canvas while on the Notes Layer and create a map pin (and corresponding Journal Entry)**
 - **Adds a preview of the associated Journal Entry when you hover over a map pin**
 - **Removes the background box from map notes**
 
-![img](./img/backgroundless-pins-preview.gif)
+![img](./wiki/img/backgroundless-pins-preview.gif)
 
 - **Add the possibility to add a thumbnail preview of the journal**
 
-![img](./img/journal-thumbnail.png)
+![img](./wiki/img/journal-thumbnail.png)
 
 - **Add an option to have a 'revealed' state on scene Notes:** When enabled, then the 'revealed' state will be used to determine if the Note is visible to players.
 (The default Foundry VTT behaviour is for Notes to be visible to players only if the linked document is accessible by the player.)
@@ -131,7 +111,7 @@ This module add many new settings for many use case on the Note config dialog, h
 
 - **Add an option for setup the tooltip smartplacement behaviour**:	(default: false) When enabled the plugin will try to keep tips inside the browser viewport. If a tooltip would extend outside of the viewport then its placement will be changed to an orientation that would be entirely within the current viewport.
 
-![img](./img/example_1.gif)
+![img](./wiki/img/example_1.gif)
 
 ### libWrapper
 
@@ -216,7 +196,7 @@ npm run-script package
 
 ## Issues
 
-Any issues, bugs, or feature requests are always welcome to be reported directly to the [Issue Tracker](https://github.com/death-save/pin-cushion/issues ), or using the [Bug Reporter Module](https://foundryvtt.com/packages/bug-reporter/).
+Any issues, bugs, or feature requests are always welcome to be reported directly to the [Issue Tracker](https://github.com/p4535992/foundryvtt-pin-cushion/issues ), or using the [Bug Reporter Module](https://foundryvtt.com/packages/bug-reporter/).
 
 ## License
 

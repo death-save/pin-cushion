@@ -2,8 +2,7 @@
 
 ### [1.7.0] [New Maintainer structure]
 
-
-
+- New structure based on the best practices (everything go under a src folder)
 
 ### [1.6.12]
 

@@ -2,7 +2,7 @@
   "name": "pin-cushion",
   "title": "Pin Cushion",
   "description": "Adds additional map pin (Journal Note/Scene Note) functionality",
-  "version": "1.6.12",
+  "version": "1.7.0",
   "author": "Evan Clarke [errational#2007], p4535992",
   "authors": [
     {
@@ -33,15 +33,15 @@
   "media": [
     {
       "type": "screenshot",
-      "url": "https://github.com/p4535992/media/raw/master/pin-cushion/create_pin.png"
+      "url": "https://github.com/p4535992/media/raw/master/foundryvtt-pin-cushion/create_pin.png"
     },
     {
       "type": "screenshot",
-      "url": "https://github.com/p4535992/media/raw/master/pin-cushion/note-config.png"
+      "url": "https://github.com/p4535992/media/raw/master/foundryvtt-pin-cushion/note-config.png"
     },
     {
       "type": "screenshot",
-      "url": "https://github.com/p4535992/media/raw/master/pin-cushion/journal-preview.png"
+      "url": "https://github.com/p4535992/media/raw/master/foundryvtt-pin-cushion/journal-preview.png"
     }
   ],
   "languages": [
@@ -89,12 +89,12 @@
   ],
   "socket": true,
   "packs": [],
-  "url": "https://github.com/p4535992/pin-cushion",
-  "manifest": "https://github.com/p4535992/pin-cushion/releases/latest/download/module.json",
-  "download": "https://github.com/p4535992/pin-cushion/releases/latest/download/module.zip",
-  "readme": "https://github.com/p4535992/pin-cushion/blob/v1.6.12/README.md",
-  "changelog": "https://github.com/p4535992/pin-cushion/blob/v1.6.12/changelog.md",
-  "bugs": "https://github.com/p4535992/pin-cushion/issues",
+  "url": "https://github.com/p4535992/foundryvtt-pin-cushion",
+  "manifest": "https://github.com/p4535992/foundryvtt-pin-cushion/releases/latest/download/module.json",
+  "download": "https://github.com/p4535992/foundryvtt-pin-cushion/releases/latest/download/module.zip",
+  "readme": "https://github.com/p4535992/foundryvtt-pin-cushion/blob/v1.7.0/README.md",
+  "changelog": "https://github.com/p4535992/foundryvtt-pin-cushion/blob/v1.7.0/changelog.md",
+  "bugs": "https://github.com/p4535992/foundryvtt-pin-cushion/issues",
   "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",
   "allowBugReporter": true,
