@@ -1,5 +1,10 @@
 # Changelog
 
+### [1.7.0] [New Maintainer structure]
+
+
+
+
 ### [1.6.12]
 
 - Bug fix feature journal image default

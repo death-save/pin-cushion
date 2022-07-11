@@ -1,3 +1,5 @@
+import CONSTANTS from './module/constants.js';
+
 /**
  * About this module FormApp
  * @extends FormApplication
@@ -14,8 +16,8 @@ export default class PinCushionAboutApp extends FormApplication {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       id: 'pin-cushion-about',
-      title: `About ${PinCushion.MODULE_TITLE}`,
-      template: `${PinCushion.PATH}/templates/about.hbs`,
+      title: `About ${CONSTANTS.MODULE_TITLE}`,
+      template: `${CONSTANTS.PATH}/templates/about.hbs`,
       popOut: true,
       width: 500,
       height: 480,
@@ -28,7 +30,7 @@ export default class PinCushionAboutApp extends FormApplication {
   async getData() {
     return {
       moduleName: PinCushion.MODULE_TITLE,
-      version: game.modules.get(PinCushion.MODULE_NAME).data.version,
+      version: game.modules.get(CONSTANTS.MODULE_NAME).data.version,
       patrons: await this.fetchPatrons(),
     };
   }
@@ -37,7 +39,7 @@ export default class PinCushionAboutApp extends FormApplication {
    * Fetches a list of Patrons to display on the About page
    */
   async fetchPatrons() {
-    const jsonPath = `${PinCushion.PATH}/patrons.json`;
+    const jsonPath = `${CONSTANTS.PATH}/patrons.json`;
     const response = await fetch(jsonPath);
     if (!response.ok) return null;
 

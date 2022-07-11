@@ -2,7 +2,7 @@
   "name": "pin-cushion",
   "title": "Pin Cushion",
   "description": "Provides additional functionality around Map Pins",
-  "version": "1.6.12",
+  "version": "1.7.0",
   "main": "pin-cushion.js",
   "scripts": {
     "package": "gulp package",
@@ -11,7 +11,7 @@
     "clean": "gulp clean && gulp link --clean",
     "lint": "eslint --ext .ts,.js,.vue .",
     "lintfix": "eslint --fix --ext .ts,.js,.vue ./",
-    "prettier-format": "prettier --config .prettierrc --write \"./**/*.(ts|js|json|scss|css)\""
+    "prettier-format": "prettier --config .prettierrc --write \"./src/**/*.(ts|js|json|scss|css)\""
   },
   "repository": {
     "type": "git",
