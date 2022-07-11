@@ -14,6 +14,10 @@
 
 ![GitHub all releases](https://img.shields.io/github/downloads/p4535992/foundryvtt-pin-cushion/total?style=for-the-badge)
 
+Adds additional functionality around Map Pins
+
+![img](./wiki/img/example_1.gif)
+
 ## Installation
 
 It's always easiest to install modules from the in game add-on browser.
@@ -29,6 +33,10 @@ To install this module manually:
 ## Known issue
 
 ## Note: About the transition form 1.5.0 to 1.7.0 [here you can find all the details](./wiki/md/table_feature_150_to_170.md)
+
+### libWrapper
+
+This module uses the [libWrapper](https://github.com/ruipin/fvtt-lib-wrapper) library for wrapping core methods. It is a hard dependency and it is recommended for the best experience and compatibility with other modules.
 
 ## Settings
 
@@ -112,10 +120,6 @@ This module add many new settings for many use case on the Note config dialog, h
 - **Add an option for setup the tooltip smartplacement behaviour**:	(default: false) When enabled the plugin will try to keep tips inside the browser viewport. If a tooltip would extend outside of the viewport then its placement will be changed to an orientation that would be entirely within the current viewport.
 
 ![img](./wiki/img/example_1.gif)
-
-### libWrapper
-
-This module uses the [libWrapper](https://github.com/ruipin/fvtt-lib-wrapper) library for wrapping core methods. It is a hard dependency and it is recommended for the best experience and compatibility with other modules.
 
 # Build
 
