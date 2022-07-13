@@ -68,6 +68,8 @@ This module uses the [libWrapper](https://github.com/ruipin/fvtt-lib-wrapper) li
 
 - **Select Specific Folder**: Make sense only with the module setting 'Default Journal Entry Folder' set with value 'Specific folder'
 
+- **Enable feature Backgroundless Pins**: If enabled this setting will let you with a additional checkbox 'Has Backgorund ?' let you remove or not the background box from map notes. WARNING: If you disable this module setting you simply have all your notes with background (the standard way), but the flags on the notes are not delete, so you can re-enable this when you want. YOU NEED TO REFRESH THE PAGE FOR APPLY THE SETTING.
+
 - **Enable Sidebar Journal Images for GM Users**:
 
 - **Enable Sidebar Journal Images for Player Users**:
