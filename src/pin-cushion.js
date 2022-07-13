@@ -68,16 +68,6 @@ Hooks.once('init', function () {
     'OVERRIDE',
   );
 
-  // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
-  // if (enableBackgroundlessPins) {
-  //   libWrapper.register(
-  //     PinCushion.MODULE_NAME,
-  //     "Note.prototype._drawControlIcon",
-  //     PinCushion._drawControlIcon,
-  //     "OVERRIDE",
-  //   );
-  // }
-
   const enablePlayerIconAutoOverride = game.settings.get(PinCushion.MODULE_NAME, 'playerIconAutoOverride');
   if (enablePlayerIconAutoOverride) {
     // eslint-disable-next-line no-undef

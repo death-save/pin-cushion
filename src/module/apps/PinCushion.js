@@ -594,20 +594,22 @@ export class PinCushion {
         : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE)) ?? false;
     const textAnchorGroup = html.find('[name=textAnchor]').closest('.form-group');
 
-    iconTintGroup.after(`
-      <div class="form-group">
-        <label
-          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}">
-          ${i18n('PinCushion.HasBackground')}
-        </label>
-        <div class="form-fields">
-          <input
-            type="checkbox"
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}"
-            data-dtype="Boolean" ${hasBackground ? 'checked' : ''} />
-        </div>
-      </div>`);
-
+    const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
+    if (enableBackgroundlessPins) {
+      iconTintGroup.after(`
+        <div class="form-group">
+          <label
+            for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}">
+            ${i18n('PinCushion.HasBackground')}
+          </label>
+          <div class="form-fields">
+            <input
+              type="checkbox"
+              name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}"
+              data-dtype="Boolean" ${hasBackground ? 'checked' : ''} />
+          </div>
+        </div>`);
+    }
     iconSizeGroup.after(`
       <div class="form-group">
         <label
@@ -1148,8 +1150,6 @@ export class PinCushion {
       }
     }
 
-    // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
-    // if (enableBackgroundlessPins) {
     let tint = noteInternal.data.iconTint ? colorStringToHex(noteInternal.data.iconTint) : null;
     let iconData = {
       texture: stripQueryStringAndHashFromPath(noteInternal.data.icon),
@@ -1166,7 +1166,12 @@ export class PinCushion {
       // } else if (noteInternal.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) { // compatibility 0.8.9
       //   icon = new ControlIcon(iconData);
     } else {
-      icon = new BackgroundlessControlIcon(iconData);
+      const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
+      if (enableBackgroundlessPins) {
+        icon = new BackgroundlessControlIcon(iconData);
+      } else {
+        icon = new ControlIcon(iconData);
+      }
     }
     if (noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO) > 1) {
       if (noteInternal.document) {

@@ -1,3 +1,4 @@
+import { PinCushion } from './apps/PinCushion.js';
 import CONSTANTS from './constants.js';
 import { i18n } from './lib/lib.js';
 
@@ -130,14 +131,14 @@ export const registerSettings = function () {
     onChange: (s) => {},
   });
 
-  // game.settings.register(CONSTANTS.MODULE_NAME, 'enableBackgroundlessPins', {
-  //   name: game.i18n.localize('PinCushion.SETTINGS.EnableBackgroundlessPinsN'),
-  //   hint: game.i18n.localize('PinCushion.SETTINGS.EnableBackgroundlessPinsH'),
-  //   scope: 'world',
-  //   type: Boolean,
-  //   default: false,
-  //   config: true,
-  // });
+  game.settings.register(CONSTANTS.MODULE_NAME, 'enableBackgroundlessPins', {
+    name: game.i18n.localize('PinCushion.SETTINGS.EnableBackgroundlessPinsN'),
+    hint: game.i18n.localize('PinCushion.SETTINGS.EnableBackgroundlessPinsH'),
+    scope: 'world',
+    type: Boolean,
+    default: true,
+    config: true,
+  });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'showJournalImageByDefault', {
     name: game.i18n.localize('PinCushion.SETTINGS.ShowJournalImageByDefaultN'),
@@ -430,14 +431,14 @@ function otherSettings(apply = false) {
       onChange: (s) => {},
     },
 
-    // enableBackgroundlessPins: {
-    //   name: game.i18n.localize('PinCushion.SETTINGS.EnableBackgroundlessPinsN'),
-    //   hint: game.i18n.localize('PinCushion.SETTINGS.EnableBackgroundlessPinsH'),
-    //   scope: 'world',
-    //   type: Boolean,
-    //   default: true,
-    //   config: true,
-    // },
+    enableBackgroundlessPins: {
+      name: game.i18n.localize('PinCushion.SETTINGS.EnableBackgroundlessPinsN'),
+      hint: game.i18n.localize('PinCushion.SETTINGS.EnableBackgroundlessPinsH'),
+      scope: 'world',
+      type: Boolean,
+      default: true,
+      config: true,
+    },
 
     showJournalImageByDefault: {
       name: game.i18n.localize('PinCushion.SETTINGS.ShowJournalImageByDefaultN'),

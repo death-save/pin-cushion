@@ -1,5 +1,9 @@
 # Changelog
 
+### [1.7.1] 
+
+- Add again 'enableBackgroundlessPins' has module setitngs for anyone found useful.
+
 ### [1.7.0] [New Maintainer structure]
 
 - New structure based on the best practices (everything go under a src folder)

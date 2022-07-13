@@ -15,7 +15,7 @@
     "SETTINGS.DefaultJournalFolderN": "Default Journal Entry Folder",
     "SETTINGS.DefaultJournalFolderH": "The default folder journal entries will be created in when creating Map Pins with a double-click",
     "SETTINGS.EnableBackgroundlessPinsN": "Enable feature Backgroundless Pins",
-    "SETTINGS.EnableBackgroundlessPinsH": "Removes the background box from map notes.",
+    "SETTINGS.EnableBackgroundlessPinsH": "If enabled this setting will let you with a additional checkbox 'Has Backgorund ?' let you remove or not the background box from map notes. WARNING: If you disable this module setting you simply have all your notes with background (the standard way), but the flags on the notes are not delete, so you can re-enable this when you want. YOU NEED TO REFRESH THE PAGE FOR APPLY THE SETTING.",
     "SETTINGS.ShowJournalImageByDefaultN": "Show by default the icon image of the journal on the map note.",
     "SETTINGS.ShowJournalImageByDefaultH": "If a image is set on the journal by default is the first image set from Pin Cushion",
     "SETTINGS.PlayerIconAutoOverrideN": "Enable Player-Only Icons by default",
