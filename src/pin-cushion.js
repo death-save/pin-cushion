@@ -209,18 +209,16 @@ Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
 Hooks.on('hoverNote', (note, hovered) => {
   // const showPreview = game.settings.get(PinCushion.MODULE_NAME, 'showJournalPreview');
   const previewDelay = game.settings.get(PinCushion.MODULE_NAME, 'previewDelay');
-  let doNotShowJournalPreviewS = String(getProperty(
-    note,
-    `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}`,
-  ));
+  let doNotShowJournalPreviewS = String(
+    getProperty(note, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}`),
+  );
   if (doNotShowJournalPreviewS !== 'true' && doNotShowJournalPreviewS !== 'false') {
     doNotShowJournalPreviewS = 'true';
   }
   const doNotShowJournalPreview = String(doNotShowJournalPreviewS) === 'true' ? true : false;
-  let tooltipForceRemoveS = String(getProperty(
-    note,
-    `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}`,
-  ));
+  let tooltipForceRemoveS = String(
+    getProperty(note, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}`),
+  );
   if (tooltipForceRemoveS !== 'true' && tooltipForceRemoveS !== 'false') {
     tooltipForceRemoveS = 'false';
   }

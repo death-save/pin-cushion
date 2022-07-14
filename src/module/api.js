@@ -1,4 +1,4 @@
-import { error } from "./lib/lib";
+import { error, warn } from './lib/lib.js';
 
 const API = {
   /**
@@ -18,7 +18,8 @@ const API = {
     // if (!'action' in message) {
     //   return;
     // }
-    if (!Object.keys(message)?.includes('action')){
+    if (!Object.keys(message)?.includes('action')) {
+      warn(`Message doesn't contain the 'action'`);
       return;
     }
     const id = `${game.user.id}_${Date.now()}_${randomID()}`;

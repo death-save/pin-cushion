@@ -900,10 +900,11 @@ export class PinCushion {
   }
 
   static _addDoNotShowJournalPreview(app, html, data) {
-    let doNotShowJournalPreviewS =
-      String((app.document
+    let doNotShowJournalPreviewS = String(
+      app.document
         ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)
-        : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)));
+        : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW),
+    );
     if (doNotShowJournalPreviewS !== 'true' && doNotShowJournalPreviewS !== 'false') {
       doNotShowJournalPreviewS = 'true';
     }

@@ -1,5 +1,9 @@
 # Changelog
 
+### [1.7.2]
+
+- Buf fix [Pin Cushion 1.7 broke "Do not show Journal Preview"](https://github.com/p4535992/foundryvtt-pin-cushion/issues/15)
+
 ### [1.7.1] 
 
 - Add again 'enableBackgroundlessPins' has module setitngs for anyone found useful.
