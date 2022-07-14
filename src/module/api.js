@@ -1,3 +1,5 @@
+import { error } from "./lib/lib";
+
 const API = {
   /**
    * Request an action to be executed with GM privileges.
@@ -13,7 +15,10 @@ const API = {
     }
     const [message] = inAttributes; // e.g. { action: "createFolder" }
     // A request has to define what action should be executed by the GM
-    if (!'action' in message) {
+    // if (!'action' in message) {
+    //   return;
+    // }
+    if (!Object.keys(message)?.includes('action')){
       return;
     }
     const id = `${game.user.id}_${Date.now()}_${randomID()}`;

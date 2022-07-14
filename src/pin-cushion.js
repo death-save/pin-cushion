@@ -147,7 +147,8 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
     }
   }
   let tmp = stripQueryStringAndHashFromPath(app.object.data.icon ?? data.data.icon);
-  if (app.object.data.icon == 'icons/svg/book.svg' && data.data.icon) {
+  // TODO find a better method
+  if (app.object.data.icon === 'icons/svg/book.svg' && data.data.icon) {
     tmp = stripQueryStringAndHashFromPath(data.data.icon);
   }
   if (app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)) {
@@ -208,15 +209,21 @@ Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
 Hooks.on('hoverNote', (note, hovered) => {
   // const showPreview = game.settings.get(PinCushion.MODULE_NAME, 'showJournalPreview');
   const previewDelay = game.settings.get(PinCushion.MODULE_NAME, 'previewDelay');
-  const doNotShowJournalPreviewS = getProperty(
+  let doNotShowJournalPreviewS = String(getProperty(
     note,
     `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}`,
-  );
+  ));
+  if (doNotShowJournalPreviewS !== 'true' && doNotShowJournalPreviewS !== 'false') {
+    doNotShowJournalPreviewS = 'true';
+  }
   const doNotShowJournalPreview = String(doNotShowJournalPreviewS) === 'true' ? true : false;
-  const tooltipForceRemoveS = getProperty(
+  let tooltipForceRemoveS = String(getProperty(
     note,
     `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}`,
-  );
+  ));
+  if (tooltipForceRemoveS !== 'true' && tooltipForceRemoveS !== 'false') {
+    tooltipForceRemoveS = 'false';
+  }
   const tooltipForceRemove = String(tooltipForceRemoveS) === 'true' ? true : false;
 
   if (doNotShowJournalPreview) {

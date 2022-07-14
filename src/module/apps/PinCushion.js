@@ -50,10 +50,10 @@ export class PinCushion {
                 <p class="notes">${i18n('PinCushion.DefaultPermission')}</p>
               </label>
               <select id="cushion-permission" style="width: 100%;">
-                <option value="0" ${defaultPermission == '0' ? 'selected' : ''}>${i18n('PERMISSION.NONE')}</option>
-                <option value="1" ${defaultPermission == '1' ? 'selected' : ''}>${i18n('PERMISSION.LIMITED')}</option>
-                <option value="2" ${defaultPermission == '2' ? 'selected' : ''}>${i18n('PERMISSION.OBSERVER')}</option>
-                <option value="3" ${defaultPermission == '3' ? 'selected' : ''}>${i18n('PERMISSION.OWNER')}</option>
+                <option value="0" ${defaultPermission === '0' ? 'selected' : ''}>${i18n('PERMISSION.NONE')}</option>
+                <option value="1" ${defaultPermission === '1' ? 'selected' : ''}>${i18n('PERMISSION.LIMITED')}</option>
+                <option value="2" ${defaultPermission === '2' ? 'selected' : ''}>${i18n('PERMISSION.OBSERVER')}</option>
+                <option value="3" ${defaultPermission === '3' ? 'selected' : ''}>${i18n('PERMISSION.OWNER')}</option>
               </select>
               <label>
                 <p class="notes">${i18n('PinCushion.Folder')}</p>
@@ -61,19 +61,19 @@ export class PinCushion {
               <select id="cushion-folder" style="width: 100%;">
                 <option
                   value="none"
-                  ${defaultFolder == 'none' ? 'selected' : ''}>
+                  ${defaultFolder === 'none' ? 'selected' : ''}>
                     ${i18n('PinCushion.None')}
                 </option>
                 ${
                   game.user.isGM
                     ? ``
-                    : `<option value="perUser" ${defaultFolder == 'perUser' ? 'selected' : ''}>${i18n(
+                    : `<option value="perUser" ${defaultFolder === 'perUser' ? 'selected' : ''}>${i18n(
                         'PinCushion.PerUser',
                       )}</option>`
                 }
                 <option
                   value="specificFolder"
-                  ${defaultFolder == 'specificFolder' ? 'selected' : ''}>
+                  ${defaultFolder === 'specificFolder' ? 'selected' : ''}>
                     ${i18n('PinCushion.PerSpecificFolder')}
                 </option>
                 <option disabled>──${i18n('PinCushion.ExistingFolders')}──</option>
@@ -147,7 +147,7 @@ export class PinCushion {
   /**
    * Creates and renders a dialog for name entry
    * @param {*} data
-   * @todo break callbacks out into separate methods
+   * break callbacks out into separate methods
    */
   _createDialog(data) {
     new Dialog({
@@ -409,62 +409,62 @@ export class PinCushion {
             name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_PLACEMENT}">
             <option
               value="nw-alt"
-              ${tooltipPlacement == 'nw-alt' ? 'selected' : ''}>
+              ${tooltipPlacement === 'nw-alt' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.north-west-alt')}
             </option>
             <option
               value="nw"
-              ${tooltipPlacement == 'nw' ? 'selected' : ''}>
+              ${tooltipPlacement === 'nw' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.north-west')}
             </option>
             <option
               value="n"
-              ${tooltipPlacement == 'n' ? 'selected' : ''}>
+              ${tooltipPlacement === 'n' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.north')}
               </option>
             <option
               value="ne"
-              ${tooltipPlacement == 'ne' ? 'selected' : ''}>
+              ${tooltipPlacement === 'ne' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.north-east')}
               </option>
             <option
               value="ne-alt"
-              ${tooltipPlacement == 'ne-alt' ? 'selected' : ''}>
+              ${tooltipPlacement === 'ne-alt' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.north-east-alt')}
               </option>
             <option
               value="w"
-              ${tooltipPlacement == 'w' ? 'selected' : ''}>
+              ${tooltipPlacement === 'w' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.west')}
               </option>
             <option
               value="e"
-              ${tooltipPlacement == 'e' ? 'selected' : ''}>
+              ${tooltipPlacement === 'e' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.east')}
               </option>
             <option
               value="sw-alt"
-              ${tooltipPlacement == 'sw-alt' ? 'selected' : ''}>
+              ${tooltipPlacement === 'sw-alt' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.south-west-alt')}
               </option>
             <option
               value="sw"
-              ${tooltipPlacement == 'sw' ? 'selected' : ''}>
+              ${tooltipPlacement === 'sw' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.south-west')}
             </option>
             <option
               value="s"
-              ${tooltipPlacement == 's' ? 'selected' : ''}>
+              ${tooltipPlacement === 's' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.south')}
             </option>
             <option
               value="se"
-              ${tooltipPlacement == 'se' ? 'selected' : ''}>
+              ${tooltipPlacement === 'se' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.south-east')}
             </option>
             <option
               value="se-alt"
-              ${tooltipPlacement == 'se-alt' ? 'selected' : ''}>
+              ${tooltipPlacement === 'se-alt' ? 'selected' : ''}>
                 ${i18n('PinCushion.Tooltip.Placement.choices.south-east-alt')}
             </option>
           </select>
@@ -481,46 +481,46 @@ export class PinCushion {
             style="width: 100%;"
             name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">
             <option
-            value="" ${tooltipColor == '' ? 'selected' : ''}>
+            value="" ${tooltipColor === '' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.default')}
             </option>
             <option
             value="blue"
-            ${tooltipColor == 'blue' ? 'selected' : ''}>
+            ${tooltipColor === 'blue' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.blue')}
             </option>
             <option
             value="dark"
-            ${tooltipColor == 'dark' ? 'selected' : ''}>
+            ${tooltipColor === 'dark' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.dark')}
             </option>
             <option
             value="green"
-            ${tooltipColor == 'green' ? 'selected' : ''}>
+            ${tooltipColor === 'green' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.green')}
             </option>
             <option
             value="light"
-            ${tooltipColor == 'light' ? 'selected' : ''}>
+            ${tooltipColor === 'light' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.light')}
             </option>
             <option
             value="orange"
-            ${tooltipColor == 'orange' ? 'selected' : ''}>
+            ${tooltipColor === 'orange' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.orange')}
             </option>
             <option value="purple"
-            ${tooltipColor == 'purple' ? 'selected' : ''}>
+            ${tooltipColor === 'purple' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.purple')}
             </option>
             <option
             value="red"
-            ${tooltipColor == 'red' ? 'selected' : ''}>
+            ${tooltipColor === 'red' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.red')}
             </option>
             <option
             value="yellow"
-            ${tooltipColor == 'yellow' ? 'selected' : ''}>
+            ${tooltipColor === 'yellow' ? 'selected' : ''}>
               ${i18n('PinCushion.Tooltip.Color.choices.yellow')}
             </option>
           </select>
@@ -552,7 +552,7 @@ export class PinCushion {
       </div>
     `);
 
-    // TODO
+    // TODO FOLLOW MOUSE FEATURE IS NOT WORKING...
     /*
     <div class="form-group">
       <label
@@ -900,10 +900,13 @@ export class PinCushion {
   }
 
   static _addDoNotShowJournalPreview(app, html, data) {
-    const doNotShowJournalPreviewS =
-      (app.document
+    let doNotShowJournalPreviewS =
+      String((app.document
         ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)
-        : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)) ?? true;
+        : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)));
+    if (doNotShowJournalPreviewS !== 'true' && doNotShowJournalPreviewS !== 'false') {
+      doNotShowJournalPreviewS = 'true';
+    }
     const doNotShowJournalPreview = String(doNotShowJournalPreviewS) === 'true' ? true : false;
 
     if(app.document && app.document.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)!==doNotShowJournalPreview){
@@ -1030,7 +1033,7 @@ export class PinCushion {
     let textAlwaysVisible =
       this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE) ?? false;
     // let textVisible = this._hover;
-    if (textAlwaysVisible == true) {
+    if (textAlwaysVisible === true) {
       // Keep tooltip always visible
       // Though could make an option out of that too. Would be nicer
       // TODO it's seem we don't need this
@@ -1059,7 +1062,7 @@ export class PinCushion {
     const value = result.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_REVEALED);
     // Use the revealed state as the visibility of the Note.
     // If the linked topic is not visible to the player then clicking will do nothing.
-    if (value != undefined) {
+    if (value !== undefined) {
       result.visible = value;
     }
 
@@ -1079,7 +1082,7 @@ export class PinCushion {
     let textAlwaysVisible =
       this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE) ?? false;
     // let textVisible = this._hover;
-    if (textAlwaysVisible == true) {
+    if (textAlwaysVisible === true) {
       // Keep tooltip always visible
       // Though could make an option out of that too. Would be nicer
       // TODO it's seem we don't need this
@@ -1144,7 +1147,7 @@ export class PinCushion {
         // return wrapped(...args);
       } else {
         const value = noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
-        if (value != undefined) {
+        if (value !== undefined) {
           const is_linked = noteInternal.entry?.testUserPermission(game.user, 'LIMITED');
           const colour = game.settings.get(
             PinCushion.MODULE_NAME,
@@ -1218,7 +1221,7 @@ export class PinCushion {
    */
   static _drawControlIcon(...args) {
     const res = PinCushion._drawControlIconInternal(this);
-    if (res == undefined) {
+    if (res === undefined) {
       // return wrapped(...args);
     } else {
       return res;

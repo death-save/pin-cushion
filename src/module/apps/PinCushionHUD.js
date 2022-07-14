@@ -186,7 +186,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
     super.activateListeners(html);
 
     // const elementToTooltip = html;
-    const elementToTooltip = this.element;
+    let elementToTooltip = this.element;
     // let mouseOnDiv = html; // this.element; // this.element.parent()[0];
     if (!elementToTooltip.data) {
       elementToTooltip = $(elementToTooltip);

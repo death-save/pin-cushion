@@ -1,3 +1,4 @@
+import { PinCushion } from './module/apps/PinCushion.js';
 import CONSTANTS from './module/constants.js';
 
 /**
