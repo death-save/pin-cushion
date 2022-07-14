@@ -900,10 +900,17 @@ export class PinCushion {
   }
 
   static _addDoNotShowJournalPreview(app, html, data) {
-    const doNotShowJournalPreview =
+    const doNotShowJournalPreviewS =
       (app.document
         ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)
         : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)) ?? true;
+    const doNotShowJournalPreview = String(doNotShowJournalPreviewS) === 'true' ? true : false;
+
+    if(app.document && app.document.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)!==doNotShowJournalPreview){
+      app.document.setFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW,doNotShowJournalPreview);
+    }else if(app.object && app.object.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)!==doNotShowJournalPreview){
+      app.object.setFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW,doNotShowJournalPreview);
+    }
 
     const textGroup = html.find('[name=text]').closest('.form-group');
     textGroup.after(`

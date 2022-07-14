@@ -208,16 +208,17 @@ Hooks.on('renderHeadsUpDisplay', (app, html, data) => {
 Hooks.on('hoverNote', (note, hovered) => {
   // const showPreview = game.settings.get(PinCushion.MODULE_NAME, 'showJournalPreview');
   const previewDelay = game.settings.get(PinCushion.MODULE_NAME, 'previewDelay');
-  const doNotShowJournalPreview = getProperty(
+  const doNotShowJournalPreviewS = getProperty(
     note,
     `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}`,
   );
-  const tooltipForceRemove = getProperty(
+  const doNotShowJournalPreview = String(doNotShowJournalPreviewS) === 'true' ? true : false;
+  const tooltipForceRemoveS = getProperty(
     note,
     `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}`,
   );
+  const tooltipForceRemove = String(tooltipForceRemoveS) === 'true' ? true : false;
 
-  // if (!showPreview || doNotShowJournalPreview) {
   if (doNotShowJournalPreview) {
     return;
   }
