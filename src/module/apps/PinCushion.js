@@ -115,6 +115,7 @@ export class PinCushion {
       TOOLTIP_SMART_PLACEMENT: 'tooltipSmartPlacement',
       TOOLTIP_FOLLOW_MOUSE: 'tooltipFollowMouse',
       PREVIEW_AS_TEXT_SNIPPET: 'previewAsTextSnippet',
+      ABOVE_FOG: 'aboveFog',
     };
   }
 
@@ -932,7 +933,35 @@ export class PinCushion {
       </div>
     `);
   }
+  /*
+  static _addAboveFog(app, html, data) {
+    let aboveFogS = String(
+      app.document
+        ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.ABOVE_FOG)
+        : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.ABOVE_FOG),
+    );
+    if (aboveFogS !== 'true' && aboveFogS !== 'false') {
+      aboveFogS = 'false';
+    }
+    const aboveFog = String(aboveFogS) === 'true' ? true : false;
 
+    const textGroup = html.find('[name=text]').closest('.form-group');
+    textGroup.after(`
+      <div class="form-group">
+        <label
+          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}">
+          ${i18n('PinCushion.AboveFog')}
+        </label>
+        <div class="form-fields">
+          <input
+            type="checkbox"
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}"
+            data-dtype="Boolean" ${aboveFog ? 'checked' : ''} />
+        </div>
+      </div>
+    `);
+  }
+  */
   static _addPreviewAsTextSnippet(app, html, data) {
     const previewAsTextSnippet =
       (app.document
@@ -1067,6 +1096,19 @@ export class PinCushion {
       result.visible = value;
     }
 
+    /*
+    // Above fog feature
+    let aboveFogS = String(
+      getProperty(this.document, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}`),
+    );
+    if (aboveFogS !== 'true' && aboveFogS !== 'false') {
+      aboveFogS = 'false';
+    }
+    const aboveFog = String(aboveFogS) === 'true' ? true : false;
+    if(aboveFog){
+      setProperty(this,`zIndex`, 300);
+    }
+    */
     return result;
   }
 
@@ -1222,6 +1264,19 @@ export class PinCushion {
    */
   static _drawControlIcon(...args) {
     const res = PinCushion._drawControlIconInternal(this);
+    /*
+    // Above fog feature
+    let aboveFogS = String(
+      getProperty(this.document, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}`),
+    );
+    if (aboveFogS !== 'true' && aboveFogS !== 'false') {
+      aboveFogS = 'false';
+    }
+    const aboveFog = String(aboveFogS) === 'true' ? true : false;
+    if(aboveFog){
+      setProperty(this,`zIndex`, 300);
+    }
+    */
     if (res === undefined) {
       // return wrapped(...args);
     } else {

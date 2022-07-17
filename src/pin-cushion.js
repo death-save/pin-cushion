@@ -189,6 +189,7 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
   PinCushion._addHideLabel(app, html, data);
   PinCushion._addPreviewAsTextSnippet(app, html, data);
   PinCushion._addDoNotShowJournalPreview(app, html, data);
+  //PinCushion._addAboveFog(app, html, data);
   PinCushion._addTooltipHandler(app, html, data);
 });
 

@@ -116,6 +116,7 @@
     "DoNotShowJournalPreview": "Do not show Journal Preview",
     "PreviewAsTextSnippet": "Show the preview as text snippet",
     "GMLabel": "GM Label",
-    "PlayerLabel": "Player Label"
+    "PlayerLabel": "Player Label",
+    "AboveFog": "Show Map Pins Above Fog"
   }
 }
