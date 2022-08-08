@@ -1076,11 +1076,17 @@ export class PinCushion {
     // this.tooltip.visible = textVisible;
     //this.visible = this.entry?.testUserPermission(game.user, "LIMITED") ?? true;
 
+    let text = this.children[1]; // 0 is the ControlIcon, 1 is the PreciseText
     // Text is created bevor this point. So we can modify it here.
     let ratio = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO);
     if (ratio) {
-      let text = this.children[1]; // 0 is the ControlIcon, 1 is the PreciseText
       text.x = (this.size * (ratio - 1)) / 2; // correct shifting for the new scale.
+    }
+    // Bug fixing :Always (when hover) show name of pin up (above) to others pin
+    // https://stackoverflow.com/questions/24909371/move-item-in-array-to-last-position
+    if (this._hover) {
+      const fromIndex = canvas.notes.placeables.findIndex((note) => note.id === this.id) || 0;
+      canvas.notes.placeables.push(canvas.notes.placeables.splice(fromIndex, 1)[0]);
     }
 
     PinCushion.setNoteRevealed(this.data, undefined);
@@ -1138,12 +1144,19 @@ export class PinCushion {
     // this.tooltip.visible = textVisible;
     //this.visible = this.entry?.testUserPermission(game.user, "LIMITED") ?? true;
 
+    let text = this.children[1]; // 0 is the ControlIcon, 1 is the PreciseText
     // Text is created bevor this point. So we can modify it here.
     let ratio = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO);
     if (ratio) {
-      let text = this.children[1]; // 0 is the ControlIcon, 1 is the PreciseText
       text.x = (this.size * (ratio - 1)) / 2; // correct shifting for the new scale.
     }
+    // Bug fixing :Always (when hover) show name of pin up (above) to others pin
+    // https://stackoverflow.com/questions/24909371/move-item-in-array-to-last-position
+    if (this._hover) {
+      const fromIndex = canvas.notes.placeables.findIndex((note) => note.id === this.id) || 0;
+      canvas.notes.placeables.push(canvas.notes.placeables.splice(fromIndex, 1)[0]);
+    }
+
     return result;
   }
 
