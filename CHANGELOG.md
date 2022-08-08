@@ -1,11 +1,10 @@
 # Changelog
 
-### [1.7.4]
-
-- Bug fix [Always (when hover) show name of pin up (above) to others pin](https://github.com/p4535992/foundryvtt-pin-cushion/issues/16)
-
 ### [1.7.3]
 
+- Bug fix [[BUG] Default Journal Entry Permission not respected](https://github.com/p4535992/foundryvtt-pin-cushion/issues/20)
+- Bug fix [Always (when hover) show name of pin up (above) to others pin](https://github.com/p4535992/foundryvtt-pin-cushion/issues/16)
+- Bug fix [[BUG] Default Journal Entry Folder not respected](https://github.com/p4535992/foundryvtt-pin-cushion/issues/19)
 - Bug fix [[BUG] Hovering over map pins too quickly with too low a delay breaks the hover feature](https://github.com/p4535992/foundryvtt-pin-cushion/issues/18) the minimum delay is now 100ms on the module settings
 
 ### [1.7.2]

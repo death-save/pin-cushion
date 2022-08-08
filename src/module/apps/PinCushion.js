@@ -188,9 +188,14 @@ export class PinCushion {
     }
     // Permissions the Journal Entry will be created with
     const permission = {
-      [game.userId]: CONST.ENTITY_PERMISSIONS.OWNER,
+      [game.userId]: CONST.DOCUMENT_PERMISSION_LEVELS.OWNER,
       default: parseInt($('#cushion-permission').val()),
     };
+
+    const defaultJournalPermission = game.settings.get(PinCushion.MODULE_NAME, 'defaultJournalPermission');
+    if(permission.default === 0 && defaultJournalPermission >= 0) {
+      permission.default = defaultJournalPermission;
+    }
 
     // Get folder ID for Journal Entry
     let folder;
@@ -212,7 +217,13 @@ export class PinCushion {
     } else {
       folder = selectedFolder; // Folder is already given as ID
     }
-    const entry = await JournalEntry.create({ name: `${input[0].value}`, permission, ...(folder && { folder }) });
+    const entry = await JournalEntry.create(
+      { 
+        name: `${input[0].value}`, 
+        permission, 
+        ...(folder && { folder }) 
+      }
+    );
 
     if (!entry) {
       return;
@@ -272,9 +283,12 @@ export class PinCushion {
         return undefined;
       // Target folder should match the user's name
       case 'perUser':
-        return game.journal.directory.folders.find((f) => f.name === name)?.id ?? undefined;
+        return game.journal.directory.folders.find((f) => f.name === name)?.id
+          ?? undefined;
       case 'specificFolder':
-        return game.journal.directory.folders.find((f) => f.name === folderName)?.id ?? undefined;
+        return game.journal.directory.folders.find((f) => f.name === folderName)?.id
+          ?? game.journal.directory.folders[Number(folderName)]?.id
+          ?? undefined;
       default:
         return name;
     }

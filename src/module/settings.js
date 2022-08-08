@@ -86,7 +86,7 @@ export const registerSettings = function () {
     hint: game.i18n.localize('PinCushion.SETTINGS.DefaultJournalPermissionH'),
     scope: 'world',
     type: Number,
-    choices: Object.entries(CONST.ENTITY_PERMISSIONS).reduce((acc, [perm, key]) => {
+    choices: Object.entries(CONST.DOCUMENT_PERMISSION_LEVELS).reduce((acc, [perm, key]) => {
       acc[key] = game.i18n.localize(`PERMISSION.${perm}`);
       return acc;
     }, {}),
@@ -386,7 +386,7 @@ function otherSettings(apply = false) {
       hint: game.i18n.localize('PinCushion.SETTINGS.DefaultJournalPermissionH'),
       scope: 'world',
       type: Number,
-      choices: Object.entries(CONST.ENTITY_PERMISSIONS).reduce((acc, [perm, key]) => {
+      choices: Object.entries(CONST.DOCUMENT_PERMISSION_LEVELS).reduce((acc, [perm, key]) => {
         acc[key] = game.i18n.localize(`PERMISSION.${perm}`);
         return acc;
       }, {}),
