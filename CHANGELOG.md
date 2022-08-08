@@ -1,5 +1,9 @@
 # Changelog
 
+### [1.7.3]
+
+- Bug fix [[BUG] Hovering over map pins too quickly with too low a delay breaks the hover feature](https://github.com/p4535992/foundryvtt-pin-cushion/issues/18) the minimum delay is now 100ms on the module settings
+
 ### [1.7.2]
 
 - Buf fix [Pin Cushion 1.7 broke "Do not show Journal Preview"](https://github.com/p4535992/foundryvtt-pin-cushion/issues/15)

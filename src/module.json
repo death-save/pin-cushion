@@ -97,6 +97,11 @@
   "bugs": "https://github.com/p4535992/foundryvtt-pin-cushion/issues",
   "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",
+  "compatibility": {
+    "minimum": 9,
+    "verified": 9,
+    "maximum": 9
+  },
   "allowBugReporter": true,
   "manifestPlusVersion": "1.2.0",
   "dependencies": [

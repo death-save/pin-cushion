@@ -77,6 +77,8 @@ export const registerSettings = function () {
     default: 500,
     config: true,
     onChange: (s) => {},
+    //@ts-ignore
+    range: { min: 100, max: 5000, step: 100 }, // bug https://github.com/p4535992/foundryvtt-pin-cushion/issues/18
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'defaultJournalPermission', {
