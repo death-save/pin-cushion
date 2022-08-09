@@ -70,17 +70,27 @@ export class PinCushion {
               <input name="name" type="text"/>
               <label>
                 <p class="notes">${i18n('PinCushion.DefaultPermission')}</p>
-                <p><i>${i18nFormat('PinCushion.DefaultPermissionNote', { setting: defaultPermissionName })}</i></p>
               </label>
               <select id="cushion-permission" style="width: 100%;">
-                <option value="0" ${defaultPermission === '0' ? 'selected' : ''}>${i18n('PERMISSION.NONE')}</option>
-                <option value="1" ${defaultPermission === '1' ? 'selected' : ''}>${i18n('PERMISSION.LIMITED')}</option>
-                <option value="2" ${defaultPermission === '2' ? 'selected' : ''}>${i18n('PERMISSION.OBSERVER')}</option>
-                <option value="3" ${defaultPermission === '3' ? 'selected' : ''}>${i18n('PERMISSION.OWNER')}</option>
+                <option value="0" 
+                  ${String(defaultPermission) === '0' ? 'selected' : ''}>
+                  ${i18n('PERMISSION.NONE')}${String(defaultPermission) === '0' ? ' <i>(default)</i>' : ''}
+                </option>
+                <option value="1" 
+                  ${String(defaultPermission) === '1' ? 'selected' : ''}>
+                  ${i18n('PERMISSION.LIMITED')}${String(defaultPermission) === '1' ? ' <i>(default)</i>' : ''}
+                </option>
+                <option value="2" 
+                  ${String(defaultPermission) === '2' ? 'selected' : ''}>
+                  ${i18n('PERMISSION.OBSERVER')}${String(defaultPermission) === '2' ? ' <i>(default)</i>' : ''}
+                </option>
+                <option value="3" 
+                  ${String(defaultPermission) === '3' ? 'selected' : ''}>
+                  ${i18n('PERMISSION.OWNER')}${String(defaultPermission) === '3' ? ' <i>(default)</i>' : ''}
+                </option>
               </select>
               <label>
                 <p class="notes">${i18n('PinCushion.Folder')}</p>
-                <p><i>${i18nFormat('PinCushion.FolderNote', { setting: defaultFolder })})</i></p>
               </label>
               <select id="cushion-folder" style="width: 100%;">
                 <option
