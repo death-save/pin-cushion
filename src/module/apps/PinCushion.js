@@ -1,5 +1,5 @@
 import CONSTANTS from '../constants.js';
-import { i18n, stripQueryStringAndHashFromPath } from '../lib/lib.js';
+import { i18n, i18nFormat, stripQueryStringAndHashFromPath } from '../lib/lib.js';
 import { registerSettings } from '../settings.js';
 import { BackgroundlessControlIcon } from './BackgroundlessControlIcon.js';
 
@@ -32,13 +32,35 @@ export class PinCushion {
 
   static get DIALOG() {
     const defaultPermission = game.settings.get(PinCushion.MODULE_NAME, 'defaultJournalPermission');
+    let defaultPermissionName = 'NONE';
+    if (String(defaultPermission) === '0') {
+      defaultPermissionName = 'NONE';
+    }
+    if (String(defaultPermission) === '1') {
+      defaultPermissionName = 'LIMITED';
+    }
+    if (String(defaultPermission) === '2') {
+      defaultPermissionName = 'OBSERVER';
+    }
+    if (String(defaultPermission) === '3') {
+      defaultPermissionName = 'OWNER';
+    }
+    // none, perUser, specificFolder
     const defaultFolder = game.settings.get(PinCushion.MODULE_NAME, 'defaultJournalFolder');
-    const settingSpecificFolder = game.settings.get(PinCushion.MODULE_NAME, 'specificFolder');
+
+    const specificFolder = game.settings.get(PinCushion.MODULE_NAME, 'specificFolder');
+    const specificFolderObj =
+      game.journal.directory.folders.find((f) => f.name === specificFolder || f.id === specificFolder) ??
+      game.journal.directory.folders[Number(specificFolder)] ??
+      undefined;
+    const specificFolderName = specificFolderObj ? specificFolderObj.name : '';
+
     const folders = game.journal.directory.folders
       .sort((a, b) => a.name.localeCompare(b.name))
       .filter((folder) => folder.displayed)
       .map((folder) => `<option value="${folder.id}">${folder.name}</option>`)
       .join('\n');
+
     return {
       content: `
             <div class="form-group">
@@ -48,6 +70,7 @@ export class PinCushion {
               <input name="name" type="text"/>
               <label>
                 <p class="notes">${i18n('PinCushion.DefaultPermission')}</p>
+                <p><i>${i18nFormat('PinCushion.DefaultPermissionNote', { setting: defaultPermissionName })}</i></p>
               </label>
               <select id="cushion-permission" style="width: 100%;">
                 <option value="0" ${defaultPermission === '0' ? 'selected' : ''}>${i18n('PERMISSION.NONE')}</option>
@@ -57,6 +80,7 @@ export class PinCushion {
               </select>
               <label>
                 <p class="notes">${i18n('PinCushion.Folder')}</p>
+                <p><i>${i18nFormat('PinCushion.FolderNote', { setting: defaultFolder })})</i></p>
               </label>
               <select id="cushion-folder" style="width: 100%;">
                 <option
@@ -64,17 +88,13 @@ export class PinCushion {
                   ${defaultFolder === 'none' ? 'selected' : ''}>
                     ${i18n('PinCushion.None')}
                 </option>
-                ${
-                  game.user.isGM
-                    ? ``
-                    : `<option value="perUser" ${defaultFolder === 'perUser' ? 'selected' : ''}>${i18n(
-                        'PinCushion.PerUser',
-                      )}</option>`
-                }
+                <option value="perUser" ${defaultFolder === 'perUser' ? 'selected' : ''}>
+                  ${i18n('PinCushion.PerUser')} <i>(${game.user.name})</i>
+                </option>
                 <option
                   value="specificFolder"
                   ${defaultFolder === 'specificFolder' ? 'selected' : ''}>
-                    ${i18n('PinCushion.PerSpecificFolder')}
+                    ${i18n('PinCushion.PerSpecificFolder')} <i>(${specificFolderName})</i>
                 </option>
                 <option disabled>──${i18n('PinCushion.ExistingFolders')}──</option>
                 ${folders}
@@ -284,7 +304,7 @@ export class PinCushion {
         return game.journal.directory.folders.find((f) => f.name === name)?.id ?? undefined;
       case 'specificFolder':
         return (
-          game.journal.directory.folders.find((f) => f.name === folderName)?.id ??
+          game.journal.directory.folders.find((f) => f.name === folderName || f.id === folderName)?.id ??
           game.journal.directory.folders[Number(folderName)]?.id ??
           undefined
         );
@@ -1031,13 +1051,13 @@ export class PinCushion {
     //// Set a different label to be used while we call the original Note.prototype._drawTooltip
     ////
     //// Note#text          = get text()  { return this.document.label; }
-    //// NoteDocument#label = get label() { return this.data.text || this.entry?.name || "Unknown"; }
+    //// NoteDocument#label = get label() { return this.text || this.entry?.name || "Unknown"; }
     //// but NoteDocument#data.text can be modified :-)
     ////
-    //// let saved_text = this.document.data.text;
-    // this.document.data.text = newtext;
+    //// let saved_text = this.document.text;
+    // this.document.text = newtext;
     let result = wrapped(...args);
-    //// this.document.data.text = saved_text;
+    //// this.document.text = saved_text;
 
     if (hideLabel) {
       result.text = '';

@@ -124,7 +124,7 @@ export const registerSettings = function () {
       const folders = game.journal.directory.folders.sort((a, b) => a.name.localeCompare(b.name));
       const arr = [];
       return Object.entries(folders).reduce((folder, [k, v]) => {
-        folder[k] = v.name;
+        folder[v.id] = v.name;
         return folder;
       }, {});
     },

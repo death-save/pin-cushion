@@ -1,5 +1,10 @@
 # Changelog
 
+### [1.7.4]
+
+- Bug fix [[BUG] Default Journal Entry Permission not respected](https://github.com/p4535992/foundryvtt-pin-cushion/issues/20)
+- Bug fix [[BUG] Default Journal Entry Folder not respected](https://github.com/p4535992/foundryvtt-pin-cushion/issues/19)
+
 ### [1.7.3]
 
 - Bug fix [[BUG] Default Journal Entry Permission not respected](https://github.com/p4535992/foundryvtt-pin-cushion/issues/20)
