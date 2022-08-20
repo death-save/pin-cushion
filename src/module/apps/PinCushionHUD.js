@@ -77,10 +77,18 @@ export class PinCushionHUD extends BasePlaceableHUD {
       }
     }
 
+    let titleTooltip = entry.data.name; // by default is the title of the journal
+    const newtextGM = getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.PIN_GM_TEXT);
+    if (game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, 'noteGM')) {
+      titleTooltip = newtextGM;
+    } else if(data.text && data.text !== titleTooltip){
+      titleTooltip = data.text;
+    }
+
     let bodyPlaceHolder = `<img class='image' src='${CONSTANTS.PATH_TRANSPARENT}' alt=''></img>`;
 
     data.tooltipId = this.object.id;
-    data.title = entry.data.name;
+    data.title = titleTooltip;
     // data.body = content;
     data.body = bodyPlaceHolder;
 
@@ -91,8 +99,9 @@ export class PinCushionHUD extends BasePlaceableHUD {
 
           <div id="container" class="pin-cushion-hud-container" style="font-size:${fontSize}px; max-width:${maxWidth}px">
               <div id="header">
-                  <h3>${entry.data.name}</h3>
+                  <h3>${titleTooltip}</h3>
               </div>
+              <hr/>
               <div id="content">
                 ${content}
               </div>

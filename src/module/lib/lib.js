@@ -197,3 +197,9 @@ export function stripQueryStringAndHashFromPath(url) {
   }
   return myUrl;
 }
+
+export function isAlt() {
+  // check if Alt and only Alt is being pressed during the drop event.
+  const alts = new Set(['Alt', 'AltLeft']);
+  return game.keyboard?.downKeys.size === 1 && game.keyboard.downKeys.intersects(alts);
+}

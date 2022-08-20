@@ -1,5 +1,5 @@
 import CONSTANTS from '../constants.js';
-import { i18n, i18nFormat, stripQueryStringAndHashFromPath } from '../lib/lib.js';
+import { i18n, i18nFormat, isAlt, stripQueryStringAndHashFromPath } from '../lib/lib.js';
 import { registerSettings } from '../settings.js';
 import { BackgroundlessControlIcon } from './BackgroundlessControlIcon.js';
 
@@ -1127,7 +1127,7 @@ export class PinCushion {
     }
     // Bug fixing :Always (when hover) show name of pin up (above) to others pin
     // https://stackoverflow.com/questions/24909371/move-item-in-array-to-last-position
-    if (this._hover) {
+    if (!isAlt() && this._hover) {
       const fromIndex = canvas.notes.placeables.findIndex((note) => note.id === this.id) || 0;
       canvas.notes.placeables.push(canvas.notes.placeables.splice(fromIndex, 1)[0]);
     }
@@ -1195,7 +1195,7 @@ export class PinCushion {
     }
     // Bug fixing :Always (when hover) show name of pin up (above) to others pin
     // https://stackoverflow.com/questions/24909371/move-item-in-array-to-last-position
-    if (this._hover) {
+    if (!isAlt() && this._hover) {
       const fromIndex = canvas.notes.placeables.findIndex((note) => note.id === this.id) || 0;
       canvas.notes.placeables.push(canvas.notes.placeables.splice(fromIndex, 1)[0]);
     }

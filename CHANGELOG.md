@@ -1,5 +1,10 @@
 # Changelog
 
+### [1.7.6]
+
+- Bug fix [[BUG] ressing ALT does not reveal all notes labels anymore](https://github.com/p4535992/foundryvtt-pin-cushion/issues/22)
+- Bug fix [Show Player Labaer name instead Journal entry name](https://github.com/p4535992/foundryvtt-pin-cushion/issues/21)
+
 ### [1.7.5]
 
 - Bug fix [[BUG] Default Journal Entry Permission not respected](https://github.com/p4535992/foundryvtt-pin-cushion/issues/20)

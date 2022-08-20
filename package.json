@@ -2,7 +2,7 @@
   "name": "pin-cushion",
   "title": "Pin Cushion",
   "description": "Provides additional functionality around Map Pins",
-  "version": "1.7.5",
+  "version": "1.7.6",
   "main": "pin-cushion.js",
   "scripts": {
     "package": "gulp package",
