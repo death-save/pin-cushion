@@ -79,7 +79,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
 
     let titleTooltip = entry.data.name; // by default is the title of the journal
     const newtextGM = getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.PIN_GM_TEXT);
-    if (game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, 'noteGM')) {
+    if (game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, 'noteGM') && newtextGM) {
       titleTooltip = newtextGM;
     } else if(data.text && data.text !== titleTooltip){
       titleTooltip = data.text;
