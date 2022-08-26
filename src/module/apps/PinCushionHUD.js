@@ -81,7 +81,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
     const newtextGM = getProperty(this.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.PIN_GM_TEXT);
     if (game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, 'noteGM') && newtextGM) {
       titleTooltip = newtextGM;
-    } else if(data.text && data.text !== titleTooltip){
+    } else if (data.text && data.text !== titleTooltip) {
       titleTooltip = data.text;
     }
 
@@ -116,8 +116,9 @@ export class PinCushionHUD extends BasePlaceableHUD {
    */
   setPosition() {
     // {left, top, width, height, scale}={}){
-    if (!this.object) return;
-
+    if (!this.object) {
+      return;
+    }
     const fontSize = game.settings.get(CONSTANTS.MODULE_NAME, 'fontSize') || canvas.grid.size / 5;
     const maxWidth = game.settings.get(CONSTANTS.MODULE_NAME, 'maxWidth');
 

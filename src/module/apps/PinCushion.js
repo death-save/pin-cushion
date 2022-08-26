@@ -146,6 +146,8 @@ export class PinCushion {
       TOOLTIP_FOLLOW_MOUSE: 'tooltipFollowMouse',
       PREVIEW_AS_TEXT_SNIPPET: 'previewAsTextSnippet',
       ABOVE_FOG: 'aboveFog',
+      SHOW_ONLY_TO_GM: 'showOnlyToGM',
+      PIN_IS_TRANSPARENT: 'pinIsTransparent',
     };
   }
 
@@ -612,7 +614,7 @@ export class PinCushion {
     </div>
     */
 
-    app.setPosition({ height: 'auto' });
+    // app.setPosition({ height: 'auto' });
   }
 
   /**
@@ -673,7 +675,7 @@ export class PinCushion {
     textAnchorGroup.after(`
       <div class="form-group">
         <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE}">${i18n(
-      'PinCushion.TextAlwaysVisible',
+      `${PinCushion.MODULE_NAME}.TextAlwaysVisible`,
     )}</label>
         <div class="form-fields">
           <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${
@@ -682,7 +684,7 @@ export class PinCushion {
         </div>
       </div>
     `);
-    app.setPosition({ height: 'auto' });
+    // app.setPosition({ height: 'auto' });
   }
 
   /**
@@ -695,9 +697,9 @@ export class PinCushion {
     const showImageExplicitSource = stripQueryStringAndHashFromPath(
       app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon,
     );
-    const iconPinCushion = stripQueryStringAndHashFromPath(
-      app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon,
-    );
+    // const iconPinCushion = stripQueryStringAndHashFromPath(
+    //   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon,
+    // );
 
     // you can see this only if you have the file browser permissions
     let filePickerHtml = '';
@@ -750,10 +752,64 @@ export class PinCushion {
       </div>
       ${filePickerHtml}
     `);
-    app.setPosition({ height: 'auto' });
+    // app.setPosition({ height: 'auto' });
     html
       .find('button.file-picker-showImageExplicitSource')
       .each((i, button) => (button.onclick = app._activateFilePicker.bind(app)));
+  }
+
+  /**
+   * Add pin is transparent field
+   * @param {*} app
+   * @param {*} html
+   * @param {*} data
+   */
+  static _addPinIsTransparentField(app, html, data) {
+    const pinIsTransparent = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_TRANSPARENT) ?? false;
+    const iconTintGroup = html.find('[name=iconTint]').closest('.form-group');
+    iconTintGroup.after(`
+      <div class="form-group">
+        <label
+          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_TRANSPARENT}">
+          ${i18n('pin-cushion.PinIsTransparent')}
+        </label>
+        <div class="form-fields">
+          <input
+            type="checkbox"
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_TRANSPARENT}"
+            data-dtype="Boolean" ${pinIsTransparent ? 'checked' : ''}>
+          </input>
+        </div>
+      </div>
+    `);
+    // app.setPosition({ height: 'auto' });
+  }
+
+  /**
+   * Add pin is transparent field
+   * @param {*} app
+   * @param {*} html
+   * @param {*} data
+   */
+  static _addShowOnlyToGMField(app, html, data) {
+    const showOnlyToGM = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_ONLY_TO_GM) ?? false;
+    const iconTintGroup = html.find('[name=iconTint]').closest('.form-group');
+    iconTintGroup.after(`
+      <div class="form-group">
+        <label
+          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_ONLY_TO_GM}">
+          ${i18n('pin-cushion.ShowOnlyToGM')}
+        </label>
+        <div class="form-fields">
+          <input
+            type="checkbox"
+            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_ONLY_TO_GM}"
+            data-dtype="Boolean" ${showOnlyToGM ? 'checked' : ''}>
+          </input>
+        </div>
+      </div>
+    `);
+    // app.setPosition({ height: 'auto' });
   }
 
   /**
@@ -871,12 +927,12 @@ export class PinCushion {
     //let reveal_icon = $(`<div class='form-group'><label>Icon follows Reveal</label><div class='form-fields'><input type='checkbox' name='useRevealIcon'></div></div>`)
     //html.find("select[name='icon']").parent().parent().after(reveal_icon);
 
-    // Force a recalculation of the height
-    if (!app._minimized) {
-      let pos = app.position;
-      pos.height = 'auto';
-      app.setPosition(pos);
-    }
+    // // Force a recalculation of the height
+    // if (!app._minimized) {
+    //   let pos = app.position;
+    //   pos.height = 'auto';
+    //   app.setPosition(pos);
+    // }
   }
 
   static _addNoteTintColorLink(app, html, data) {
@@ -914,11 +970,11 @@ export class PinCushion {
     html.find("select[name='entryId']").parent().parent().after(mode_control);
 
     // Force a recalculation of the height
-    if (!app._minimized) {
-      let pos = app.position;
-      pos.height = 'auto';
-      app.setPosition(pos);
-    }
+    // if (!app._minimized) {
+    //   let pos = app.position;
+    //   pos.height = 'auto';
+    //   app.setPosition(pos);
+    // }
   }
 
   static _addHideLabel(app, html, data) {
@@ -1093,6 +1149,17 @@ export class PinCushion {
     return result;
   }
 
+  static _isVisible(wrapped, ...args) {
+    let result = wrapped(...args);
+    const showOnlyToGM = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_ONLY_TO_GM) ?? false;
+    if (String(showOnlyToGM) === 'true') {
+      if (!game.user.isGM) {
+        return false;
+      }
+    }
+    return result;
+  }
+
   /**
    * Wraps the default Note#refresh to allow the visibility of scene Notes to be controlled by the reveal
    * state stored in the Note (overriding the default visibility which is based on link accessibility).
@@ -1260,6 +1327,12 @@ export class PinCushion {
     }
 
     let tint = noteInternal.data.iconTint ? colorStringToHex(noteInternal.data.iconTint) : null;
+
+    const pinIsTransparent = noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_TRANSPARENT);
+    if (String(pinIsTransparent) === 'true') {
+      noteInternal.data.icon = CONSTANTS.PATH_TRANSPARENT;
+    }
+
     let iconData = {
       texture: stripQueryStringAndHashFromPath(noteInternal.data.icon),
       size: noteInternal.size,

@@ -117,6 +117,8 @@
     "PreviewAsTextSnippet": "Show the preview as text snippet",
     "GMLabel": "GM Label",
     "PlayerLabel": "Player Label",
-    "AboveFog": "Show Map Pins Above Fog"
+    "AboveFog": "Show Map Pins Above Fog",
+    "PinIsTransparent": "Pin is transparent ?",
+    "ShowOnlyToGM": "Show only to GM ?"
   }
 }

@@ -128,12 +128,12 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
   }
   // TODO THIS CODE CAN B DONE MUCH BETTER...
   const showJournalImageByDefault = game.settings.get(PinCushion.MODULE_NAME, 'showJournalImageByDefault');
-  const showImageExplicitSource = stripQueryStringAndHashFromPath(
-    app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon,
-  );
-  const iconPinCushion = stripQueryStringAndHashFromPath(
-    app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon,
-  );
+  // const showImageExplicitSource = stripQueryStringAndHashFromPath(
+  //   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon,
+  // );
+  // const iconPinCushion = stripQueryStringAndHashFromPath(
+  //   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon,
+  // );
 
   if (
     showJournalImageByDefault &&
@@ -165,6 +165,8 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
   setProperty(app.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.CUSHION_ICON, tmp);
 
   PinCushion._addShowImageField(app, html, data);
+  PinCushion._addPinIsTransparentField(app, html, data);
+  PinCushion._addShowOnlyToGMField(app, html, data);
 
   // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
   // if (enableBackgroundlessPins) {
@@ -191,6 +193,13 @@ Hooks.on('renderNoteConfig', async (app, html, data) => {
   PinCushion._addDoNotShowJournalPreview(app, html, data);
   //PinCushion._addAboveFog(app, html, data);
   PinCushion._addTooltipHandler(app, html, data);
+
+  // Force a recalculation of the height
+  if (!app._minimized) {
+    let pos = app.position;
+    pos.height = 'auto';
+    app.setPosition(pos);
+  }
 });
 
 /**
@@ -282,8 +291,12 @@ Hooks.once('canvasInit', () => {
     // eslint-disable-next-line no-undef
     libWrapper.register(PinCushion.MODULE_NAME, 'Note.prototype.refresh', PinCushion._noteRefresh2, 'WRAPPER');
   }
+
+  // eslint-disable-next-line no-undef
+  libWrapper.register(PinCushion.MODULE_NAME, 'Note.prototype.isVisible', PinCushion._isVisible, 'WRAPPER');
+
   // const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
-  // if (enableBackgroundlessPins) {
+  // if (enableBackgroundlessPins)
   // eslint-disable-next-line no-undef
   libWrapper.register(
     PinCushion.MODULE_NAME,
