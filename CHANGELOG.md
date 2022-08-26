@@ -2,7 +2,7 @@
 
 ### [1.7.8]
 
-- NEW Feature "Show only to GM ?" : Quite simply regardless of the associated permissions it shows the note only to the gm, it is very useful when used with this other module to prepare notes for the GM or random encounter with the Ironmonk modules, personally it saves me a lot of time in not continuously setting the permissions on the associated journal.
+- NEW Feature "Show only to GM ?" : Quite simply regardless of the associated permissions it shows the note only to the gm, it is very useful when used with this other module to prepare notes for the GM or random encounter with the Ironmonk modules https://foundryvtt.com/packages/journal-icon-numbers, personally it saves me a lot of time in not continuously setting the permissions on the associated journal.
 - NEW Feature "Is Pin transparent ?" : Now with a simple checkbox on the note configuration it is possible to make the icon transparent without wasting time looking for the transparent image file. Very useful for people who use maps with icons printed on the map and just want to show the tooltip when the cursor is over that image and it saves me a lot of time. NOTE: This configuration is applied only to the icon image of the note , not the image tooltip.
 - Some clean up in preparation for fvtt v10
 
