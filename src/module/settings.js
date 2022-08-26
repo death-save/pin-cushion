@@ -4,25 +4,25 @@ import { i18n } from './lib/lib.js';
 
 export const registerSettings = function () {
   game.settings.registerMenu(CONSTANTS.MODULE_NAME, 'resetAllSettings', {
-    name: `PinCushion.SETTINGS.reset.name`,
-    hint: `PinCushion.SETTINGS.reset.hint`,
+    name: `pin-cushion.SETTINGS.reset.name`,
+    hint: `pin-cushion.SETTINGS.reset.hint`,
     icon: 'fas fa-coins',
     type: ResetSettingsDialog,
     restricted: true,
   });
 
   // game.settings.registerMenu(CONSTANTS.MODULE_NAME, "aboutApp", {
-  //     name: game.i18n.localize("PinCushion.SETTINGS.AboutAppN"),
-  //     label: game.i18n.localize("PinCushion.SETTINGS.AboutAppN"),
-  //     hint: game.i18n.localize("PinCushion.SETTINGS.AboutAppH"),
+  //     name: game.i18n.localize(`pin-cushion.SETTINGS.AboutAppN"),
+  //     label: game.i18n.localize(`pin-cushion.SETTINGS.AboutAppN"),
+  //     hint: game.i18n.localize(`pin-cushion.SETTINGS.AboutAppH"),
   //     icon: "fas fa-question",
   //     type: PinCushionAboutApp,
   //     restricted: false
   // });
 
   // game.settings.register(CONSTANTS.MODULE_NAME, 'showJournalPreview', {
-  //   name: game.i18n.localize('PinCushion.SETTINGS.ShowJournalPreviewN'),
-  //   hint: game.i18n.localize('PinCushion.SETTINGS.ShowJournalPreviewH'),
+  //   name: game.i18n.localize(`pin-cushion.SETTINGS.ShowJournalPreviewN`),
+  //   hint: game.i18n.localize(`pin-cushion.SETTINGS.ShowJournalPreviewH`),
   //   scope: 'client',
   //   type: Boolean,
   //   default: true,
@@ -37,8 +37,8 @@ export const registerSettings = function () {
   // });
 
   // game.settings.register(CONSTANTS.MODULE_NAME, 'previewType', {
-  //   name: game.i18n.localize('PinCushion.SETTINGS.PreviewTypeN'),
-  //   hint: game.i18n.localize('PinCushion.SETTINGS.PreviewTypeH'),
+  //   name: game.i18n.localize(`pin-cushion.SETTINGS.PreviewTypeN`),
+  //   hint: game.i18n.localize(`pin-cushion.SETTINGS.PreviewTypeH`),
   //   scope: 'client',
   //   type: String,
   //   choices: {
@@ -51,8 +51,8 @@ export const registerSettings = function () {
   // });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'forceToShowNotes', {
-    name: game.i18n.localize('PinCushion.SETTINGS.forceToShowNotesN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.forceToShowNotesH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.forceToShowNotesN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.forceToShowNotesH`),
     scope: 'world',
     config: true,
     default: true,
@@ -60,8 +60,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'previewMaxLength', {
-    name: game.i18n.localize('PinCushion.SETTINGS.PreviewMaxLengthN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.PreviewMaxLengthH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.PreviewMaxLengthN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.PreviewMaxLengthH`),
     scope: 'world',
     type: Number,
     default: 500,
@@ -70,8 +70,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'previewDelay', {
-    name: game.i18n.localize('PinCushion.SETTINGS.PreviewDelayN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.PreviewDelayH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.PreviewDelayN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.PreviewDelayH`),
     scope: 'world',
     type: Number,
     default: 500,
@@ -82,8 +82,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'defaultJournalPermission', {
-    name: game.i18n.localize('PinCushion.SETTINGS.DefaultJournalPermissionN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.DefaultJournalPermissionH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.DefaultJournalPermissionN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.DefaultJournalPermissionH`),
     scope: 'world',
     type: Number,
     choices: Object.entries(CONST.DOCUMENT_PERMISSION_LEVELS).reduce((acc, [perm, key]) => {
@@ -96,14 +96,14 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'defaultJournalFolder', {
-    name: game.i18n.localize('PinCushion.SETTINGS.DefaultJournalFolderN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.DefaultJournalFolderH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.DefaultJournalFolderN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.DefaultJournalFolderH`),
     scope: 'world',
     type: String,
     choices: {
-      none: game.i18n.localize('PinCushion.None'),
-      perUser: game.i18n.localize('PinCushion.PerUser'),
-      specificFolder: game.i18n.localize('PinCushion.PerSpecificFolder'),
+      none: game.i18n.localize(`pin-cushion.None`),
+      perUser: game.i18n.localize(`pin-cushion.PerUser`),
+      specificFolder: game.i18n.localize(`pin-cushion.PerSpecificFolder`),
     },
     default: 'none',
     config: true,
@@ -116,8 +116,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'specificFolder', {
-    name: game.i18n.localize('PinCushion.SETTINGS.SpecificFolderN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.SpecificFolderH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.SpecificFolderN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.SpecificFolderH`),
     scope: 'world',
     type: String,
     choices: () => {
@@ -134,8 +134,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'enableBackgroundlessPins', {
-    name: game.i18n.localize('PinCushion.SETTINGS.EnableBackgroundlessPinsN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.EnableBackgroundlessPinsH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.EnableBackgroundlessPinsN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.EnableBackgroundlessPinsH`),
     scope: 'world',
     type: Boolean,
     default: true,
@@ -143,8 +143,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'showJournalImageByDefault', {
-    name: game.i18n.localize('PinCushion.SETTINGS.ShowJournalImageByDefaultN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.ShowJournalImageByDefaultH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.ShowJournalImageByDefaultN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.ShowJournalImageByDefaultH`),
     scope: 'world',
     type: Boolean,
     default: true,
@@ -152,8 +152,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'playerIconAutoOverride', {
-    name: game.i18n.localize('PinCushion.SETTINGS.PlayerIconAutoOverrideN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.PlayerIconAutoOverrideH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.PlayerIconAutoOverrideN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.PlayerIconAutoOverrideH`),
     scope: 'world',
     config: true,
     default: false,
@@ -161,8 +161,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'playerIconPathDefault', {
-    name: game.i18n.localize('PinCushion.SETTINGS.PlayerIconPathDefaultN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.PlayerIconPathDefaultH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.PlayerIconPathDefaultN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.PlayerIconPathDefaultH`),
     scope: 'world',
     config: true,
     default: 'icons/svg/book.svg',
@@ -171,8 +171,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'noteGM', {
-    name: game.i18n.localize('PinCushion.SETTINGS.noteGMN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.noteGMH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.noteGMN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.noteGMH`),
     scope: 'world',
     config: true,
     default: false,
@@ -180,8 +180,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'revealedNotes', {
-    name: game.i18n.localize('PinCushion.SETTINGS.revealedNotesN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.revealedNotesH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesH`),
     scope: 'world',
     config: true,
     default: false,
@@ -189,8 +189,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'revealedNotesTintColorLink', {
-    name: game.i18n.localize('PinCushion.SETTINGS.revealedNotesTintColorLinkN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.revealedNotesTintColorLinkH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorLinkN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorLinkH`),
     scope: 'world',
     type: String,
     default: '#7CFC00',
@@ -204,8 +204,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'revealedNotesTintColorNotLink', {
-    name: game.i18n.localize('PinCushion.SETTINGS.revealedNotesTintColorNotLinkN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.revealedNotesTintColorNotLinkH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorNotLinkN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorNotLinkH`),
     scope: 'world',
     type: String,
     default: '#c000c0',
@@ -219,8 +219,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'enableJournalThumbnailForGMs', {
-    name: game.i18n.localize('PinCushion.SETTINGS.enableJournalThumbnailForGMsN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.enableJournalThumbnailForGMsH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.enableJournalThumbnailForGMsN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.enableJournalThumbnailForGMsH`),
     scope: 'world',
     type: Boolean,
     default: true,
@@ -229,8 +229,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'enableJournalThumbnailForPlayers', {
-    name: game.i18n.localize('PinCushion.SETTINGS.enableJournalThumbnailForPlayersN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.enableJournalThumbnailForPlayersH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.enableJournalThumbnailForPlayersN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.enableJournalThumbnailForPlayersH`),
     scope: 'world',
     type: Boolean,
     default: true,
@@ -239,8 +239,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'fontSize', {
-    name: game.i18n.localize('PinCushion.SETTINGS.fontSizeN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.fontSizeH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.fontSizeN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.fontSizeH`),
     scope: 'client',
     type: String,
     default: '',
@@ -248,8 +248,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'maxWidth', {
-    name: game.i18n.localize('PinCushion.SETTINGS.maxWidthN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.maxWidthH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.maxWidthN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.maxWidthH`),
     scope: 'client',
     type: Number,
     default: 800,
@@ -257,8 +257,8 @@ export const registerSettings = function () {
   });
 
   game.settings.register(CONSTANTS.MODULE_NAME, 'tooltipUseMousePositionForCoordinates', {
-    name: game.i18n.localize('PinCushion.SETTINGS.tooltipUseMousePositionForCoordinatesN'),
-    hint: game.i18n.localize('PinCushion.SETTINGS.tooltipUseMousePositionForCoordinatesH'),
+    name: game.i18n.localize(`pin-cushion.SETTINGS.tooltipUseMousePositionForCoordinatesN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.tooltipUseMousePositionForCoordinatesH`),
     scope: 'world',
     config: true,
     default: true,
@@ -279,15 +279,15 @@ class ResetSettingsDialog extends FormApplication {
     super(...args);
     //@ts-ignore
     return new Dialog({
-      title: game.i18n.localize(`PinCushion.SETTINGS.dialogs.resetsettings.title`),
+      title: game.i18n.localize(`pin-cushion.SETTINGS.dialogs.resetsettings.title`),
       content:
         '<p style="margin-bottom:1rem;">' +
-        game.i18n.localize(`PinCushion.SETTINGS.dialogs.resetsettings.content`) +
+        game.i18n.localize(`pin-cushion.SETTINGS.dialogs.resetsettings.content`) +
         '</p>',
       buttons: {
         confirm: {
           icon: '<i class="fas fa-check"></i>',
-          label: game.i18n.localize(`PinCushion.SETTINGS.dialogs.resetsettings.confirm`),
+          label: game.i18n.localize(`pin-cushion.SETTINGS.dialogs.resetsettings.confirm`),
           callback: async () => {
             await applyDefaultSettings();
             window.location.reload();
@@ -295,7 +295,7 @@ class ResetSettingsDialog extends FormApplication {
         },
         cancel: {
           icon: '<i class="fas fa-times"></i>',
-          label: game.i18n.localize(`PinCushion.SETTINGS.dialogs.resetsettings.cancel`),
+          label: game.i18n.localize(`pin-cushion.SETTINGS.dialogs.resetsettings.cancel`),
         },
       },
       default: 'cancel',
@@ -323,8 +323,8 @@ async function applyDefaultSettings() {
 function otherSettings(apply = false) {
   return {
     // showJournalPreview: {
-    //   name: game.i18n.localize('PinCushion.SETTINGS.ShowJournalPreviewN'),
-    //   hint: game.i18n.localize('PinCushion.SETTINGS.ShowJournalPreviewH'),
+    //   name: game.i18n.localize(`pin-cushion.SETTINGS.ShowJournalPreviewN`),
+    //   hint: game.i18n.localize(`pin-cushion.SETTINGS.ShowJournalPreviewH`),
     //   scope: 'client',
     //   type: Boolean,
     //   default: true,
@@ -339,8 +339,8 @@ function otherSettings(apply = false) {
     // },
 
     // previewType: {
-    //   name: game.i18n.localize('PinCushion.SETTINGS.PreviewTypeN'),
-    //   hint: game.i18n.localize('PinCushion.SETTINGS.PreviewTypeH'),
+    //   name: game.i18n.localize(`pin-cushion.SETTINGS.PreviewTypeN`),
+    //   hint: game.i18n.localize(`pin-cushion.SETTINGS.PreviewTypeH`),
     //   scope: 'client',
     //   type: String,
     //   choices: {
@@ -353,8 +353,8 @@ function otherSettings(apply = false) {
     // },
 
     forceToShowNotes: {
-      name: game.i18n.localize('PinCushion.SETTINGS.forceToShowNotesN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.forceToShowNotesH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.forceToShowNotesN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.forceToShowNotesH`),
       scope: 'world',
       config: true,
       default: true,
@@ -362,8 +362,8 @@ function otherSettings(apply = false) {
     },
 
     previewMaxLength: {
-      name: game.i18n.localize('PinCushion.SETTINGS.PreviewMaxLengthN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.PreviewMaxLengthH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.PreviewMaxLengthN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.PreviewMaxLengthH`),
       scope: 'world',
       type: Number,
       default: 500,
@@ -372,8 +372,8 @@ function otherSettings(apply = false) {
     },
 
     previewDelay: {
-      name: game.i18n.localize('PinCushion.SETTINGS.PreviewDelayN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.PreviewDelayH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.PreviewDelayN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.PreviewDelayH`),
       scope: 'world',
       type: Number,
       default: 500,
@@ -384,8 +384,8 @@ function otherSettings(apply = false) {
     },
 
     defaultJournalPermission: {
-      name: game.i18n.localize('PinCushion.SETTINGS.DefaultJournalPermissionN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.DefaultJournalPermissionH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.DefaultJournalPermissionN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.DefaultJournalPermissionH`),
       scope: 'world',
       type: Number,
       choices: Object.entries(CONST.DOCUMENT_PERMISSION_LEVELS).reduce((acc, [perm, key]) => {
@@ -398,14 +398,14 @@ function otherSettings(apply = false) {
     },
 
     defaultJournalFolder: {
-      name: game.i18n.localize('PinCushion.SETTINGS.DefaultJournalFolderN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.DefaultJournalFolderH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.DefaultJournalFolderN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.DefaultJournalFolderH`),
       scope: 'world',
       type: String,
       choices: {
-        none: game.i18n.localize('PinCushion.None'),
-        perUser: game.i18n.localize('PinCushion.PerUser'),
-        specificFolder: game.i18n.localize('PinCushion.PerSpecificFolder'),
+        none: game.i18n.localize(`pin-cushion.None`),
+        perUser: game.i18n.localize(`pin-cushion.PerUser`),
+        specificFolder: game.i18n.localize(`pin-cushion.PerSpecificFolder`),
       },
       default: 'none',
       config: true,
@@ -418,8 +418,8 @@ function otherSettings(apply = false) {
     },
 
     specificFolder: {
-      name: game.i18n.localize('PinCushion.SETTINGS.SpecificFolderN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.SpecificFolderH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.SpecificFolderN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.SpecificFolderH`),
       scope: 'world',
       type: String,
       choices: () => {
@@ -436,8 +436,8 @@ function otherSettings(apply = false) {
     },
 
     enableBackgroundlessPins: {
-      name: game.i18n.localize('PinCushion.SETTINGS.EnableBackgroundlessPinsN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.EnableBackgroundlessPinsH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.EnableBackgroundlessPinsN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.EnableBackgroundlessPinsH`),
       scope: 'world',
       type: Boolean,
       default: true,
@@ -445,8 +445,8 @@ function otherSettings(apply = false) {
     },
 
     showJournalImageByDefault: {
-      name: game.i18n.localize('PinCushion.SETTINGS.ShowJournalImageByDefaultN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.ShowJournalImageByDefaultH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.ShowJournalImageByDefaultN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.ShowJournalImageByDefaultH`),
       scope: 'world',
       type: Boolean,
       default: true,
@@ -454,8 +454,8 @@ function otherSettings(apply = false) {
     },
 
     playerIconAutoOverride: {
-      name: game.i18n.localize('PinCushion.SETTINGS.PlayerIconAutoOverrideN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.PlayerIconAutoOverrideH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.PlayerIconAutoOverrideN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.PlayerIconAutoOverrideH`),
       scope: 'world',
       config: true,
       default: false,
@@ -463,8 +463,8 @@ function otherSettings(apply = false) {
     },
 
     playerIconPathDefault: {
-      name: game.i18n.localize('PinCushion.SETTINGS.PlayerIconPathDefaultN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.PlayerIconPathDefaultH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.PlayerIconPathDefaultN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.PlayerIconPathDefaultH`),
       scope: 'world',
       config: true,
       default: 'icons/svg/book.svg',
@@ -473,8 +473,8 @@ function otherSettings(apply = false) {
     },
 
     noteGM: {
-      name: game.i18n.localize('PinCushion.SETTINGS.noteGMN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.noteGMH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.noteGMN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.noteGMH`),
       scope: 'world',
       config: true,
       default: true,
@@ -482,8 +482,8 @@ function otherSettings(apply = false) {
     },
 
     revealedNotes: {
-      name: game.i18n.localize('PinCushion.SETTINGS.revealedNotesN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.revealedNotesH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesH`),
       scope: 'world',
       config: true,
       default: false,
@@ -491,8 +491,8 @@ function otherSettings(apply = false) {
     },
 
     revealedNotesTintColorLink: {
-      name: game.i18n.localize('PinCushion.SETTINGS.revealedNotesTintColorLinkN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.revealedNotesTintColorLinkH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorLinkN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorLinkH`),
       scope: 'world',
       type: String,
       default: '#7CFC00',
@@ -506,8 +506,8 @@ function otherSettings(apply = false) {
     },
 
     revealedNotesTintColorNotLink: {
-      name: game.i18n.localize('PinCushion.SETTINGS.revealedNotesTintColorNotLinkN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.revealedNotesTintColorNotLinkH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorNotLinkN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorNotLinkH`),
       scope: 'world',
       type: String,
       default: '#c000c0',
@@ -521,8 +521,8 @@ function otherSettings(apply = false) {
     },
 
     enableJournalThumbnailForGMs: {
-      name: game.i18n.localize('PinCushion.SETTINGS.enableJournalThumbnailForGMsN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.enableJournalThumbnailForGMsH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.enableJournalThumbnailForGMsN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.enableJournalThumbnailForGMsH`),
       scope: 'world',
       type: Boolean,
       default: true,
@@ -531,8 +531,8 @@ function otherSettings(apply = false) {
     },
 
     enableJournalThumbnailForPlayers: {
-      name: game.i18n.localize('PinCushion.SETTINGS.enableJournalThumbnailForPlayersN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.enableJournalThumbnailForPlayersH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.enableJournalThumbnailForPlayersN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.enableJournalThumbnailForPlayersH`),
       scope: 'world',
       type: Boolean,
       default: true,
@@ -541,8 +541,8 @@ function otherSettings(apply = false) {
     },
 
     fontSize: {
-      name: game.i18n.localize('PinCushion.SETTINGS.fontSizeN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.fontSizeH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.fontSizeN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.fontSizeH`),
       scope: 'client',
       type: String,
       default: '',
@@ -550,8 +550,8 @@ function otherSettings(apply = false) {
     },
 
     maxWidth: {
-      name: game.i18n.localize('PinCushion.SETTINGS.maxWidthN'),
-      hint: game.i18n.localize('PinCushion.SETTINGS.maxWidthH'),
+      name: game.i18n.localize(`pin-cushion.SETTINGS.maxWidthN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.maxWidthH`),
       scope: 'client',
       type: Number,
       default: 800,

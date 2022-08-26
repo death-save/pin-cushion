@@ -1,7 +1,7 @@
 {
   "I18N.LANGUAGE": "Español",
   "I18N.MAINTAINERS": "@Viriato139ac#0342",
-  "PinCushion": {
+  "pin-cushion": {
     "SETTINGS.AboutAppN": "Acerca de Pin Cushion",
     "SETTINGS.AboutAppH": "Muestra información adicional acerca de Pin Cushion",
     "SETTINGS.AllowPlayerNotesN": "Permitir notas del jugador",

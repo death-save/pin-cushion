@@ -65,11 +65,11 @@ export class PinCushion {
       content: `
             <div class="form-group">
               <label>
-                <p class="notes">${i18n('PinCushion.Name')}</p>
+                <p class="notes">${i18n('pin-cushion.Name')}</p>
               </label>
               <input name="name" type="text"/>
               <label>
-                <p class="notes">${i18n('PinCushion.DefaultPermission')}</p>
+                <p class="notes">${i18n('pin-cushion.DefaultPermission')}</p>
               </label>
               <select id="cushion-permission" style="width: 100%;">
                 <option value="0" 
@@ -90,23 +90,23 @@ export class PinCushion {
                 </option>
               </select>
               <label>
-                <p class="notes">${i18n('PinCushion.Folder')}</p>
+                <p class="notes">${i18n('pin-cushion.Folder')}</p>
               </label>
               <select id="cushion-folder" style="width: 100%;">
                 <option
                   value="none"
                   ${defaultFolder === 'none' ? 'selected' : ''}>
-                    ${i18n('PinCushion.None')}
+                    ${i18n('pin-cushion.None')}
                 </option>
                 <option value="perUser" ${defaultFolder === 'perUser' ? 'selected' : ''}>
-                  ${i18n('PinCushion.PerUser')} <i>(${game.user.name})</i>
+                  ${i18n('pin-cushion.PerUser')} <i>(${game.user.name})</i>
                 </option>
                 <option
                   value="specificFolder"
                   ${defaultFolder === 'specificFolder' ? 'selected' : ''}>
-                    ${i18n('PinCushion.PerSpecificFolder')} <i>(${specificFolderName})</i>
+                    ${i18n('pin-cushion.PerSpecificFolder')} <i>(${specificFolderName})</i>
                 </option>
-                <option disabled>──${i18n('PinCushion.ExistingFolders')}──</option>
+                <option disabled>──${i18n('pin-cushion.ExistingFolders')}──</option>
                 ${folders}
               </select>
             </div>
@@ -213,7 +213,7 @@ export class PinCushion {
     const input = html.find("input[name='name']");
 
     if (!input[0].value) {
-      ui.notifications.warn(i18n('PinCushion.MissingPinName'));
+      ui.notifications.warn(i18n('pin-cushion.MissingPinName'));
       return;
     }
     // Permissions the Journal Entry will be created with
@@ -345,8 +345,8 @@ export class PinCushion {
       // Ask for folder creation confirmation in a dialog
       const createFolders = await new Promise((resolve, reject) => {
         new Dialog({
-          title: i18n('PinCushion.CreateMissingFoldersT'),
-          content: i18n('PinCushion.CreateMissingFoldersC'),
+          title: i18n('pin-cushion.CreateMissingFoldersT'),
+          content: i18n('pin-cushion.CreateMissingFoldersC'),
           buttons: {
             yes: {
               label: `<i class="fas fa-check"></i> ${i18n('Yes')}`,
@@ -444,7 +444,7 @@ export class PinCushion {
       <div class="form-group">
         <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_PLACEMENT}">
-          ${i18n('PinCushion.Tooltip.Placement.title')}
+          ${i18n('pin-cushion.Tooltip.Placement.title')}
         </label>
         <div class="form-fields">
           <select
@@ -454,62 +454,62 @@ export class PinCushion {
             <option
               value="nw-alt"
               ${tooltipPlacement === 'nw-alt' ? 'selected' : ''}>
-                ${i18n('PinCushion.Tooltip.Placement.choices.north-west-alt')}
+                ${i18n('pin-cushion.Tooltip.Placement.choices.north-west-alt')}
             </option>
             <option
               value="nw"
               ${tooltipPlacement === 'nw' ? 'selected' : ''}>
-                ${i18n('PinCushion.Tooltip.Placement.choices.north-west')}
+                ${i18n('pin-cushion.Tooltip.Placement.choices.north-west')}
             </option>
             <option
               value="n"
               ${tooltipPlacement === 'n' ? 'selected' : ''}>
-                ${i18n('PinCushion.Tooltip.Placement.choices.north')}
+                ${i18n('pin-cushion.Tooltip.Placement.choices.north')}
               </option>
             <option
               value="ne"
               ${tooltipPlacement === 'ne' ? 'selected' : ''}>
-                ${i18n('PinCushion.Tooltip.Placement.choices.north-east')}
+                ${i18n('pin-cushion.Tooltip.Placement.choices.north-east')}
               </option>
             <option
               value="ne-alt"
               ${tooltipPlacement === 'ne-alt' ? 'selected' : ''}>
-                ${i18n('PinCushion.Tooltip.Placement.choices.north-east-alt')}
+                ${i18n('pin-cushion.Tooltip.Placement.choices.north-east-alt')}
               </option>
             <option
               value="w"
               ${tooltipPlacement === 'w' ? 'selected' : ''}>
-                ${i18n('PinCushion.Tooltip.Placement.choices.west')}
+                ${i18n('pin-cushion.Tooltip.Placement.choices.west')}
               </option>
             <option
               value="e"
               ${tooltipPlacement === 'e' ? 'selected' : ''}>
-                ${i18n('PinCushion.Tooltip.Placement.choices.east')}
+                ${i18n('pin-cushion.Tooltip.Placement.choices.east')}
               </option>
             <option
               value="sw-alt"
               ${tooltipPlacement === 'sw-alt' ? 'selected' : ''}>
-                ${i18n('PinCushion.Tooltip.Placement.choices.south-west-alt')}
+                ${i18n('pin-cushion.Tooltip.Placement.choices.south-west-alt')}
               </option>
             <option
               value="sw"
               ${tooltipPlacement === 'sw' ? 'selected' : ''}>
-                ${i18n('PinCushion.Tooltip.Placement.choices.south-west')}
+                ${i18n('pin-cushion.Tooltip.Placement.choices.south-west')}
             </option>
             <option
               value="s"
               ${tooltipPlacement === 's' ? 'selected' : ''}>
-                ${i18n('PinCushion.Tooltip.Placement.choices.south')}
+                ${i18n('pin-cushion.Tooltip.Placement.choices.south')}
             </option>
             <option
               value="se"
               ${tooltipPlacement === 'se' ? 'selected' : ''}>
-                ${i18n('PinCushion.Tooltip.Placement.choices.south-east')}
+                ${i18n('pin-cushion.Tooltip.Placement.choices.south-east')}
             </option>
             <option
               value="se-alt"
               ${tooltipPlacement === 'se-alt' ? 'selected' : ''}>
-                ${i18n('PinCushion.Tooltip.Placement.choices.south-east-alt')}
+                ${i18n('pin-cushion.Tooltip.Placement.choices.south-east-alt')}
             </option>
           </select>
         </div>
@@ -517,7 +517,7 @@ export class PinCushion {
       <div class="form-group">
         <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">
-            ${i18n('PinCushion.Tooltip.Color.title')}
+            ${i18n('pin-cushion.Tooltip.Color.title')}
         </label>
         <div class="form-fields">
           <select
@@ -526,46 +526,46 @@ export class PinCushion {
             name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">
             <option
             value="" ${tooltipColor === '' ? 'selected' : ''}>
-              ${i18n('PinCushion.Tooltip.Color.choices.default')}
+              ${i18n('pin-cushion.Tooltip.Color.choices.default')}
             </option>
             <option
             value="blue"
             ${tooltipColor === 'blue' ? 'selected' : ''}>
-              ${i18n('PinCushion.Tooltip.Color.choices.blue')}
+              ${i18n('pin-cushion.Tooltip.Color.choices.blue')}
             </option>
             <option
             value="dark"
             ${tooltipColor === 'dark' ? 'selected' : ''}>
-              ${i18n('PinCushion.Tooltip.Color.choices.dark')}
+              ${i18n('pin-cushion.Tooltip.Color.choices.dark')}
             </option>
             <option
             value="green"
             ${tooltipColor === 'green' ? 'selected' : ''}>
-              ${i18n('PinCushion.Tooltip.Color.choices.green')}
+              ${i18n('pin-cushion.Tooltip.Color.choices.green')}
             </option>
             <option
             value="light"
             ${tooltipColor === 'light' ? 'selected' : ''}>
-              ${i18n('PinCushion.Tooltip.Color.choices.light')}
+              ${i18n('pin-cushion.Tooltip.Color.choices.light')}
             </option>
             <option
             value="orange"
             ${tooltipColor === 'orange' ? 'selected' : ''}>
-              ${i18n('PinCushion.Tooltip.Color.choices.orange')}
+              ${i18n('pin-cushion.Tooltip.Color.choices.orange')}
             </option>
             <option value="purple"
             ${tooltipColor === 'purple' ? 'selected' : ''}>
-              ${i18n('PinCushion.Tooltip.Color.choices.purple')}
+              ${i18n('pin-cushion.Tooltip.Color.choices.purple')}
             </option>
             <option
             value="red"
             ${tooltipColor === 'red' ? 'selected' : ''}>
-              ${i18n('PinCushion.Tooltip.Color.choices.red')}
+              ${i18n('pin-cushion.Tooltip.Color.choices.red')}
             </option>
             <option
             value="yellow"
             ${tooltipColor === 'yellow' ? 'selected' : ''}>
-              ${i18n('PinCushion.Tooltip.Color.choices.yellow')}
+              ${i18n('pin-cushion.Tooltip.Color.choices.yellow')}
             </option>
           </select>
         </div>
@@ -573,7 +573,7 @@ export class PinCushion {
       <div class="form-group">
         <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}">
-            ${i18n('PinCushion.Tooltip.ForceRemove.title')}
+            ${i18n('pin-cushion.Tooltip.ForceRemove.title')}
         </label>
         <div class="form-fields">
           <input
@@ -585,7 +585,7 @@ export class PinCushion {
       <div class="form-group">
         <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT}">
-            ${i18n('PinCushion.Tooltip.SmartPlacement.title')}
+            ${i18n('pin-cushion.Tooltip.SmartPlacement.title')}
         </label>
         <div class="form-fields">
           <input
@@ -601,7 +601,7 @@ export class PinCushion {
     <div class="form-group">
       <label
         for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE}">
-          ${i18n('PinCushion.Tooltip.FollowMouse.title')}
+          ${i18n('pin-cushion.Tooltip.FollowMouse.title')}
       </label>
       <div class="form-fields">
         <input
@@ -644,7 +644,7 @@ export class PinCushion {
         <div class="form-group">
           <label
             for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}">
-            ${i18n('PinCushion.HasBackground')}
+            ${i18n('pin-cushion.HasBackground')}
           </label>
           <div class="form-fields">
             <input
@@ -658,7 +658,7 @@ export class PinCushion {
       <div class="form-group">
         <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.RATIO}">
-            ${i18n('PinCushion.HasBackgroundRatio')}
+            ${i18n('pin-cushion.HasBackgroundRatio')}
         </label>
         <div class="form-fields">
           <input
@@ -706,13 +706,13 @@ export class PinCushion {
         <div class="form-group">
             <label
               for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
-              >${i18n('PinCushion.ShowImageExplicitSource')}</label>
+              >${i18n('pin-cushion.ShowImageExplicitSource')}</label>
             <div class="form-fields">
               <img class="pin-cushion-journal-icon" src="${showImageExplicitSource}" />
               <input
                 type="text"
                 name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
-                title="${i18n('PinCushion.ShowImageExplicitSource')}"
+                title="${i18n('pin-cushion.ShowImageExplicitSource')}"
                 class="icon-path"
                 value="${showImageExplicitSource}"
                 placeholder="/icons/example.svg"
@@ -738,7 +738,7 @@ export class PinCushion {
       <div class="form-group">
         <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE}">
-          ${i18n('PinCushion.ShowImage')}
+          ${i18n('pin-cushion.ShowImage')}
         </label>
         <div class="form-fields">
           <input
@@ -778,18 +778,18 @@ export class PinCushion {
     const playerIconHtml = `<hr>
         <!-- Button to Enable overrides -->
         <div class="form-group">
-          <label>${i18n('PinCushion.UsePlayerIcon')}</label>
+          <label>${i18n('pin-cushion.UsePlayerIcon')}</label>
           <div class="form-fields">
             <input
               type="checkbox"
               name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_STATE}"
               data-dtype="Boolean" ${state ? 'checked' : ``} />
           </div>
-          <p class="notes">${i18n('PinCushion.PlayerIconHint')}</p>
+          <p class="notes">${i18n('pin-cushion.PlayerIconHint')}</p>
         </div>
         <!-- Player Icon -->
         <div class="form-group">
-          <label>${i18n('PinCushion.PlayerIconPath')}</label>
+          <label>${i18n('pin-cushion.PlayerIconPath')}</label>
           <div class="form-fields">
             <!--
             <select name="icon">
@@ -828,7 +828,7 @@ export class PinCushion {
     if (!gmtext) gmtext = '';
     let gm_text_h = $(
       `<div class="form-group">
-        <label for="${gmNoteFlagRef}">${i18n('PinCushion.GMLabel')}</label>
+        <label for="${gmNoteFlagRef}">${i18n('pin-cushion.GMLabel')}</label>
         <div class="form-fields">
           <textarea
             name="${gmNoteFlagRef}">${gmtext.trim() ?? ''}</textarea>
@@ -854,7 +854,7 @@ export class PinCushion {
     if (!initial_text) initial_text = '';
     let initial_text_h = $(
       `<div class="form-group">
-        <label for="text">${i18n('PinCushion.PlayerLabel')}</label>
+        <label for="text">${i18n('pin-cushion.PlayerLabel')}</label>
         <div class="form-fields">
           <textarea name="text"
             placeholder="${data.entry?.name ?? ''}">${initial_text.trim() ?? ''}</textarea>
@@ -888,7 +888,7 @@ export class PinCushion {
       data.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_REVEALED) ?? true ? 'checked' : '';
     let revealed_control = $(
       `<div class='form-group'>
-        <label>${i18n('PinCushion.RevealedToPlayer')}</label>
+        <label>${i18n('pin-cushion.RevealedToPlayer')}</label>
         <div class='form-fields'>
           <input
           type='checkbox'
@@ -903,7 +903,7 @@ export class PinCushion {
       data.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED) ?? false ? 'checked' : '';
     let mode_control = $(
       `<div class='form-group'>
-        <label>${i18n('PinCushion.UseRevealState')}</label>
+        <label>${i18n('pin-cushion.UseRevealState')}</label>
         <div class='form-fields'>
           <input
             type='checkbox'
@@ -931,7 +931,7 @@ export class PinCushion {
       <div class="form-group">
         <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HIDE_LABEL}">
-            ${i18n('PinCushion.HideLabel')}
+            ${i18n('pin-cushion.HideLabel')}
         </label>
         <div class="form-fields">
           <input
@@ -965,7 +965,7 @@ export class PinCushion {
       <div class="form-group">
         <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}">
-          ${i18n('PinCushion.DoNotShowJournalPreview')}
+          ${i18n('pin-cushion.DoNotShowJournalPreview')}
         </label>
         <div class="form-fields">
           <input
@@ -993,7 +993,7 @@ export class PinCushion {
       <div class="form-group">
         <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}">
-          ${i18n('PinCushion.AboveFog')}
+          ${i18n('pin-cushion.AboveFog')}
         </label>
         <div class="form-fields">
           <input
@@ -1016,7 +1016,7 @@ export class PinCushion {
       <div class="form-group">
         <label
           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET}">
-          ${i18n('PinCushion.PreviewAsTextSnippet')}
+          ${i18n('pin-cushion.PreviewAsTextSnippet')}
         </label>
         <div class="form-fields">
           <input
