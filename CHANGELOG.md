@@ -1,5 +1,9 @@
 # Changelog
 
+### [1.7.9]
+
+- Bug fix "Is Pin transparent ?"
+
 ### [1.7.8]
 
 - NEW Feature "Show only to GM ?" : Quite simply regardless of the associated permissions it shows the note only to the gm, it is very useful when used with this other module to prepare notes for the GM or random encounter with the Ironmonk modules https://foundryvtt.com/packages/journal-icon-numbers, personally it saves me a lot of time in not continuously setting the permissions on the associated journal.

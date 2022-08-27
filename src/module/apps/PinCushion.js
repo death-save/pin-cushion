@@ -1327,14 +1327,14 @@ export class PinCushion {
     }
 
     let tint = noteInternal.data.iconTint ? colorStringToHex(noteInternal.data.iconTint) : null;
-
+    let currentIcon = noteInternal.data.icon;
     const pinIsTransparent = noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_TRANSPARENT);
     if (String(pinIsTransparent) === 'true') {
-      noteInternal.data.icon = CONSTANTS.PATH_TRANSPARENT;
+      currentIcon = CONSTANTS.PATH_TRANSPARENT;
     }
 
     let iconData = {
-      texture: stripQueryStringAndHashFromPath(noteInternal.data.icon),
+      texture: stripQueryStringAndHashFromPath(currentIcon),
       size: noteInternal.size,
       tint: tint,
     };
