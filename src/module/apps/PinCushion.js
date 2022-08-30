@@ -1,5 +1,5 @@
 import CONSTANTS from '../constants.js';
-import { i18n, i18nFormat, isAlt, stripQueryStringAndHashFromPath } from '../lib/lib.js';
+import { i18n, i18nFormat, isAlt, log, stripQueryStringAndHashFromPath } from '../lib/lib.js';
 import { registerSettings } from '../settings.js';
 import { BackgroundlessControlIcon } from './BackgroundlessControlIcon.js';
 
@@ -72,19 +72,19 @@ export class PinCushion {
                 <p class="notes">${i18n('pin-cushion.DefaultPermission')}</p>
               </label>
               <select id="cushion-permission" style="width: 100%;">
-                <option value="0" 
+                <option value="0"
                   ${String(defaultPermission) === '0' ? 'selected' : ''}>
                   ${i18n('PERMISSION.NONE')}${String(defaultPermission) === '0' ? ' <i>(default)</i>' : ''}
                 </option>
-                <option value="1" 
+                <option value="1"
                   ${String(defaultPermission) === '1' ? 'selected' : ''}>
                   ${i18n('PERMISSION.LIMITED')}${String(defaultPermission) === '1' ? ' <i>(default)</i>' : ''}
                 </option>
-                <option value="2" 
+                <option value="2"
                   ${String(defaultPermission) === '2' ? 'selected' : ''}>
                   ${i18n('PERMISSION.OBSERVER')}${String(defaultPermission) === '2' ? ' <i>(default)</i>' : ''}
                 </option>
-                <option value="3" 
+                <option value="3"
                   ${String(defaultPermission) === '3' ? 'selected' : ''}>
                   ${i18n('PERMISSION.OWNER')}${String(defaultPermission) === '3' ? ' <i>(default)</i>' : ''}
                 </option>
@@ -1302,8 +1302,15 @@ export class PinCushion {
     game.pinCushion._createDialog(data);
   }
 
+  static async _onSingleClick(event) {
+    log(`Note_onClickLeft: ${event.data.origin.x} ${event.data.origin.y} == ${event.data.global.x} ${event.data.global.y}`);
+    // Create a new Note at the cursor position and open the Note configuration window for it.
+    const noteData = {x: event.data.origin.x, y: event.data.origin.y};
+    this._createPreview(noteData, {top: event.data.global.y - 20, left: event.data.global.x + 40});
+  }
+
   static _drawControlIconInternal(noteInternal) {
-    // Wraps the default Note#_drawControlIcon so that we can override the stored noteInternal.data.iconTint based
+    // Wraps the default Note#_drawControlIcon so that we can override the stored icon tint based
     // on whether the link is accessible for the current player (or not). This is only done for links which
     // are using the "revealed" flag.
     const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, 'revealedNotes');
@@ -1320,7 +1327,14 @@ export class PinCushion {
             is_linked ? 'revealedNotesTintColorLink' : 'revealedNotesTintColorNotLink',
           );
           if (colour?.length > 0) {
-            noteInternal.data.iconTint = colour;
+            // fvtt10
+            if(noteInternal?.document?.texture?.tint) {
+              noteInternal.document.texture.tint = colour;
+            }
+            // fvtt9
+            if(noteInternal?.data?.iconTint) {
+              noteInternal.data.iconTint = colour;
+            }
           }
         }
       }

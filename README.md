@@ -76,6 +76,7 @@ This module uses the [libWrapper](https://github.com/ruipin/fvtt-lib-wrapper) li
 
 - **Use mouse position for show the tooltip**: When you hover a note on the canvas the tooltip is build based on the current mouse position instead the journal icon position. This solution seem to be more dynamic.
 
+- **One click note creation**: Create Notes directly on the Notes Layer with a simple left click without having a connected journal entry.
 
 ## Features
 
@@ -122,6 +123,10 @@ This module add many new settings for many use case on the Note config dialog, h
 - **Add an option for setup the tooltip smartplacement behaviour**:	(default: false) When enabled the plugin will try to keep tips inside the browser viewport. If a tooltip would extend outside of the viewport then its placement will be changed to an orientation that would be entirely within the current viewport.
 
 ![img](./wiki/img/example_1.gif)
+
+- **Add an option for setup the _pin is transparent ?_ behaviour**: Now with a simple checkbox on the note configuration it is possible to make the icon transparent without wasting time looking for the transparent image file. Very useful for people who use maps with icons printed on the map and just want to show the tooltip when the cursor is over that image and it saves me a lot of time. NOTE: This configuration is applied only to the icon image of the note , not the image tooltip.
+
+- **Add an option for setup the _Show only to GM ?_ behaviour**: Quite simply regardless of the associated permissions it shows the note only to the gm, it is very useful when used with this other module to prepare notes for the GM or random encounter with the Ironmonk modules https://foundryvtt.com/packages/journal-icon-numbers, personally it saves me a lot of time in not continuously setting the permissions on the associated journal.
 
 # Build
 

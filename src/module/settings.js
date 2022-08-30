@@ -265,6 +265,15 @@ export const registerSettings = function () {
     type: Boolean,
   });
 
+  game.settings.register(CONSTANTS.MODULE_NAME, 'oneClickNoteCreation', {
+    name: game.i18n.localize(`pin-cushion.SETTINGS.oneClickNoteCreationN`),
+    hint: game.i18n.localize(`pin-cushion.SETTINGS.oneClickNoteCreationH`),
+    scope: 'world',
+    config: true,
+    default: false,
+    type: Boolean,
+  });
+
   // const settings = defaultSettings();
   // for (const [name, data] of Object.entries(settings)) {
   //   game.settings.register(CONSTANTS.MODULE_NAME, name, <any>data);
@@ -557,5 +566,23 @@ function otherSettings(apply = false) {
       default: 800,
       config: true,
     },
+
+    tooltipUseMousePositionForCoordinates: {
+      name: game.i18n.localize(`pin-cushion.SETTINGS.tooltipUseMousePositionForCoordinatesN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.tooltipUseMousePositionForCoordinatesH`),
+      scope: 'world',
+      config: true,
+      default: true,
+      type: Boolean,
+    },
+
+    oneClickNoteCreation: {
+      name: game.i18n.localize(`pin-cushion.SETTINGS.oneClickNoteCreationN`),
+      hint: game.i18n.localize(`pin-cushion.SETTINGS.oneClickNoteCreationH`),
+      scope: 'world',
+      config: true,
+      default: false,
+      type: Boolean,
+    }
   };
 }

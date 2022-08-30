@@ -314,6 +314,22 @@ Hooks.once('canvasInit', () => {
   //     );
   //   }
   // }
+
+
+  const enableOneClickNoteCreation = game.settings.get(PinCushion.MODULE_NAME, 'oneClickNoteCreation');
+  if (enableOneClickNoteCreation) {
+    // This module is only required for GMs (game.user accessible from 'ready' event but not 'init' event)
+    if (game.user.isGM) {
+      // eslint-disable-next-line no-undef
+      libWrapper.register(
+        PinCushion.MODULE_NAME,
+        'NotesLayer.prototype._onClickLeft',
+        PinCushion._onSingleClick,
+        'OVERRIDE',
+      );
+    }
+  }
+
 });
 
 Hooks.on('renderSettingsConfig', (app, html, data) => {

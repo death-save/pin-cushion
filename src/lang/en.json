@@ -62,6 +62,9 @@
     "SETTINGS.dialogs.resetsettings.confirm": "Reset Module Settings",
     "SETTINGS.dialogs.resetsettings.cancel": "Cancel",
 
+    "SETTINGS.oneClickNoteCreationN": "One click note creation",
+    "SETTINGS.oneClickNoteCreationH": "Create Notes directly on the Notes Layer with a simple left click without having a connected journal entry.",
+
     "Tooltip.Placement.title": "Tooltip Placement",
     "Tooltip.Placement.choices.north-west-alt": "North West Alt",
     "Tooltip.Placement.choices.north-west": "North West",
