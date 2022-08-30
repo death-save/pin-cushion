@@ -1,5 +1,9 @@
 # Changelog
 
+### [1.7.10]
+
+- Add `One click note creation` feature, you can enable this with a module settings.
+
 ### [1.7.9]
 
 - Bug fix "Is Pin transparent ?"

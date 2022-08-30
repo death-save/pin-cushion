@@ -63,7 +63,7 @@
     "SETTINGS.dialogs.resetsettings.cancel": "Cancel",
 
     "SETTINGS.oneClickNoteCreationN": "One click note creation",
-    "SETTINGS.oneClickNoteCreationH": "Create Notes directly on the Notes Layer with a simple left click without having a connected journal entry.",
+    "SETTINGS.oneClickNoteCreationH": "Create Notes directly on the Notes Layer with a simple left click without having a connected journal entry. NOTE: You need to reload the canvas.",
 
     "Tooltip.Placement.title": "Tooltip Placement",
     "Tooltip.Placement.choices.north-west-alt": "North West Alt",
