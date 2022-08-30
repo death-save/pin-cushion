@@ -58,13 +58,13 @@ This module uses the [libWrapper](https://github.com/ruipin/fvtt-lib-wrapper) li
 
 - **GM Label**: Add the ability for Note tooltips to be configured so that GMs see different text to Players. So secret information can be displayed to GMs whilst players see the 'public' information about the Note.
 
-- **Add an option to have a 'revealed' state on scene Notes.**: When enabled, then the 'revealed' state will be used to determine if the Note is visible to players. (The default Foundry VTT behavior is for Notes to be visible to players only if the linked document is accessible by the player.)
+- **Enable revealed state on scene Notes**: When enabled, then the 'revealed' state will be used to determine if the Note is visible to players. (The default Foundry VTT behavior is for Notes to be visible to players only if the linked document is accessible by the player.)
 
-- **Add an option to have a 'revealed' state on scene Notes.**: is an option to set the tint color of the Note icon to indicate if the linked document is reachable or not (if the Note has no linked document, then it will always be displayed in the 'unreachable' tint).
+- **[Only if setting 'Enable revealed state on scene Notes.' is enabled] Set the tint color of the Note revealed state on scene Notes**: Is an option to set the tint color of the Note icon to indicate if the linked document is reachable or not (if the Note has no linked document, then it will always be displayed in the 'unreachable' tint).
 
-- **Note Tint Colour when linked**: For players, the RGB value to be used to tint scene Notes if they have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import
+- **[Only if setting 'Enable revealed state on scene Notes.' is enabled] Note Tint Color when linked**: For players, the RGB value to be used to tint scene Notes if they have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import.
 
-- **Note Tint Colour when not linked**: For players, the RGB value to be used to tint scene Notes if they do not have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import
+- **[Only if setting 'Enable revealed state on scene Notes.' is enabled] Note Tint Color when not linked**: For players, the RGB value to be used to tint scene Notes if they do not have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import.
 
 - **Select Specific Folder**: Make sense only with the module setting 'Default Journal Entry Folder' set with value 'Specific folder'
 
@@ -105,10 +105,10 @@ This module add many new settings for many use case on the Note config dialog, h
 
 ![img](./wiki/img/journal-thumbnail.png)
 
-- **Add an option to have a 'revealed' state on scene Notes:** When enabled, then the 'revealed' state will be used to determine if the Note is visible to players.
+- **[Only with setting 'Enable revealed state on scene Notes' enabled] Add an option to have a 'revealed' state on scene Notes:** When enabled, then the 'revealed' state will be used to determine if the Note is visible to players.
 (The default Foundry VTT behaviour is for Notes to be visible to players only if the linked document is accessible by the player.)
 
-- **Add an option to set the tint colour of the Note:** Icon to indicate if the linked document is reachable or not (if the Note has no linked document, then it will always be displayed in the "unreachable" tint).
+- **[Only with setting 'Enable revealed state on scene Notes' enabled] Add an option to set the tint colour of the Note:** Icon to indicate if the linked document is reachable or not (if the Note has no linked document, then it will always be displayed in the "unreachable" tint).
 
 - **Add an option to hide the label text:** It will hide the label text when you hover on the note, it useful for avoid the "double" test given from the 'label' and 'title' attributes.
 
@@ -215,10 +215,11 @@ Any issues, bugs, or feature requests are always welcome to be reported directly
 - [foundryvtt-journal-thumbnail](https://github.com/J-Guenther/foundryvtt-journal-thumbnail) ([MIT](https://github.com/J-Guenther/foundryvtt-journal-thumbnail/blob/main/LICENSE))
 - [Point of Interest Teleporter](https://github.com/zeel01/poi-teleport) ([MIT](https://github.com/zeel01/poi-teleport/blob/master/LICENSE))
 - [vtt-gmtext-in-notes](https://github.com/farling42/fvtt-gmtext-in-notes) ([MIT](https://github.com/farling42/fvtt-gmtext-in-notes/blob/master/LICENSE))
-- [fvtt-revealed-notes-manager](https://github.com/farling42/fvtt-revealed-notes-manager) ([MIT](https://github.com/farling42/fvtt-gmtext-in-notes/blob/master/LICENSE))
+- [fvtt-revealed-notes-manager](https://github.com/farling42/fvtt-revealed-notes-manager) ([MIT](https://github.com/farling42/fvtt-revealed-notes-manager/blob/master/LICENSE))
 - [journal-sidebar-images](https://github.com/jessev14/journal-sidebar-images) ([MIT](https://github.com/jessev14/journal-sidebar-images/blob/master/LICENSE))
 - [jquery-powertip](https://github.com/stevenbenner/jquery-powertip) ([MIT](https://github.com/stevenbenner/jquery-powertip/blob/master/LICENSE.txt))
 - [Pin Fixer](https://github.com/zeel01/pin-fixer) ([MIT](https://github.com/zeel01/pin-fixer/blob/master/LICENSE))
+- [fvtt-revealed-notes-manager](https://github.com/farling42/fvtt-one-click-note-creation) ([MIT](https://github.com/farling42/fvtt-one-click-note-creation/blob/master/LICENSE))
 
 This package is under an [GPLv3 License](LICENSE) and the [Foundry Virtual Tabletop Limited License Agreement for module development](https://foundryvtt.com/article/license/).
 
@@ -232,3 +233,4 @@ This package is under an [GPLv3 License](LICENSE) and the [Foundry Virtual Table
 - Thank you to [jessev14](https://github.com/jessev14) and the module [journal-sidebar-images](https://github.com/jessev14/journal-sidebar-images)
 - Thank you to [stevenbenner](https://github.com/stevenbenner) and the javascript project [jquery-powertip](https://github.com/stevenbenner/jquery-powertip)
 - Thank you to [zeel](https://github.com/zeel01) for the module [Pin Fixer](https://github.com/zeel01/pin-fixer)
+- Thank you to [farling42](https://github.com/farling42) and the module [fvtt-one-click-note-creation](https://github.com/farling42/fvtt-one-click-note-creation)
