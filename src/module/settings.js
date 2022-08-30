@@ -583,6 +583,6 @@ function otherSettings(apply = false) {
       config: true,
       default: false,
       type: Boolean,
-    }
+    },
   };
 }

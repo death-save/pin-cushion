@@ -315,7 +315,6 @@ Hooks.once('canvasInit', () => {
   //   }
   // }
 
-
   const enableOneClickNoteCreation = game.settings.get(PinCushion.MODULE_NAME, 'oneClickNoteCreation');
   if (enableOneClickNoteCreation) {
     // This module is only required for GMs (game.user accessible from 'ready' event but not 'init' event)
@@ -329,7 +328,6 @@ Hooks.once('canvasInit', () => {
       );
     }
   }
-
 });
 
 Hooks.on('renderSettingsConfig', (app, html, data) => {

@@ -1303,10 +1303,12 @@ export class PinCushion {
   }
 
   static async _onSingleClick(event) {
-    log(`Note_onClickLeft: ${event.data.origin.x} ${event.data.origin.y} == ${event.data.global.x} ${event.data.global.y}`);
+    log(
+      `Note_onClickLeft: ${event.data.origin.x} ${event.data.origin.y} == ${event.data.global.x} ${event.data.global.y}`,
+    );
     // Create a new Note at the cursor position and open the Note configuration window for it.
-    const noteData = {x: event.data.origin.x, y: event.data.origin.y};
-    this._createPreview(noteData, {top: event.data.global.y - 20, left: event.data.global.x + 40});
+    const noteData = { x: event.data.origin.x, y: event.data.origin.y };
+    this._createPreview(noteData, { top: event.data.global.y - 20, left: event.data.global.x + 40 });
   }
 
   static _drawControlIconInternal(noteInternal) {
@@ -1328,11 +1330,11 @@ export class PinCushion {
           );
           if (colour?.length > 0) {
             // fvtt10
-            if(noteInternal?.document?.texture?.tint) {
+            if (noteInternal?.document?.texture?.tint) {
               noteInternal.document.texture.tint = colour;
             }
             // fvtt9
-            if(noteInternal?.data?.iconTint) {
+            if (noteInternal?.data?.iconTint) {
               noteInternal.data.iconTint = colour;
             }
           }
