@@ -486,6 +486,9 @@ const linkUserData = async () => {
 /*		PACKAGE		 */
 /*********************/
 
+async function signal() {
+  await Promise.resolve('done');
+}
 /**
  * Package build
  */
@@ -652,6 +655,6 @@ exports.bundle = gulp.series(clean, execBuild, bundleModule, cleanDist);
 exports.watch = buildWatch;
 exports.clean = clean;
 exports.link = linkUserData;
-exports.package = packageBuild;
+exports.package = gulp.series(packageBuild,signal);
 exports.update = updateManifest;
 exports.publish = gulp.series(clean, updateManifest, execBuild, bundleModule, cleanDist, packageBuild);
