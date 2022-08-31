@@ -538,7 +538,7 @@ async function packageBuild() {
             */
             console.log(`Zip files`);
 
-            zip.finalize();
+            return zip.finalize();
         } catch (err) {
             return reject(err);
         }

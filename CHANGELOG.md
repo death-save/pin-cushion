@@ -1,6 +1,6 @@
 # Changelog
 
-### [1.7.10]
+### [1.7.10-11]
 
 - Add `One click note creation` feature, you can enable this with a module settings.
 
