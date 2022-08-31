@@ -498,7 +498,7 @@ async function packageBuild() {
         throw Error();
     }
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         try {
             // Remove the package dir without doing anything else
             if (argv.clean || argv.c) {
