@@ -486,9 +486,6 @@ const linkUserData = async () => {
 /*		PACKAGE		 */
 /*********************/
 
-async function signal() {
-  await Promise.resolve('done');
-}
 /**
  * Package build
  */
@@ -500,7 +497,7 @@ async function packageBuild() {
         throw Error();
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             // Remove the package dir without doing anything else
             if (argv.clean || argv.c) {
@@ -541,7 +538,7 @@ async function packageBuild() {
             */
             console.log(`Zip files`);
 
-            return zip.finalize();
+            await zip.finalize();
         } catch (err) {
             return reject(err);
         }
@@ -655,6 +652,6 @@ exports.bundle = gulp.series(clean, execBuild, bundleModule, cleanDist);
 exports.watch = buildWatch;
 exports.clean = clean;
 exports.link = linkUserData;
-exports.package = gulp.series(packageBuild,signal);
+exports.package = packageBuild;
 exports.update = updateManifest;
 exports.publish = gulp.series(clean, updateManifest, execBuild, bundleModule, cleanDist, packageBuild);
