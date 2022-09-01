@@ -17,14 +17,6 @@ module.exports = {
               parser: "html",
               htmlWhitespaceSensitivity: "ignore",
           },
-      },
-      {
-        files: "*.hbs",
-        options: {
-            requirePragma: false,
-            parser: "hbs",
-            htmlWhitespaceSensitivity: "ignore",
-        },
-    }
+      }
   ],
 };

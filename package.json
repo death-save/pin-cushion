@@ -15,23 +15,15 @@
     "clean": "gulp clean && gulp link --clean",
     "test": "jest",
     "update": "npm install --save-dev @league-of-foundry-developers/foundry-vtt-types@9",
-    "prettier-format": "prettier --config .prettierrc.js --write \"./src/**/*.{ts,js,json,scss,css,html}\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/p4535992/foundryvtt-pin-cushion.git"
+    "prettier-format": "prettier --config .prettierrc.js --write \"./src/**/*.{ts,js,json,scss,css,html,hbs}\""
   },
   "keywords": [
     "foundryvtt",
     "fvtt",
     "module"
   ],
-  "author": "p4535992",
+  "author": "",
   "license": "SEE LICENSE IN LICENSE",
-  "bugs": {
-    "url": "https://github.com/p4535992/foundryvtt-pin-cushion/issues"
-  },
-  "homepage": "https://github.com/p4535992/foundryvtt-pin-cushion#readme",
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/eslint-parser": "^7.15.4",
