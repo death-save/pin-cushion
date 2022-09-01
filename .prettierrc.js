@@ -17,6 +17,15 @@ module.exports = {
               parser: "html",
               htmlWhitespaceSensitivity: "ignore",
           },
+      },
+      {
+        files: "*.hbs",
+        options: {
+          requirePragma: false,
+          parser: "glimmer",
+          singleQuote: false,
+          htmlWhitespaceSensitivity: "ignore",
+        }
       }
   ],
 };
