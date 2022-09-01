@@ -1,20 +1,20 @@
-import CONSTANTS from './constants.js';
-import API from './api.js';
-import { debug } from './lib/lib.js';
-import { setSocket } from '../pin-cushion.js';
+import CONSTANTS from "./constants.js";
+import API from "./api.js";
+import { debug } from "./lib/lib.js";
+import { setSocket } from "../pin-cushion.js";
 
 export let pinCushionSocket;
 export function registerSocket() {
-  debug('Registered pinCushionSocket');
-  if (pinCushionSocket) {
-    return pinCushionSocket;
-  }
+	debug("Registered pinCushionSocket");
+	if (pinCushionSocket) {
+		return pinCushionSocket;
+	}
 
-  // eslint-disable-next-line no-undef
-  pinCushionSocket = socketlib.registerModule(CONSTANTS.MODULE_NAME);
+	// eslint-disable-next-line no-undef
+	pinCushionSocket = socketlib.registerModule(CONSTANTS.MODULE_NAME);
 
-  pinCushionSocket.register('requestEvent', (...args) => API.requestEventArr(...args));
+	pinCushionSocket.register("requestEvent", (...args) => API.requestEventArr(...args));
 
-  setSocket(pinCushionSocket);
-  return pinCushionSocket;
+	setSocket(pinCushionSocket);
+	return pinCushionSocket;
 }

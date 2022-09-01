@@ -1,11 +1,11 @@
 #powerTip .pin-cushion-hud-container {
-  overflow-y: scroll;
-  max-height: 500px;
+	overflow-y: scroll;
+	max-height: 500px;
 }
 
 .pin-cushion-hud,
 .pin-cushion-hud > img {
-  border: none;
+	border: none;
 }
 
 /*
@@ -38,78 +38,78 @@
 /* About App */
 /* ABOUT */
 #pin-cushion-about img {
-  border: none;
+	border: none;
 }
 
 #pin-cushion-about .logo {
-  width: 600px;
+	width: 600px;
 }
 
 #pin-cushion-about .version {
-  flex-grow: 0;
+	flex-grow: 0;
 }
 
 #pin-cushion-about div.patrons {
-  width: 100%;
+	width: 100%;
 }
 
 #pin-cushion-about .patrons ol {
-  height: 175px;
-  border: 1px inset white;
-  list-style: none;
-  overflow: hidden scroll;
-  text-align: center;
-  padding: 2px;
+	height: 175px;
+	border: 1px inset white;
+	list-style: none;
+	overflow: hidden scroll;
+	text-align: center;
+	padding: 2px;
 }
 
 #pin-cushion-about .patrons li:nth-child(odd) {
-  background: rgba(0, 0, 0, 0.2);
+	background: rgba(0, 0, 0, 0.2);
 }
 
 #pin-cushion-about .patrons li {
-  font-size: x-large;
+	font-size: x-large;
 }
 
 #pin-cushion-about footer div {
-  justify-content: center;
-  text-align: center;
+	justify-content: center;
+	text-align: center;
 }
 
 #pin-cushion-about .death-save {
-  flex: 0 0 120px;
+	flex: 0 0 120px;
 }
 
 #pin-cushion-about .heart {
-  color: tomato;
+	color: tomato;
 }
 
 #pin-cushion-about .patreon img {
-  flex: 0 0 100px;
+	flex: 0 0 100px;
 }
 
 /* Journal Thumbnail */
 
 #journal .pin-cushion-thumbnail {
-  margin: 0;
-  flex: 0 0 32px;
-  width: 32px;
-  height: 32px;
-  max-width: 32px;
-  max-height: 32px;
+	margin: 0;
+	flex: 0 0 32px;
+	width: 32px;
+	height: 32px;
+	max-width: 32px;
+	max-height: 32px;
 }
 
 #journal .directory-item.document {
-  align-items: center;
+	align-items: center;
 }
 
 .pin-cushion-journal-icon {
-  object-fit: initial;
-  height: 50px;
-  /* width: 30px;
+	object-fit: initial;
+	height: 50px;
+	/* width: 30px;
   height: 30px; */
-  border-radius: 4px;
-  border: 2px solid #000000;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 2px;
-  flex: 0 0 30px;
+	border-radius: 4px;
+	border: 2px solid #000000;
+	background: rgba(0, 0, 0, 0.4);
+	padding: 2px;
+	flex: 0 0 30px;
 }
