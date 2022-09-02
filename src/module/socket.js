@@ -14,6 +14,7 @@ export function registerSocket() {
 	pinCushionSocket = socketlib.registerModule(CONSTANTS.MODULE_NAME);
 
 	pinCushionSocket.register("requestEvent", (...args) => API.requestEventArr(...args));
+	pinCushionSocket.register("setNoteRevealed", (...args) => API.setNoteRevealedArr(...args));
 
 	setSocket(pinCushionSocket);
 	return pinCushionSocket;

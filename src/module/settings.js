@@ -218,6 +218,26 @@ export const registerSettings = function () {
 		},
 	});
 
+	game.settings.register(CONSTANTS.MODULE_NAME, "revealedNotesTintColorRevealed", {
+		name: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorRevealedN`),
+		hint: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorRevealedH`),
+		scope: "world",
+		type: String,
+		default: "#ffff00",
+		config: true,
+		onChange: () => refresh(),
+	});
+
+	game.settings.register(CONSTANTS.MODULE_NAME, "revealedNotesTintColorNotRevealed", {
+		name: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorNotRevealedN`),
+		hint: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorNotRevealedH`),
+		scope: "world",
+		type: String,
+		default: "#ff0000",
+		config: true,
+		onChange: () => refresh(),
+	});
+
 	game.settings.register(CONSTANTS.MODULE_NAME, "enableJournalThumbnailForGMs", {
 		name: game.i18n.localize(`pin-cushion.SETTINGS.enableJournalThumbnailForGMsN`),
 		hint: game.i18n.localize(`pin-cushion.SETTINGS.enableJournalThumbnailForGMsH`),
@@ -527,6 +547,26 @@ function otherSettings(apply = false) {
 					//for (let note of canvas.notes.objects) note.draw();
 				}
 			},
+		},
+
+		revealedNotesTintColorRevealed: {
+			name: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorRevealedN`),
+			hint: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorRevealedH`),
+			scope: "world",
+			type: String,
+			default: "#ffff00",
+			config: true,
+			onChange: () => refresh(),
+		},
+
+		revealedNotesTintColorNotRevealed: {
+			name: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorNotRevealedN`),
+			hint: game.i18n.localize(`pin-cushion.SETTINGS.revealedNotesTintColorNotRevealedH`),
+			scope: "world",
+			type: String,
+			default: "#ff0000",
+			config: true,
+			onChange: () => refresh(),
 		},
 
 		enableJournalThumbnailForGMs: {

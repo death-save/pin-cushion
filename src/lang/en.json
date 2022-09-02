@@ -28,10 +28,17 @@
 		"SETTINGS.revealedNotesH": "When enabled, then the 'revealed' state will be used to determine if the Note is visible to players. (The default Foundry VTT behavior is for Notes to be visible to players only if the linked document is accessible by the player.)",
 		"SETTINGS.revealedNotesTintColorN": "[Only if setting 'Enable revealed state on scene Notes.' is enabled] Set the tint color of the Note revealed state on scene Notes.",
 		"SETTINGS.revealedNotesTintColorH": "Is an option to set the tint color of the Note icon to indicate if the linked document is reachable or not (if the Note has no linked document, then it will always be displayed in the 'unreachable' tint).",
-		"SETTINGS.revealedNotesTintColorLinkN": "[Only if setting 'Enable revealed state on scene Notes.' is enabled] Note Tint Color when linked",
-		"SETTINGS.revealedNotesTintColorLinkH": "For players, the RGB value to be used to tint scene Notes if they have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import",
-		"SETTINGS.revealedNotesTintColorNotLinkN": "[Only if setting 'Enable revealed state on scene Notes.' is enabled] Note Tint Color when not linked",
-		"SETTINGS.revealedNotesTintColorNotLinkH": "For players, the RGB value to be used to tint scene Notes if they do not have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import",
+
+		"SETTINGS.revealedNotesTintColorLinkN": "[Only if setting 'Enable revealed state on scene Notes.' is enabled] Linked Icon Tint",
+		"SETTINGS.revealedNotesTintColorLinkH": "For PLAYERs, the RGB value to be used to tint scene Notes if they have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import",
+		"SETTINGS.revealedNotesTintColorNotLinkN": "[Only if setting 'Enable revealed state on scene Notes.' is enabled] Not-linked Icon Tint",
+		"SETTINGS.revealedNotesTintColorNotLinkH": "For PLAYERs, the RGB value to be used to tint scene Notes if they do not have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import",
+
+		"SETTINGS.revealedNotesTintColorRevealedN": "[Only if setting 'Enable revealed state on scene Notes.' is enabled] Revealed Icon Tint",
+		"SETTINGS.revealedNotesTintColorRevealedH": "For GMs, the RGB value to be used to tint scene Notes if they have been revealed to players (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import",
+		"SETTINGS.revealedNotesTintColorNotRevealedN": "[Only if setting 'Enable revealed state on scene Notes.' is enabled] Not-revealed Icon Tint",
+		"SETTINGS.revealedNotesTintColorNotRevealedH": "For GMs, the RGB value to be used to tint scene Notes if they have not been revealed to players (if left blank then the tint, if any, will remain unchanged)",
+
 		"SETTINGS.SpecificFolderN": "Select Specific Folder",
 		"SETTINGS.SpecificFolderH": "Make sense only with the module setting 'Default Journal Entry Folder' set with value 'Specific folder'",
 		"SETTINGS.enableJournalThumbnailForGMsN": "Enable Sidebar Journal Images for GM Users",

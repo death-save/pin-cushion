@@ -1,3 +1,4 @@
+import { PinCushion } from "./apps/PinCushion.js";
 import { error, warn } from "./lib/lib.js";
 
 const API = {
@@ -67,5 +68,17 @@ const API = {
 	//     });
 	//     return promise;
 	// }
+
+	async setNoteRevealedArr(...inAttributes) {
+		if (!Array.isArray(inAttributes)) {
+			throw error("requestEventArr | inAttributes must be of type array");
+		}
+		const [notedata, visible] = inAttributes; // e.g. { action: "createFolder" }
+		this.setNoteRevealed(notedata, visible);
+	},
+
+	async setNoteRevealed(notedata, visible) {
+		PinCushion.setNoteRevealed(notedata, visible);
+	},
 };
 export default API;

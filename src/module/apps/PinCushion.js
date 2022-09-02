@@ -1152,6 +1152,13 @@ export class PinCushion {
 		return result;
 	}
 
+	/**
+	 * Wraps the default Note#isVisible to allow the visibility of scene Notes to be controlled by the reveal
+	 * state stored in the Note (overriding the default visibility which is based on link accessibility).
+	 * @param {function} [wrapped] The wrapper function provided by libWrapper
+	 * @param {Object}   [args]    The arguments for Note#refresh
+	 * @return [Note]    This Note
+	 */
 	static _isVisible(wrapped, ...args) {
 		let result = wrapped(...args);
 		const showOnlyToGM = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_ONLY_TO_GM) ?? false;
@@ -1160,7 +1167,30 @@ export class PinCushion {
 				return false;
 			}
 		}
-		return result;
+		/*
+        We only want to change the check of testUserPermission here
+        Note#isVisible()
+            const accessTest = this.page ? this.page : this.entry;
+            const access = accessTest?.testUserPermission(game.user, "LIMITED") ?? true;
+            if ( (access === false) || !canvas.effects.visibility.tokenVision || this.document.global ) return access;
+            const point = {x: this.document.x, y: this.document.y};
+            const tolerance = this.document.iconSize / 4;
+            return canvas.effects.visibility.testVisibility(point, {tolerance, object: this});
+        */
+		// See if reveal state is enabled for this note.
+		if (!this.document.getFlag(CONSTANTS.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED)) {
+			return wrapped(...args);
+		}
+
+		// Replace the testUserPermission test of Note#isVisible
+		const access = this.document.getFlag(CONSTANTS.MODULE_NAME, PinCushion.FLAGS.PIN_IS_REVEALED);
+		// Standard version of Note#isVisible
+		if (access === false || !canvas.effects.visibility.tokenVision || this.document.global) {
+			return access;
+		}
+		const point = { x: this.document.x, y: this.document.y };
+		const tolerance = this.document.iconSize / 4;
+		return canvas.effects.visibility.testVisibility(point, { tolerance, object: this });
 	}
 
 	/**
@@ -1202,73 +1232,19 @@ export class PinCushion {
 			canvas.notes.placeables.push(canvas.notes.placeables.splice(fromIndex, 1)[0]);
 		}
 
-		PinCushion.setNoteRevealed(this.data, undefined);
-
-		const use_reveal = result.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
-		if (use_reveal === undefined || !use_reveal) {
-			return result;
-		}
-		const value = result.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_REVEALED);
-		// Use the revealed state as the visibility of the Note.
-		// If the linked topic is not visible to the player then clicking will do nothing.
-		if (value !== undefined) {
-			result.visible = value;
-		}
-
 		/*
-    // Above fog feature
-    let aboveFogS = String(
-      getProperty(this.document, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}`),
-    );
-    if (aboveFogS !== 'true' && aboveFogS !== 'false') {
-      aboveFogS = 'false';
-    }
-    const aboveFog = String(aboveFogS) === 'true' ? true : false;
-    if(aboveFog){
-      setProperty(this,`zIndex`, 300);
-    }
-    */
-		return result;
-	}
-
-	/**
-	 * Wraps the default Note#refresh to allow the visibility of scene Notes to be controlled by the reveal
-	 * state stored in the Note (overriding the default visibility which is based on link accessibility).
-	 * @param {function} [wrapped] The wrapper function provided by libWrapper
-	 * @param {Object}   [args]    The arguments for Note#refresh
-	 * @return [Note]    This Note
-	 */
-	static _noteRefresh2(wrapped, ...args) {
-		let result = wrapped(...args);
-
-		let textAlwaysVisible =
-			this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE) ?? false;
-		// let textVisible = this._hover;
-		if (textAlwaysVisible === true) {
-			// Keep tooltip always visible
-			// Though could make an option out of that too. Would be nicer
-			// TODO it's seem we don't need this
-			// this.position.set(this.data.x, this.data.y);
-			// this.controlIcon.border.visible = this._hover;
-
-			// textVisible = true;
-			this.tooltip.visible = true;
-		}
-		// this.tooltip.visible = textVisible;
-		//this.visible = this.entry?.testUserPermission(game.user, "LIMITED") ?? true;
-
-		let text = this.children[1]; // 0 is the ControlIcon, 1 is the PreciseText
-		// Text is created bevor this point. So we can modify it here.
-		let ratio = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO);
-		if (ratio) {
-			text.x = (this.size * (ratio - 1)) / 2; // correct shifting for the new scale.
-		}
-		// Bug fixing :Always (when hover) show name of pin up (above) to others pin
-		// https://stackoverflow.com/questions/24909371/move-item-in-array-to-last-position
-		if (!isAlt() && this._hover) {
-			const fromIndex = canvas.notes.placeables.findIndex((note) => note.id === this.id) || 0;
-			canvas.notes.placeables.push(canvas.notes.placeables.splice(fromIndex, 1)[0]);
-		}
+        // NEW FEATURE : Above fog feature
+        let aboveFogS = String(
+        getProperty(this.document, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}`),
+        );
+        if (aboveFogS !== 'true' && aboveFogS !== 'false') {
+        aboveFogS = 'false';
+        }
+        const aboveFog = String(aboveFogS) === 'true' ? true : false;
+        if(aboveFog){
+        setProperty(this,`zIndex`, 300);
+        }
+        */
 
 		return result;
 	}
@@ -1319,33 +1295,61 @@ export class PinCushion {
 		// on whether the link is accessible for the current player (or not). This is only done for links which
 		// are using the "revealed" flag.
 		const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
-		if (!game.user.isGM && revealedNotes) {
-			const use_reveal = noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
-			if (use_reveal === undefined || !use_reveal) {
-				// return wrapped(...args);
-			} else {
-				const value = noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED);
-				if (value !== undefined) {
-					const is_linked = noteInternal.entry?.testUserPermission(game.user, "LIMITED");
+		if (revealedNotes) {
+			if (game.user.isGM) {
+				// Replacement for Note#_drawControlIcon for GMs, to show which pins are revealed.
+				const is_revealed = noteInternal.document.getFlag(PinCushion.MODULE_NAME, PIN_IS_REVEALED);
+				if (is_revealed != undefined) {
 					const colour = game.settings.get(
 						PinCushion.MODULE_NAME,
-						is_linked ? "revealedNotesTintColorLink" : "revealedNotesTintColorNotLink"
+						is_revealed ? "revealedNotesTintColorRevealed" : "revealedNotesTintColorNotRevealed"
 					);
 					if (colour?.length > 0) {
-						// fvtt10
-						if (noteInternal?.document?.texture?.tint) {
+						// Temporarily set the icon tint
+						const saved = noteInternal.document.texture.tint;
+						noteInternal.document.texture.tint = colour;
+						// const result = wrapped(...args);
+						noteInternal.document.texture.tint = saved;
+						// return result;
+					}
+				}
+			} else {
+				// if (!noteInternal.document.getFlag(MODULE_NAME, USE_PIN_REVEALED)) return wrapped(...args);
+				const use_reveal = noteInternal.document.getFlag(
+					PinCushion.MODULE_NAME,
+					PinCushion.FLAGS.USE_PIN_REVEALED
+				);
+				if (use_reveal === undefined || !use_reveal) {
+					// return wrapped(...args);
+				} else {
+					const value = noteInternal.document.getFlag(
+						PinCushion.MODULE_NAME,
+						PinCushion.FLAGS.USE_PIN_REVEALED
+					);
+					if (value !== undefined) {
+						const is_linked = noteInternal.entry?.testUserPermission(
+							game.user,
+							CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED
+						);
+						const colour = game.settings.get(
+							PinCushion.MODULE_NAME,
+							is_linked ? "revealedNotesTintColorLink" : "revealedNotesTintColorNotLink"
+						);
+						if (colour?.length > 0) {
+							// Temporarily set the icon tint
+							const saved = noteInternal.document.texture.tint;
 							noteInternal.document.texture.tint = colour;
-						}
-						// fvtt9
-						if (noteInternal?.data?.iconTint) {
-							noteInternal.data.iconTint = colour;
+							// const result = wrapped(...args);
+							noteInternal.document.texture.tint = saved;
+							// return result;
 						}
 					}
 				}
 			}
 		}
 
-		let tint = noteInternal.data.iconTint ? colorStringToHex(noteInternal.data.iconTint) : null;
+		// let tint = noteInternal.data.iconTint ? colorStringToHex(noteInternal.data.iconTint) : null;
+		let tint = noteInternal.document.texture.tint ? colorStringToHex(noteInternal.document.texture.tint) : null;
 		let currentIcon = noteInternal.data.icon;
 		const pinIsTransparent = noteInternal.document.getFlag(
 			PinCushion.MODULE_NAME,
@@ -1416,37 +1420,24 @@ export class PinCushion {
 	static _drawControlIcon(...args) {
 		const res = PinCushion._drawControlIconInternal(this);
 		/*
-    // Above fog feature
-    let aboveFogS = String(
-      getProperty(this.document, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}`),
-    );
-    if (aboveFogS !== 'true' && aboveFogS !== 'false') {
-      aboveFogS = 'false';
-    }
-    const aboveFog = String(aboveFogS) === 'true' ? true : false;
-    if(aboveFog){
-      setProperty(this,`zIndex`, 300);
-    }
-    */
+        // Above fog feature
+        let aboveFogS = String(
+        getProperty(this.document, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}`),
+        );
+        if (aboveFogS !== 'true' && aboveFogS !== 'false') {
+        aboveFogS = 'false';
+        }
+        const aboveFog = String(aboveFogS) === 'true' ? true : false;
+        if(aboveFog){
+        setProperty(this,`zIndex`, 300);
+        }
+        */
 		if (res === undefined) {
 			// return wrapped(...args);
 		} else {
 			return res;
 		}
 	}
-
-	// /**
-	//  * Handles draw control icon
-	//  * @param {*} event
-	//  */
-	// static _drawControlIcon2(wrapped, ...args) {
-	//   const res = PinCushion._drawControlIconInternal(this);
-	//   if (res == undefined) {
-	//     return wrapped(...args);
-	//   } else {
-	//     return res;
-	//   }
-	// }
 
 	/**
 	 * Defines the icon to be drawn for players if enabled.
@@ -1570,46 +1561,12 @@ export class PinCushion {
 		if (revealedNotes) {
 			visible = getProperty(notedata, `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_REVEALED}`);
 			if (visible) {
-				const revealedNotesTintColorLink = game.settings.get(
-					PinCushion.MODULE_NAME,
-					"revealedNotesTintColorLink"
-				);
-				const revealedNotesTintColorNotLink = game.settings.get(
-					PinCushion.MODULE_NAME,
-					"revealedNotesTintColorNotLink"
-				);
 				const FLAG_IS_REVEALED = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_REVEALED}`;
 				const FLAG_USE_REVEALED = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.USE_PIN_REVEALED}`;
 				// notedata might not exist as a Note, so setFlag is not available
 				setProperty(notedata, FLAG_USE_REVEALED, true);
 				setProperty(notedata, FLAG_IS_REVEALED, visible);
-				// Default tint based on GM view
-				let tint = game.settings.get(
-					PinCushion.MODULE_NAME,
-					notedata.entryId ? "revealedNotesTintColorLink" : "revealedNotesTintColorNotLink"
-				);
-				if (tint?.length > 0) {
-					notedata.iconTint = tint;
-				}
 			}
 		}
 	}
-
-	// /**
-	//  * Adds a GM-only string to be displayed on the Note *instead of* the normal note text for the GM,
-	//  * players will see the normal non-GM text.
-	//  * @param {NoteData} [notedata]  The NoteData to which GM-only text is to be added
-	//  * @param {String}   [text]      The text to be stored as the GM-only text for this note
-	//  */
-	// static setNoteGMtext(notedata, text) {
-	//   // notedata might not exist as a Note, so setFlag is not available
-	//   setProperty(notedata, `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_GM_TEXT}`, text);
-	// }
-
-	// /**
-	//  * Helper function to register settings
-	//  */
-	// static _registerSettings() {
-	//   registerSettings();
-	// }
 }

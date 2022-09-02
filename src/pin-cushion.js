@@ -289,21 +289,13 @@ Hooks.once("canvasInit", () => {
 			"MIXED"
 		);
 	}
-	// This is only required for Players, not GMs (game.user accessible from 'ready' event but not 'init' event)
-	const revealedNotes = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
-	if (!game.user.isGM && revealedNotes) {
-		// eslint-disable-next-line no-undef
-		libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype.refresh", PinCushion._noteRefresh, "WRAPPER");
-	} else {
-		// eslint-disable-next-line no-undef
-		libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype.refresh", PinCushion._noteRefresh2, "WRAPPER");
-	}
 
 	// eslint-disable-next-line no-undef
-	libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype.isVisible", PinCushion._isVisible, "WRAPPER");
+	libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype.refresh", PinCushion._noteRefresh, "WRAPPER");
 
-	// const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
-	// if (enableBackgroundlessPins)
+	// eslint-disable-next-line no-undef
+	libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype.isVisible", PinCushion._isVisible, "MIXED");
+
 	// eslint-disable-next-line no-undef
 	libWrapper.register(
 		PinCushion.MODULE_NAME,
@@ -311,16 +303,6 @@ Hooks.once("canvasInit", () => {
 		PinCushion._drawControlIcon,
 		"OVERRIDE"
 	);
-	// } else {
-	//   if (!game.user.isGM && revealedNotes) {
-	//     libWrapper.register(
-	//       PinCushion.MODULE_NAME,
-	//       'Note.prototype._drawControlIcon',
-	//       PinCushion._drawControlIcon2,
-	//       'WRAPPER',
-	//     );
-	//   }
-	// }
 
 	const enableOneClickNoteCreation = game.settings.get(PinCushion.MODULE_NAME, "oneClickNoteCreation");
 	if (enableOneClickNoteCreation) {
@@ -350,6 +332,22 @@ Hooks.on("renderSettingsConfig", (app, html, data) => {
 
 	name = `${PinCushion.MODULE_NAME}.revealedNotesTintColorNotLink`;
 	colour = game.settings.get(PinCushion.MODULE_NAME, "revealedNotesTintColorNotLink");
+	$("<input>")
+		.attr("type", "color")
+		.attr("data-edit", name)
+		.val(colour)
+		.insertAfter($(`input[name="${name}"]`, html).addClass("color"));
+
+	name = `${PinCushion.MODULE_NAME}.revealedNotesTintColorRevealed`;
+	colour = game.settings.get(PinCushion.MODULE_NAME, "revealedNotesTintColorRevealed");
+	$("<input>")
+		.attr("type", "color")
+		.attr("data-edit", name)
+		.val(colour)
+		.insertAfter($(`input[name="${name}"]`, html).addClass("color"));
+
+	name = `${PinCushion.MODULE_NAME}.revealedNotesTintColorNotRevealed`;
+	colour = game.settings.get(PinCushion.MODULE_NAME, "revealedNotesTintColorNotRevealed");
 	$("<input>")
 		.attr("type", "color")
 		.attr("data-edit", name)

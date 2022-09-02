@@ -2,9 +2,9 @@
 
 ![GitHub issues](https://img.shields.io/github/issues-raw/p4535992/foundryvtt-pin-cushion?style=for-the-badge)
 
-![Latest Release Download Count](https://img.shields.io/github/downloads/p4535992/foundryvtt-pin-cushion/latest/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge) 
+![Latest Release Download Count](https://img.shields.io/github/downloads/p4535992/foundryvtt-pin-cushion/latest/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge)
 
-[![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fpin-cushion&colorB=006400&style=for-the-badge)](https://forge-vtt.com/bazaar#package=pin-cushion) 
+[![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fpin-cushion&colorB=006400&style=for-the-badge)](https://forge-vtt.com/bazaar#package=pin-cushion)
 
 ![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fp4535992%2Ffoundryvtt-pin-cushion%2Fmaster%2Fsrc%2Fmodule.json&label=Foundry%20Version&query=$.compatibleCoreVersion&colorB=orange&style=for-the-badge)
 
@@ -17,6 +17,12 @@
 Adds additional functionality around Map Pins
 
 ![img](./wiki/img/example_1.gif)
+
+### NOTE
+
+In compliance with the licenses, some piece of code of some feature has been inserted by other projects that I describe in detail in the "Credits" department of this README, **I invite you to support these developers**.
+
+My aim is not to take credit for their work, I just don't want to install 100 modules for 100 features which then collide with each other, every single external feature can be disabled in the settings of this module to allow the use of modules between them .
 
 ## Installation
 
@@ -62,9 +68,9 @@ This module uses the [libWrapper](https://github.com/ruipin/fvtt-lib-wrapper) li
 
 - **[Only if setting 'Enable revealed state on scene Notes.' is enabled] Set the tint color of the Note revealed state on scene Notes**: Is an option to set the tint color of the Note icon to indicate if the linked document is reachable or not (if the Note has no linked document, then it will always be displayed in the 'unreachable' tint).
 
-- **[Only if setting 'Enable revealed state on scene Notes.' is enabled] Note Tint Color when linked**: For players, the RGB value to be used to tint scene Notes if they have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import.
+- **[Only if setting 'Enable revealed state on scene Notes.' is enabled] Note Tint Color when linked**: For PLAYERs, the RGB value to be used to tint scene Notes if they have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import.
 
-- **[Only if setting 'Enable revealed state on scene Notes.' is enabled] Note Tint Color when not linked**: For players, the RGB value to be used to tint scene Notes if they do not have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import.
+- **[Only if setting 'Enable revealed state on scene Notes.' is enabled] Note Tint Color when not linked**: For PLAYERs, the RGB value to be used to tint scene Notes if they do not have a reachable link (if left blank then the tint, if any, will remain unchanged).  For GMs, this is the initial Icon Tint set during import.
 
 - **Select Specific Folder**: Make sense only with the module setting 'Default Journal Entry Folder' set with value 'Specific folder'
 
@@ -83,7 +89,7 @@ This module uses the [libWrapper](https://github.com/ruipin/fvtt-lib-wrapper) li
 This module add many new settings for many use case on the Note config dialog, here some of the most interesting, but there is more:
 
 - **Create Pin on canvas with double click**
- 
+
 ![create-pin](./wiki/img/create_pin.png)
 
 - **Customized note configuration**
@@ -109,6 +115,8 @@ This module add many new settings for many use case on the Note config dialog, h
 (The default Foundry VTT behaviour is for Notes to be visible to players only if the linked document is accessible by the player.)
 
 - **[Only with setting 'Enable revealed state on scene Notes' enabled] Add an option to set the tint colour of the Note:** Icon to indicate if the linked document is reachable or not (if the Note has no linked document, then it will always be displayed in the "unreachable" tint).
+
+- **[Only with setting 'Enable revealed state on scene Notes' enabled] Provide tint colours to allow GMs to see if notes have been revealed to players. Setting the tint to a blank string will remove this tinting.**
 
 - **Add an option to hide the label text:** It will hide the label text when you hover on the note, it useful for avoid the "double" test given from the 'label' and 'title' attributes.
 
