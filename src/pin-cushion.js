@@ -142,8 +142,9 @@ Hooks.on("renderNoteConfig", async (app, html, data) => {
 	) {
 		// Journal id
 		const journal = game.journal.get(data.data.entryId);
-		if (journal?.data.img) {
-			setProperty(data.data, "icon", stripQueryStringAndHashFromPath(journal.data.img));
+        const journalEntryImage = retrieveFirstImageFromJournalId(j.id);
+		if (journalEntryImage) {
+			setProperty(data.data, "icon", stripQueryStringAndHashFromPath(journalEntryImage));
 		}
 	}
 	let tmp = stripQueryStringAndHashFromPath(app.object.data.icon ?? data.data.icon);
@@ -268,6 +269,10 @@ Hooks.on("hoverNote", (note, hovered) => {
  */
 Hooks.on("renderJournalDirectory", (app, html, data) => {
 	PinCushion._addJournalThumbnail(app, html, data);
+});
+
+Hooks.on('renderJournalSheet', (app, html, data) => {
+	PinCushion._renderJournalThumbnail(app, html);
 });
 
 Hooks.once("canvasInit", () => {

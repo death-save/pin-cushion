@@ -1,5 +1,5 @@
 import CONSTANTS from "../constants.js";
-import { i18n, i18nFormat, isAlt, log, stripQueryStringAndHashFromPath } from "../lib/lib.js";
+import { i18n, i18nFormat, isAlt, log, retrieveFirstImageFromJournalId, stripQueryStringAndHashFromPath } from "../lib/lib.js";
 import { registerSettings } from "../settings.js";
 import { BackgroundlessControlIcon } from "./BackgroundlessControlIcon.js";
 
@@ -1511,41 +1511,33 @@ export class PinCushion {
 	//   }
 	// }
 
+    static _renderJournalThumbnail(app, html) {
+        game.journal.render();
+    }
+
 	static _addJournalThumbnail(app, html, data) {
 		if (
 			(game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "enableJournalThumbnailForGMs")) ||
 			(!game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "enableJournalThumbnailForPlayers"))
 		) {
 			app.documents.forEach((j) => {
-				if (!j.data.img) {
-					return;
-				}
 				const htmlEntry = html.find(`.directory-item.document[data-document-id="${j.id}"]`);
 				if (htmlEntry.length !== 1) {
 					return;
 				}
-				const journalEntryImage = stripQueryStringAndHashFromPath(j.data.img);
-				htmlEntry.prepend(`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${journalEntryImage}" title="${j.name}"
-              alt='Journal Entry Thumbnail'>`);
+				// const journalEntryImage = stripQueryStringAndHashFromPath(j.data.img);
+			// 	htmlEntry.prepend(`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${journalEntryImage}" title="${j.name}"
+            //   alt='Journal Entry Thumbnail'>`);
+                const journalEntryImage = retrieveFirstImageFromJournalId(j.id);
+                if (!journalEntryImage) {
+					return;
+				}
+                const thumbnail = $(`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${journalEntryImage}" title="${j.name}" alt='Journal Entry Thumbnail'>`);
+                switch (game.settings.get(CONSTANTS.MODULE_NAME, "journalThumbnailPosition")) {
+                    case "right": target.append(thumbnail); break;
+                    case "left": target.prepend(thumbnail); break;
+                }
 			});
-			// const lis = html.find("li.journal")?.length > 0
-			//   ?  html.find("li.journal") // foundryvtt 0.8.9
-			//   :  html.find('li.journalentry') // foundryvtt 9;
-			//   ;
-			// for (const li of lis) {
-			//   const target = $(li);
-			//   const id = target.data("entity-id")?.length > 0
-			//     ? target.data("entity-id") // foundryvtt 0.8.9
-			//     : target.data('document-id'); // foundryvtt 9
-			//   const journalEntry = game.journal.get(id);
-			//   const journalEntryImage = stripQueryStringAndHashFromPath(journalEntry?.data?.img);
-			//   if (journalEntryImage) {
-			//     const thumbnail = $(
-			//       "<img class='thumbnail' src='" + journalEntryImage + "' alt='Journal Entry Thumbnail'>"
-			//     );
-			//     target.append(thumbnail);
-			//   }
-			// }
 		}
 	}
 

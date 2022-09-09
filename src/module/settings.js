@@ -258,6 +258,20 @@ export const registerSettings = function () {
 		onchange: () => window.location.reload(),
 	});
 
+    game.settings.register(CONSTANTS.MODULE_NAME, "journalThumbnailPosition", {
+        name: game.i18n.localize(`pin-cushion.SETTINGS.journalThumbnailPositionN`),
+        hint: game.i18n.localize(`pin-cushion.SETTINGS.journalThumbnailPositionH`),
+        scope: "world",
+        config: true,
+        default: "right",
+        type: String,
+        choices: {
+            right: "Right",
+            left: "Left",
+        },
+        onChange: () => game.journal.render()
+    });
+
 	game.settings.register(CONSTANTS.MODULE_NAME, "fontSize", {
 		name: game.i18n.localize(`pin-cushion.SETTINGS.fontSizeN`),
 		hint: game.i18n.localize(`pin-cushion.SETTINGS.fontSizeH`),
@@ -588,6 +602,20 @@ function otherSettings(apply = false) {
 			config: true,
 			onchange: () => window.location.reload(),
 		},
+
+        journalThumbnailPosition: {
+            name: game.i18n.localize(`pin-cushion.SETTINGS.journalThumbnailPositionN`),
+            hint: game.i18n.localize(`pin-cushion.SETTINGS.journalThumbnailPositionH`),
+            scope: "world",
+            config: true,
+            default: "right",
+            type: String,
+            choices: {
+                right: "Right",
+                left: "Left",
+            },
+            onChange: () => game.journal.render()
+        },
 
 		fontSize: {
 			name: game.i18n.localize(`pin-cushion.SETTINGS.fontSizeN`),

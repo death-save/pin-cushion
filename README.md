@@ -80,6 +80,8 @@ This module uses the [libWrapper](https://github.com/ruipin/fvtt-lib-wrapper) li
 
 - **Enable Sidebar Journal Images for Player Users**:
 
+- **[Only if setting 'Enable Sidebar Journal Images for GM Users' or 'Enable Sidebar Journal Images for Player Users' is enabled] Thumbnail Position**: Whether the thumbnail is left of the journal entry title or right.
+
 - **Use mouse position for show the tooltip**: When you hover a note on the canvas the tooltip is build based on the current mouse position instead the journal icon position. This solution seem to be more dynamic.
 
 - **One click note creation**: Create Notes directly on the Notes Layer with a simple left click without having a connected journal entry.

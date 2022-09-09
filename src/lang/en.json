@@ -45,6 +45,8 @@
 		"SETTINGS.enableJournalThumbnailForGMsH": " ",
 		"SETTINGS.enableJournalThumbnailForPlayersN": "Enable Sidebar Journal Images for Player Users",
 		"SETTINGS.enableJournalThumbnailForPlayersH": " ",
+        "SETTINGS.journalThumbnailPositionN": "[Only if setting 'Enable Sidebar Journal Images for GM Users' or 'Enable Sidebar Journal Images for Player Users' is enabled] Thumbnail Position",
+        "SETTINGS.journalThumbnailPositionH": "Whether the thumbnail is left of the journal entry title or right",
 
 		"SETTINGS.fontSizeN": "Text size override",
 		"SETTINGS.fontSizeH": "Override the base text size for the journal entry display. Example: 1.5rem.",
