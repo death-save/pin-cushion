@@ -50,9 +50,9 @@ export class PinCushionHUD extends BasePlaceableHUD {
 
 		let content;
 		if (showImage) {
-            //const journalEntryImage = retrieveFirstImageFromJournalId(entry.data.id);
+			//const journalEntryImage = retrieveFirstImageFromJournalId(entry.data.id);
 			//const imgToShow = showImageExplicitSource ? showImageExplicitSource : journalEntryImage;
-            const imgToShow = showImageExplicitSource ? showImageExplicitSource : entry.data.img;
+			const imgToShow = showImageExplicitSource ? showImageExplicitSource : entry.data.img;
 			if (imgToShow && imgToShow.length > 0) {
 				content = TextEditor.enrichHTML(`<img class='image' src='${imgToShow}' alt=''></img>`, {
 					secrets: entry.isOwner,

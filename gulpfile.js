@@ -4,7 +4,7 @@
 /**
  * This is important for the bundle.js
  */
-// const mainFilePath = `src/main.ts`; // MOD 4535992
+const mainFilePath = `src/pin-cushion.js`; // MOD 4535992
 
 const gulp = require(`gulp`);
 const fs = require(`fs`);
@@ -275,7 +275,7 @@ const bundleModule = async () => {
 }
 
 const copyFiles = async() => {
-    const statics = [`lang`, `fonts`, `assets`, `icons`, `templates`, `packs`, `module.json`, `system.json`, `template.json`];
+    const statics = [`lang`, `languages`, `fonts`, `assets`, `icons`, `templates`, `packs`, `module.json`, `system.json`, `template.json`];
 
     const recursiveFileSearch = (dir, callback) => {
         const err = callback.err;
@@ -395,7 +395,7 @@ const buildWatch = () => {
     gulp.watch(`src/**/*.ts`, { ignoreInitial: false }, gulp.series(buildTS));
     gulp.watch(`src/**/*.less`, { ignoreInitial: false }, buildLess);
     gulp.watch(`src/**/*.sass`, { ignoreInitial: false }, buildSASS);
-    gulp.watch([`src/fonts`, `src/lang`, `src/templates`, `src/*.json`], { ignoreInitial: false }, copyFiles);
+    gulp.watch([`src/fonts`, `src/lang`, `src/languages`, `src/templates`, `src/*.json`], { ignoreInitial: false }, copyFiles);
 }
 
 /********************/
@@ -418,6 +418,7 @@ const clean = async () => {
     // if (fs.existsSync(path.join(`src`, mainFilePath))) { // MOD 4535992
         files.push(
             `lang`,
+            `languages`,
             `fonts`,
             `icons`,
             `packs`,
@@ -536,7 +537,9 @@ async function packageBuild() {
             zip.pipe(zipFile);
 
             // Add the directory with the final code
-            zip.directory(`dist/`, manifest.file.name);
+            // zip.directory(`dist/`, manifest.file.name);
+            const moduleJson = JSON.parse(fs.readFileSync('./src/module.json'));
+            zip.directory(`dist/`, moduleJson.id);
             /* MOD 4535992
             zip.file(`dist/module.json`, { name: `module.json` });
             zip.file(`dist/bundle.js`, { name: `bundle.js` });

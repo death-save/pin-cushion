@@ -204,41 +204,41 @@ export function isAlt() {
 	return game.keyboard?.downKeys.size === 1 && game.keyboard.downKeys.intersects(alts);
 }
 
-export function retrieveFirstImageFromJournalHtml(html){
-    const lis = html.find('li.journalentry');
-    for (const li of lis) {
-        const target = $(li);
-        const id = target.data('document-id');
-        const journalEntry = game.journal.get(id);
-        // Support old data image
-        if (journalEntry?.data?.img) {
-            return stripQueryStringAndHashFromPath(journalEntry?.data?.img);
-        }
-        // Support new image type journal
-        if(journalEntry?.pages.size > 0) {
-            const sortedArray = journalEntry.pages.contents.sort((a,b)=> a.sort - b.sort)
-            const firstJournalPage = sortedArray[0];
-            if (firstJournalPage.src) {
-                return stripQueryStringAndHashFromPath(firstJournalPage.src);
-            }
-        }
-    }
-    return undefined;
+export function retrieveFirstImageFromJournalHtml(html) {
+	const lis = html.find("li.journalentry");
+	for (const li of lis) {
+		const target = $(li);
+		const id = target.data("document-id");
+		const journalEntry = game.journal.get(id);
+		// Support old data image
+		if (journalEntry?.data?.img) {
+			return stripQueryStringAndHashFromPath(journalEntry?.data?.img);
+		}
+		// Support new image type journal
+		if (journalEntry?.pages.size > 0) {
+			const sortedArray = journalEntry.pages.contents.sort((a, b) => a.sort - b.sort);
+			const firstJournalPage = sortedArray[0];
+			if (firstJournalPage.src) {
+				return stripQueryStringAndHashFromPath(firstJournalPage.src);
+			}
+		}
+	}
+	return undefined;
 }
 
-export function retrieveFirstImageFromJournalId(id){
-    const journalEntry = game.journal.get(id);
-    // Support old data image
-    if (journalEntry?.data?.img) {
-        return stripQueryStringAndHashFromPath(journalEntry?.data?.img);
-    }
-    // Support new image type journal
-    if(journalEntry?.pages.size > 0) {
-        const sortedArray = journalEntry.pages.contents.sort((a,b)=> a.sort - b.sort)
-        const firstJournalPage = sortedArray[0];
-        if (firstJournalPage.src) {
-            return stripQueryStringAndHashFromPath(firstJournalPage.src);
-        }
-    }
-    return undefined;
+export function retrieveFirstImageFromJournalId(id) {
+	const journalEntry = game.journal.get(id);
+	// Support old data image
+	if (journalEntry?.data?.img) {
+		return stripQueryStringAndHashFromPath(journalEntry?.data?.img);
+	}
+	// Support new image type journal
+	if (journalEntry?.pages.size > 0) {
+		const sortedArray = journalEntry.pages.contents.sort((a, b) => a.sort - b.sort);
+		const firstJournalPage = sortedArray[0];
+		if (firstJournalPage.src) {
+			return stripQueryStringAndHashFromPath(firstJournalPage.src);
+		}
+	}
+	return undefined;
 }

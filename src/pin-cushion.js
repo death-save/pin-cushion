@@ -129,10 +129,10 @@ Hooks.on("renderNoteConfig", async (app, html, data) => {
 	// TODO THIS CODE CAN B DONE MUCH BETTER...
 	const showJournalImageByDefault = game.settings.get(PinCushion.MODULE_NAME, "showJournalImageByDefault");
 	// const showImageExplicitSource = stripQueryStringAndHashFromPath(
-	//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon,
+	//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.document.texture.src,
 	// );
 	// const iconPinCushion = stripQueryStringAndHashFromPath(
-	//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon,
+	//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.document.texture.src,
 	// );
 
 	if (
@@ -142,15 +142,15 @@ Hooks.on("renderNoteConfig", async (app, html, data) => {
 	) {
 		// Journal id
 		const journal = game.journal.get(data.data.entryId);
-        const journalEntryImage = retrieveFirstImageFromJournalId(j.id);
+		const journalEntryImage = retrieveFirstImageFromJournalId(j.id);
 		if (journalEntryImage) {
 			setProperty(data.data, "icon", stripQueryStringAndHashFromPath(journalEntryImage));
 		}
 	}
-	let tmp = stripQueryStringAndHashFromPath(app.object.data.icon ?? data.data.icon);
+	let tmp = stripQueryStringAndHashFromPath(app.object.document.texture.src ?? data.document.texture.src);
 	// TODO find a better method
-	if (app.object.data.icon === "icons/svg/book.svg" && data.data.icon) {
-		tmp = stripQueryStringAndHashFromPath(data.data.icon);
+	if (app.object.document.texture.src === "icons/svg/book.svg" && data.document.texture.src) {
+		tmp = stripQueryStringAndHashFromPath(data.document.texture.src);
 	}
 	if (app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)) {
 		setProperty(
@@ -271,7 +271,7 @@ Hooks.on("renderJournalDirectory", (app, html, data) => {
 	PinCushion._addJournalThumbnail(app, html, data);
 });
 
-Hooks.on('renderJournalSheet', (app, html, data) => {
+Hooks.on("renderJournalSheet", (app, html, data) => {
 	PinCushion._renderJournalThumbnail(app, html);
 });
 

@@ -1,5 +1,12 @@
 import CONSTANTS from "../constants.js";
-import { i18n, i18nFormat, isAlt, log, retrieveFirstImageFromJournalId, stripQueryStringAndHashFromPath } from "../lib/lib.js";
+import {
+	i18n,
+	i18nFormat,
+	isAlt,
+	log,
+	retrieveFirstImageFromJournalId,
+	stripQueryStringAndHashFromPath,
+} from "../lib/lib.js";
 import { registerSettings } from "../settings.js";
 import { BackgroundlessControlIcon } from "./BackgroundlessControlIcon.js";
 
@@ -376,7 +383,7 @@ export class PinCushion {
 	 */
 	static _replaceIconSelector(app, html, data, explicitImageValue) {
 		const currentIconSelector = stripQueryStringAndHashFromPath(
-			explicitImageValue ? explicitImageValue : data.data.icon
+			explicitImageValue ? explicitImageValue : data.document.texture.src
 		);
 		// you can see this only if you have the file browser permissions
 		if (game.user.can("FILES_BROWSE")) {
@@ -628,7 +635,7 @@ export class PinCushion {
 			(app.document
 				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)
 				: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) ?? 0;
-		const iconTintGroup = html.find("[name=iconTint]").closest(".form-group");
+		const iconTintGroup = html.find("[name=texture.tint]").closest(".form-group");
 		const ratio =
 			(app.document
 				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO)
@@ -695,10 +702,11 @@ export class PinCushion {
 	 */
 	static _addShowImageField(app, html, data) {
 		const showImageExplicitSource = stripQueryStringAndHashFromPath(
-			app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.data.icon
+			app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ??
+				data.document.texture.src
 		);
 		// const iconPinCushion = stripQueryStringAndHashFromPath(
-		//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.data.icon,
+		//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.document.texture.src,
 		// );
 
 		// you can see this only if you have the file browser permissions
@@ -735,7 +743,7 @@ export class PinCushion {
 		// make sense ?
 
 		const showImage = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE) ?? false;
-		const iconTintGroup = html.find("[name=iconTint]").closest(".form-group");
+		const iconTintGroup = html.find("[name=texture.tint]").closest(".form-group");
 		iconTintGroup.after(`
       <div class="form-group">
         <label
@@ -767,7 +775,7 @@ export class PinCushion {
 	static _addPinIsTransparentField(app, html, data) {
 		const pinIsTransparent =
 			app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_TRANSPARENT) ?? false;
-		const iconTintGroup = html.find("[name=iconTint]").closest(".form-group");
+		const iconTintGroup = html.find("[name=texture.tint]").closest(".form-group");
 		iconTintGroup.after(`
       <div class="form-group">
         <label
@@ -794,7 +802,7 @@ export class PinCushion {
 	 */
 	static _addShowOnlyToGMField(app, html, data) {
 		const showOnlyToGM = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_ONLY_TO_GM) ?? false;
-		const iconTintGroup = html.find("[name=iconTint]").closest(".form-group");
+		const iconTintGroup = html.find("[name=texture.tint]").closest(".form-group");
 		iconTintGroup.after(`
       <div class="form-group">
         <label
@@ -1348,9 +1356,8 @@ export class PinCushion {
 			}
 		}
 
-		// let tint = noteInternal.data.iconTint ? colorStringToHex(noteInternal.data.iconTint) : null;
-		let tint = noteInternal.document.texture.tint ? colorStringToHex(noteInternal.document.texture.tint) : null;
-		let currentIcon = noteInternal.data.icon;
+		let tint = noteInternal.document.texture.tint ? Color.from(noteInternal.document.texture.tint) : null;
+		let currentIcon = noteInternal.document.texture.src;
 		const pinIsTransparent = noteInternal.document.getFlag(
 			PinCushion.MODULE_NAME,
 			PinCushion.FLAGS.PIN_IS_TRANSPARENT
@@ -1371,22 +1378,26 @@ export class PinCushion {
 			noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)
 		) {
 			icon = new ControlIcon(iconData);
-			// } else if (noteInternal.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) { // compatibility 0.8.9
-			//   icon = new ControlIcon(iconData);
+			icon.x -= this.size / 2;
+			icon.y -= this.size / 2;
 		} else {
 			const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
 			if (enableBackgroundlessPins) {
 				icon = new BackgroundlessControlIcon(iconData);
+				icon.x -= this.size / 2;
+				icon.y -= this.size / 2;
 			} else {
 				icon = new ControlIcon(iconData);
+				icon.x -= this.size / 2;
+				icon.y -= this.size / 2;
 			}
 		}
 		if (noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO) > 1) {
 			if (noteInternal.document) {
-				icon.scale.x = noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO);
+				icon.texture.scaleX = noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO);
 			}
 			// else{
-			//   icon.scale.x = noteInternal.getFlag(PinCushion.MODULE_NAME,  PinCushion.FLAGS.RATIO); // compatibility 0.8.9
+			//   icon.texture.scaleX = noteInternal.getFlag(PinCushion.MODULE_NAME,  PinCushion.FLAGS.RATIO); // compatibility 0.8.9
 			// }
 			// TODO need to centre text
 		}
@@ -1445,17 +1456,13 @@ export class PinCushion {
 	static _onPrepareNoteData(wrapped) {
 		wrapped();
 
-		// IF not GM and IF  = enabled then take flag path as note.data.icon
+		// IF not GM and IF  = enabled then take flag path as note.document.texture.src
 		if (!game.user.isGM) {
 			if (this.document && this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PLAYER_ICON_STATE)) {
-				this.data.icon = stripQueryStringAndHashFromPath(
+				this.document.texture.src = stripQueryStringAndHashFromPath(
 					this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PLAYER_ICON_PATH)
 				);
 			}
-			// Foundry 0.8.9
-			// else if(this.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_PATH)){
-			//   this.data.icon = stripQueryStringAndHashFromPath(this.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.PLAYER_ICON_PATH));
-			// }
 		}
 	}
 
@@ -1511,9 +1518,9 @@ export class PinCushion {
 	//   }
 	// }
 
-    static _renderJournalThumbnail(app, html) {
-        game.journal.render();
-    }
+	static _renderJournalThumbnail(app, html) {
+		game.journal.render();
+	}
 
 	static _addJournalThumbnail(app, html, data) {
 		if (
@@ -1526,24 +1533,30 @@ export class PinCushion {
 					return;
 				}
 				// const journalEntryImage = stripQueryStringAndHashFromPath(j.data.img);
-			// 	htmlEntry.prepend(`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${journalEntryImage}" title="${j.name}"
-            //   alt='Journal Entry Thumbnail'>`);
-                const journalEntryImage = retrieveFirstImageFromJournalId(j.id);
-                if (!journalEntryImage) {
+				// 	htmlEntry.prepend(`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${journalEntryImage}" title="${j.name}"
+				//   alt='Journal Entry Thumbnail'>`);
+				const journalEntryImage = retrieveFirstImageFromJournalId(j.id);
+				if (!journalEntryImage) {
 					return;
 				}
-                const thumbnail = $(`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${journalEntryImage}" title="${j.name}" alt='Journal Entry Thumbnail'>`);
-                switch (game.settings.get(CONSTANTS.MODULE_NAME, "journalThumbnailPosition")) {
-                    case "right": target.append(thumbnail); break;
-                    case "left": target.prepend(thumbnail); break;
-                }
+				const thumbnail = $(
+					`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${journalEntryImage}" title="${j.name}" alt='Journal Entry Thumbnail'>`
+				);
+				switch (game.settings.get(CONSTANTS.MODULE_NAME, "journalThumbnailPosition")) {
+					case "right":
+						target.append(thumbnail);
+						break;
+					case "left":
+						target.prepend(thumbnail);
+						break;
+				}
 			});
 		}
 	}
 
 	/**
 	 * Sets whether this Note is revealed (visible) to players; overriding the default FoundryVTT rules.
-	 * The iconTint will also be set on the Note based on whether there is a link that the player can access.
+	 * The iconTint/texture.tint will also be set on the Note based on whether there is a link that the player can access.
 	 * If this function is never called then the default FoundryVTT visibility rules will apply
 	 * @param [NoteData] [notedata] The NoteData whose visibility is to be set (can be used before the Note has been created)
 	 * @param {Boolean}  [visible]  pass in true if the Note should be revealed to players
