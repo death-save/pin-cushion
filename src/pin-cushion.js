@@ -122,80 +122,80 @@ Hooks.once("ready", function () {
  * @param {jQuery} html       The inner HTML of the document that will be displayed and may be modified
  * @param {object] data       The object of data used when rendering the application (from NoteConfig#getData)
  */
-Hooks.on("renderNoteConfig", async (app, html, data) => {
-	if (!app.object.data.flags[PinCushion.MODULE_NAME]) {
-		app.object.data.flags[PinCushion.MODULE_NAME] = {};
+Hooks.on("renderNoteConfig", async (app, html, noteData) => {
+	if (!app.object.document.flags[PinCushion.MODULE_NAME]) {
+		app.object.document.flags[PinCushion.MODULE_NAME] = {};
 	}
 	// TODO THIS CODE CAN B DONE MUCH BETTER...
 	const showJournalImageByDefault = game.settings.get(PinCushion.MODULE_NAME, "showJournalImageByDefault");
 	// const showImageExplicitSource = stripQueryStringAndHashFromPath(
-	//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? data.document.texture.src,
+	//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? noteData.document.texture.src,
 	// );
 	// const iconPinCushion = stripQueryStringAndHashFromPath(
-	//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.document.texture.src,
+	//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? noteData.document.texture.src,
 	// );
 
 	if (
 		showJournalImageByDefault &&
-		data.data.entryId &&
+		noteData.document.entryId &&
 		!app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)
 	) {
 		// Journal id
-		const journal = game.journal.get(data.data.entryId);
+		const journal = game.journal.get(noteData.document.entryId);
 		const journalEntryImage = retrieveFirstImageFromJournalId(j.id);
 		if (journalEntryImage) {
-			setProperty(data.data, "icon", stripQueryStringAndHashFromPath(journalEntryImage));
+			setProperty(noteData.document.texture, "src", stripQueryStringAndHashFromPath(journalEntryImage));
 		}
 	}
-	let tmp = stripQueryStringAndHashFromPath(app.object.document.texture.src ?? data.document.texture.src);
+	let tmp = stripQueryStringAndHashFromPath(app.object.document.texture.src ?? noteData.document.texture.src);
 	// TODO find a better method
-	if (app.object.document.texture.src === "icons/svg/book.svg" && data.document.texture.src) {
-		tmp = stripQueryStringAndHashFromPath(data.document.texture.src);
+	if (app.object.document.texture.src === "icons/svg/book.svg" && noteData.document.texture.src) {
+		tmp = stripQueryStringAndHashFromPath(noteData.document.texture.src);
 	}
 	if (app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)) {
 		setProperty(
-			data.data,
-			"icon",
+			noteData.document.texture,
+			"src",
 			stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON))
 		);
 		tmp = stripQueryStringAndHashFromPath(
 			app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)
 		);
 	}
-	PinCushion._replaceIconSelector(app, html, data, tmp);
+	PinCushion._replaceIconSelector(app, html, noteData, tmp);
 	//Causes a bug when attempting to place an journal entry onto the canvas in Foundry 9.
 	//await app.object.setFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON, tmp);
-	setProperty(app.object.data.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.CUSHION_ICON, tmp);
+	setProperty(app.object.document.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.CUSHION_ICON, tmp);
 
-	PinCushion._addShowImageField(app, html, data);
-	PinCushion._addPinIsTransparentField(app, html, data);
-	PinCushion._addShowOnlyToGMField(app, html, data);
+	PinCushion._addShowImageField(app, html, noteData);
+	PinCushion._addPinIsTransparentField(app, html, noteData);
+	PinCushion._addShowOnlyToGMField(app, html, noteData);
 
 	// const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
 	// if (enableBackgroundlessPins) {
-	PinCushion._addBackgroundField(app, html, data);
+	PinCushion._addBackgroundField(app, html, noteData);
 	// }
 
 	const enablePlayerIcon = game.settings.get(PinCushion.MODULE_NAME, "playerIconAutoOverride");
 	if (enablePlayerIcon) {
-		PinCushion._addPlayerIconField(app, html, data);
+		PinCushion._addPlayerIconField(app, html, noteData);
 	}
 
 	const enableNoteGM = game.settings.get(PinCushion.MODULE_NAME, "noteGM");
 	if (enableNoteGM) {
-		PinCushion._addNoteGM(app, html, data);
+		PinCushion._addNoteGM(app, html, noteData);
 	}
 
 	const enableNoteTintColorLink = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
 	if (enableNoteTintColorLink) {
-		PinCushion._addNoteTintColorLink(app, html, data);
+		PinCushion._addNoteTintColorLink(app, html, noteData);
 	}
 
-	PinCushion._addHideLabel(app, html, data);
-	PinCushion._addPreviewAsTextSnippet(app, html, data);
-	PinCushion._addDoNotShowJournalPreview(app, html, data);
+	PinCushion._addHideLabel(app, html, noteData);
+	PinCushion._addPreviewAsTextSnippet(app, html, noteData);
+	PinCushion._addDoNotShowJournalPreview(app, html, noteData);
 	//PinCushion._addAboveFog(app, html, data);
-	PinCushion._addTooltipHandler(app, html, data);
+	PinCushion._addTooltipHandler(app, html, noteData);
 
 	// Force a recalculation of the height
 	if (!app._minimized) {
@@ -223,14 +223,14 @@ Hooks.on("hoverNote", (note, hovered) => {
 	// const showPreview = game.settings.get(PinCushion.MODULE_NAME, 'showJournalPreview');
 	const previewDelay = game.settings.get(PinCushion.MODULE_NAME, "previewDelay");
 	let doNotShowJournalPreviewS = String(
-		getProperty(note, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}`)
+		getProperty(note, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}`)
 	);
 	if (doNotShowJournalPreviewS !== "true" && doNotShowJournalPreviewS !== "false") {
 		doNotShowJournalPreviewS = "true";
 	}
 	const doNotShowJournalPreview = String(doNotShowJournalPreviewS) === "true" ? true : false;
 	let tooltipForceRemoveS = String(
-		getProperty(note, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}`)
+		getProperty(note, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}`)
 	);
 	if (tooltipForceRemoveS !== "true" && tooltipForceRemoveS !== "false") {
 		tooltipForceRemoveS = "false";

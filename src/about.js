@@ -31,7 +31,7 @@ export default class PinCushionAboutApp extends FormApplication {
 	async getData() {
 		return {
 			moduleName: PinCushion.MODULE_TITLE,
-			version: game.modules.get(CONSTANTS.MODULE_NAME).data.version,
+			version: game.modules.get(CONSTANTS.MODULE_NAME).version,
 			patrons: await this.fetchPatrons(),
 		};
 	}

@@ -267,7 +267,7 @@ export class PinCushion {
 		}
 
 		// offsely add fields required by Foundry's drop handling
-		const entryData = entry.data.toJSON();
+		const entryData = entry.document.toJSON();
 		entryData.id = entry.id;
 		entryData.type = "JournalEntry";
 
@@ -379,11 +379,11 @@ export class PinCushion {
 	 * Replaces icon selector in Notes Config form with filepicker
 	 * @param {*} app
 	 * @param {*} html
-	 * @param {*} data
+	 * @param {*} noteData
 	 */
-	static _replaceIconSelector(app, html, data, explicitImageValue) {
+	static _replaceIconSelector(app, html, noteData, explicitImageValue) {
 		const currentIconSelector = stripQueryStringAndHashFromPath(
-			explicitImageValue ? explicitImageValue : data.document.texture.src
+			explicitImageValue ? explicitImageValue : noteData.document.texture.src
 		);
 		// you can see this only if you have the file browser permissions
 		if (game.user.can("FILES_BROWSE")) {
@@ -698,15 +698,15 @@ export class PinCushion {
 	 * Add show image field
 	 * @param {*} app
 	 * @param {*} html
-	 * @param {*} data
+	 * @param {*} noteData
 	 */
-	static _addShowImageField(app, html, data) {
+	static _addShowImageField(app, html, noteData) {
 		const showImageExplicitSource = stripQueryStringAndHashFromPath(
 			app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ??
-				data.document.texture.src
+				noteData.document.texture.src
 		);
 		// const iconPinCushion = stripQueryStringAndHashFromPath(
-		//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? data.document.texture.src,
+		//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? noteData.document.texture.src,
 		// );
 
 		// you can see this only if you have the file browser permissions
@@ -825,19 +825,19 @@ export class PinCushion {
 	 * Replaces icon selector in Notes Config form with filepicker and adds fields to set player-only note icons.
 	 * @param {*} app
 	 * @param {*} html
-	 * @param {*} data
+	 * @param {*} noteData
 	 */
-	static _addPlayerIconField(app, html, data) {
+	static _addPlayerIconField(app, html, noteData) {
 		/* Adds fields to set player-only note icons */
 		/* Get default values set by GM */
 		const defaultState = game.settings.get(PinCushion.MODULE_NAME, "playerIconAutoOverride");
 		const defaultPath = game.settings.get(PinCushion.MODULE_NAME, "playerIconPathDefault");
 
 		const state =
-			getProperty(data, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_STATE}`) ??
+			getProperty(noteData, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_STATE}`) ??
 			defaultState;
 		const path = stripQueryStringAndHashFromPath(
-			getProperty(data, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}`) ??
+			getProperty(noteData, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}`) ??
 				defaultPath
 		);
 
@@ -888,10 +888,10 @@ export class PinCushion {
 		html.find("button[name='submit']").before(playerIconHtml);
 	}
 
-	static _addNoteGM(app, html, data) {
+	static _addNoteGM(app, html, noteData) {
 		let gmNoteFlagRef = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_GM_TEXT}`;
 		// Input for GM Label
-		let gmtext = data.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_GM_TEXT);
+		let gmtext = noteData.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_GM_TEXT);
 		if (!gmtext) gmtext = "";
 		let gm_text_h = $(
 			`<div class="form-group">
@@ -913,18 +913,18 @@ export class PinCushion {
     </div>
     */
 
-		// <input type="text" name="text" value="${initial_text.trim() ?? ''}" placeholder="${data.entry.name}">
+		// <input type="text" name="text" value="${initial_text.trim() ?? ''}" placeholder="${noteData.entry.name}">
 
 		// Multiline input for Text Label
-		// this.data.text || this.entry?.name || "Unknown"
-		let initial_text = data.data.text ?? data.entry?.name;
+		// this.document.text || this.entry?.name || "Unknown"
+		let initial_text = noteData.document.text ?? noteData.entry?.name;
 		if (!initial_text) initial_text = "";
 		let initial_text_h = $(
 			`<div class="form-group">
         <label for="text">${i18n("pin-cushion.PlayerLabel")}</label>
         <div class="form-fields">
           <textarea name="text"
-            placeholder="${data.entry?.name ?? ""}">${initial_text.trim() ?? ""}</textarea>
+            placeholder="${noteData.entry?.name ?? ""}">${initial_text.trim() ?? ""}</textarea>
         </div>
       </div>`
 		);
@@ -946,13 +946,15 @@ export class PinCushion {
 		// }
 	}
 
-	static _addNoteTintColorLink(app, html, data) {
+	static _addNoteTintColorLink(app, html, noteData) {
 		const FLAG_IS_REVEALED = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_REVEALED}`;
 		const FLAG_USE_REVEALED = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.USE_PIN_REVEALED}`;
 
 		// Check box to control use of REVEALED state
 		let checked =
-			data.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_REVEALED) ?? true ? "checked" : "";
+			noteData.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_REVEALED) ?? true
+				? "checked"
+				: "";
 		let revealed_control = $(
 			`<div class='form-group'>
         <label>${i18n("pin-cushion.RevealedToPlayer")}</label>
@@ -967,7 +969,9 @@ export class PinCushion {
 
 		// Check box for REVEALED state
 		let use_reveal =
-			data.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED) ?? false ? "checked" : "";
+			noteData.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED) ?? false
+				? "checked"
+				: "";
 		let mode_control = $(
 			`<div class='form-group'>
         <label>${i18n("pin-cushion.UseRevealState")}</label>
@@ -1116,10 +1120,10 @@ export class PinCushion {
 				let result = wrapped(...args);
 				if (hideLabel) {
 					result.text = "";
-					// this.document.data.text = '';
+					// this.document.text = '';
 				} else {
 					result.text = newtextGM;
-					// this.document.data.text = newtextGM;
+					// this.document.text = newtextGM;
 				}
 				return result;
 			}
@@ -1129,7 +1133,7 @@ export class PinCushion {
 		////
 		//// Note#text          = get text()  { return this.document.label; }
 		//// NoteDocument#label = get label() { return this.text || this.entry?.name || "Unknown"; }
-		//// but NoteDocument#data.text can be modified :-)
+		//// but NoteDocument#document.text can be modified :-)
 		////
 		//// let saved_text = this.document.text;
 		// this.document.text = newtext;
@@ -1218,7 +1222,7 @@ export class PinCushion {
 			// Keep tooltip always visible
 			// Though could make an option out of that too. Would be nicer
 			// TODO it's seem we don't need this
-			// this.position.set(this.data.x, this.data.y);
+			// this.position.set(this.document.x, this.document.y);
 			// this.controlIcon.border.visible = this._hover;
 
 			// textVisible = true;
@@ -1243,7 +1247,7 @@ export class PinCushion {
 		/*
         // NEW FEATURE : Above fog feature
         let aboveFogS = String(
-        getProperty(this.document, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}`),
+        getProperty(this.document, `this.document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}`),
         );
         if (aboveFogS !== 'true' && aboveFogS !== 'false') {
         aboveFogS = 'false';
@@ -1402,17 +1406,17 @@ export class PinCushion {
 			// TODO need to centre text
 		}
 		// PATCH MODULE autoIconFlags
-		if (noteInternal.data?.flags?.autoIconFlags) {
+		if (noteInternal.document?.flags?.autoIconFlags) {
 			const flagsAutomaticJournalIconNumbers = {
-				autoIcon: noteInternal.data?.flags.autoIconFlags.autoIcon,
-				iconType: noteInternal.data?.flags.autoIconFlags.iconType,
-				iconText: noteInternal.data?.flags.autoIconFlags.iconText,
-				foreColor: noteInternal.data?.flags.autoIconFlags.foreColor,
-				backColor: noteInternal.data?.flags.autoIconFlags.backColor,
-				fontFamily: noteInternal.data?.flags.autoIconFlags.fontFamily,
+				autoIcon: noteInternal.document?.flags.autoIconFlags.autoIcon,
+				iconType: noteInternal.document?.flags.autoIconFlags.iconType,
+				iconText: noteInternal.document?.flags.autoIconFlags.iconText,
+				foreColor: noteInternal.document?.flags.autoIconFlags.foreColor,
+				backColor: noteInternal.document?.flags.autoIconFlags.backColor,
+				fontFamily: noteInternal.document?.flags.autoIconFlags.fontFamily,
 			};
 			if (flagsAutomaticJournalIconNumbers.fontFamily) {
-				noteInternal.data.fontFamily = flagsAutomaticJournalIconNumbers.fontFamily;
+				noteInternal.document.fontFamily = flagsAutomaticJournalIconNumbers.fontFamily;
 			}
 			//noteInternal.controlIcon?.bg?.fill = flagsAutomaticJournalIconNumbers.backColor;
 		}
@@ -1433,7 +1437,7 @@ export class PinCushion {
 		/*
         // Above fog feature
         let aboveFogS = String(
-        getProperty(this.document, `data.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}`),
+        getProperty(this.document, `this.document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}`),
         );
         if (aboveFogS !== 'true' && aboveFogS !== 'false') {
         aboveFogS = 'false';
@@ -1471,7 +1475,7 @@ export class PinCushion {
 	//  *
 	//  * @param {object} message - The socket event's content
 	//  * @param {string} message.action - The action the socket receiver should take
-	//  * @param {Data} [message.data] - The data to be used for Document actions
+	//  * @param {Data} [message.document] - The data to be used for Document actions
 	//  * @param {string} [message.id] - The ID used to handle promises
 	//  * @param {string} userId - The ID of the user emitting the socket event
 	//  * @returns {void}
@@ -1502,7 +1506,7 @@ export class PinCushion {
 	//           `module.${PinCushion.MODULE_NAME}`,
 	//           {
 	//             action: 'return',
-	//             data: response.data,
+	//             data: response.document,
 	//             id: id,
 	//           },
 	//           { recipients: [userId] },

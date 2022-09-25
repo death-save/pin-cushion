@@ -350,12 +350,12 @@ class ResetSettingsDialog extends FormApplication {
 }
 async function applyDefaultSettings() {
 	// const settings = defaultSettings(true);
-	// for (const [name, data] of Object.entries(settings)) {
-	//   await game.settings.set(CONSTANTS.MODULE_NAME, name, data.default);
+	// for (const [settingName, settingValue] of Object.entries(settings)) {
+	//   await game.settings.set(CONSTANTS.MODULE_NAME, settingName, settingValue.default);
 	// }
 	const settings2 = otherSettings(true);
-	for (const [name, data] of Object.entries(settings2)) {
-		await game.settings.set(CONSTANTS.MODULE_NAME, name, data.default);
+	for (const [settingName, settingValue] of Object.entries(settings2)) {
+		await game.settings.set(CONSTANTS.MODULE_NAME, settingName, settingValue.default);
 	}
 }
 // function defaultSettings(apply = false) {

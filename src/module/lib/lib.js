@@ -27,10 +27,10 @@ export function getOwnedTokens(priorityToControlledIfGM) {
 			return arr;
 		}
 	}
-	let ownedTokens = canvas.tokens?.placeables.filter((token) => token.isOwner && (!token.data.hidden || gm));
+	let ownedTokens = canvas.tokens?.placeables.filter((token) => token.isOwner && (!token.document.hidden || gm));
 	if (ownedTokens.length === 0 || !canvas.tokens?.controlled[0]) {
 		ownedTokens = canvas.tokens?.placeables.filter(
-			(token) => (token.observer || token.isOwner) && (!token.data.hidden || gm)
+			(token) => (token.observer || token.isOwner) && (!token.document.hidden || gm)
 		);
 	}
 	return ownedTokens;
@@ -70,7 +70,7 @@ export function getActiveGMs() {
 }
 export function isResponsibleGM() {
 	if (!game.user?.isGM) return false;
-	return !getActiveGMs()?.some((other) => other.data._id < game.user?.data._id);
+	return !getActiveGMs()?.some((other) => other.document._id < game.user?.document._id);
 }
 // ================================
 // Logger utility
