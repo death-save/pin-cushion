@@ -95,8 +95,8 @@
 			"path": "languages/ja.json"
 		}
 	],
-	"scripts": ["./module/lib/jquery.powertip.js"],
-	"esmodules": ["./pin-cushion.js"],
+	"scripts": ["scripts/lib/jquery.powertip.js"],
+	"esmodules": ["pin-cushion.js"],
 	"styles": [
 		"styles/pin-cushion.css",
 		"styles/jquery.powertip.css",

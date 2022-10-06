@@ -2,13 +2,13 @@
 /* Other Hooks							*/
 /* ------------------------------------ */
 
-import API from "./module/api.js";
-import CONSTANTS from "./module/constants.js";
-import { log, debug, is_real_number, stripQueryStringAndHashFromPath, error } from "./module/lib/lib.js";
-import { registerSettings } from "./module/settings.js";
-import { pinCushionSocket, registerSocket } from "./module/socket.js";
-import { PinCushionHUD } from "./module/apps/PinCushionHUD.js";
-import { PinCushion } from "./module/apps/PinCushion.js";
+import API from "./scripts/api.js";
+import CONSTANTS from "./scripts/constants.js";
+import { log, debug, is_real_number, stripQueryStringAndHashFromPath, error } from "./scripts/lib/lib.js";
+import { registerSettings } from "./scripts/settings.js";
+import { pinCushionSocket, registerSocket } from "./scripts/socket.js";
+import { PinCushionHUD } from "./scripts/apps/PinCushionHUD.js";
+import { PinCushion } from "./scripts/apps/PinCushion.js";
 
 /**
  * Initialization helper, to set API.
