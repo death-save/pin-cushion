@@ -211,9 +211,9 @@ export function retrieveFirstImageFromJournalHtml(html) {
 		const id = target.data("document-id");
 		const journalEntry = game.journal.get(id);
 		// Support old data image
-		if (journalEntry?.data?.img) {
-			return stripQueryStringAndHashFromPath(journalEntry?.data?.img);
-		}
+		// if (journalEntry?.data?.img) {
+		// 	return stripQueryStringAndHashFromPath(journalEntry?.data?.img);
+		// }
 		// Support new image type journal
 		if (journalEntry?.pages.size > 0) {
 			const sortedArray = journalEntry.pages.contents.sort((a, b) => a.sort - b.sort);
@@ -229,9 +229,9 @@ export function retrieveFirstImageFromJournalHtml(html) {
 export function retrieveFirstImageFromJournalId(id) {
 	const journalEntry = game.journal.get(id);
 	// Support old data image
-	if (journalEntry?.data?.img) {
-		return stripQueryStringAndHashFromPath(journalEntry?.data?.img);
-	}
+	// if (journalEntry?.data?.img) {
+	// 	return stripQueryStringAndHashFromPath(journalEntry?.data?.img);
+	// }
 	// Support new image type journal
 	if (journalEntry?.pages.size > 0) {
 		const sortedArray = journalEntry.pages.contents.sort((a, b) => a.sort - b.sort);

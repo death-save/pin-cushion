@@ -382,48 +382,100 @@ export class PinCushion {
 	 * @param {*} noteData
 	 */
 	static _replaceIconSelector(app, html, noteData, explicitImageValue) {
-		const currentIconSelector = stripQueryStringAndHashFromPath(
-			explicitImageValue ? explicitImageValue : noteData.document.texture.src
-		);
+		// const currentIconSelector = stripQueryStringAndHashFromPath(
+		// 	explicitImageValue ? explicitImageValue : noteData.document.texture.src
+		// );
+		const currentIconSelector = stripQueryStringAndHashFromPath(noteData.document.texture.src);
+
 		// you can see this only if you have the file browser permissions
-		if (game.user.can("FILES_BROWSE")) {
-			const filePickerHtml = `
-        <img class="pin-cushion-journal-icon" src="${currentIconSelector}" />
-        <input
-          type="text"
-          name="icon"
-          title="Icon Path"
-          class="icon-path"
-          value="${currentIconSelector}"
-          placeholder="/icons/example.svg"
-          data-dtype="String"></input>
-          ${this.filePicker("image", `icon`, `file-picker`)}
-        `;
+		const hasPermissionsToUploadFile = game.user.can("FILES_BROWSE");
+		if (hasPermissionsToUploadFile) {
+			// 	const filePickerHtml = `
+			// 		<img class="pin-cushion-journal-icon" src="${currentIconSelector}" />
+			// 		<input
+			// 			type="text"
+			// 			name="icon"
+			// 			title="Icon Path"
+			// 			class="icon-path"
+			// 			value="${currentIconSelector}"
+			// 			placeholder="/icons/example.svg"
+			// 			data-dtype="String">
+			// 		</input>
+			// 		${this.filePicker("image", `icon`, `file-picker`)}
+			// `;
 
-			/*
-      <button type="button"
-        name="file-picker"
-        class="file-picker"
-        data-type="image"
-        data-target="icon"
-        title="Browse Files"
-        tabindex="-1">
-        <i class="fas fa-file-import fa-fw"></i>
-      </button>
-      */
+			// /*
+			// <button type="button"
+			// 	name="file-picker"
+			// 	class="file-picker"
+			// 	data-type="image"
+			// 	data-target="icon"
+			// 	title="Browse Files"
+			// 	tabindex="-1">
+			// 	<i class="fas fa-file-import fa-fw"></i>
+			// </button>
+			// */
+			// /*
+			// <div class="form-fields">
+			//     <input type="text" name="icon.custom" value="moulinette/images/img/npccampaign01/Jeanna_Silverchain.Avatar.png">
+			// 	<button type="button" class="file-picker" data-type="image" data-target="icon.custom" title="Browse Files" tabindex="-1">
+			// 		<i class="fas fa-file-import fa-fw"></i>
+			// 	</button>
+			// </div>
+			// */
 
-			const iconSelector = html.find("select[name='icon']");
-
-			iconSelector.replaceWith(filePickerHtml);
-
-			// Detect and activate file-picker buttons
-			//html.find("button.file-picker").on("click", app._activateFilePicker.bind(app));
-			html.find("button.file-picker").each((i, button) => (button.onclick = app._activateFilePicker.bind(app)));
+			// 	// const iconSelector = html.find("select[name='icon.selected']");
+			const iconCustomSelector = html.find("input[name='icon.custom']");
+			if(iconCustomSelector?.length > 0) {
+				iconCustomSelector.val(currentIconSelector);
+				iconCustomSelector.on('change', function() {
+					const p = iconCustomSelector.parent().find(".pin-cushion-journal-icon");
+					const valueIconSelector = html.find("select[name='icon.selected']")?.val();
+					if(valueIconSelector){
+						p[0].src = valueIconSelector;
+					} else {
+						p[0].src = this.value;
+					}
+				});
+				// iconCustomSelector.replaceWith(filePickerHtml);
+				// 	// Detect and activate file-picker buttons
+				// 	//html.find("button.file-picker").on("click", app._activateFilePicker.bind(app));
+				// 	html.find("button.file-picker").each((i, button) => (button.onclick = app._activateFilePicker.bind(app)));
+				const iconSelector = html.find("select[name='icon.selected']");
+				if(iconSelector?.length > 0) {
+					iconSelector.on('change', function() {
+						const p = iconCustomSelector.parent().find(".pin-cushion-journal-icon");
+						const valueIconSelector = html.find("select[name='icon.selected']")?.val();
+						if(valueIconSelector){
+							p[0].src = valueIconSelector;
+						} else {
+							p[0].src =currentIconSelector;
+						}
+					});
+					const valueIconSelector = html.find("select[name='icon.selected']")?.val();
+					if(valueIconSelector){
+						iconCustomSelector.parent().prepend(`<img class="pin-cushion-journal-icon" src="${valueIconSelector}" />`);
+					} else {
+						iconCustomSelector.prop('disabled', true);
+						iconCustomSelector.parent().prepend(`<img class="pin-cushion-journal-icon" src="${currentIconSelector}" />`);
+					}
+				} else {
+					iconCustomSelector.parent().prepend(`<img class="pin-cushion-journal-icon" src="${currentIconSelector}" />`);
+				}
+			}
 		}
+		// TODO add image to default options ?
+		// const iconSelector = html.find("select[name='icon.selected']");
+		// if(iconSelector?.length > 0) {
+		// 	iconSelector.children('option').each( function() {
+		// 		const option = $(this);
+		// 		option.prepend(`<img class="" src="${option[0].value}" />`);
+		// 	});
+		// }
 	}
 
 	static _addTooltipHandler(app, html, data) {
-		const iconAnchor = html.find("[name=icon]").closest(".form-group");
+		const iconAnchor = html.find("input[name='icon.custom']").closest(".form-group");
 		const tooltipPlacement =
 			(app.document
 				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_PLACEMENT)
@@ -635,7 +687,7 @@ export class PinCushion {
 			(app.document
 				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)
 				: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) ?? 0;
-		const iconTintGroup = html.find("[name=texture.tint]").closest(".form-group");
+		const iconTintGroup = html.find("[name='texture.tint']").closest(".form-group");
 		const ratio =
 			(app.document
 				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO)
@@ -743,7 +795,7 @@ export class PinCushion {
 		// make sense ?
 
 		const showImage = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE) ?? false;
-		const iconTintGroup = html.find("[name=texture.tint]").closest(".form-group");
+		const iconTintGroup = html.find("[name='texture.tint']").closest(".form-group");
 		iconTintGroup.after(`
       <div class="form-group">
         <label
@@ -764,6 +816,13 @@ export class PinCushion {
 		html.find("button.file-picker-showImageExplicitSource").each(
 			(i, button) => (button.onclick = app._activateFilePicker.bind(app))
 		);
+		const iconCustomSelectorExplicit = html.find(`input[name='flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}']`);
+		if(iconCustomSelectorExplicit?.length > 0) {
+			iconCustomSelectorExplicit.on('change', function() {
+				const p = iconCustomSelectorExplicit.parent().find(".pin-cushion-journal-icon");
+				p[0].src = this.value;
+			});
+		}
 	}
 
 	/**
@@ -775,7 +834,7 @@ export class PinCushion {
 	static _addPinIsTransparentField(app, html, data) {
 		const pinIsTransparent =
 			app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_TRANSPARENT) ?? false;
-		const iconTintGroup = html.find("[name=texture.tint]").closest(".form-group");
+		const iconTintGroup = html.find("[name='texture.tint']").closest(".form-group");
 		iconTintGroup.after(`
       <div class="form-group">
         <label
@@ -802,7 +861,7 @@ export class PinCushion {
 	 */
 	static _addShowOnlyToGMField(app, html, data) {
 		const showOnlyToGM = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_ONLY_TO_GM) ?? false;
-		const iconTintGroup = html.find("[name=texture.tint]").closest(".form-group");
+		const iconTintGroup = html.find("[name='texture.tint']").closest(".form-group");
 		iconTintGroup.after(`
       <div class="form-group">
         <label
@@ -858,10 +917,6 @@ export class PinCushion {
         <div class="form-group">
           <label>${i18n("pin-cushion.PlayerIconPath")}</label>
           <div class="form-fields">
-            <!--
-            <select name="icon">
-            </select>
-            -->
             <img class="pin-cushion-journal-icon" src="${path ? path : ``}" />
             <input type="text"
               name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}"
@@ -1382,18 +1437,18 @@ export class PinCushion {
 			noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)
 		) {
 			icon = new ControlIcon(iconData);
-			icon.x -= this.size / 2;
-			icon.y -= this.size / 2;
+			icon.x -= noteInternal.size / 2;
+			icon.y -= noteInternal.size / 2;
 		} else {
 			const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
 			if (enableBackgroundlessPins) {
 				icon = new BackgroundlessControlIcon(iconData);
-				icon.x -= this.size / 2;
-				icon.y -= this.size / 2;
+				icon.x -= noteInternal.size / 2;
+				icon.y -= noteInternal.size / 2;
 			} else {
 				icon = new ControlIcon(iconData);
-				icon.x -= this.size / 2;
-				icon.y -= this.size / 2;
+				icon.x -= noteInternal.size / 2;
+				icon.y -= noteInternal.size / 2;
 			}
 		}
 		if (noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO) > 1) {
@@ -1420,8 +1475,8 @@ export class PinCushion {
 			}
 			//noteInternal.controlIcon?.bg?.fill = flagsAutomaticJournalIconNumbers.backColor;
 		}
-		icon.x -= noteInternal.size / 2;
-		icon.y -= noteInternal.size / 2;
+		// icon.x -= noteInternal.size / 2;
+		// icon.y -= noteInternal.size / 2;
 		return icon;
 		// } else {
 		//   return undefined;
@@ -1547,12 +1602,17 @@ export class PinCushion {
 					`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${journalEntryImage}" title="${j.name}" alt='Journal Entry Thumbnail'>`
 				);
 				switch (game.settings.get(CONSTANTS.MODULE_NAME, "journalThumbnailPosition")) {
-					case "right":
-						target.append(thumbnail);
+					case "right": {
+						htmlEntry.append(thumbnail);
 						break;
-					case "left":
-						target.prepend(thumbnail);
+					}
+					case "left": {
+						htmlEntry.prepend(thumbnail);
 						break;
+					}
+					default: {
+						warn(`Must set 'right' or 'left' for sidebar thumbnail image`);
+					}
 				}
 			});
 		}

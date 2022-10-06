@@ -4,7 +4,7 @@
 
 import API from "./scripts/api.js";
 import CONSTANTS from "./scripts/constants.js";
-import { log, debug, is_real_number, stripQueryStringAndHashFromPath, error } from "./scripts/lib/lib.js";
+import { log, debug, is_real_number, stripQueryStringAndHashFromPath, error, retrieveFirstImageFromJournalId } from "./scripts/lib/lib.js";
 import { registerSettings } from "./scripts/settings.js";
 import { pinCushionSocket, registerSocket } from "./scripts/socket.js";
 import { PinCushionHUD } from "./scripts/apps/PinCushionHUD.js";
@@ -123,8 +123,8 @@ Hooks.once("ready", function () {
  * @param {object] data       The object of data used when rendering the application (from NoteConfig#getData)
  */
 Hooks.on("renderNoteConfig", async (app, html, noteData) => {
-	if (!app.object.document.flags[PinCushion.MODULE_NAME]) {
-		app.object.document.flags[PinCushion.MODULE_NAME] = {};
+	if (!app.object.flags[PinCushion.MODULE_NAME]) {
+		app.object.flags[PinCushion.MODULE_NAME] = {};
 	}
 	// TODO THIS CODE CAN B DONE MUCH BETTER...
 	const showJournalImageByDefault = game.settings.get(PinCushion.MODULE_NAME, "showJournalImageByDefault");
@@ -142,14 +142,14 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	) {
 		// Journal id
 		const journal = game.journal.get(noteData.document.entryId);
-		const journalEntryImage = retrieveFirstImageFromJournalId(j.id);
+		const journalEntryImage = retrieveFirstImageFromJournalId(journal.id);
 		if (journalEntryImage) {
 			setProperty(noteData.document.texture, "src", stripQueryStringAndHashFromPath(journalEntryImage));
 		}
 	}
-	let tmp = stripQueryStringAndHashFromPath(app.object.document.texture.src ?? noteData.document.texture.src);
+	let tmp = stripQueryStringAndHashFromPath(app.object.texture.src ?? noteData.document.texture.src);
 	// TODO find a better method
-	if (app.object.document.texture.src === "icons/svg/book.svg" && noteData.document.texture.src) {
+	if (app.object.texture.src === "icons/svg/book.svg" && noteData.document.texture.src) {
 		tmp = stripQueryStringAndHashFromPath(noteData.document.texture.src);
 	}
 	if (app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)) {
@@ -165,7 +165,7 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	PinCushion._replaceIconSelector(app, html, noteData, tmp);
 	//Causes a bug when attempting to place an journal entry onto the canvas in Foundry 9.
 	//await app.object.setFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON, tmp);
-	setProperty(app.object.document.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.CUSHION_ICON, tmp);
+	setProperty(app.object.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.CUSHION_ICON, tmp);
 
 	PinCushion._addShowImageField(app, html, noteData);
 	PinCushion._addPinIsTransparentField(app, html, noteData);
