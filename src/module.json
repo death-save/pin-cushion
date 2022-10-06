@@ -1,8 +1,8 @@
 {
-	"name": "pin-cushion",
+	"id": "pin-cushion",
 	"title": "Pin Cushion",
 	"description": "Adds additional map pin (Journal Note/Scene Note) functionality",
-	"version": "1.7.11",
+	"version": "1.8.0",
 	"authors": [
 		{
 			"name": "Cole Schultz",
@@ -40,6 +40,20 @@
 			"email": ""
 		}
 	],
+	"type": "module",
+	"socket": true,
+	"includes": [
+		"./assets/**",
+		"./lang/**",
+		"./languages/**",
+		"./scripts/**",
+		"styles/**",
+		"./templates/**",
+		"./module.json",
+		"./README.md",
+		"./icons/**",
+		"./packs/**"
+	],
 	"media": [
 		{
 			"type": "screenshot",
@@ -58,112 +72,100 @@
 		{
 			"lang": "en",
 			"name": "English",
-			"path": "./lang/en.json"
+			"path": "languages/en.json"
 		},
 		{
 			"lang": "fr",
 			"name": "Français",
-			"path": "./lang/fr.json"
+			"path": "languages/fr.json"
 		},
 		{
 			"lang": "pt-BR",
 			"name": "Português (Brasil)",
-			"path": "./lang/pt-BR.json"
+			"path": "languages/pt-BR.json"
 		},
 		{
 			"lang": "es",
 			"name": "Español",
-			"path": "./lang/es.json"
+			"path": "languages/es.json"
 		},
 		{
 			"lang": "ja",
 			"name": "日本語",
-			"path": "./lang/ja.json"
+			"path": "languages/ja.json"
 		}
 	],
 	"scripts": ["./module/lib/jquery.powertip.js"],
-	"system": [],
 	"esmodules": ["./pin-cushion.js"],
 	"styles": [
-		"./styles/pin-cushion.css",
-		"./styles/jquery.powertip.css",
-		"./styles/jquery.powertip-blue.css",
-		"./styles/jquery.powertip-dark.css",
-		"./styles/jquery.powertip-default.css",
-		"./styles/jquery.powertip-green.css",
-		"./styles/jquery.powertip-light.css",
-		"./styles/jquery.powertip-orange.css",
-		"./styles/jquery.powertip-purple.css",
-		"./styles/jquery.powertip-red.css",
-		"./styles/jquery.powertip-yellow.css"
+		"styles/pin-cushion.css",
+		"styles/jquery.powertip.css",
+		"styles/jquery.powertip-blue.css",
+		"styles/jquery.powertip-dark.css",
+		"styles/jquery.powertip-default.css",
+		"styles/jquery.powertip-green.css",
+		"styles/jquery.powertip-light.css",
+		"styles/jquery.powertip-orange.css",
+		"styles/jquery.powertip-purple.css",
+		"styles/jquery.powertip-red.css",
+		"styles/jquery.powertip-yellow.css"
 	],
-	"socket": true,
-	"packs": [],
-	"url": "https://github.com/p4535992/foundryvtt-pin-cushion",
-	"manifest": "https://github.com/p4535992/foundryvtt-pin-cushion/releases/latest/download/module.json",
-	"download": "https://github.com/p4535992/foundryvtt-pin-cushion/releases/latest/download/module.zip",
-	"readme": "https://github.com/p4535992/foundryvtt-pin-cushion/blob/v1.7.11/README.md",
-	"changelog": "https://github.com/p4535992/foundryvtt-pin-cushion/blob/v1.7.11/changelog.md",
-	"bugs": "https://github.com/p4535992/foundryvtt-pin-cushion/issues",
-	"minimumCoreVersion": "9",
-	"compatibleCoreVersion": "9",
 	"compatibility": {
-		"minimum": 9,
-		"verified": 9,
-		"maximum": 9
+		"minimum": 10,
+		"verified": 10,
+		"maximum": 10
 	},
+	"url": "https://github.com/p4535992/foundryvtt-variant-encumbrance-dnd5e",
+	"manifest": "https://github.com/p4535992/foundryvtt-variant-encumbrance-dnd5e/releases/latest/download/module.json",
+	"download": "https://github.com/p4535992/foundryvtt-variant-encumbrance-dnd5e/releases/latest/download/module.zip",
+	"readme": "https://github.com/p4535992/foundryvtt-variant-encumbrance-dnd5e/blob/v0.11.3/README.md",
+	"changelog": "https://github.com/p4535992/foundryvtt-variant-encumbrance-dnd5e/blob/v0.11.3/changelog.md",
+	"bugs": "https://github.com/p4535992/foundryvtt-variant-encumbrance-dnd5e/issues",
 	"allowBugReporter": true,
 	"manifestPlusVersion": "1.2.0",
-	"dependencies": [
-		{
-			"name": "lib-wrapper"
-		},
-		{
-			"name": "socketlib"
-		}
-	],
 	"relationships": {
+		"systems": [],
 		"requires": [
 			{
 				"id": "lib-wrapper",
-				"manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json"
+				"type": "module",
+				"manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json",
+				"compatibility": {}
 			},
 			{
 				"id": "socketlib",
-				"manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/develop/module.json"
+				"type": "module",
+				"manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/develop/module.json",
+				"compatibility": {}
 			}
-		]
-	},
-	"flags": {
-		"manifestPlusVersion": "1.2.0",
-		"allowBugReporter": true,
+		],
 		"conflicts": [
 			{
-				"name": "backgroundless-pins",
+				"id": "backgroundless-pins",
 				"description": "Redundancy of features you can disable 'FVTT Backgroundless Pins' module if you want"
 			},
 			{
-				"name": "journal-thumbnail",
+				"id": "journal-thumbnail",
 				"description": "Redundancy of features you can disable 'Thumbnails for Journal Entries' module if you want"
 			},
 			{
-				"name": "gmtext-in-notes",
+				"id": "gmtext-in-notes",
 				"description": "Redundancy of features you can disable 'GM-only tooltips for Notes' module if you want"
 			},
 			{
-				"name": "revealed-notes-manager",
+				"id": "revealed-notes-manager",
 				"description": "Redundancy of features you can disable 'Revealed Notes Manager' module if you want"
 			},
 			{
-				"name": "journal-sidebar-images",
+				"id": "journal-sidebar-images",
 				"description": "Redundancy of features you can disable 'Journal Sidebar Images' module if you want"
 			},
 			{
-				"name": "map-note-hover-display",
+				"id": "map-note-hover-display",
 				"description": "Redundancy of features you can disable 'Map Note Hover Display' module if you want"
 			},
 			{
-				"name": "one-click-note-creation",
+				"id": "one-click-note-creation",
 				"description": "Redundancy of features you can disable 'One click note creation' module if you want"
 			}
 		]
