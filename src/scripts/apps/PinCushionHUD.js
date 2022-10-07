@@ -36,9 +36,23 @@ export class PinCushionHUD extends BasePlaceableHUD {
 	getData() {
 		const data = super.getData();
 		const entry = this.object.entry;
-		if (!entry) {
-			// Do nothing b/c this doesn't have an entry
-			return;
+		let entryName = data.text;
+		let entryIsOwner = true;
+		let entryId = undefined;
+		let entryIcon = data.icon;
+		let entryContent = data.text;
+		if (entry) {
+			entryName = entry.name;
+			entryId = entry.id;
+			entryIsOwner = entry.isOwner;
+			entryIcon = retrieveFirstImageFromJournalId(entryId);
+			if(!entryIcon && data.icon){
+				entryIcon = data.icon;
+			}
+			entryContent = retrieveFirstTextFromJournalId(entryId);
+			if(!entryContent && data.text){
+				entryContent = data.text;
+			}
 		}
 		// TODO The getFlag was returning as 'not a function', for whatever reason...
 		// const showImage = this.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE);
@@ -50,19 +64,19 @@ export class PinCushionHUD extends BasePlaceableHUD {
 
 		let content;
 		if (showImage) {
-			const journalEntryImage = retrieveFirstImageFromJournalId(entry.id);
+			// const journalEntryImage = retrieveFirstImageFromJournalId(entryId);
 			//const imgToShow = showImageExplicitSource ? showImageExplicitSource : journalEntryImage;
-			const imgToShow = showImageExplicitSource ? showImageExplicitSource : journalEntryImage;
+			const imgToShow = showImageExplicitSource ? showImageExplicitSource : entryIcon;
 			if (imgToShow && imgToShow.length > 0) {
 				content = TextEditor.enrichHTML(`<img class='image' src='${imgToShow}' alt=''></img>`, {
-					secrets: entry.isOwner,
+					secrets: entryIsOwner,
 					documents: true,
 				});
 			} else {
 				content = TextEditor.enrichHTML(
 					`<img class='image' src='${CONSTANTS.PATH_TRANSPARENT}' alt=''></img>`,
 					{
-						secrets: entry.isOwner,
+						secrets: entryIsOwner,
 						documents: true,
 					}
 				);
@@ -72,7 +86,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
 				this.object.document.flags[PinCushion.MODULE_NAME],
 				PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET
 			);
-			const firstContent = retrieveFirstTextFromJournalId(entry.id);
+			const firstContent = entryContent;
 			if (!previewTypeAdText) {
 				content = TextEditor.enrichHTML(firstContent, { secrets: entry.isOwner, documents: true });
 			} else {
@@ -85,7 +99,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
 			}
 		}
 
-		let titleTooltip = entry.name; // by default is the title of the journal
+		let titleTooltip = entryName; // by default is the title of the journal
 		const newtextGM = getProperty(this.object.document.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.PIN_GM_TEXT);
 		if (game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "noteGM") && newtextGM) {
 			titleTooltip = newtextGM;

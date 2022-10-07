@@ -38,7 +38,8 @@ To install this module manually:
 
 ## Known issue
 
-## Note: About the transition form 1.5.0 to 1.7.0 [here you can find all the details](./wiki/md/table_feature_150_to_170.md)
+- With the advent of fvtt10 and the "pages" system, the module will considered for the tooltip the first page image type and the first page type text. This will remain the behaviour until i found a "smart" management for this
+- I now the note configuration dialog is not pretty, i'm planning to add a tab on that, i'm just not sure when i find the time...
 
 ### libWrapper
 
