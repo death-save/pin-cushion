@@ -209,25 +209,17 @@ export function retrieveFirstImageFromJournalHtml(html) {
 	for (const li of lis) {
 		const target = $(li);
 		const id = target.data("document-id");
-		const journalEntry = game.journal.get(id);
-		// Support old data image
-		// if (journalEntry?.data?.img) {
-		// 	return stripQueryStringAndHashFromPath(journalEntry?.data?.img);
-		// }
-		// Support new image type journal
-		if (journalEntry?.pages.size > 0) {
-			const sortedArray = journalEntry.pages.contents.sort((a, b) => a.sort - b.sort);
-			const firstJournalPage = sortedArray[0];
-			if (firstJournalPage.src) {
-				return stripQueryStringAndHashFromPath(firstJournalPage.src);
-			}
-		}
+		return retrieveFirstImageFromJournalId(id);
 	}
 	return undefined;
 }
 
 export function retrieveFirstImageFromJournalId(id) {
 	const journalEntry = game.journal.get(id);
+	let firstImage = undefined;
+	if (!journalEntry){
+		return firstImage;
+	}
 	// Support old data image
 	// if (journalEntry?.data?.img) {
 	// 	return stripQueryStringAndHashFromPath(journalEntry?.data?.img);
@@ -235,10 +227,35 @@ export function retrieveFirstImageFromJournalId(id) {
 	// Support new image type journal
 	if (journalEntry?.pages.size > 0) {
 		const sortedArray = journalEntry.pages.contents.sort((a, b) => a.sort - b.sort);
-		const firstJournalPage = sortedArray[0];
-		if (firstJournalPage.src) {
-			return stripQueryStringAndHashFromPath(firstJournalPage.src);
+		for(const journalEntry of sortedArray){
+			if (journalEntry.type === "image" && journalEntry.src) {
+				firstImage = stripQueryStringAndHashFromPath(journalEntry.src);
+				break;
+			}
 		}
 	}
-	return undefined;
+	return firstImage;
+}
+
+export function retrieveFirstTextFromJournalId(id) {
+	const journalEntry = game.journal.get(id);
+	let firstText = undefined;
+	if (!journalEntry){
+		return firstText;
+	}
+	// Support old data image
+	// if (journalEntry?.data?.img) {
+	// 	return stripQueryStringAndHashFromPath(journalEntry?.data?.img);
+	// }
+	// Support new image type journal
+	if (journalEntry?.pages.size > 0) {
+		const sortedArray = journalEntry.pages.contents.sort((a, b) => a.sort - b.sort);
+		for(const journalEntry of sortedArray){
+			if (journalEntry.type === "text" && journalEntry.text?.content) {
+				firstText = journalEntry.text?.content;
+				break;
+			}
+		}
+	}
+	return firstText;
 }

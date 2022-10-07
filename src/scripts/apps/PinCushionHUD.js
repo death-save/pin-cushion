@@ -1,5 +1,5 @@
 import CONSTANTS from "../constants.js";
-import { isPlacementVertical, is_real_number, retrieveFirstImageFromJournalId } from "../lib/lib.js";
+import { isPlacementVertical, is_real_number, retrieveFirstImageFromJournalId, retrieveFirstTextFromJournalId } from "../lib/lib.js";
 import { PinCushion } from "./PinCushion.js";
 
 /**
@@ -50,9 +50,9 @@ export class PinCushionHUD extends BasePlaceableHUD {
 
 		let content;
 		if (showImage) {
-			// const journalEntryImage = retrieveFirstImageFromJournalId(entry.document.id);
+			const journalEntryImage = retrieveFirstImageFromJournalId(entry.id);
 			//const imgToShow = showImageExplicitSource ? showImageExplicitSource : journalEntryImage;
-			const imgToShow = showImageExplicitSource ? showImageExplicitSource : entry.document.texture.src;
+			const imgToShow = showImageExplicitSource ? showImageExplicitSource : journalEntryImage;
 			if (imgToShow && imgToShow.length > 0) {
 				content = TextEditor.enrichHTML(`<img class='image' src='${imgToShow}' alt=''></img>`, {
 					secrets: entry.isOwner,
@@ -72,11 +72,12 @@ export class PinCushionHUD extends BasePlaceableHUD {
 				this.object.document.flags[PinCushion.MODULE_NAME],
 				PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET
 			);
+			const firstContent = retrieveFirstTextFromJournalId(entry.id);
 			if (!previewTypeAdText) {
-				content = TextEditor.enrichHTML(entry.document.content, { secrets: entry.isOwner, documents: true });
+				content = TextEditor.enrichHTML(firstContent, { secrets: entry.isOwner, documents: true });
 			} else {
 				const previewMaxLength = game.settings.get(PinCushion.MODULE_NAME, "previewMaxLength");
-				const textContent = $(entry.document.content).text();
+				const textContent = $(firstContent).text();
 				content =
 					textContent.length > previewMaxLength
 						? `${textContent.substr(0, previewMaxLength)} ...`
@@ -84,7 +85,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
 			}
 		}
 
-		let titleTooltip = entry.document.name; // by default is the title of the journal
+		let titleTooltip = entry.name; // by default is the title of the journal
 		const newtextGM = getProperty(this.object.document.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.PIN_GM_TEXT);
 		if (game.user.isGM && game.settings.get(PinCushion.MODULE_NAME, "noteGM") && newtextGM) {
 			titleTooltip = newtextGM;
