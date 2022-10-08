@@ -3,6 +3,7 @@ import {
 	i18n,
 	i18nFormat,
 	isAlt,
+	is_real_number,
 	log,
 	retrieveFirstImageFromJournalId,
 	stripQueryStringAndHashFromPath,
@@ -228,11 +229,15 @@ export class PinCushion {
 		// Permissions the Journal Entry will be created with
 		const permission = {
 			[game.userId]: CONST.DOCUMENT_PERMISSION_LEVELS.OWNER,
-			default: parseInt($("#cushion-permission").val()),
+			default: parseInt($("#cushion-permission").val()) ?? 0,
 		};
 
 		const defaultJournalPermission = game.settings.get(PinCushion.MODULE_NAME, "defaultJournalPermission");
-		if (permission.default === 0 && defaultJournalPermission >= 0) {
+		if (
+			is_real_number(defaultJournalPermission) &&
+			(!is_real_number(permission.default) || permission.default === 0) &&
+			defaultJournalPermission >= 0
+		) {
 			permission.default = defaultJournalPermission;
 		}
 
@@ -258,7 +263,7 @@ export class PinCushion {
 		}
 		const entry = await JournalEntry.create({
 			name: `${input[0].value}`,
-			permission,
+			ownership: permission,
 			...(folder && { folder }),
 		});
 
@@ -267,8 +272,9 @@ export class PinCushion {
 		}
 
 		// offsely add fields required by Foundry's drop handling
-		const entryData = entry.document.toJSON();
+		const entryData = entry.toJSON();
 		entryData.id = entry.id;
+		entryData.uuid = "JournalEntry." + entry.id;
 		entryData.type = "JournalEntry";
 
 		if (canvas.activeLayer.name !== PinCushion.NOTESLAYER) {
@@ -426,12 +432,12 @@ export class PinCushion {
 
 			// 	// const iconSelector = html.find("select[name='icon.selected']");
 			const iconCustomSelector = html.find("input[name='icon.custom']");
-			if(iconCustomSelector?.length > 0) {
+			if (iconCustomSelector?.length > 0) {
 				iconCustomSelector.val(currentIconSelector);
-				iconCustomSelector.on('change', function() {
+				iconCustomSelector.on("change", function () {
 					const p = iconCustomSelector.parent().find(".pin-cushion-journal-icon");
 					const valueIconSelector = html.find("select[name='icon.selected']")?.val();
-					if(valueIconSelector){
+					if (valueIconSelector) {
 						p[0].src = valueIconSelector;
 					} else {
 						p[0].src = this.value;
@@ -442,25 +448,31 @@ export class PinCushion {
 				// 	//html.find("button.file-picker").on("click", app._activateFilePicker.bind(app));
 				// 	html.find("button.file-picker").each((i, button) => (button.onclick = app._activateFilePicker.bind(app)));
 				const iconSelector = html.find("select[name='icon.selected']");
-				if(iconSelector?.length > 0) {
-					iconSelector.on('change', function() {
+				if (iconSelector?.length > 0) {
+					iconSelector.on("change", function () {
 						const p = iconCustomSelector.parent().find(".pin-cushion-journal-icon");
 						const valueIconSelector = html.find("select[name='icon.selected']")?.val();
-						if(valueIconSelector){
+						if (valueIconSelector) {
 							p[0].src = valueIconSelector;
 						} else {
-							p[0].src =currentIconSelector;
+							p[0].src = currentIconSelector;
 						}
 					});
 					const valueIconSelector = html.find("select[name='icon.selected']")?.val();
-					if(valueIconSelector){
-						iconCustomSelector.parent().prepend(`<img class="pin-cushion-journal-icon" src="${valueIconSelector}" />`);
+					if (valueIconSelector) {
+						iconCustomSelector
+							.parent()
+							.prepend(`<img class="pin-cushion-journal-icon" src="${valueIconSelector}" />`);
 					} else {
-						iconCustomSelector.prop('disabled', true);
-						iconCustomSelector.parent().prepend(`<img class="pin-cushion-journal-icon" src="${currentIconSelector}" />`);
+						iconCustomSelector.prop("disabled", true);
+						iconCustomSelector
+							.parent()
+							.prepend(`<img class="pin-cushion-journal-icon" src="${currentIconSelector}" />`);
 					}
 				} else {
-					iconCustomSelector.parent().prepend(`<img class="pin-cushion-journal-icon" src="${currentIconSelector}" />`);
+					iconCustomSelector
+						.parent()
+						.prepend(`<img class="pin-cushion-journal-icon" src="${currentIconSelector}" />`);
 				}
 			}
 		}
@@ -754,8 +766,7 @@ export class PinCushion {
 	 */
 	static _addShowImageField(app, html, noteData) {
 		const showImageExplicitSource = stripQueryStringAndHashFromPath(
-			app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ??
-				noteData.document.texture.src
+			app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? ""
 		);
 		// const iconPinCushion = stripQueryStringAndHashFromPath(
 		//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? noteData.document.texture.src,
@@ -816,9 +827,11 @@ export class PinCushion {
 		html.find("button.file-picker-showImageExplicitSource").each(
 			(i, button) => (button.onclick = app._activateFilePicker.bind(app))
 		);
-		const iconCustomSelectorExplicit = html.find(`input[name='flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}']`);
-		if(iconCustomSelectorExplicit?.length > 0) {
-			iconCustomSelectorExplicit.on('change', function() {
+		const iconCustomSelectorExplicit = html.find(
+			`input[name='flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}']`
+		);
+		if (iconCustomSelectorExplicit?.length > 0) {
+			iconCustomSelectorExplicit.on("change", function () {
 				const p = iconCustomSelectorExplicit.parent().find(".pin-cushion-journal-icon");
 				p[0].src = this.value;
 			});

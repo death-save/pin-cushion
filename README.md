@@ -14,6 +14,8 @@
 
 ![GitHub all releases](https://img.shields.io/github/downloads/p4535992/foundryvtt-pin-cushion/total?style=for-the-badge)
 
+[![Translation status](https://weblate.foundryvtt-hub.com/widgets/pin-cushion/-/287x66-black.png)](https://weblate.foundryvtt-hub.com/engage/pin-cushion/)
+
 Adds additional functionality around Map Pins
 
 ![img](./wiki/img/example_1.gif)

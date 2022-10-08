@@ -1,5 +1,10 @@
 import CONSTANTS from "../constants.js";
-import { isPlacementVertical, is_real_number, retrieveFirstImageFromJournalId, retrieveFirstTextFromJournalId } from "../lib/lib.js";
+import {
+	isPlacementVertical,
+	is_real_number,
+	retrieveFirstImageFromJournalId,
+	retrieveFirstTextFromJournalId,
+} from "../lib/lib.js";
 import { PinCushion } from "./PinCushion.js";
 
 /**
@@ -46,11 +51,11 @@ export class PinCushionHUD extends BasePlaceableHUD {
 			entryId = entry.id;
 			entryIsOwner = entry.isOwner;
 			entryIcon = retrieveFirstImageFromJournalId(entryId);
-			if(!entryIcon && data.icon){
+			if (!entryIcon && data.icon) {
 				entryIcon = data.icon;
 			}
 			entryContent = retrieveFirstTextFromJournalId(entryId);
-			if(!entryContent && data.text){
+			if (!entryContent && data.text) {
 				entryContent = data.text;
 			}
 		}

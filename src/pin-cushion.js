@@ -4,7 +4,14 @@
 
 import API from "./scripts/api.js";
 import CONSTANTS from "./scripts/constants.js";
-import { log, debug, is_real_number, stripQueryStringAndHashFromPath, error, retrieveFirstImageFromJournalId } from "./scripts/lib/lib.js";
+import {
+	log,
+	debug,
+	is_real_number,
+	stripQueryStringAndHashFromPath,
+	error,
+	retrieveFirstImageFromJournalId,
+} from "./scripts/lib/lib.js";
 import { registerSettings } from "./scripts/settings.js";
 import { pinCushionSocket, registerSocket } from "./scripts/socket.js";
 import { PinCushionHUD } from "./scripts/apps/PinCushionHUD.js";

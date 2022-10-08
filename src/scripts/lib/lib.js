@@ -217,7 +217,7 @@ export function retrieveFirstImageFromJournalHtml(html) {
 export function retrieveFirstImageFromJournalId(id) {
 	const journalEntry = game.journal.get(id);
 	let firstImage = undefined;
-	if (!journalEntry){
+	if (!journalEntry) {
 		return firstImage;
 	}
 	// Support old data image
@@ -227,7 +227,7 @@ export function retrieveFirstImageFromJournalId(id) {
 	// Support new image type journal
 	if (journalEntry?.pages.size > 0) {
 		const sortedArray = journalEntry.pages.contents.sort((a, b) => a.sort - b.sort);
-		for(const journalEntry of sortedArray){
+		for (const journalEntry of sortedArray) {
 			if (journalEntry.type === "image" && journalEntry.src) {
 				firstImage = stripQueryStringAndHashFromPath(journalEntry.src);
 				break;
@@ -240,7 +240,7 @@ export function retrieveFirstImageFromJournalId(id) {
 export function retrieveFirstTextFromJournalId(id) {
 	const journalEntry = game.journal.get(id);
 	let firstText = undefined;
-	if (!journalEntry){
+	if (!journalEntry) {
 		return firstText;
 	}
 	// Support old data image
@@ -250,7 +250,7 @@ export function retrieveFirstTextFromJournalId(id) {
 	// Support new image type journal
 	if (journalEntry?.pages.size > 0) {
 		const sortedArray = journalEntry.pages.contents.sort((a, b) => a.sort - b.sort);
-		for(const journalEntry of sortedArray){
+		for (const journalEntry of sortedArray) {
 			if (journalEntry.type === "text" && journalEntry.text?.content) {
 				firstText = journalEntry.text?.content;
 				break;
