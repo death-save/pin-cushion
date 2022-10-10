@@ -93,10 +93,19 @@
 			"lang": "ja",
 			"name": "日本語",
 			"path": "languages/ja.json"
+		},
+		{
+			"lang": "de",
+			"name": "Deutsch",
+			"path": "languages/de.json"
 		}
 	],
-	"scripts": ["scripts/lib/jquery.powertip.js"],
-	"esmodules": ["pin-cushion.js"],
+	"scripts": [
+		"scripts/lib/jquery.powertip.js"
+	],
+	"esmodules": [
+		"pin-cushion.js"
+	],
 	"styles": [
 		"styles/pin-cushion.css",
 		"styles/jquery.powertip.css",
