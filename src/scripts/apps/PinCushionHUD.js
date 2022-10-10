@@ -49,7 +49,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
 		if (entry) {
 			entryName = entry.name;
 			entryId = entry.id;
-			entryIsOwner = entry.isOwner;
+			entryIsOwner = entry.isOwner ?? true;
 			entryIcon = retrieveFirstImageFromJournalId(entryId);
 			if (!entryIcon && data.icon) {
 				entryIcon = data.icon;
@@ -76,7 +76,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
 				content = TextEditor.enrichHTML(`<img class='image' src='${imgToShow}' alt=''></img>`, {
 					secrets: entryIsOwner,
 					documents: true,
-					async: false
+					async: false,
 				});
 			} else {
 				content = TextEditor.enrichHTML(
@@ -84,7 +84,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
 					{
 						secrets: entryIsOwner,
 						documents: true,
-						async: false
+						async: false,
 					}
 				);
 			}
@@ -95,10 +95,10 @@ export class PinCushionHUD extends BasePlaceableHUD {
 			);
 			const firstContent = entryContent;
 			if (!previewTypeAdText) {
-				content = TextEditor.enrichHTML(firstContent, { 
-					secrets: entry.isOwner, 
+				content = TextEditor.enrichHTML(firstContent, {
+					secrets: entryIsOwner,
 					documents: true,
-					async: false
+					async: false,
 				});
 			} else {
 				const previewMaxLength = game.settings.get(PinCushion.MODULE_NAME, "previewMaxLength");

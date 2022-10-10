@@ -2,7 +2,7 @@
 	"id": "pin-cushion",
 	"title": "Pin Cushion",
 	"description": "Adds additional map pin (Journal Note/Scene Note) functionality",
-	"version": "1.8.4",
+	"version": "1.8.5",
 	"authors": [
 		{
 			"name": "Cole Schultz",
@@ -100,12 +100,8 @@
 			"path": "languages/de.json"
 		}
 	],
-	"scripts": [
-		"scripts/lib/jquery.powertip.js"
-	],
-	"esmodules": [
-		"pin-cushion.js"
-	],
+	"scripts": ["scripts/lib/jquery.powertip.js"],
+	"esmodules": ["pin-cushion.js"],
 	"styles": [
 		"styles/pin-cushion.css",
 		"styles/jquery.powertip.css",
@@ -127,8 +123,8 @@
 	"url": "https://github.com/p4535992/foundryvtt-pin-cushion",
 	"manifest": "https://github.com/p4535992/foundryvtt-pin-cushion/releases/latest/download/module.json",
 	"download": "https://github.com/p4535992/foundryvtt-pin-cushion/releases/latest/download/module.zip",
-	"readme": "https://github.com/p4535992/foundryvtt-pin-cushion/blob/v1.8.4/README.md",
-	"changelog": "https://github.com/p4535992/foundryvtt-pin-cushion/blob/v1.8.4/changelog.md",
+	"readme": "https://github.com/p4535992/foundryvtt-pin-cushion/blob/v1.8.5/README.md",
+	"changelog": "https://github.com/p4535992/foundryvtt-pin-cushion/blob/v1.8.5/changelog.md",
 	"bugs": "https://github.com/p4535992/foundryvtt-pin-cushion/issues",
 	"allowBugReporter": true,
 	"manifestPlusVersion": "1.2.0",
