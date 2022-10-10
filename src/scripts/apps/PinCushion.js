@@ -464,7 +464,8 @@ export class PinCushion {
 							.parent()
 							.prepend(`<img class="pin-cushion-journal-icon" src="${valueIconSelector}" />`);
 					} else {
-						iconCustomSelector.prop("disabled", true);
+						// https://gitlab.com/tiwato/journal_icon_numbers/-/issues/33
+						iconCustomSelector.prop("disabled", false);
 						iconCustomSelector
 							.parent()
 							.prepend(`<img class="pin-cushion-journal-icon" src="${currentIconSelector}" />`);
@@ -1303,7 +1304,8 @@ export class PinCushion {
 		// Text is created bevor this point. So we can modify it here.
 		let ratio = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO);
 		if (ratio) {
-			text.x = (this.size * (ratio - 1)) / 2; // correct shifting for the new scale.
+			// TODO
+			// text.x = (this.size * (ratio - 1)) / 2; // correct shifting for the new scale.
 		}
 		// Bug fixing :Always (when hover) show name of pin up (above) to others pin
 		// https://stackoverflow.com/questions/24909371/move-item-in-array-to-last-position
@@ -1466,7 +1468,8 @@ export class PinCushion {
 		}
 		if (noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO) > 1) {
 			if (noteInternal.document) {
-				icon.texture.scaleX = noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO);
+				// TODO
+				// icon.texture.scaleX = noteInternal.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO);
 			}
 			// else{
 			//   icon.texture.scaleX = noteInternal.getFlag(PinCushion.MODULE_NAME,  PinCushion.FLAGS.RATIO); // compatibility 0.8.9
