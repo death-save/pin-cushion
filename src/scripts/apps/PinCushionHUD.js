@@ -44,7 +44,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
 		let entryName = data.text;
 		let entryIsOwner = true;
 		let entryId = undefined;
-		let entryIcon = data.icon;
+		let entryIcon = data.texture?.src;
 		let entryContent = data.text;
 		if (entry) {
 			entryName = entry.name;
@@ -197,7 +197,8 @@ export class PinCushionHUD extends BasePlaceableHUD {
 		//     ? this.object.document.flags[PinCushion.MODULE_NAME].ratio
 		//     : 1) || 1;
 
-		const ratio = 1;
+		// const ratio = 1;
+		const ratio = getProperty(this.object.document.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.RATIO) ?? 1;
 		const viewWidth = visualViewport.width;
 
 		// const height = this.object.controlIcon.texture?.height
@@ -211,9 +212,12 @@ export class PinCushionHUD extends BasePlaceableHUD {
     const top = y - height / 2;
     */
 
-		const width = this.object.controlIcon.width * ratio;
+		const width = this.object.controlIcon.width; //  * ratio;
 		const height = this.object.controlIcon.height;
-		const left = x - width / 2;
+		let left = x - width / 2;
+		if (ratio > 1) {
+			left = x - ((width / 2) * ratio); // correct shifting for the new scale.
+		}
 		const top = y - height / 2;
 
 		const position = {
@@ -285,7 +289,8 @@ export class PinCushionHUD extends BasePlaceableHUD {
 		//     ? this.object.document.flags[PinCushion.MODULE_NAME].ratio
 		//     : 1) || 1;
 
-		const ratio = 1;
+		// const ratio = 1;
+		const ratio = getProperty(this.object.document.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.RATIO) ?? 1;
 		const viewWidth = visualViewport.width;
 
 		// const height = this.object.controlIcon.texture?.height
@@ -299,9 +304,12 @@ export class PinCushionHUD extends BasePlaceableHUD {
     const top = y - height / 2;
     */
 
-		const width = this.object.controlIcon.width * ratio;
+		const width = this.object.controlIcon.width ; // * ratio;
 		const height = this.object.controlIcon.height;
-		const left = x - width / 2;
+		let left = x - width / 2;
+		if (ratio > 1) {
+			left = x - ((width / 2) * ratio); // correct shifting for the new scale.
+		}
 		const top = y - height / 2;
 
 		// const orientation =
