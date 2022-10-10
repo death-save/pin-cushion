@@ -76,6 +76,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
 				content = TextEditor.enrichHTML(`<img class='image' src='${imgToShow}' alt=''></img>`, {
 					secrets: entryIsOwner,
 					documents: true,
+					async: false
 				});
 			} else {
 				content = TextEditor.enrichHTML(
@@ -83,6 +84,7 @@ export class PinCushionHUD extends BasePlaceableHUD {
 					{
 						secrets: entryIsOwner,
 						documents: true,
+						async: false
 					}
 				);
 			}
@@ -93,7 +95,11 @@ export class PinCushionHUD extends BasePlaceableHUD {
 			);
 			const firstContent = entryContent;
 			if (!previewTypeAdText) {
-				content = TextEditor.enrichHTML(firstContent, { secrets: entry.isOwner, documents: true });
+				content = TextEditor.enrichHTML(firstContent, { 
+					secrets: entry.isOwner, 
+					documents: true,
+					async: false
+				});
 			} else {
 				const previewMaxLength = game.settings.get(PinCushion.MODULE_NAME, "previewMaxLength");
 				const textContent = $(firstContent).text();
