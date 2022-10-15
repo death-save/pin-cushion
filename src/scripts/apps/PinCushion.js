@@ -1379,7 +1379,10 @@ export class PinCushion {
 		if (revealedNotes) {
 			if (game.user.isGM) {
 				// Replacement for Note#_drawControlIcon for GMs, to show which pins are revealed.
-				const is_revealed = noteInternal.document.getFlag(PinCushion.MODULE_NAME, PIN_IS_REVEALED);
+				const is_revealed = noteInternal.document.getFlag(
+					PinCushion.MODULE_NAME,
+					PinCushion.FLAGS.PIN_IS_REVEALED
+				);
 				if (is_revealed != undefined) {
 					const colour = game.settings.get(
 						PinCushion.MODULE_NAME,
