@@ -1,8 +1,8 @@
 {
 	"pin-cushion": {
 		"ShowImage": "Zeige in der Vorschau Text anstatt eines verknüpften Bildes?",
-		"SETTINGS.EnableBackgroundlessPinsH": "Ist diese Einstellung aktiviert, erscheint ein Optionsfeld in den Einstellungen der Notizbuchverknüpfung mit dem Namen \"Mit Hintergrund?\", um den Hintergrund einer Verknüpfung ein oder aus zu schalten. WARNUNG: Wenn Du diese Einstellung deaktivierst, setzen sich die Hintergründe all Deiner Notizbuch Einträge zurück, die Merker bleiben jedoch weiterhin erhalten. Dies ermöglicht, eine erneute Aktivierung der Funktion, ohne dass Einträge erneut mit der Option ausgestattet werden müssen.",
-		"SETTINGS.noteGMH": "Ermöglicht das Erstellen geheimer Notiz Kurzinformationen die nur der SL einsehen kann, nicht aber die Spieler.",
+		"SETTINGS.EnableBackgroundlessPinsH": "Ist diese Einstellung aktiviert, erscheint ein Optionsfeld in den Einstellungen der Notizbuchverknüpfung mit dem Namen \"Mit Hintergrund?\", um den Hintergrund einer Verknüpfung ein- oder auszuschalten. WARNUNG: Wenn Du diese Einstellung deaktivierst, setzen sich die Hintergründe all Deiner Notizbuch Einträge zurück, die Merker bleiben jedoch weiterhin erhalten. Dies ermöglicht, eine erneute Aktivierung der Funktion, ohne dass Einträge erneut mit der Option ausgestattet werden müssen.",
+		"SETTINGS.noteGMH": "Ermöglicht das Erstellen geheimer Notiz-Kurzinformationen die nur der SL einsehen kann, nicht aber die Spieler.",
 		"SETTINGS.revealedNotesH": "Ist diese Option aktiviert, wird der \"enthüllt\" Status einer Notizbuchverknüpfung genutzt um festzustellen, ob diese für Spieler sichtbar ist. (Das normale Verhalten von \"Foundry VTT\" ist, dass Notizbuchverknüpfungen nur sichtbar sind, wenn diese für Spieler zugänglich sind.)",
 		"SETTINGS.revealedNotesTintColorH": "Diese Option ermöglicht das Definieren von Einfärbungen der gesetzten Notizbuchverknüpfungen abhängig davon, ob die Verknüpften Notizbucheinträge verfügbar sind oder nicht (ist eine Notizbuchverknüpfung nicht an einen Notizbucheintrag gebunden, zeigt sie immer die \"nicht verfügbar\" Färbung an).",
 		"SETTINGS.revealedNotesTintColorRevealedN": "[Only if setting 'Enable revealed state on scene Notes.' is enabled] \"Enthüllt\" Symbol Färbung",
@@ -19,7 +19,7 @@
 		"SETTINGS.oneClickNoteCreationH": "DIESE FUNKTION IST IN \"FOUNDRY VTT\" V10 NICHT MEHR NOTWENDIG, DA ES NUN TEIL DES KERNPROGRAMMS IST. Erstelle Notizen direkt auf der Notiz-ebene mit einem einfachen Linksklick, ohne einen Verknüpften Notizbuch Eintrag.",
 		"Tooltip.ForceRemove.title": "Erzwinge das Ausblenden der Vorschau, wenn der Mauszeiger nicht mehr die über der Notizbuchverknüpfung schwebt.",
 		"SETTINGS.AboutAppN": "Über \"Pin Cushion\"",
-		"SETTINGS.PreviewMaxLengthN": "Maximale Vorschau Länge",
+		"SETTINGS.PreviewMaxLengthN": "Maximale Vorschaulänge",
 		"SETTINGS.PreviewDelayH": "Zeitverzögerung bis die Vorschau erscheint (in Millisekunden)",
 		"SETTINGS.DefaultJournalPermissionN": "Notizbuch Standardberechtigung",
 		"SETTINGS.DefaultJournalFolderN": "Notizbuch Standardordner",
@@ -31,7 +31,7 @@
 		"SETTINGS.ShowJournalPreviewH": "Zeigt eine Vorschau beim Überfliegen einer Notizbuchverknüpfung an",
 		"SETTINGS.PreviewTypeH": "Die Art der Notizbuchvorschau (HTML oder Textschnipsel)",
 		"SETTINGS.PreviewDelayN": "Vorschauverzögerung",
-		"SETTINGS.DefaultJournalFolderH": "Der Standardordner in dem Notizbuch Einträge nach einem Doppelklick zum Erstellen von Notizbuchverknüpfungen abgelegt werden",
+		"SETTINGS.DefaultJournalFolderH": "Der Standardordner in dem Notizbucheinträge, nach einem Doppelklick zum Erstellen von Notizbuchverknüpfungen, abgelegt werden",
 		"SETTINGS.ShowJournalImageByDefaultN": "Zeige das Miniaturbild des Notizbucheintrags automatisch auf der Notizbuchverknüpfung.",
 		"SETTINGS.ShowJournalImageByDefaultH": "Wird ein Bild in einem Notizbucheintrag genutzt, verwendet \"Pin Cushion\" dies für die Vorschau",
 		"SETTINGS.PlayerIconAutoOverrideH": "Neu erstellte Notizbuchverknüpfungen nutzen standardmäßig Spieler spezifischen Symbole.",
@@ -96,7 +96,7 @@
 		"ExistingFolders": "Vorhandene Ordner",
 		"DefaultPermission": "Standard Berechtigungen (für alle Spieler):",
 		"CreateMissingFoldersT": "Erstelle fehlende Ordner",
-		"UsePlayerIcon": "Nutze ein Spieler spezifisches Symbol",
+		"UsePlayerIcon": "Nutze ein spielerspezifisches Symbol",
 		"PlayerIconHint": "Aktiviere dies um das Symbol, das Spieler sehen, zu überschreiben.",
 		"PlayerIconPath": "Spieler Symbol Pfad",
 		"AllowPlayerNotes": "Spieler benötigen ebenfalls die Foundry Kern Erlaubnis \"{permission}\" um Notizbuchverknüpfungen zu erstellen.",
@@ -106,7 +106,7 @@
 		"TextAlwaysVisible": "Text immer sichtbar?",
 		"ShowImageExplicitSource": "Wähle ein Bild, dass für die Vorschau genutzt werden soll",
 		"RevealedToPlayer": "Für Spieler \"enthüllt\"",
-		"UseRevealState": "Nutze \"enthüllt\" Satus",
+		"UseRevealState": "Nutze \"enthüllt\" Status",
 		"HideLabel": "Verstecke Beschreibung",
 		"DoNotShowJournalPreview": "Zeige keine Notizbuch Vorschau",
 		"PreviewAsTextSnippet": "Zeige die Vorschau als Textschnipsel",
@@ -117,7 +117,7 @@
 		"ShowOnlyToGM": "Zeige nur dem SL?",
 		"SETTINGS.AboutAppH": "Zeigt zusätzliche Informationen über \"Pin Cushion\" an",
 		"SETTINGS.PreviewMaxLengthH": "**NUR TEXTVORSCHAU** Wie viele Buchstaben soll die Textvorschau anzeigen?",
-		"SETTINGS.DefaultJournalPermissionH": "Die Standardberechtigung mit der ein Notizbuch Eintrag erstellt wird",
+		"SETTINGS.DefaultJournalPermissionH": "Die Standardberechtigung mit der ein Notizbucheintrag erstellt wird",
 		"CreateMissingFoldersC": "<b>Erstelle einen Notizbucheintrag für jeden Spieler?</b> <br>Dies stellt sicher, dass jeder Spieler einen eigenen Order besitzt um darin Einträge zu erstellen."
 	}
 }
