@@ -87,7 +87,7 @@ This module uses the [libWrapper](https://github.com/ruipin/fvtt-lib-wrapper) li
 
 - **Use mouse position for show the tooltip**: When you hover a note on the canvas the tooltip is build based on the current mouse position instead the journal icon position. This solution seem to be more dynamic.
 
-- **One click note creation**: Create Notes directly on the Notes Layer with a simple left click without having a connected journal entry.
+- **One click note creation**: THIS FEATURE IS NOT REQUIRED FOR FOUNDRY V10 SINCE IT IS NOW PART OF THE CORE FUNCTIONALITY. Create Notes directly on the Notes Layer with a simple left click without having a connected journal entry.
 
 ## Features
 
