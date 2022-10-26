@@ -204,17 +204,7 @@ export function isAlt() {
 	return game.keyboard?.downKeys.size === 1 && game.keyboard.downKeys.intersects(alts);
 }
 
-export function retrieveFirstImageFromJournalHtml(html) {
-	const lis = html.find("li.journalentry");
-	for (const li of lis) {
-		const target = $(li);
-		const id = target.data("document-id");
-		return retrieveFirstImageFromJournalId(id);
-	}
-	return undefined;
-}
-
-export function retrieveFirstImageFromJournalId(id) {
+export function retrieveFirstImageFromJournalId(id, pageId, noDefault) {
 	const journalEntry = game.journal.get(id);
 	let firstImage = undefined;
 	if (!journalEntry) {
@@ -227,17 +217,28 @@ export function retrieveFirstImageFromJournalId(id) {
 	// Support new image type journal
 	if (journalEntry?.pages.size > 0) {
 		const sortedArray = journalEntry.pages.contents.sort((a, b) => a.sort - b.sort);
-		for (const journalEntry of sortedArray) {
-			if (journalEntry.type === "image" && journalEntry.src) {
-				firstImage = stripQueryStringAndHashFromPath(journalEntry.src);
-				break;
+		if (pageId) {
+			const pageSelected = sortedArray.find((page) => page.id === pageId);
+			if (pageSelected) {
+				if (pageSelected.type === "image" && pageSelected.src) {
+					firstImage = stripQueryStringAndHashFromPath(pageSelected.src);
+				}
+			}
+		}
+		// const shouldCheckForDefault = !noDefault && pageId?.length > 0;
+		if (!noDefault && !firstImage) {
+			for (const pageEntry of sortedArray) {
+				if (pageEntry.type === "image" && pageEntry.src) {
+					firstImage = stripQueryStringAndHashFromPath(pageEntry.src);
+					break;
+				}
 			}
 		}
 	}
 	return firstImage;
 }
 
-export function retrieveFirstTextFromJournalId(id) {
+export function retrieveFirstTextFromJournalId(id, pageId, noDefault) {
 	const journalEntry = game.journal.get(id);
 	let firstText = undefined;
 	if (!journalEntry) {
@@ -250,10 +251,21 @@ export function retrieveFirstTextFromJournalId(id) {
 	// Support new image type journal
 	if (journalEntry?.pages.size > 0) {
 		const sortedArray = journalEntry.pages.contents.sort((a, b) => a.sort - b.sort);
-		for (const journalEntry of sortedArray) {
-			if (journalEntry.type === "text" && journalEntry.text?.content) {
-				firstText = journalEntry.text?.content;
-				break;
+		if (pageId) {
+			const pageSelected = sortedArray.find((page) => page.id === pageId);
+			if (pageSelected) {
+				if (pageSelected.type === "text" && pageSelected.text?.content) {
+					firstText = pageSelected.text?.content;
+				}
+			}
+		}
+		// const shouldCheckForDefault = !noDefault && pageId?.length > 0;
+		if (!noDefault && !firstText) {
+			for (const journalEntry of sortedArray) {
+				if (journalEntry.type === "text" && journalEntry.text?.content) {
+					firstText = journalEntry.text?.content;
+					break;
+				}
 			}
 		}
 	}

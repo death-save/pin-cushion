@@ -149,25 +149,29 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	) {
 		// Journal id
 		const journal = game.journal.get(noteData.document.entryId);
-		const journalEntryImage = retrieveFirstImageFromJournalId(journal.id);
+		const journalEntryImage = retrieveFirstImageFromJournalId(journal.id, app.object.pageId, true);
 		if (journalEntryImage) {
 			setProperty(noteData.document.texture, "src", stripQueryStringAndHashFromPath(journalEntryImage));
 		}
 	}
-	let tmp = stripQueryStringAndHashFromPath(app.object.texture.src ?? noteData.document.texture.src);
+	let tmp = stripQueryStringAndHashFromPath(
+		noteData.icon.custom ?? app.object.texture.src ?? noteData.document.texture.src
+	);
 	// TODO find a better method
-	if (app.object.texture.src === "icons/svg/book.svg" && noteData.document.texture.src) {
+	if (tmp === "icons/svg/book.svg" && noteData.icon.custom) {
+		tmp = stripQueryStringAndHashFromPath(noteData.icon.custom);
+	}
+	if (tmp === "icons/svg/book.svg" && noteData.document.texture.src) {
 		tmp = stripQueryStringAndHashFromPath(noteData.document.texture.src);
 	}
-	if (app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)) {
-		setProperty(
-			noteData.document.texture,
-			"src",
-			stripQueryStringAndHashFromPath(app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON))
-		);
-		tmp = stripQueryStringAndHashFromPath(
-			app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON)
-		);
+	const pinCushionIcon = getProperty(app.object.flags, `${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.CUSHION_ICON}`);
+	if (pinCushionIcon) {
+		// setProperty(
+		// 	noteData.document.texture,
+		// 	"src",
+		// 	stripQueryStringAndHashFromPath(pinCushionIcon)
+		// );
+		tmp = stripQueryStringAndHashFromPath(pinCushionIcon);
 	}
 	PinCushion._replaceIconSelector(app, html, noteData, tmp);
 	//Causes a bug when attempting to place an journal entry onto the canvas in Foundry 9.

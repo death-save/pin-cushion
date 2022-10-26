@@ -1,6 +1,10 @@
 # Changelog
 
-### 1.8.8
+### 1.8.11
+
+- Integration with the page system
+
+### 1.8.8-9-10
 
 - Bug fix: [[BUG] Enable revealed state on scene notes fails canvas drawing](https://github.com/p4535992/foundryvtt-pin-cushion/issues/37)
 

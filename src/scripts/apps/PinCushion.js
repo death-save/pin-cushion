@@ -391,7 +391,7 @@ export class PinCushion {
 		// const currentIconSelector = stripQueryStringAndHashFromPath(
 		// 	explicitImageValue ? explicitImageValue : noteData.document.texture.src
 		// );
-		const currentIconSelector = stripQueryStringAndHashFromPath(noteData.document.texture.src);
+		const currentIconSelector = stripQueryStringAndHashFromPath(explicitImageValue);
 
 		// you can see this only if you have the file browser permissions
 		const hasPermissionsToUploadFile = game.user.can("FILES_BROWSE");
@@ -476,7 +476,56 @@ export class PinCushion {
 						.prepend(`<img class="pin-cushion-journal-icon" src="${currentIconSelector}" />`);
 				}
 			}
+			// TODO BETTER MANAGEMENT
+			const currentpageSelector = "";
+			const pageCustomSelector = html.find("select[name='pageId']");
+			// Journal Id
+			const valuejournalSelector = html.find("select[name='entryId']")?.val();
+			if (pageCustomSelector && valuejournalSelector) {
+				const pageSelector = html.find("select[name='pageId']");
+
+				if (pageSelector?.length > 0) {
+					pageSelector.on("change", function () {
+						const p = pageCustomSelector.parent().find(".pin-cushion-page-icon");
+
+						// Pageid
+						const valuepageSelector = html.find("select[name='pageId']")?.val();
+						if (valuepageSelector) {
+							const pageiimage = retrieveFirstImageFromJournalId(
+								valuejournalSelector,
+								valuepageSelector,
+								true
+							);
+							if (pageiimage) {
+								p[0].src = pageiimage;
+							} else {
+								p[0].src = currentpageSelector;
+							}
+						} else {
+							p[0].src = currentpageSelector;
+						}
+					});
+					const valuepageSelector = html.find("select[name='pageId']")?.val();
+					const pageiimage = retrieveFirstImageFromJournalId(valuejournalSelector, valuepageSelector, true);
+					if (pageiimage) {
+						pageCustomSelector
+							.parent()
+							.prepend(`<img class="pin-cushion-page-icon" src="${pageiimage}" />`);
+					} else {
+						// https://gitlab.com/tiwato/journal_icon_numbers/-/issues/33
+						// pageCustomSelector.prop("disabled", false);
+						pageCustomSelector
+							.parent()
+							.prepend(`<img class="pin-cushion-page-icon" src="${currentpageSelector}" />`);
+					}
+				} else {
+					pageCustomSelector
+						.parent()
+						.prepend(`<img class="pin-cushion-page-icon" src="${currentpageSelector}" />`);
+				}
+			}
 		}
+
 		// TODO add image to default options ?
 		// const iconSelector = html.find("select[name='icon.selected']");
 		// if(iconSelector?.length > 0) {
@@ -782,7 +831,7 @@ export class PinCushion {
               for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
               >${i18n("pin-cushion.ShowImageExplicitSource")}</label>
             <div class="form-fields">
-              <img class="pin-cushion-journal-icon" src="${showImageExplicitSource}" />
+              <img class="pin-cushion-explicit-icon" src="${showImageExplicitSource}" />
               <input
                 type="text"
                 name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
@@ -833,7 +882,7 @@ export class PinCushion {
 		);
 		if (iconCustomSelectorExplicit?.length > 0) {
 			iconCustomSelectorExplicit.on("change", function () {
-				const p = iconCustomSelectorExplicit.parent().find(".pin-cushion-journal-icon");
+				const p = iconCustomSelectorExplicit.parent().find(".pin-cushion-explicit-icon");
 				p[0].src = this.value;
 			});
 		}
@@ -1611,7 +1660,7 @@ export class PinCushion {
 				// const journalEntryImage = stripQueryStringAndHashFromPath(j.data.img);
 				// 	htmlEntry.prepend(`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${journalEntryImage}" title="${j.name}"
 				//   alt='Journal Entry Thumbnail'>`);
-				const journalEntryImage = retrieveFirstImageFromJournalId(j.id);
+				const journalEntryImage = retrieveFirstImageFromJournalId(j.id, undefined, false);
 				if (!journalEntryImage) {
 					return;
 				}

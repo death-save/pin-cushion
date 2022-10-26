@@ -50,11 +50,11 @@ export class PinCushionHUD extends BasePlaceableHUD {
 			entryName = entry.name;
 			entryId = entry.id;
 			entryIsOwner = entry.isOwner ?? true;
-			entryIcon = retrieveFirstImageFromJournalId(entryId);
+			entryIcon = retrieveFirstImageFromJournalId(entryId, this.object.page?.id, false);
 			if (!entryIcon && data.icon) {
 				entryIcon = data.icon;
 			}
-			entryContent = retrieveFirstTextFromJournalId(entryId);
+			entryContent = retrieveFirstTextFromJournalId(entryId, this.object.page?.id, false);
 			if (!entryContent && data.text) {
 				entryContent = data.text;
 			}
@@ -69,8 +69,6 @@ export class PinCushionHUD extends BasePlaceableHUD {
 
 		let content;
 		if (showImage) {
-			// const journalEntryImage = retrieveFirstImageFromJournalId(entryId);
-			//const imgToShow = showImageExplicitSource ? showImageExplicitSource : journalEntryImage;
 			const imgToShow = showImageExplicitSource ? showImageExplicitSource : entryIcon;
 			if (imgToShow && imgToShow.length > 0) {
 				content = TextEditor.enrichHTML(`<img class='image' src='${imgToShow}' alt=''></img>`, {

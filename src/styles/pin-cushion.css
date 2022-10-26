@@ -102,6 +102,8 @@
 	align-items: center;
 }
 
+.pin-cushion-explicit-icon,
+.pin-cushion-page-icon,
 .pin-cushion-journal-icon {
 	object-fit: initial;
 	height: 50px;
