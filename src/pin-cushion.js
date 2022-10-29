@@ -149,7 +149,7 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	) {
 		// Journal id
 		const journal = game.journal.get(noteData.document.entryId);
-		const journalEntryImage = retrieveFirstImageFromJournalId(journal.id, app.object.pageId, true);
+		const journalEntryImage = retrieveFirstImageFromJournalId(journal.id, app.object.pageId, false);
 		if (journalEntryImage) {
 			setProperty(noteData.document.texture, "src", stripQueryStringAndHashFromPath(journalEntryImage));
 		}

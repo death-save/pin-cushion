@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.8.11
+### 1.8.11-12
 
 - Integration with the page system
 
