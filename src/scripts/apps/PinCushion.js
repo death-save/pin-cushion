@@ -448,6 +448,10 @@ export class PinCushion {
 				// 	//html.find("button.file-picker").on("click", app._activateFilePicker.bind(app));
 				// 	html.find("button.file-picker").each((i, button) => (button.onclick = app._activateFilePicker.bind(app)));
 				const iconSelector = html.find("select[name='icon.selected']");
+				// Need this...
+				if (iconSelector?.val() === "icons/svg/book.svg" && currentIconSelector) {
+					iconSelector?.val("");
+				}
 				if (iconSelector?.length > 0) {
 					iconSelector.on("change", function () {
 						const p = iconCustomSelector.parent().find(".pin-cushion-journal-icon");
