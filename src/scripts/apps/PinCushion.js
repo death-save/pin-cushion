@@ -450,7 +450,7 @@ export class PinCushion {
 				const iconSelector = html.find("select[name='icon.selected']");
 				// Need this...
 				if (iconSelector?.val() === "icons/svg/book.svg" && currentIconSelector) {
-					iconSelector?.val("");
+					iconSelector?.val("").change();
 				}
 				if (iconSelector?.length > 0) {
 					iconSelector.on("change", function () {
