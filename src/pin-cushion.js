@@ -154,9 +154,14 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 			setProperty(noteData.document.texture, "src", stripQueryStringAndHashFromPath(journalEntryImage));
 		}
 	}
-	let tmp = stripQueryStringAndHashFromPath(
-		noteData.icon.custom ?? app.object.texture.src ?? noteData.document.texture.src
-	);
+	let tmp = undefined;
+	if (noteData.icon.custom) {
+		tmp = stripQueryStringAndHashFromPath(noteData.icon.custom);
+	} else if (app.object.texture.src) {
+		tmp = stripQueryStringAndHashFromPath(app.object.texture.src);
+	} else if (noteData.document.texture.src) {
+		tmp = stripQueryStringAndHashFromPath(noteData.document.texture.src);
+	}
 	// TODO find a better method
 	if (tmp === "icons/svg/book.svg" && noteData.icon.custom) {
 		tmp = stripQueryStringAndHashFromPath(noteData.icon.custom);
