@@ -435,11 +435,13 @@ export class PinCushion {
 			if (iconCustomSelector?.length > 0) {
 				iconCustomSelector.on("change", function () {
 					const p = iconCustomSelector.parent().find(".pin-cushion-journal-icon");
-					const valueIconSelector = html.find("select[name='icon.selected']")?.val();
-					if (valueIconSelector) {
-						p[0].src = valueIconSelector;
-					} else {
-						p[0].src = this.value;
+					if(p && p.length > 0){
+						const valueIconSelector = html.find("select[name='icon.selected']")?.val();
+						if (valueIconSelector) {
+							p[0].src = valueIconSelector;
+						} else {
+							p[0].src = this.value;
+						}
 					}
 				});
 				// iconCustomSelector.val(currentIconSelector).change();
@@ -463,11 +465,13 @@ export class PinCushion {
 				if (iconSelector?.length > 0) {
 					iconSelector.on("change", function () {
 						const p = iconCustomSelector.parent().find(".pin-cushion-journal-icon");
-						const valueIconSelector = html.find("select[name='icon.selected']")?.val();
-						if (valueIconSelector) {
-							p[0].src = valueIconSelector;
-						} else {
-							p[0].src = currentIconSelector;
+						if(p && p.length > 0){
+							const valueIconSelector = html.find("select[name='icon.selected']")?.val();
+							if (valueIconSelector) {
+								p[0].src = valueIconSelector;
+							} else {
+								p[0].src = currentIconSelector;
+							}
 						}
 					});
 					iconSelector.val().change();
@@ -500,22 +504,23 @@ export class PinCushion {
 				if (pageSelector?.length > 0) {
 					pageSelector.on("change", function () {
 						const p = pageCustomSelector.parent().find(".pin-cushion-page-icon");
-
-						// Pageid
-						const valuepageSelector = html.find("select[name='pageId']")?.val();
-						if (valuepageSelector) {
-							const pageiimage = retrieveFirstImageFromJournalId(
-								valuejournalSelector,
-								valuepageSelector,
-								true
-							);
-							if (pageiimage) {
-								p[0].src = pageiimage;
+						if(p && p.length > 0){
+							// Pageid
+							const valuepageSelector = html.find("select[name='pageId']")?.val();
+							if (valuepageSelector) {
+								const pageiimage = retrieveFirstImageFromJournalId(
+									valuejournalSelector,
+									valuepageSelector,
+									true
+								);
+								if (pageiimage) {
+									p[0].src = pageiimage;
+								} else {
+									p[0].src = currentpageSelector;
+								}
 							} else {
 								p[0].src = currentpageSelector;
 							}
-						} else {
-							p[0].src = currentpageSelector;
 						}
 					});
 					const valuepageSelector = html.find("select[name='pageId']")?.val();
@@ -896,7 +901,9 @@ export class PinCushion {
 		if (iconCustomSelectorExplicit?.length > 0) {
 			iconCustomSelectorExplicit.on("change", function () {
 				const p = iconCustomSelectorExplicit.parent().find(".pin-cushion-explicit-icon");
-				p[0].src = this.value;
+				if(p && p.length > 0){
+					p[0].src = this.value;
+				}
 			});
 		}
 	}
