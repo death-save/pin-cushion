@@ -222,6 +222,10 @@ export function retrieveFirstImageFromJournalId(id, pageId, noDefault) {
 			if (pageSelected) {
 				if (pageSelected.type === "image" && pageSelected.src) {
 					firstImage = stripQueryStringAndHashFromPath(pageSelected.src);
+				} 
+				// this should manage all MJE type
+				else if(pageSelected.src) {
+					firstImage = stripQueryStringAndHashFromPath(pageSelected.src);
 				}
 			}
 		}
@@ -229,6 +233,11 @@ export function retrieveFirstImageFromJournalId(id, pageId, noDefault) {
 		if (!noDefault && !firstImage) {
 			for (const pageEntry of sortedArray) {
 				if (pageEntry.type === "image" && pageEntry.src) {
+					firstImage = stripQueryStringAndHashFromPath(pageEntry.src);
+					break;
+				}
+				// this should manage all MJE type
+				else if(pageEntry.src) {
 					firstImage = stripQueryStringAndHashFromPath(pageEntry.src);
 					break;
 				}
@@ -257,12 +266,21 @@ export function retrieveFirstTextFromJournalId(id, pageId, noDefault) {
 				if (pageSelected.type === "text" && pageSelected.text?.content) {
 					firstText = pageSelected.text?.content;
 				}
+				// this should manage all MJE type
+				else if(pageSelected.text?.content) {
+					firstText = pageSelected.text?.content;
+				}
 			}
 		}
 		// const shouldCheckForDefault = !noDefault && pageId?.length > 0;
 		if (!noDefault && !firstText) {
 			for (const journalEntry of sortedArray) {
 				if (journalEntry.type === "text" && journalEntry.text?.content) {
+					firstText = journalEntry.text?.content;
+					break;
+				}
+				// this should manage all MJE type
+				else if(journalEntry.text?.content) {
 					firstText = journalEntry.text?.content;
 					break;
 				}

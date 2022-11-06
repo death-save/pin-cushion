@@ -1,6 +1,10 @@
 # Changelog
 
-### 1.8.11-12-13
+### 1.8.16
+
+- Better integration with MJE
+
+### 1.8.11-12-13-14-15
 
 - Integration with the page system
 
