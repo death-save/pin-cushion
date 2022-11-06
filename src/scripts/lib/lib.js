@@ -222,9 +222,9 @@ export function retrieveFirstImageFromJournalId(id, pageId, noDefault) {
 			if (pageSelected) {
 				if (pageSelected.type === "image" && pageSelected.src) {
 					firstImage = stripQueryStringAndHashFromPath(pageSelected.src);
-				} 
+				}
 				// this should manage all MJE type
-				else if(pageSelected.src) {
+				else if (pageSelected.src) {
 					firstImage = stripQueryStringAndHashFromPath(pageSelected.src);
 				}
 			}
@@ -237,7 +237,7 @@ export function retrieveFirstImageFromJournalId(id, pageId, noDefault) {
 					break;
 				}
 				// this should manage all MJE type
-				else if(pageEntry.src) {
+				else if (pageEntry.src) {
 					firstImage = stripQueryStringAndHashFromPath(pageEntry.src);
 					break;
 				}
@@ -267,7 +267,7 @@ export function retrieveFirstTextFromJournalId(id, pageId, noDefault) {
 					firstText = pageSelected.text?.content;
 				}
 				// this should manage all MJE type
-				else if(pageSelected.text?.content) {
+				else if (pageSelected.text?.content) {
 					firstText = pageSelected.text?.content;
 				}
 			}
@@ -280,7 +280,7 @@ export function retrieveFirstTextFromJournalId(id, pageId, noDefault) {
 					break;
 				}
 				// this should manage all MJE type
-				else if(journalEntry.text?.content) {
+				else if (journalEntry.text?.content) {
 					firstText = journalEntry.text?.content;
 					break;
 				}

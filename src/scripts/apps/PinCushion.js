@@ -433,7 +433,6 @@ export class PinCushion {
 			// 	// const iconSelector = html.find("select[name='icon.selected']");
 			const iconCustomSelector = html.find("input[name='icon.custom']");
 			if (iconCustomSelector?.length > 0) {
-				iconCustomSelector.val(currentIconSelector);
 				iconCustomSelector.on("change", function () {
 					const p = iconCustomSelector.parent().find(".pin-cushion-journal-icon");
 					const valueIconSelector = html.find("select[name='icon.selected']")?.val();
@@ -443,14 +442,23 @@ export class PinCushion {
 						p[0].src = this.value;
 					}
 				});
+				// iconCustomSelector.val(currentIconSelector).change();
 				// iconCustomSelector.replaceWith(filePickerHtml);
 				// 	// Detect and activate file-picker buttons
 				// 	//html.find("button.file-picker").on("click", app._activateFilePicker.bind(app));
 				// 	html.find("button.file-picker").each((i, button) => (button.onclick = app._activateFilePicker.bind(app)));
 				const iconSelector = html.find("select[name='icon.selected']");
 				// Need this...
-				if (iconSelector?.val() === "icons/svg/book.svg" && currentIconSelector) {
+				if (
+					iconSelector?.val().endsWith(".svg") &&
+					iconSelector?.val().startsWith("icons/") &&
+					currentIconSelector
+				) {
 					iconSelector?.val("").change();
+					iconCustomSelector.val(currentIconSelector).change();
+				} else {
+					iconSelector?.val().change();
+					iconCustomSelector.val(currentIconSelector).change();
 				}
 				if (iconSelector?.length > 0) {
 					iconSelector.on("change", function () {
@@ -462,6 +470,7 @@ export class PinCushion {
 							p[0].src = currentIconSelector;
 						}
 					});
+					iconSelector.val().change();
 					const valueIconSelector = html.find("select[name='icon.selected']")?.val();
 					if (valueIconSelector) {
 						iconCustomSelector
