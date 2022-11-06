@@ -456,10 +456,9 @@ export class PinCushion {
 					iconSelector?.val().startsWith("icons/") &&
 					currentIconSelector
 				) {
-					iconSelector?.val("").change();
+					iconSelector?.val("");
 					iconCustomSelector.val(currentIconSelector).change();
 				} else {
-					iconSelector?.val().change();
 					iconCustomSelector.val(currentIconSelector).change();
 				}
 				if (iconSelector?.length > 0) {
