@@ -433,47 +433,35 @@ export class PinCushion {
 			// 	// const iconSelector = html.find("select[name='icon.selected']");
 			const iconCustomSelector = html.find("input[name='icon.custom']");
 			if (iconCustomSelector?.length > 0) {
+				iconCustomSelector.val(currentIconSelector);
 				iconCustomSelector.on("change", function () {
 					const p = iconCustomSelector.parent().find(".pin-cushion-journal-icon");
-					if(p && p.length > 0){
-						const valueIconSelector = html.find("select[name='icon.selected']")?.val();
-						if (valueIconSelector) {
-							p[0].src = valueIconSelector;
-						} else {
-							p[0].src = this.value;
-						}
+					const valueIconSelector = html.find("select[name='icon.selected']")?.val();
+					if (valueIconSelector) {
+						p[0].src = valueIconSelector;
+					} else {
+						p[0].src = this.value;
 					}
 				});
-				// iconCustomSelector.val(currentIconSelector).change();
 				// iconCustomSelector.replaceWith(filePickerHtml);
 				// 	// Detect and activate file-picker buttons
 				// 	//html.find("button.file-picker").on("click", app._activateFilePicker.bind(app));
 				// 	html.find("button.file-picker").each((i, button) => (button.onclick = app._activateFilePicker.bind(app)));
 				const iconSelector = html.find("select[name='icon.selected']");
 				// Need this...
-				if (
-					iconSelector?.val().endsWith(".svg") &&
-					iconSelector?.val().startsWith("icons/") &&
-					currentIconSelector
-				) {
-					iconSelector?.val("");
-					iconCustomSelector.val(currentIconSelector).change();
-				} else {
-					iconCustomSelector.val(currentIconSelector).change();
+				if (iconSelector?.val() === "icons/svg/book.svg" && currentIconSelector) {
+					iconSelector?.val("").change();
 				}
 				if (iconSelector?.length > 0) {
 					iconSelector.on("change", function () {
 						const p = iconCustomSelector.parent().find(".pin-cushion-journal-icon");
-						if(p && p.length > 0){
-							const valueIconSelector = html.find("select[name='icon.selected']")?.val();
-							if (valueIconSelector) {
-								p[0].src = valueIconSelector;
-							} else {
-								p[0].src = currentIconSelector;
-							}
+						const valueIconSelector = html.find("select[name='icon.selected']")?.val();
+						if (valueIconSelector) {
+							p[0].src = valueIconSelector;
+						} else {
+							p[0].src = currentIconSelector;
 						}
 					});
-					iconSelector.val().change();
 					const valueIconSelector = html.find("select[name='icon.selected']")?.val();
 					if (valueIconSelector) {
 						iconCustomSelector
@@ -503,23 +491,22 @@ export class PinCushion {
 				if (pageSelector?.length > 0) {
 					pageSelector.on("change", function () {
 						const p = pageCustomSelector.parent().find(".pin-cushion-page-icon");
-						if(p && p.length > 0){
-							// Pageid
-							const valuepageSelector = html.find("select[name='pageId']")?.val();
-							if (valuepageSelector) {
-								const pageiimage = retrieveFirstImageFromJournalId(
-									valuejournalSelector,
-									valuepageSelector,
-									true
-								);
-								if (pageiimage) {
-									p[0].src = pageiimage;
-								} else {
-									p[0].src = currentpageSelector;
-								}
+
+						// Pageid
+						const valuepageSelector = html.find("select[name='pageId']")?.val();
+						if (valuepageSelector) {
+							const pageiimage = retrieveFirstImageFromJournalId(
+								valuejournalSelector,
+								valuepageSelector,
+								true
+							);
+							if (pageiimage) {
+								p[0].src = pageiimage;
 							} else {
 								p[0].src = currentpageSelector;
 							}
+						} else {
+							p[0].src = currentpageSelector;
 						}
 					});
 					const valuepageSelector = html.find("select[name='pageId']")?.val();
@@ -900,9 +887,7 @@ export class PinCushion {
 		if (iconCustomSelectorExplicit?.length > 0) {
 			iconCustomSelectorExplicit.on("change", function () {
 				const p = iconCustomSelectorExplicit.parent().find(".pin-cushion-explicit-icon");
-				if(p && p.length > 0){
-					p[0].src = this.value;
-				}
+				p[0].src = this.value;
 			});
 		}
 	}
