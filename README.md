@@ -16,6 +16,8 @@
 
 [![Translation status](https://weblate.foundryvtt-hub.com/widgets/pin-cushion/-/287x66-black.png)](https://weblate.foundryvtt-hub.com/engage/pin-cushion/)
 
+### If you want to buy me a coffee [![alt-text](https://img.shields.io/badge/-Patreon-%23ff424d?style=for-the-badge)](https://www.patreon.com/p4535992)
+
 Adds additional functionality around Map Pins
 
 ![img](./wiki/img/example_1.gif)
