@@ -308,6 +308,38 @@ export const registerSettings = function () {
 		type: Boolean,
 	});
 
+	// =====================
+	// MATT INTEGRATION
+	// =====================
+	/*
+	game.settings.register(CONSTANTS.MODULE_NAME, "allow-note", {
+		name: game.i18n.localize(`pin-cushion.SETTINGS.allow-note.nameN`),
+		hint: game.i18n.localize(`pin-cushion.SETTINGS.allow-note.hintH`),
+		scope: "world",
+		config: true,
+		default: true,
+		type: Boolean,
+	});
+
+	game.settings.register(CONSTANTS.MODULE_NAME, "prevent-when-paused", {
+		name: game.i18n.localize(`pin-cushion.SETTINGS.prevent-when-pausedN`),
+		hint: game.i18n.localize(`pin-cushion.SETTINGS.prevent-when-pausedH`),
+		scope: "world",
+		config: true,
+		default: true,
+		type: Boolean,
+	});
+
+	game.settings.register(CONSTANTS.MODULE_NAME, "allow-note-passthrough", {
+		name: game.i18n.localize(`pin-cushion.SETTINGS.allow-note-passthroughN`),
+		hint: game.i18n.localize(`pin-cushion.SETTINGS.allow-note-passthroughH`),
+		scope: "world",
+		config: true,
+		default: true,
+		type: Boolean,
+	});
+	*/
+
 	// const settings = defaultSettings();
 	// for (const [name, data] of Object.entries(settings)) {
 	//   game.settings.register(CONSTANTS.MODULE_NAME, name, <any>data);

@@ -1356,7 +1356,7 @@ export class PinCushion {
 		let text = this.children[1]; // 0 is the ControlIcon, 1 is the PreciseText
 		// Text is created bevor this point. So we can modify it here.
 		let ratio = this.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO);
-		if (ratio) {
+		if (ratio && text?.x) {
 			text.x = (this.size * (ratio - 1)) / 2; // correct shifting for the new scale.
 		}
 		// Bug fixing :Always (when hover) show name of pin up (above) to others pin

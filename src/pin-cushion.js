@@ -16,7 +16,9 @@ import { registerSettings } from "./scripts/settings.js";
 import { pinCushionSocket, registerSocket } from "./scripts/socket.js";
 import { PinCushionHUD } from "./scripts/apps/PinCushionHUD.js";
 import { PinCushion } from "./scripts/apps/PinCushion.js";
-import { ActionConfig } from "/modules/monks-active-tiles/apps/action-config.js";
+// import { ActionConfig } from "/modules/monks-active-tiles/apps/action-config.js";
+// import { MonksActiveTiles } from "/modules/monks-active-tiles/monks-active-tiles.js";
+import { noteControl } from "./scripts/apps/NoteControl.js";
 
 /**
  * Initialization helper, to set API.
@@ -126,6 +128,13 @@ Hooks.once("init", function () {
 			"WRAPPER"
 		);
 	}
+	/*
+	const allowNote = game.settings.get(PinCushion.MODULE_NAME, "allow-note");
+	if (game.modules.get("monks-active-tiles")?.active && allowNote) {
+		libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype._onClickLeft", noteControl, "WRAPPER");
+		libWrapper.register(PinCushion.MODULE_NAME, "Note.prototype._onClickRight", noteControl, "WRAPPER");
+	}
+	*/
 });
 
 /* ------------------------------------ */
@@ -249,10 +258,12 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	// ====================================
 	// SUPPORT MATT
 	// ====================================
+	/*
+	const allowNote = game.settings.get(PinCushion.MODULE_NAME, "allow-note");
 	let triggerData = {};
 	let tilename = "";
 	let noteTriggersHtml = "";
-	if (game.modules.get("monks-active-tiles")?.active) {
+	if (game.modules.get("monks-active-tiles")?.active && allowNote) {
 		let entity = app.object.flags["monks-active-tiles"]?.entity || {};
 		if (typeof entity == "string" && entity) {
 			entity = JSON.parse(entity);
@@ -273,6 +284,7 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 			triggerData
 		);
 	}
+	*/
 
 	// ====================================
 	// General
@@ -410,10 +422,6 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 
 			enableBackgroundlessPins: enableBackgroundlessPins,
 			enableNoteGM: enableNoteGM,
-
-			entity: triggerData?.entity || {},
-			tilename: tilename,
-			showtagger: game.modules.get("tagger")?.active,
 		},
 		app.object.flags[PinCushion.MODULE_NAME] || {}
 	);
@@ -432,8 +440,8 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 			.attr("data-tab", "pincushion")
 			.html(noteHtml)
 			.insertAfter($(".tab:last", html));
-
-		if (game.modules.get("monks-active-tiles")?.active) {
+		/*
+		if (game.modules.get("monks-active-tiles")?.active && allowNote) {
 			$(".sheet-tabs", html).append(
 				$("<a>").addClass("item").attr("data-tab", "triggers").html('<i class="fas fa-running"></i> Triggers')
 			);
@@ -443,6 +451,7 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 				.html(noteTriggersHtml)
 				.insertAfter($(".tab:last", html));
 		}
+		*/
 	} else {
 		let root = $("form", html);
 		if (root.length == 0) root = html;
@@ -450,7 +459,8 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 		$("> *:not(button)", root).each(function () {
 			basictab.append(this);
 		});
-		if (game.modules.get("monks-active-tiles")?.active) {
+		/*
+		if (game.modules.get("monks-active-tiles")?.active && allowNote) {
 			$(root)
 				.prepend($("<div>").addClass("tab action-sheet").attr("data-tab", "triggers").html(noteTriggersHtml))
 				.prepend($("<div>").addClass("tab action-sheet").attr("data-tab", "pincushion").html(noteHtml))
@@ -478,35 +488,37 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 						)
 				);
 		} else {
-			$(root)
-				.prepend($("<div>").addClass("tab action-sheet").attr("data-tab", "pincushion").html(noteHtml))
-				.prepend(basictab)
-				.prepend(
-					$("<nav>")
-						.addClass("sheet-tabs tabs")
-						.append(
-							$("<a>")
-								.addClass("item active")
-								.attr("data-tab", "basic")
-								.html('<i class="fas fa-university"></i> Basic')
-						)
-						.append(
-							$("<a>")
-								.addClass("item")
-								.attr("data-tab", "pincushion")
-								.html('<i class="fas fa-map-marker-plus"></i> Pin Cushion (GM Only)')
-						)
-				);
-		}
+		*/
+		$(root)
+			.prepend($("<div>").addClass("tab action-sheet").attr("data-tab", "pincushion").html(noteHtml))
+			.prepend(basictab)
+			.prepend(
+				$("<nav>")
+					.addClass("sheet-tabs tabs")
+					.append(
+						$("<a>")
+							.addClass("item active")
+							.attr("data-tab", "basic")
+							.html('<i class="fas fa-university"></i> Basic')
+					)
+					.append(
+						$("<a>")
+							.addClass("item")
+							.attr("data-tab", "pincushion")
+							.html('<i class="fas fa-map-marker-plus"></i> Pin Cushion (GM Only)')
+					)
+			);
 	}
 
 	// START LISTENERS
 
 	// SUPPORT MATT
-	if (game.modules.get("monks-active-tiles")?.active) {
+	/*
+	if (game.modules.get("monks-active-tiles")?.active && allowNote) {
 		$('button[data-type="entity"]', html).on("click", ActionConfig.selectEntity.bind(app));
 		$('button[data-type="tagger"]', html).on("click", ActionConfig.addTag.bind(app));
 	}
+	*/
 
 	html.find("button.file-picker-showImageExplicitSource").each(
 		(i, button) => (button.onclick = app._activateFilePicker.bind(app))
