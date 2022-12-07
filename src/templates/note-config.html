@@ -163,7 +163,174 @@
             </input>
         </div>
     </div>
+    <div class="form-group">
+        <label
+            for="flags.pin-cushion.tooltipPlacement">
+            {{localize "pin-cushion.Tooltip.Placement.title" }}
+        </label>
+        <div class="form-fields">
+            <select
+                id="cushion-permission"
+                style="width: 100%;"
+                name="flags.pin-cushion.tooltipPlacement">
+                <option
+                    value="nw-alt"
+                    {{#ifCond tooltipPlacement "===" "nw-alt"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Placement.choices.north-west-alt"}}
+                </option>
+                <option
+                    value="nw"
+                    {{#ifCond tooltipPlacement "===" "nw"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Placement.choices.north-west"}}
+                </option>
+                <option
+                    value="n"
+                    {{#ifCond tooltipPlacement "===" "n"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Placement.choices.north"}}
+                </option>
+                <option
+                    value="ne"
+                    {{#ifCond tooltipPlacement "===" "ne"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Placement.choices.north-east"}}
+                </option>
+                <option
+                    value="ne-alt"
+                    {{#ifCond tooltipPlacement "===" "ne-alt"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Placement.choices.north-east-alt"}}
+                </option>
+                <option
+                    value="w"
+                    {{#ifCond tooltipPlacement "===" "w"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Placement.choices.west"}}
+                </option>
+                <option
+                    value="e"
+                    {{#ifCond tooltipPlacement "===" "e"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Placement.choices.east"}}
+                </option>
+                <option
+                    value="sw-alt"
+                    {{#ifCond tooltipPlacement "===" "sw-alt"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Placement.choices.south-west-alt"}}
+                </option>
+                <option
+                    value="sw"
+                    {{#ifCond tooltipPlacement "===" "sw"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Placement.choices.south-west"}}
+                </option>
+                <option
+                    value="s"
+                    {{#ifCond tooltipPlacement "===" "s"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Placement.choices.south"}}
+                </option>
+                <option
+                    value="se"
+                    {{#ifCond tooltipPlacement "===" "se"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Placement.choices.south-east"}}
+                </option>
+                <option
+                    value="se-alt"
+                    {{#ifCond tooltipPlacement "===" "se-alt"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Placement.choices.south-east-alt"}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label
+            for="flags.pin-cushion.tooltipColor">
+            {{localize "pin-cushion.Tooltip.Color.title"}}
+        </label>
+        <div class="form-fields">
+            <select
+                id="cushion-permission"
+                style="width: 100%;"
+                name="flags.pin-cushion.tooltipColor">
+                <option
+                    value="" {{#ifCond tooltipColor "===" ""}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Color.choices.default"}}
+                </option>
+                <option
+                    value="blue"
+                    {{#ifCond tooltipColor "===" "blue"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Color.choices.blue"}}
+                </option>
+                <option
+                    value="dark"
+                    {{#ifCond tooltipColor "===" "dark"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Color.choices.dark"}}
+                </option>
+                <option
+                    value="green"
+                    {{#ifCond tooltipColor "===" "green"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Color.choices.green"}}
+                </option>
+                <option
+                    value="light"
+                    {{#ifCond tooltipColor "===" "light"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Color.choices.light"}}
+                </option>
+                <option
+                    value="orange"
+                    {{#ifCond tooltipColor "===" "orange"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Color.choices.orange"}}
+                </option>
+                <option value="purple"
+                    {{#ifCond tooltipColor "===" "purple"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Color.choices.purple"}}
+                </option>
+                <option
+                    value="red"
+                    {{#ifCond tooltipColor "===" "red"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Color.choices.red"}}
+                </option>
+                <option
+                    value="yellow"
+                    {{#ifCond tooltipColor "===" "yellow"}} "selected" {{/ifCond}}>
+                    {{localize "pin-cushion.Tooltip.Color.choices.yellow"}}
+                </option>
+            </select>
+        </div>
+    </div>
 
+    <div class="form-group">
+        <label
+            for="flags.pin-cushion.tooltipForceRemove">
+            {{localize "pin-cushion.Tooltip.ForceRemove.title"}}
+        </label>
+        <div class="form-fields">
+            <input
+                type="checkbox"
+                name="flags.pin-cushion.tooltipForceRemove"
+                data-dtype="Boolean" {{checked tooltipForceRemove }} />
+        </div>
+    </div>
+    <div class="form-group">
+        <label
+            for="flags.pin-cushion.tooltipSmartPlacement">
+            {{localize "pin-cushion.Tooltip.SmartPlacement.title"}}
+        </label>
+        <div class="form-fields">
+            <input
+                type="checkbox"
+                name="flags.pin-cushion.tooltipSmartPlacement"
+                data-dtype="Boolean" {{checked tooltipSmartPlacement}} />
+        </div>
+    </div>
+    <!--
+    <div class="form-group">
+        <label
+            for="flags.pin-cushion.tooltipFollowMouse">
+            {{localize "pin-cushion.Tooltip.TooltipFollowMouset.title"}}
+        </label>
+        <div class="form-fields">
+            <input
+                type="checkbox"
+                name="flags.pin-cushion.tooltipFollowMouse"
+                data-dtype="Boolean" {{checked tooltipFollowMouse}} />
+        </div>
+    </div>
+    -->
 </fieldset>
 <hr>
 <fieldset>

@@ -66,31 +66,42 @@ Hooks.once("init", function () {
 	registerSettings();
 
 	// href: https://stackoverflow.com/questions/8853396/logical-operator-in-a-handlebars-js-if-conditional/16315366#16315366
-	Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
-
+	// e.g. {{#ifCond var1 '==' var2}}
+	Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
 		switch (operator) {
-			case '==':
-				return (v1 == v2) ? options.fn(this) : options.inverse(this);
-			case '===':
-				return (v1 === v2) ? options.fn(this) : options.inverse(this);
-			case '!=':
-				return (v1 != v2) ? options.fn(this) : options.inverse(this);
-			case '!==':
-				return (v1 !== v2) ? options.fn(this) : options.inverse(this);
-			case '<':
-				return (v1 < v2) ? options.fn(this) : options.inverse(this);
-			case '<=':
-				return (v1 <= v2) ? options.fn(this) : options.inverse(this);
-			case '>':
-				return (v1 > v2) ? options.fn(this) : options.inverse(this);
-			case '>=':
-				return (v1 >= v2) ? options.fn(this) : options.inverse(this);
-			case '&&':
-				return (v1 && v2) ? options.fn(this) : options.inverse(this);
-			case '||':
-				return (v1 || v2) ? options.fn(this) : options.inverse(this);
-			default:
+			case "==": {
+				return v1 == v2 ? options.fn(this) : options.inverse(this);
+			}
+			case "===": {
+				return v1 === v2 ? options.fn(this) : options.inverse(this);
+			}
+			case "!=": {
+				return v1 != v2 ? options.fn(this) : options.inverse(this);
+			}
+			case "!==": {
+				return v1 !== v2 ? options.fn(this) : options.inverse(this);
+			}
+			case "<": {
+				return v1 < v2 ? options.fn(this) : options.inverse(this);
+			}
+			case "<=": {
+				return v1 <= v2 ? options.fn(this) : options.inverse(this);
+			}
+			case ">": {
+				return v1 > v2 ? options.fn(this) : options.inverse(this);
+			}
+			case ">=": {
+				return v1 >= v2 ? options.fn(this) : options.inverse(this);
+			}
+			case "&&": {
+				return v1 && v2 ? options.fn(this) : options.inverse(this);
+			}
+			case "||": {
+				return v1 || v2 ? options.fn(this) : options.inverse(this);
+			}
+			default: {
 				return options.inverse(this);
+			}
 		}
 	});
 
@@ -195,10 +206,16 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	if (pinCushionIcon) {
 		tmp = stripQueryStringAndHashFromPath(pinCushionIcon);
 	}
+
 	PinCushion._replaceIconSelector(app, html, noteData, tmp);
 	//Causes a bug when attempting to place an journal entry onto the canvas in Foundry 9.
 	//await app.object.setFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON, tmp);
 	setProperty(app.object.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.CUSHION_ICON, tmp);
+
+	const enableNoteGM = game.settings.get(PinCushion.MODULE_NAME, "noteGM");
+	if (enableNoteGM) {
+		PinCushion._addNoteGM(app, html, noteData);
+	}
 
 	// PinCushion._addShowImageField(app, html, noteData);
 	// PinCushion._addPinIsTransparentField(app, html, noteData);
@@ -211,20 +228,15 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	// 	PinCushion._addPlayerIconField(app, html, noteData);
 	// }
 
-	const enableNoteGM = game.settings.get(PinCushion.MODULE_NAME, "noteGM");
-	if (enableNoteGM) {
-		PinCushion._addNoteGM(app, html, noteData);
-	}
-
 	// const enableNoteTintColorLink = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
 	// if (enableNoteTintColorLink) {
 	//	PinCushion._addNoteTintColorLink(app, html, noteData);
 	// }
-	
+
 	// PinCushion._addPreviewAsTextSnippet(app, html, noteData);
 	// PinCushion._addDoNotShowJournalPreview(app, html, noteData);
-	
-	PinCushion._addTooltipHandler(app, html, noteData);
+
+	// PinCushion._addTooltipHandler(app, html, noteData);
 
 	// TODO
 	//PinCushion._addAboveFog(app, html, data);
@@ -233,8 +245,8 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	// SUPPORT MATT
 	// ====================================
 	let triggerData = {};
-	if(game.modules.get('monks-active-tiles')?.active){
-		let entity = app.object.flags['monks-active-tiles']?.entity || {};
+	if (game.modules.get("monks-active-tiles")?.active) {
+		let entity = app.object.flags["monks-active-tiles"]?.entity || {};
 		if (typeof entity == "string" && entity) {
 			entity = JSON.parse(entity);
 		}
@@ -243,11 +255,11 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 			tilename = await MonksActiveTiles.entityName(entity);
 		}
 		triggerData = mergeObject(
-			{ 
-				tilename: tilename, 
-				showtagger: game.modules.get('tagger')?.active 
-			}, 
-			(app.object.flags['monks-active-tiles'] || {})
+			{
+				tilename: tilename,
+				showtagger: game.modules.get("tagger")?.active,
+			},
+			app.object.flags["monks-active-tiles"] || {}
 		);
 		triggerData.entity = JSON.stringify(entity);
 	}
@@ -300,9 +312,11 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	// revealedNotes
 	// ====================================
 	const enableNoteTintColorLink = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
-	let pinIsRevealed = getProperty(noteData, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_REVEALED}`) ?? true;
+	let pinIsRevealed =
+		getProperty(noteData, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_REVEALED}`) ?? true;
 	// Check box for REVEALED state
-	let usePinIsRevealed = getProperty(noteData, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.USE_PIN_REVEALED}`) ?? false;
+	let usePinIsRevealed =
+		getProperty(noteData, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.USE_PIN_REVEALED}`) ?? false;
 
 	// ====================================
 	// Tooltip
@@ -352,10 +366,9 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	// Other
 	// ====================================
 	const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
-	
 
 	let pinCushionData = mergeObject(
-		{ 
+		{
 			yesUploadFile: game.user.can("FILES_BROWSE"),
 			noUploadFile: !game.user.can("FILES_BROWSE"),
 			showImageExplicitSource: showImageExplicitSource,
@@ -379,41 +392,69 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 			previewAsTextSnippet: previewAsTextSnippet,
 			doNotShowJournalPreview: doNotShowJournalPreview,
 
-			enableBackgroundlessPins: enableBackgroundlessPins,	
+			tooltipPlacement: tooltipPlacement,
+			tooltipColor: tooltipColor,
+			tooltipForceRemove: tooltipForceRemove,
+			tooltipSmartPlacement: tooltipSmartPlacement,
+			tooltipFollowMouse: tooltipFollowMouse,
+
+			enableBackgroundlessPins: enableBackgroundlessPins,
 			enableNoteGM: enableNoteGM,
 
 			entity: triggerData?.entity || {},
-			tilename: tilename, 
-			showtagger: game.modules.get('tagger')?.active 
-		}, 
-		(app.object.flags[PinCushion.MODULE_NAME] || {}));
+			tilename: tilename,
+			showtagger: game.modules.get("tagger")?.active,
+		},
+		app.object.flags[PinCushion.MODULE_NAME] || {}
+	);
 	// pinCushionData.entity = JSON.stringify(entity);
 	let noteHtml = await renderTemplate(`modules/${PinCushion.MODULE_NAME}/templates/note-config.html`, pinCushionData);
 
-	if ($('.sheet-tabs', html).length) {
-		$('.sheet-tabs', html).append($('<a>').addClass("item").attr("data-tab", "pincushion").html('<i class="fas fa-map-marker-plus"></i> Pin Cushion'));
-		$('<div>').addClass("tab action-sheet").attr('data-tab', 'pincushion').html(noteHtml).insertAfter($('.tab:last', html));
+	if ($(".sheet-tabs", html).length) {
+		$(".sheet-tabs", html).append(
+			$("<a>")
+				.addClass("item")
+				.attr("data-tab", "pincushion")
+				.html('<i class="fas fa-map-marker-plus"></i> Pin Cushion')
+		);
+		$("<div>")
+			.addClass("tab action-sheet")
+			.attr("data-tab", "pincushion")
+			.html(noteHtml)
+			.insertAfter($(".tab:last", html));
 	} else {
-		let root = $('form', html);
-		if (root.length == 0)
-			root = html;
-		let basictab = $('<div>').addClass("tab").attr('data-tab', 'basic');
-		$('> *:not(button)', root).each(function () {
+		let root = $("form", html);
+		if (root.length == 0) root = html;
+		let basictab = $("<div>").addClass("tab").attr("data-tab", "basic");
+		$("> *:not(button)", root).each(function () {
 			basictab.append(this);
 		});
 
-		$(root).prepend($('<div>').addClass("tab action-sheet").attr('data-tab', 'pincushion').html(noteHtml)).prepend(basictab).prepend(
-			$('<nav>')
-				.addClass("sheet-tabs tabs")
-				.append($('<a>').addClass("item active").attr("data-tab", "basic").html('<i class="fas fa-university"></i> Basic'))
-				.append($('<a>').addClass("item").attr("data-tab", "pincushion").html('<i class="fas fa-map-marker-plus"></i> Pin Cushion')) 
-		);
+		$(root)
+			.prepend($("<div>").addClass("tab action-sheet").attr("data-tab", "pincushion").html(noteHtml))
+			.prepend(basictab)
+			.prepend(
+				$("<nav>")
+					.addClass("sheet-tabs tabs")
+					.append(
+						$("<a>")
+							.addClass("item active")
+							.attr("data-tab", "basic")
+							.html('<i class="fas fa-university"></i> Basic')
+					)
+					.append(
+						$("<a>")
+							.addClass("item")
+							.attr("data-tab", "pincushion")
+							.html('<i class="fas fa-map-marker-plus"></i> Pin Cushion')
+					)
+			);
 	}
 
 	// START LISTENERS
 
 	// SUPPORT MATT
-	if(game.modules.get('monks-active-tiles')?.active){
+	if (game.modules.get("monks-active-tiles")?.active) {
 		$('button[data-type="entity"]', html).on("click", ActionConfig.selectEntity.bind(app));
 		$('button[data-type="tagger"]', html).on("click", ActionConfig.addTag.bind(app));
 	}
@@ -437,7 +478,7 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	app.options.height = "auto";
 	app._tabs = app._createTabHandlers();
 	const el = html[0];
-	app._tabs.forEach(t => t.bind(el));
+	app._tabs.forEach((t) => t.bind(el));
 
 	app.setPosition();
 	/*
