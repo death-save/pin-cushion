@@ -59,11 +59,40 @@ export function getSocket() {
 /* ------------------------------------ */
 Hooks.once("init", function () {
 	log(" init " + CONSTANTS.MODULE_NAME);
-
+	// TODO TO REMOVE
 	globalThis.PinCushion = PinCushion;
 	// globalThis.setNoteRevealed = setNoteRevealed; // Seem not necessary
 	// globalThis.setNoteGMtext = setNoteGMtext // Seem not necessary
 	registerSettings();
+
+	// href: https://stackoverflow.com/questions/8853396/logical-operator-in-a-handlebars-js-if-conditional/16315366#16315366
+	Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+
+		switch (operator) {
+			case '==':
+				return (v1 == v2) ? options.fn(this) : options.inverse(this);
+			case '===':
+				return (v1 === v2) ? options.fn(this) : options.inverse(this);
+			case '!=':
+				return (v1 != v2) ? options.fn(this) : options.inverse(this);
+			case '!==':
+				return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+			case '<':
+				return (v1 < v2) ? options.fn(this) : options.inverse(this);
+			case '<=':
+				return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+			case '>':
+				return (v1 > v2) ? options.fn(this) : options.inverse(this);
+			case '>=':
+				return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+			case '&&':
+				return (v1 && v2) ? options.fn(this) : options.inverse(this);
+			case '||':
+				return (v1 || v2) ? options.fn(this) : options.inverse(this);
+			default:
+				return options.inverse(this);
+		}
+	});
 
 	Hooks.once("socketlib.ready", registerSocket);
 
@@ -130,17 +159,10 @@ Hooks.once("ready", function () {
  * @param {object] data       The object of data used when rendering the application (from NoteConfig#getData)
  */
 Hooks.on("renderNoteConfig", async (app, html, noteData) => {
-	if (!app.object.flags[PinCushion.MODULE_NAME]) {
-		app.object.flags[PinCushion.MODULE_NAME] = {};
-	}
+	let entity = app.object.flags[PinCushion.MODULE_NAME] || {};
+
 	// TODO THIS CODE CAN B DONE MUCH BETTER...
 	const showJournalImageByDefault = game.settings.get(PinCushion.MODULE_NAME, "showJournalImageByDefault");
-	// const showImageExplicitSource = stripQueryStringAndHashFromPath(
-	//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? noteData.document.texture.src,
-	// );
-	// const iconPinCushion = stripQueryStringAndHashFromPath(
-	//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? noteData.document.texture.src,
-	// );
 
 	if (
 		showJournalImageByDefault &&
@@ -171,11 +193,6 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	}
 	const pinCushionIcon = getProperty(app.object.flags, `${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.CUSHION_ICON}`);
 	if (pinCushionIcon) {
-		// setProperty(
-		// 	noteData.document.texture,
-		// 	"src",
-		// 	stripQueryStringAndHashFromPath(pinCushionIcon)
-		// );
 		tmp = stripQueryStringAndHashFromPath(pinCushionIcon);
 	}
 	PinCushion._replaceIconSelector(app, html, noteData, tmp);
@@ -183,42 +200,254 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	//await app.object.setFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON, tmp);
 	setProperty(app.object.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.CUSHION_ICON, tmp);
 
-	PinCushion._addShowImageField(app, html, noteData);
-	PinCushion._addPinIsTransparentField(app, html, noteData);
-	PinCushion._addShowOnlyToGMField(app, html, noteData);
+	// PinCushion._addShowImageField(app, html, noteData);
+	// PinCushion._addPinIsTransparentField(app, html, noteData);
+	// PinCushion._addShowOnlyToGMField(app, html, noteData);
+	// PinCushion._addBackgroundField(app, html, noteData);
+	// PinCushion._addHideLabel(app, html, noteData);
 
-	// const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, 'enableBackgroundlessPins');
-	// if (enableBackgroundlessPins) {
-	PinCushion._addBackgroundField(app, html, noteData);
+	// const enablePlayerIcon = game.settings.get(PinCushion.MODULE_NAME, "playerIconAutoOverride");
+	// if (enablePlayerIcon) {
+	// 	PinCushion._addPlayerIconField(app, html, noteData);
 	// }
-
-	const enablePlayerIcon = game.settings.get(PinCushion.MODULE_NAME, "playerIconAutoOverride");
-	if (enablePlayerIcon) {
-		PinCushion._addPlayerIconField(app, html, noteData);
-	}
 
 	const enableNoteGM = game.settings.get(PinCushion.MODULE_NAME, "noteGM");
 	if (enableNoteGM) {
 		PinCushion._addNoteGM(app, html, noteData);
 	}
 
-	const enableNoteTintColorLink = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
-	if (enableNoteTintColorLink) {
-		PinCushion._addNoteTintColorLink(app, html, noteData);
-	}
-
-	PinCushion._addHideLabel(app, html, noteData);
-	PinCushion._addPreviewAsTextSnippet(app, html, noteData);
-	PinCushion._addDoNotShowJournalPreview(app, html, noteData);
-	//PinCushion._addAboveFog(app, html, data);
+	// const enableNoteTintColorLink = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
+	// if (enableNoteTintColorLink) {
+	//	PinCushion._addNoteTintColorLink(app, html, noteData);
+	// }
+	
+	// PinCushion._addPreviewAsTextSnippet(app, html, noteData);
+	// PinCushion._addDoNotShowJournalPreview(app, html, noteData);
+	
 	PinCushion._addTooltipHandler(app, html, noteData);
 
+	// TODO
+	//PinCushion._addAboveFog(app, html, data);
+
+	// ====================================
+	// SUPPORT MATT
+	// ====================================
+	let triggerData = {};
+	if(game.modules.get('monks-active-tiles')?.active){
+		let entity = app.object.flags['monks-active-tiles']?.entity || {};
+		if (typeof entity == "string" && entity) {
+			entity = JSON.parse(entity);
+		}
+		let tilename = "";
+		if (entity.id) {
+			tilename = await MonksActiveTiles.entityName(entity);
+		}
+		triggerData = mergeObject(
+			{ 
+				tilename: tilename, 
+				showtagger: game.modules.get('tagger')?.active 
+			}, 
+			(app.object.flags['monks-active-tiles'] || {})
+		);
+		triggerData.entity = JSON.stringify(entity);
+	}
+
+	// ====================================
+	// General
+	// ====================================
+	const showImageExplicitSource = stripQueryStringAndHashFromPath(
+		app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? ""
+	);
+	const showImage = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE) ?? false;
+	const pinIsTransparent = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_TRANSPARENT) ?? false;
+	const showOnlyToGM = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_ONLY_TO_GM) ?? false;
+
+	const hasBackground =
+		(app.document
+			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)
+			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) ?? 0;
+	const ratio =
+		(app.document
+			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO)
+			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO)) ?? 1;
+	const textAlwaysVisible =
+		(app.document
+			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE)
+			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE)) ?? false;
+	const hideLabel =
+		(app.document
+			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)
+			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)) ?? false;
+
+	// ====================================
+	// enablePlayerIcon
+	// ====================================
+	const enablePlayerIcon = game.settings.get(PinCushion.MODULE_NAME, "playerIconAutoOverride");
+	// Adds fields to set player-only note icons
+	// Get default values set by GM
+	const defaultState = game.settings.get(PinCushion.MODULE_NAME, "playerIconAutoOverride") ?? ``;
+	const defaultPath = game.settings.get(PinCushion.MODULE_NAME, "playerIconPathDefault") ?? ``;
+
+	const playerIconState =
+		getProperty(noteData, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_STATE}`) ??
+		defaultState;
+	const playerIconPath = stripQueryStringAndHashFromPath(
+		getProperty(noteData, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}`) ??
+			defaultPath
+	);
+
+	// ====================================
+	// revealedNotes
+	// ====================================
+	const enableNoteTintColorLink = game.settings.get(PinCushion.MODULE_NAME, "revealedNotes");
+	let pinIsRevealed = getProperty(noteData, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_REVEALED}`) ?? true;
+	// Check box for REVEALED state
+	let usePinIsRevealed = getProperty(noteData, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.USE_PIN_REVEALED}`) ?? false;
+
+	// ====================================
+	// Tooltip
+	// ====================================
+
+	let doNotShowJournalPreviewS = String(
+		app.document
+			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)
+			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)
+	);
+	if (doNotShowJournalPreviewS !== "true" && doNotShowJournalPreviewS !== "false") {
+		doNotShowJournalPreviewS = "true";
+	}
+	const doNotShowJournalPreview = String(doNotShowJournalPreviewS) === "true" ? true : false;
+
+	const previewAsTextSnippet =
+		(app.document
+			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET)
+			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET)) ?? false;
+
+	const tooltipPlacement =
+		(app.document
+			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_PLACEMENT)
+			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_PLACEMENT)) ?? "e";
+
+	const tooltipColor =
+		(app.document
+			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_COLOR)
+			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_COLOR)) ?? "";
+
+	const tooltipForceRemove =
+		(app.document
+			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE)
+			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE)) ?? false;
+
+	const tooltipSmartPlacement =
+		(app.document
+			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT)
+			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT)) ?? false;
+
+	const tooltipFollowMouse =
+		(app.document
+			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE)
+			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE)) ?? false;
+
+	// ====================================
+	// Other
+	// ====================================
+	const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
+	
+
+	let pinCushionData = mergeObject(
+		{ 
+			yesUploadFile: game.user.can("FILES_BROWSE"),
+			noUploadFile: !game.user.can("FILES_BROWSE"),
+			showImageExplicitSource: showImageExplicitSource,
+
+			showImage: showImage,
+			pinIsTransparent: pinIsTransparent,
+			showOnlyToGM: showOnlyToGM,
+			hasBackground: hasBackground,
+			ratio: ratio,
+			textAlwaysVisible: textAlwaysVisible,
+			hideLabel: hideLabel,
+
+			enablePlayerIcon: enablePlayerIcon,
+			playerIconState: playerIconState,
+			playerIconPath: playerIconPath,
+
+			enableNoteTintColorLink: enableNoteTintColorLink,
+			pinIsRevealed: pinIsRevealed,
+			usePinIsRevealed: usePinIsRevealed,
+
+			previewAsTextSnippet: previewAsTextSnippet,
+			doNotShowJournalPreview: doNotShowJournalPreview,
+
+			enableBackgroundlessPins: enableBackgroundlessPins,	
+			enableNoteGM: enableNoteGM,
+
+			entity: triggerData?.entity || {},
+			tilename: tilename, 
+			showtagger: game.modules.get('tagger')?.active 
+		}, 
+		(app.object.flags[PinCushion.MODULE_NAME] || {}));
+	// pinCushionData.entity = JSON.stringify(entity);
+	let noteHtml = await renderTemplate(`modules/${PinCushion.MODULE_NAME}/templates/note-config.html`, pinCushionData);
+
+	if ($('.sheet-tabs', html).length) {
+		$('.sheet-tabs', html).append($('<a>').addClass("item").attr("data-tab", "pincushion").html('<i class="fas fa-map-marker-plus"></i> Pin Cushion'));
+		$('<div>').addClass("tab action-sheet").attr('data-tab', 'pincushion').html(noteHtml).insertAfter($('.tab:last', html));
+	} else {
+		let root = $('form', html);
+		if (root.length == 0)
+			root = html;
+		let basictab = $('<div>').addClass("tab").attr('data-tab', 'basic');
+		$('> *:not(button)', root).each(function () {
+			basictab.append(this);
+		});
+
+		$(root).prepend($('<div>').addClass("tab action-sheet").attr('data-tab', 'pincushion').html(noteHtml)).prepend(basictab).prepend(
+			$('<nav>')
+				.addClass("sheet-tabs tabs")
+				.append($('<a>').addClass("item active").attr("data-tab", "basic").html('<i class="fas fa-university"></i> Basic'))
+				.append($('<a>').addClass("item").attr("data-tab", "pincushion").html('<i class="fas fa-map-marker-plus"></i> Pin Cushion')) 
+		);
+	}
+
+	// START LISTENERS
+
+	// SUPPORT MATT
+	if(game.modules.get('monks-active-tiles')?.active){
+		$('button[data-type="entity"]', html).on("click", ActionConfig.selectEntity.bind(app));
+		$('button[data-type="tagger"]', html).on("click", ActionConfig.addTag.bind(app));
+	}
+
+	html.find("button.file-picker-showImageExplicitSource").each(
+		(i, button) => (button.onclick = app._activateFilePicker.bind(app))
+	);
+	const iconCustomSelectorExplicit = html.find(
+		`input[name='flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}']`
+	);
+	if (iconCustomSelectorExplicit?.length > 0) {
+		iconCustomSelectorExplicit.on("change", function () {
+			const p = iconCustomSelectorExplicit.parent().find(".pin-cushion-explicit-icon");
+			p[0].src = this.value;
+		});
+	}
+
+	// ENDS LISTENERS
+
+	app.options.tabs = [{ navSelector: ".tabs", contentSelector: "form", initial: "basic" }];
+	app.options.height = "auto";
+	app._tabs = app._createTabHandlers();
+	const el = html[0];
+	app._tabs.forEach(t => t.bind(el));
+
+	app.setPosition();
+	/*
 	// Force a recalculation of the height
 	if (!app._minimized) {
 		let pos = app.position;
 		pos.height = "auto";
 		app.setPosition(pos);
 	}
+	*/
 });
 
 /**

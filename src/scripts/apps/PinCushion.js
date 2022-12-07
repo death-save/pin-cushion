@@ -1083,7 +1083,7 @@ export class PinCushion {
         <div class='form-fields'>
           <input
           type='checkbox'
-          name='${FLAG_IS_REVEALED}' ${checked} />
+          name='flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_REVEALED}' ${checked} />
         </div>
       </div>`
 		);
@@ -1100,7 +1100,7 @@ export class PinCushion {
         <div class='form-fields'>
           <input
             type='checkbox'
-            name='${FLAG_USE_REVEALED}' ${use_reveal} />
+            name='flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.USE_PIN_REVEALED}' ${use_reveal} />
         </div>
       </div>`
 		);

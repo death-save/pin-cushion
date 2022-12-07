@@ -1,0 +1,235 @@
+<div class="form-group">
+    <label
+        for="flags.pin-cushion.showImage">
+        {{ localize "pin-cushion.ShowImage" }}
+    </label>
+    <div class="form-fields">
+        <input
+            type="checkbox"
+            name="flags.pin-cushion.showImage"
+            data-dtype="Boolean" {{checked showImage}}>
+        </input>
+    </div>
+</div>
+<div class="form-group">
+    <label
+        for="flags.pin-cushion.showImageExplicitSource"
+        >{{ localize "pin-cushion.ShowImageExplicitSource"}}
+    </label>
+    <div class="form-fields">
+        <img class="pin-cushion-explicit-icon" src="{{showImageExplicitSource}}" />
+        <input
+            type="text"
+            name="flags.pin-cushion.showImageExplicitSource"
+            title="{{localize "pin-cushion.ShowImageExplicitSource"}}"
+            class="icon-path"
+            value="{{showImageExplicitSource}}"
+            placeholder="/icons/example.svg"
+            data-dtype="String"
+            {{#if noUploadFile}} readonly="true" {{/if}}
+            >
+        </input>
+        {{#if yesUploadFile}}
+            {{filePicker type="image" target="flags.pin-cushion.showImageExplicitSource"}}
+        {{/if}}
+    </div>
+</div>
+<div class="form-group">
+    <label
+        for="flags.pin-cushion.pinIsTransparent">
+        {{ localize "pin-cushion.PinIsTransparent"}}
+    </label>
+    <div class="form-fields">
+        <input
+            type="checkbox"
+            name="flags.pin-cushion.pinIsTransparent"
+            data-dtype="Boolean" {{checked pinIsTransparent}}>
+        </input>
+    </div>
+</div>
+<div class="form-group">
+    <label
+        for="flags.pin-cushion.showOnlyToGM">
+        {{ localize "pin-cushion.ShowOnlyToGM"}}
+    </label>
+    <div class="form-fields">
+        <input
+            type="checkbox"
+            name="flags.pin-cushion.showOnlyToGM"
+            data-dtype="Boolean" {{checked showOnlyToGM}}>
+        </input>
+    </div>
+</div>
+{{#if enableBackgroundlessPins}}
+<div class="form-group">
+    <label
+        for="flags.pin-cushion.hasBackground">
+        {{ localize "pin-cushion.HasBackground"}}
+    </label>
+    <div class="form-fields">
+        <input
+            type="checkbox"
+            name="flags.pin-cushion.hasBackground"
+            data-dtype="Boolean" {{checked hasBackground}}>
+        </input>
+    </div>
+</div>
+{{else}}
+<div class="form-group">
+    <p>{{ localize "pin-cushion.WarningBackgroundlessPins"}}</p>
+</div>
+{{/if}}
+<div class="form-group">
+    <label
+        for="flags.pin-cushion.ratio">
+        {{ localize "pin-cushion.HasBackgroundRatio"}}
+    </label>
+    <div class="form-fields">
+        {{numberInput ratio name="flags.pin-cushion.ratio" step=1 min=0 max=10}}
+    <!--
+    <input
+        type="text"
+        name="flags.pin-cushion.ratio"
+        data-dtype="Number"
+        value="{{ratio}}" >
+    </input>
+    -->
+    </div>
+</div>
+<div class="form-group">
+    <label 
+        for="flags.pin-cushion.textAlwaysVisible">
+        {{ localize "pin-cushion.TextAlwaysVisible"}}
+    </label>
+    <div class="form-fields">
+        <input type="checkbox" 
+            name="flags.pin-cushion.textAlwaysVisible" 
+            data-dtype="Boolean" {{checked textAlwaysVisible}}>
+        </input>
+    </div>
+</div>
+<div class="form-group">
+    <label 
+        for="flags.pin-cushion.hideLabel">
+        {{ localize "pin-cushion.HideLabel"}}
+    </label>
+    <div class="form-fields">
+        <input
+            type="checkbox"
+            name="flags.pin-cushion.hideLabel"
+            data-dtype="Boolean" {{checked hideLabel}} >
+        </input>
+    </div>
+</div>
+<hr>
+<!--
+<fieldset>
+    <legend>{{localize "pin-cushion.SubtitleNoteGM"}}</legend>
+    {{#if enableNoteGM}}
+
+    {{else}}
+    <div class="form-group">
+        <p>{{ localize "pin-cushion.WarningNoteGM"}}</p>
+    </div>
+    {{/if}}
+</fieldset>
+<hr>
+-->
+<fieldset>
+    <legend>{{localize "pin-cushion.SubtitleTooltip"}}</legend>
+    <div class="form-group">
+        <label
+            for="flags.pin-cushion.doNotShowJournalPreview">
+            {{localize "pin-cushion.DoNotShowJournalPreview"}}
+        </label>
+        <div class="form-fields">
+            <input
+                type="checkbox"
+                name="flags.pin-cushion.doNotShowJournalPreview"
+                data-dtype="Boolean" {{checked doNotShowJournalPreview}}>
+            </input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label
+            for="flags.pin-cushion.previewAsTextSnippet">
+            {{localize "pin-cushion.PreviewAsTextSnippet" }}
+        </label>
+        <div class="form-fields">
+            <input
+                type="checkbox"
+                name="flags.pin-cushion.previewAsTextSnippet"
+                data-dtype="Boolean" {{checked previewAsTextSnippet}}>
+            </input>
+        </div>
+    </div>
+
+</fieldset>
+<hr>
+<fieldset>
+    <legend>{{localize "pin-cushion.SubtitlePlayerIconAutoOverride"}}</legend>
+    {{#if enablePlayerIcon}}
+    <!-- Button to Enable overrides -->
+    <div class="form-group">
+        <label> {{ localize "pin-cushion.UsePlayerIcon"}}</label>
+        <div class="form-fields">
+            <input
+                type="checkbox"
+                name="flags.pin-cushion.PlayerIconState"
+                data-dtype="Boolean" {{checked playerIconState}} >
+            </input>
+        </div>
+        <p class="notes">{{ localize "pin-cushion.PlayerIconHint"}}</p>
+    </div>
+    <!-- Player Icon -->
+    <div class="form-group">
+        <label>{{ localize "pin-cushion.PlayerIconPath"}}</label>
+        <div class="form-fields">
+            <img class="pin-cushion-journal-icon" src="{{playerIconPath}}" />
+            <input type="text"
+                name="flags.pin-cushion.PlayerIconPath"
+                title="Icon Path" 
+                class="icon-path" 
+                value="{{playerIconPath}}"
+                data-dtype="String" >
+            </input>
+            {{#if yesUploadFile}}
+                {{filePicker type="image" target="flags.pin-cushion.PlayerIconPath"}}
+            {{/if}}
+        </div>
+    </div>
+    {{else}}
+    <div class="form-group">
+        <p>{{ localize "pin-cushion.WarningPlayerIconAutoOverride"}}</p>
+    </div>
+    {{/if}}
+</fieldset>
+<hr>
+<fieldset>
+    <legend>{{localize "pin-cushion.SubtitleRevealedNotes"}}</legend>
+    {{#if enableNoteTintColorLink}}
+        <p>{{ localize "pin-cushion.InfoRevealedNotes"}}</p>
+        <div class='form-group'>
+            <label>{{ localize "pin-cushion.RevealedToPlayer"}}</label>
+            <div class='form-fields'>
+                <input
+                    type='checkbox'
+                    name='flags.pin-cushion.pinIsRevealed' {{checked pinIsRevealed}}>
+                </input>
+            </div>
+        </div>
+        <div class='form-group'>
+            <label>{{ localize "pin-cushion.UseRevealState"}}</label>
+            <div class='form-fields'>
+                <input
+                    type='checkbox'
+                    name='flags.pin-cushion.usePinIsRevealed' {{checked usePinIsRevealed}}>
+                </input>
+            </div>
+        </div>
+    {{else}}
+    <div class="form-group">
+        <p>{{ localize "pin-cushion.WarningRevealedNotes"}}</p>
+    </div>
+    {{/if}}
+</fieldset>
