@@ -520,9 +520,17 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	}
 	*/
 
-	html.find("button.file-picker-showImageExplicitSource").each(
-		(i, button) => (button.onclick = app._activateFilePicker.bind(app))
+	// html.find("button.file-picker-showImageExplicitSource").each(
+	// 	(i, button) => (button.onclick = app._activateFilePicker.bind(app))
+	// );
+
+	$('button[data-target="flags.pin-cushion.showImageExplicitSource"]', html).on(
+		"click",
+		app._activateFilePicker.bind(app)
 	);
+
+	$('button[data-target="flags.pin-cushion.PlayerIconPath"]', html).on("click", app._activateFilePicker.bind(app));
+
 	const iconCustomSelectorExplicit = html.find(
 		`input[name='flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}']`
 	);
@@ -530,6 +538,31 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 		iconCustomSelectorExplicit.on("change", function () {
 			const p = iconCustomSelectorExplicit.parent().find(".pin-cushion-explicit-icon");
 			p[0].src = this.value;
+		});
+	}
+
+	const iconCustomPlayerIconPath = html.find(
+		`input[name='flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}']`
+	);
+	if (iconCustomPlayerIconPath?.length > 0) {
+		iconCustomPlayerIconPath.on("change", function () {
+			const p = iconCustomPlayerIconPath.parent().find(".pin-cushion-journal-icon");
+			p[0].src = this.value;
+		});
+	}
+
+	const iconCustomPageIcon = html.find(`select[name='pageId']`);
+	if (iconCustomPageIcon?.length > 0) {
+		iconCustomPageIcon.on("change", function () {
+			const p = iconCustomPageIcon.parent().find(".pin-cushion-page-icon");
+			const pageId = this.value;
+			if (html.find(`select[name='entryId']`).length > 0) {
+				const entryId = html.find(`select[name='entryId']`)[0].value;
+				const firstImageFromPage = retrieveFirstImageFromJournalId(entryId, pageId, true);
+				if (firstImageFromPage) {
+					p[0].src = firstImageFromPage;
+				}
+			}
 		});
 	}
 

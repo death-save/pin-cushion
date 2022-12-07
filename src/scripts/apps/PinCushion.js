@@ -540,475 +540,475 @@ export class PinCushion {
 		// }
 	}
 
-	static _addTooltipHandler(app, html, data) {
-		const iconAnchor = html.find("input[name='icon.custom']").closest(".form-group");
-		const tooltipPlacement =
-			(app.document
-				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_PLACEMENT)
-				: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_PLACEMENT)) ?? "e";
+	// static _addTooltipHandler(app, html, data) {
+	// 	const iconAnchor = html.find("input[name='icon.custom']").closest(".form-group");
+	// 	const tooltipPlacement =
+	// 		(app.document
+	// 			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_PLACEMENT)
+	// 			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_PLACEMENT)) ?? "e";
 
-		const tooltipColor =
-			(app.document
-				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_COLOR)
-				: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_COLOR)) ?? "";
+	// 	const tooltipColor =
+	// 		(app.document
+	// 			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_COLOR)
+	// 			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_COLOR)) ?? "";
 
-		const tooltipForceRemove =
-			(app.document
-				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE)
-				: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE)) ?? false;
+	// 	const tooltipForceRemove =
+	// 		(app.document
+	// 			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE)
+	// 			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE)) ?? false;
 
-		const tooltipSmartPlacement =
-			(app.document
-				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT)
-				: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT)) ?? false;
+	// 	const tooltipSmartPlacement =
+	// 		(app.document
+	// 			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT)
+	// 			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT)) ?? false;
 
-		const tooltipFollowMouse =
-			(app.document
-				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE)
-				: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE)) ?? false;
+	// 	const tooltipFollowMouse =
+	// 		(app.document
+	// 			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE)
+	// 			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE)) ?? false;
 
-		iconAnchor.after(`
-      <div class="form-group">
-        <label
-          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_PLACEMENT}">
-          ${i18n("pin-cushion.Tooltip.Placement.title")}
-        </label>
-        <div class="form-fields">
-          <select
-            id="cushion-permission"
-            style="width: 100%;"
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_PLACEMENT}">
-            <option
-              value="nw-alt"
-              ${tooltipPlacement === "nw-alt" ? "selected" : ""}>
-                ${i18n("pin-cushion.Tooltip.Placement.choices.north-west-alt")}
-            </option>
-            <option
-              value="nw"
-              ${tooltipPlacement === "nw" ? "selected" : ""}>
-                ${i18n("pin-cushion.Tooltip.Placement.choices.north-west")}
-            </option>
-            <option
-              value="n"
-              ${tooltipPlacement === "n" ? "selected" : ""}>
-                ${i18n("pin-cushion.Tooltip.Placement.choices.north")}
-              </option>
-            <option
-              value="ne"
-              ${tooltipPlacement === "ne" ? "selected" : ""}>
-                ${i18n("pin-cushion.Tooltip.Placement.choices.north-east")}
-              </option>
-            <option
-              value="ne-alt"
-              ${tooltipPlacement === "ne-alt" ? "selected" : ""}>
-                ${i18n("pin-cushion.Tooltip.Placement.choices.north-east-alt")}
-              </option>
-            <option
-              value="w"
-              ${tooltipPlacement === "w" ? "selected" : ""}>
-                ${i18n("pin-cushion.Tooltip.Placement.choices.west")}
-              </option>
-            <option
-              value="e"
-              ${tooltipPlacement === "e" ? "selected" : ""}>
-                ${i18n("pin-cushion.Tooltip.Placement.choices.east")}
-              </option>
-            <option
-              value="sw-alt"
-              ${tooltipPlacement === "sw-alt" ? "selected" : ""}>
-                ${i18n("pin-cushion.Tooltip.Placement.choices.south-west-alt")}
-              </option>
-            <option
-              value="sw"
-              ${tooltipPlacement === "sw" ? "selected" : ""}>
-                ${i18n("pin-cushion.Tooltip.Placement.choices.south-west")}
-            </option>
-            <option
-              value="s"
-              ${tooltipPlacement === "s" ? "selected" : ""}>
-                ${i18n("pin-cushion.Tooltip.Placement.choices.south")}
-            </option>
-            <option
-              value="se"
-              ${tooltipPlacement === "se" ? "selected" : ""}>
-                ${i18n("pin-cushion.Tooltip.Placement.choices.south-east")}
-            </option>
-            <option
-              value="se-alt"
-              ${tooltipPlacement === "se-alt" ? "selected" : ""}>
-                ${i18n("pin-cushion.Tooltip.Placement.choices.south-east-alt")}
-            </option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label
-          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">
-            ${i18n("pin-cushion.Tooltip.Color.title")}
-        </label>
-        <div class="form-fields">
-          <select
-            id="cushion-permission"
-            style="width: 100%;"
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">
-            <option
-            value="" ${tooltipColor === "" ? "selected" : ""}>
-              ${i18n("pin-cushion.Tooltip.Color.choices.default")}
-            </option>
-            <option
-            value="blue"
-            ${tooltipColor === "blue" ? "selected" : ""}>
-              ${i18n("pin-cushion.Tooltip.Color.choices.blue")}
-            </option>
-            <option
-            value="dark"
-            ${tooltipColor === "dark" ? "selected" : ""}>
-              ${i18n("pin-cushion.Tooltip.Color.choices.dark")}
-            </option>
-            <option
-            value="green"
-            ${tooltipColor === "green" ? "selected" : ""}>
-              ${i18n("pin-cushion.Tooltip.Color.choices.green")}
-            </option>
-            <option
-            value="light"
-            ${tooltipColor === "light" ? "selected" : ""}>
-              ${i18n("pin-cushion.Tooltip.Color.choices.light")}
-            </option>
-            <option
-            value="orange"
-            ${tooltipColor === "orange" ? "selected" : ""}>
-              ${i18n("pin-cushion.Tooltip.Color.choices.orange")}
-            </option>
-            <option value="purple"
-            ${tooltipColor === "purple" ? "selected" : ""}>
-              ${i18n("pin-cushion.Tooltip.Color.choices.purple")}
-            </option>
-            <option
-            value="red"
-            ${tooltipColor === "red" ? "selected" : ""}>
-              ${i18n("pin-cushion.Tooltip.Color.choices.red")}
-            </option>
-            <option
-            value="yellow"
-            ${tooltipColor === "yellow" ? "selected" : ""}>
-              ${i18n("pin-cushion.Tooltip.Color.choices.yellow")}
-            </option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label
-          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}">
-            ${i18n("pin-cushion.Tooltip.ForceRemove.title")}
-        </label>
-        <div class="form-fields">
-          <input
-            type="checkbox"
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}"
-            data-dtype="Boolean" ${tooltipForceRemove ? "checked" : ""} />
-        </div>
-      </div>
-      <div class="form-group">
-        <label
-          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT}">
-            ${i18n("pin-cushion.Tooltip.SmartPlacement.title")}
-        </label>
-        <div class="form-fields">
-          <input
-            type="checkbox"
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT}"
-            data-dtype="Boolean" ${tooltipSmartPlacement ? "checked" : ""} />
-        </div>
-      </div>
-    `);
+	// 	iconAnchor.after(`
+	//   <div class="form-group">
+	//     <label
+	//       for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_PLACEMENT}">
+	//       ${i18n("pin-cushion.Tooltip.Placement.title")}
+	//     </label>
+	//     <div class="form-fields">
+	//       <select
+	//         id="cushion-permission"
+	//         style="width: 100%;"
+	//         name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_PLACEMENT}">
+	//         <option
+	//           value="nw-alt"
+	//           ${tooltipPlacement === "nw-alt" ? "selected" : ""}>
+	//             ${i18n("pin-cushion.Tooltip.Placement.choices.north-west-alt")}
+	//         </option>
+	//         <option
+	//           value="nw"
+	//           ${tooltipPlacement === "nw" ? "selected" : ""}>
+	//             ${i18n("pin-cushion.Tooltip.Placement.choices.north-west")}
+	//         </option>
+	//         <option
+	//           value="n"
+	//           ${tooltipPlacement === "n" ? "selected" : ""}>
+	//             ${i18n("pin-cushion.Tooltip.Placement.choices.north")}
+	//           </option>
+	//         <option
+	//           value="ne"
+	//           ${tooltipPlacement === "ne" ? "selected" : ""}>
+	//             ${i18n("pin-cushion.Tooltip.Placement.choices.north-east")}
+	//           </option>
+	//         <option
+	//           value="ne-alt"
+	//           ${tooltipPlacement === "ne-alt" ? "selected" : ""}>
+	//             ${i18n("pin-cushion.Tooltip.Placement.choices.north-east-alt")}
+	//           </option>
+	//         <option
+	//           value="w"
+	//           ${tooltipPlacement === "w" ? "selected" : ""}>
+	//             ${i18n("pin-cushion.Tooltip.Placement.choices.west")}
+	//           </option>
+	//         <option
+	//           value="e"
+	//           ${tooltipPlacement === "e" ? "selected" : ""}>
+	//             ${i18n("pin-cushion.Tooltip.Placement.choices.east")}
+	//           </option>
+	//         <option
+	//           value="sw-alt"
+	//           ${tooltipPlacement === "sw-alt" ? "selected" : ""}>
+	//             ${i18n("pin-cushion.Tooltip.Placement.choices.south-west-alt")}
+	//           </option>
+	//         <option
+	//           value="sw"
+	//           ${tooltipPlacement === "sw" ? "selected" : ""}>
+	//             ${i18n("pin-cushion.Tooltip.Placement.choices.south-west")}
+	//         </option>
+	//         <option
+	//           value="s"
+	//           ${tooltipPlacement === "s" ? "selected" : ""}>
+	//             ${i18n("pin-cushion.Tooltip.Placement.choices.south")}
+	//         </option>
+	//         <option
+	//           value="se"
+	//           ${tooltipPlacement === "se" ? "selected" : ""}>
+	//             ${i18n("pin-cushion.Tooltip.Placement.choices.south-east")}
+	//         </option>
+	//         <option
+	//           value="se-alt"
+	//           ${tooltipPlacement === "se-alt" ? "selected" : ""}>
+	//             ${i18n("pin-cushion.Tooltip.Placement.choices.south-east-alt")}
+	//         </option>
+	//       </select>
+	//     </div>
+	//   </div>
+	//   <div class="form-group">
+	//     <label
+	//       for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">
+	//         ${i18n("pin-cushion.Tooltip.Color.title")}
+	//     </label>
+	//     <div class="form-fields">
+	//       <select
+	//         id="cushion-permission"
+	//         style="width: 100%;"
+	//         name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">
+	//         <option
+	//         value="" ${tooltipColor === "" ? "selected" : ""}>
+	//           ${i18n("pin-cushion.Tooltip.Color.choices.default")}
+	//         </option>
+	//         <option
+	//         value="blue"
+	//         ${tooltipColor === "blue" ? "selected" : ""}>
+	//           ${i18n("pin-cushion.Tooltip.Color.choices.blue")}
+	//         </option>
+	//         <option
+	//         value="dark"
+	//         ${tooltipColor === "dark" ? "selected" : ""}>
+	//           ${i18n("pin-cushion.Tooltip.Color.choices.dark")}
+	//         </option>
+	//         <option
+	//         value="green"
+	//         ${tooltipColor === "green" ? "selected" : ""}>
+	//           ${i18n("pin-cushion.Tooltip.Color.choices.green")}
+	//         </option>
+	//         <option
+	//         value="light"
+	//         ${tooltipColor === "light" ? "selected" : ""}>
+	//           ${i18n("pin-cushion.Tooltip.Color.choices.light")}
+	//         </option>
+	//         <option
+	//         value="orange"
+	//         ${tooltipColor === "orange" ? "selected" : ""}>
+	//           ${i18n("pin-cushion.Tooltip.Color.choices.orange")}
+	//         </option>
+	//         <option value="purple"
+	//         ${tooltipColor === "purple" ? "selected" : ""}>
+	//           ${i18n("pin-cushion.Tooltip.Color.choices.purple")}
+	//         </option>
+	//         <option
+	//         value="red"
+	//         ${tooltipColor === "red" ? "selected" : ""}>
+	//           ${i18n("pin-cushion.Tooltip.Color.choices.red")}
+	//         </option>
+	//         <option
+	//         value="yellow"
+	//         ${tooltipColor === "yellow" ? "selected" : ""}>
+	//           ${i18n("pin-cushion.Tooltip.Color.choices.yellow")}
+	//         </option>
+	//       </select>
+	//     </div>
+	//   </div>
+	//   <div class="form-group">
+	//     <label
+	//       for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}">
+	//         ${i18n("pin-cushion.Tooltip.ForceRemove.title")}
+	//     </label>
+	//     <div class="form-fields">
+	//       <input
+	//         type="checkbox"
+	//         name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}"
+	//         data-dtype="Boolean" ${tooltipForceRemove ? "checked" : ""} />
+	//     </div>
+	//   </div>
+	//   <div class="form-group">
+	//     <label
+	//       for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT}">
+	//         ${i18n("pin-cushion.Tooltip.SmartPlacement.title")}
+	//     </label>
+	//     <div class="form-fields">
+	//       <input
+	//         type="checkbox"
+	//         name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT}"
+	//         data-dtype="Boolean" ${tooltipSmartPlacement ? "checked" : ""} />
+	//     </div>
+	//   </div>
+	// `);
 
-		// TODO FOLLOW MOUSE FEATURE IS NOT WORKING...
-		/*
-    <div class="form-group">
-      <label
-        for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE}">
-          ${i18n('pin-cushion.Tooltip.FollowMouse.title')}
-      </label>
-      <div class="form-fields">
-        <input
-          type="checkbox"
-          name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE}"
-          data-dtype="Boolean" ${tooltipFollowMouse ? 'checked' : ''} />
-      </div>
-    </div>
-    */
+	// 	// TODO FOLLOW MOUSE FEATURE IS NOT WORKING...
+	// 	/*
+	// <div class="form-group">
+	//   <label
+	//     for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE}">
+	//       ${i18n('pin-cushion.Tooltip.FollowMouse.title')}
+	//   </label>
+	//   <div class="form-fields">
+	//     <input
+	//       type="checkbox"
+	//       name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE}"
+	//       data-dtype="Boolean" ${tooltipFollowMouse ? 'checked' : ''} />
+	//   </div>
+	// </div>
+	// */
 
-		// app.setPosition({ height: 'auto' });
-	}
+	// 	// app.setPosition({ height: 'auto' });
+	// }
 
-	/**
-	 * Add background field
-	 * @param {*} app
-	 * @param {*} html
-	 * @param {*} data
-	 */
-	static _addBackgroundField(app, html, data) {
-		const hasBackground =
-			(app.document
-				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)
-				: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) ?? 0;
-		const iconTintGroup = html.find("[name='texture.tint']").closest(".form-group");
-		const ratio =
-			(app.document
-				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO)
-				: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO)) ?? 1;
-		const iconSizeGroup = html.find("[name=iconSize]").closest(".form-group");
-		const textAlwaysVisible =
-			(app.document
-				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE)
-				: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE)) ?? false;
-		const textAnchorGroup = html.find("[name=textAnchor]").closest(".form-group");
+	// /**
+	//  * Add background field
+	//  * @param {*} app
+	//  * @param {*} html
+	//  * @param {*} data
+	//  */
+	// static _addBackgroundField(app, html, data) {
+	// 	const hasBackground =
+	// 		(app.document
+	// 			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)
+	// 			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HAS_BACKGROUND)) ?? 0;
+	// 	const iconTintGroup = html.find("[name='texture.tint']").closest(".form-group");
+	// 	const ratio =
+	// 		(app.document
+	// 			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO)
+	// 			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.RATIO)) ?? 1;
+	// 	const iconSizeGroup = html.find("[name=iconSize]").closest(".form-group");
+	// 	const textAlwaysVisible =
+	// 		(app.document
+	// 			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE)
+	// 			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE)) ?? false;
+	// 	const textAnchorGroup = html.find("[name=textAnchor]").closest(".form-group");
 
-		const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
-		if (enableBackgroundlessPins) {
-			iconTintGroup.after(`
-        <div class="form-group">
-          <label
-            for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}">
-            ${i18n("pin-cushion.HasBackground")}
-          </label>
-          <div class="form-fields">
-            <input
-              type="checkbox"
-              name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}"
-              data-dtype="Boolean" ${hasBackground ? "checked" : ""} />
-          </div>
-        </div>`);
-		}
-		iconSizeGroup.after(`
-      <div class="form-group">
-        <label
-          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.RATIO}">
-            ${i18n("pin-cushion.HasBackgroundRatio")}
-        </label>
-        <div class="form-fields">
-          <input
-            type="text"
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.RATIO}"
-            data-dtype="Number"
-            value="${ratio}" />
-        </div>
-      </div>
-    `);
+	// 	const enableBackgroundlessPins = game.settings.get(PinCushion.MODULE_NAME, "enableBackgroundlessPins");
+	// 	if (enableBackgroundlessPins) {
+	// 		iconTintGroup.after(`
+	//     <div class="form-group">
+	//       <label
+	//         for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}">
+	//         ${i18n("pin-cushion.HasBackground")}
+	//       </label>
+	//       <div class="form-fields">
+	//         <input
+	//           type="checkbox"
+	//           name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HAS_BACKGROUND}"
+	//           data-dtype="Boolean" ${hasBackground ? "checked" : ""} />
+	//       </div>
+	//     </div>`);
+	// 	}
+	// 	iconSizeGroup.after(`
+	//   <div class="form-group">
+	//     <label
+	//       for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.RATIO}">
+	//         ${i18n("pin-cushion.HasBackgroundRatio")}
+	//     </label>
+	//     <div class="form-fields">
+	//       <input
+	//         type="text"
+	//         name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.RATIO}"
+	//         data-dtype="Number"
+	//         value="${ratio}" />
+	//     </div>
+	//   </div>
+	// `);
 
-		textAnchorGroup.after(`
-      <div class="form-group">
-        <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE}">${i18n(
-			`${PinCushion.MODULE_NAME}.TextAlwaysVisible`
-		)}</label>
-        <div class="form-fields">
-          <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${
-			PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE
-		}" data-dtype="Boolean" ${textAlwaysVisible ? "checked" : ""}>
-        </div>
-      </div>
-    `);
-		// app.setPosition({ height: 'auto' });
-	}
+	// 	textAnchorGroup.after(`
+	//   <div class="form-group">
+	//     <label for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE}">${i18n(
+	// 		`${PinCushion.MODULE_NAME}.TextAlwaysVisible`
+	// 	)}</label>
+	//     <div class="form-fields">
+	//       <input type="checkbox" name="flags.${PinCushion.MODULE_NAME}.${
+	// 		PinCushion.FLAGS.TEXT_ALWAYS_VISIBLE
+	// 	}" data-dtype="Boolean" ${textAlwaysVisible ? "checked" : ""}>
+	//     </div>
+	//   </div>
+	// `);
+	// 	// app.setPosition({ height: 'auto' });
+	// }
 
-	/**
-	 * Add show image field
-	 * @param {*} app
-	 * @param {*} html
-	 * @param {*} noteData
-	 */
-	static _addShowImageField(app, html, noteData) {
-		const showImageExplicitSource = stripQueryStringAndHashFromPath(
-			app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? ""
-		);
-		// const iconPinCushion = stripQueryStringAndHashFromPath(
-		//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? noteData.document.texture.src,
-		// );
+	// /**
+	//  * Add show image field
+	//  * @param {*} app
+	//  * @param {*} html
+	//  * @param {*} noteData
+	//  */
+	// static _addShowImageField(app, html, noteData) {
+	// 	const showImageExplicitSource = stripQueryStringAndHashFromPath(
+	// 		app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE) ?? ""
+	// 	);
+	// 	// const iconPinCushion = stripQueryStringAndHashFromPath(
+	// 	//   app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.CUSHION_ICON) ?? noteData.document.texture.src,
+	// 	// );
 
-		// you can see this only if you have the file browser permissions
-		let filePickerHtml = "";
-		if (game.user.can("FILES_BROWSE")) {
-			filePickerHtml = `
-        <div class="form-group">
-            <label
-              for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
-              >${i18n("pin-cushion.ShowImageExplicitSource")}</label>
-            <div class="form-fields">
-              <img class="pin-cushion-explicit-icon" src="${showImageExplicitSource}" />
-              <input
-                type="text"
-                name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
-                title="${i18n("pin-cushion.ShowImageExplicitSource")}"
-                class="icon-path"
-                value="${showImageExplicitSource}"
-                placeholder="/icons/example.svg"
-                data-dtype="String"
-                >
-              </input>
-              ${this.filePicker(
-					"image",
-					`flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}`,
-					`file-picker-showImageExplicitSource`
-				)}
-            </div>
-        </div>`;
-		}
+	// 	// you can see this only if you have the file browser permissions
+	// 	let filePickerHtml = "";
+	// 	if (game.user.can("FILES_BROWSE")) {
+	// 		filePickerHtml = `
+	//     <div class="form-group">
+	//         <label
+	//           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
+	//           >${i18n("pin-cushion.ShowImageExplicitSource")}</label>
+	//         <div class="form-fields">
+	//           <img class="pin-cushion-explicit-icon" src="${showImageExplicitSource}" />
+	//           <input
+	//             type="text"
+	//             name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}"
+	//             title="${i18n("pin-cushion.ShowImageExplicitSource")}"
+	//             class="icon-path"
+	//             value="${showImageExplicitSource}"
+	//             placeholder="/icons/example.svg"
+	//             data-dtype="String"
+	//             >
+	//           </input>
+	//           ${this.filePicker(
+	// 				"image",
+	// 				`flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}`,
+	// 				`file-picker-showImageExplicitSource`
+	// 			)}
+	//         </div>
+	//     </div>`;
+	// 	}
 
-		// Set to show image linked to the journal on the tooltip
-		// a cushion icon is setted it will show that instead
-		// make sense ?
+	// 	// Set to show image linked to the journal on the tooltip
+	// 	// a cushion icon is setted it will show that instead
+	// 	// make sense ?
 
-		const showImage = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE) ?? false;
-		const iconTintGroup = html.find("[name='texture.tint']").closest(".form-group");
-		iconTintGroup.after(`
-      <div class="form-group">
-        <label
-          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE}">
-          ${i18n("pin-cushion.ShowImage")}
-        </label>
-        <div class="form-fields">
-          <input
-            type="checkbox"
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE}"
-            data-dtype="Boolean" ${showImage ? "checked" : ""}>
-          </input>
-        </div>
-      </div>
-      ${filePickerHtml}
-    `);
-		// app.setPosition({ height: 'auto' });
-		html.find("button.file-picker-showImageExplicitSource").each(
-			(i, button) => (button.onclick = app._activateFilePicker.bind(app))
-		);
-		const iconCustomSelectorExplicit = html.find(
-			`input[name='flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}']`
-		);
-		if (iconCustomSelectorExplicit?.length > 0) {
-			iconCustomSelectorExplicit.on("change", function () {
-				const p = iconCustomSelectorExplicit.parent().find(".pin-cushion-explicit-icon");
-				p[0].src = this.value;
-			});
-		}
-	}
+	// 	const showImage = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_IMAGE) ?? false;
+	// 	const iconTintGroup = html.find("[name='texture.tint']").closest(".form-group");
+	// 	iconTintGroup.after(`
+	//   <div class="form-group">
+	//     <label
+	//       for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE}">
+	//       ${i18n("pin-cushion.ShowImage")}
+	//     </label>
+	//     <div class="form-fields">
+	//       <input
+	//         type="checkbox"
+	//         name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE}"
+	//         data-dtype="Boolean" ${showImage ? "checked" : ""}>
+	//       </input>
+	//     </div>
+	//   </div>
+	//   ${filePickerHtml}
+	// `);
+	// 	// app.setPosition({ height: 'auto' });
+	// 	html.find("button.file-picker-showImageExplicitSource").each(
+	// 		(i, button) => (button.onclick = app._activateFilePicker.bind(app))
+	// 	);
+	// 	const iconCustomSelectorExplicit = html.find(
+	// 		`input[name='flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_IMAGE_EXPLICIT_SOURCE}']`
+	// 	);
+	// 	if (iconCustomSelectorExplicit?.length > 0) {
+	// 		iconCustomSelectorExplicit.on("change", function () {
+	// 			const p = iconCustomSelectorExplicit.parent().find(".pin-cushion-explicit-icon");
+	// 			p[0].src = this.value;
+	// 		});
+	// 	}
+	// }
 
-	/**
-	 * Add pin is transparent field
-	 * @param {*} app
-	 * @param {*} html
-	 * @param {*} data
-	 */
-	static _addPinIsTransparentField(app, html, data) {
-		const pinIsTransparent =
-			app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_TRANSPARENT) ?? false;
-		const iconTintGroup = html.find("[name='texture.tint']").closest(".form-group");
-		iconTintGroup.after(`
-      <div class="form-group">
-        <label
-          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_TRANSPARENT}">
-          ${i18n("pin-cushion.PinIsTransparent")}
-        </label>
-        <div class="form-fields">
-          <input
-            type="checkbox"
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_TRANSPARENT}"
-            data-dtype="Boolean" ${pinIsTransparent ? "checked" : ""}>
-          </input>
-        </div>
-      </div>
-    `);
-		// app.setPosition({ height: 'auto' });
-	}
+	// /**
+	//  * Add pin is transparent field
+	//  * @param {*} app
+	//  * @param {*} html
+	//  * @param {*} data
+	//  */
+	// static _addPinIsTransparentField(app, html, data) {
+	// 	const pinIsTransparent =
+	// 		app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_TRANSPARENT) ?? false;
+	// 	const iconTintGroup = html.find("[name='texture.tint']").closest(".form-group");
+	// 	iconTintGroup.after(`
+	//   <div class="form-group">
+	//     <label
+	//       for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_TRANSPARENT}">
+	//       ${i18n("pin-cushion.PinIsTransparent")}
+	//     </label>
+	//     <div class="form-fields">
+	//       <input
+	//         type="checkbox"
+	//         name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_TRANSPARENT}"
+	//         data-dtype="Boolean" ${pinIsTransparent ? "checked" : ""}>
+	//       </input>
+	//     </div>
+	//   </div>
+	// `);
+	// 	// app.setPosition({ height: 'auto' });
+	// }
 
-	/**
-	 * Add pin is transparent field
-	 * @param {*} app
-	 * @param {*} html
-	 * @param {*} data
-	 */
-	static _addShowOnlyToGMField(app, html, data) {
-		const showOnlyToGM = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_ONLY_TO_GM) ?? false;
-		const iconTintGroup = html.find("[name='texture.tint']").closest(".form-group");
-		iconTintGroup.after(`
-      <div class="form-group">
-        <label
-          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_ONLY_TO_GM}">
-          ${i18n("pin-cushion.ShowOnlyToGM")}
-        </label>
-        <div class="form-fields">
-          <input
-            type="checkbox"
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_ONLY_TO_GM}"
-            data-dtype="Boolean" ${showOnlyToGM ? "checked" : ""}>
-          </input>
-        </div>
-      </div>
-    `);
-		// app.setPosition({ height: 'auto' });
-	}
+	// /**
+	//  * Add pin is transparent field
+	//  * @param {*} app
+	//  * @param {*} html
+	//  * @param {*} data
+	//  */
+	// static _addShowOnlyToGMField(app, html, data) {
+	// 	const showOnlyToGM = app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.SHOW_ONLY_TO_GM) ?? false;
+	// 	const iconTintGroup = html.find("[name='texture.tint']").closest(".form-group");
+	// 	iconTintGroup.after(`
+	//   <div class="form-group">
+	//     <label
+	//       for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_ONLY_TO_GM}">
+	//       ${i18n("pin-cushion.ShowOnlyToGM")}
+	//     </label>
+	//     <div class="form-fields">
+	//       <input
+	//         type="checkbox"
+	//         name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.SHOW_ONLY_TO_GM}"
+	//         data-dtype="Boolean" ${showOnlyToGM ? "checked" : ""}>
+	//       </input>
+	//     </div>
+	//   </div>
+	// `);
+	// 	// app.setPosition({ height: 'auto' });
+	// }
 
-	/**
-	 * Replaces icon selector in Notes Config form with filepicker and adds fields to set player-only note icons.
-	 * @param {*} app
-	 * @param {*} html
-	 * @param {*} noteData
-	 */
-	static _addPlayerIconField(app, html, noteData) {
-		/* Adds fields to set player-only note icons */
-		/* Get default values set by GM */
-		const defaultState = game.settings.get(PinCushion.MODULE_NAME, "playerIconAutoOverride");
-		const defaultPath = game.settings.get(PinCushion.MODULE_NAME, "playerIconPathDefault");
+	// /**
+	//  * Replaces icon selector in Notes Config form with filepicker and adds fields to set player-only note icons.
+	//  * @param {*} app
+	//  * @param {*} html
+	//  * @param {*} noteData
+	//  */
+	// static _addPlayerIconField(app, html, noteData) {
+	// 	/* Adds fields to set player-only note icons */
+	// 	/* Get default values set by GM */
+	// 	const defaultState = game.settings.get(PinCushion.MODULE_NAME, "playerIconAutoOverride");
+	// 	const defaultPath = game.settings.get(PinCushion.MODULE_NAME, "playerIconPathDefault");
 
-		const state =
-			getProperty(noteData, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_STATE}`) ??
-			defaultState;
-		const path = stripQueryStringAndHashFromPath(
-			getProperty(noteData, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}`) ??
-				defaultPath
-		);
+	// 	const state =
+	// 		getProperty(noteData, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_STATE}`) ??
+	// 		defaultState;
+	// 	const path = stripQueryStringAndHashFromPath(
+	// 		getProperty(noteData, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}`) ??
+	// 			defaultPath
+	// 	);
 
-		/* Set HTML to be added to the note-config */
-		const playerIconHtml = `<hr>
-        <!-- Button to Enable overrides -->
-        <div class="form-group">
-          <label>${i18n("pin-cushion.UsePlayerIcon")}</label>
-          <div class="form-fields">
-            <input
-              type="checkbox"
-              name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_STATE}"
-              data-dtype="Boolean" ${state ? "checked" : ``} />
-          </div>
-          <p class="notes">${i18n("pin-cushion.PlayerIconHint")}</p>
-        </div>
-        <!-- Player Icon -->
-        <div class="form-group">
-          <label>${i18n("pin-cushion.PlayerIconPath")}</label>
-          <div class="form-fields">
-            <img class="pin-cushion-journal-icon" src="${path ? path : ``}" />
-            <input type="text"
-              name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}"
-              title="Icon Path" class="icon-path" value="${path ? path : ``}"
-              data-dtype="String" />
-            ${this.filePicker(
-				"image",
-				`flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}`,
-				`file-picker`
-			)}
-          </div>
-        </div>`;
+	// 	/* Set HTML to be added to the note-config */
+	// 	const playerIconHtml = `<hr>
+	//     <!-- Button to Enable overrides -->
+	//     <div class="form-group">
+	//       <label>${i18n("pin-cushion.UsePlayerIcon")}</label>
+	//       <div class="form-fields">
+	//         <input
+	//           type="checkbox"
+	//           name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_STATE}"
+	//           data-dtype="Boolean" ${state ? "checked" : ``} />
+	//       </div>
+	//       <p class="notes">${i18n("pin-cushion.PlayerIconHint")}</p>
+	//     </div>
+	//     <!-- Player Icon -->
+	//     <div class="form-group">
+	//       <label>${i18n("pin-cushion.PlayerIconPath")}</label>
+	//       <div class="form-fields">
+	//         <img class="pin-cushion-journal-icon" src="${path ? path : ``}" />
+	//         <input type="text"
+	//           name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}"
+	//           title="Icon Path" class="icon-path" value="${path ? path : ``}"
+	//           data-dtype="String" />
+	//         ${this.filePicker(
+	// 			"image",
+	// 			`flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}`,
+	// 			`file-picker`
+	// 		)}
+	//       </div>
+	//     </div>`;
 
-		/*
-        <button type="button" name="file-picker"
-            class="file-picker" data-type="image"
-            data-target="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}"
-        title="Browse Files" tabindex="-1">
-        <i class="fas fa-file-import fa-fw"></i>
-        </button>
-        */
+	// 	/*
+	//     <button type="button" name="file-picker"
+	//         class="file-picker" data-type="image"
+	//         data-target="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PLAYER_ICON_PATH}"
+	//     title="Browse Files" tabindex="-1">
+	//     <i class="fas fa-file-import fa-fw"></i>
+	//     </button>
+	//     */
 
-		// Insert Player Icon handling at end of config
-		html.find("button[name='submit']").before(playerIconHtml);
-	}
+	// 	// Insert Player Icon handling at end of config
+	// 	html.find("button[name='submit']").before(playerIconHtml);
+	// }
 
 	static _addNoteGM(app, html, noteData) {
 		let gmNoteFlagRef = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_GM_TEXT}`;
@@ -1068,158 +1068,158 @@ export class PinCushion {
 		// }
 	}
 
-	static _addNoteTintColorLink(app, html, noteData) {
-		const FLAG_IS_REVEALED = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_REVEALED}`;
-		const FLAG_USE_REVEALED = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.USE_PIN_REVEALED}`;
+	// static _addNoteTintColorLink(app, html, noteData) {
+	// 	const FLAG_IS_REVEALED = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_REVEALED}`;
+	// 	const FLAG_USE_REVEALED = `flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.USE_PIN_REVEALED}`;
 
-		// Check box to control use of REVEALED state
-		let checked =
-			noteData.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_REVEALED) ?? true
-				? "checked"
-				: "";
-		let revealed_control = $(
-			`<div class='form-group'>
-        <label>${i18n("pin-cushion.RevealedToPlayer")}</label>
-        <div class='form-fields'>
-          <input
-          type='checkbox'
-          name='flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_REVEALED}' ${checked} />
-        </div>
-      </div>`
-		);
-		html.find("select[name='entryId']").parent().parent().after(revealed_control);
+	// 	// Check box to control use of REVEALED state
+	// 	let checked =
+	// 		noteData.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PIN_IS_REVEALED) ?? true
+	// 			? "checked"
+	// 			: "";
+	// 	let revealed_control = $(
+	// 		`<div class='form-group'>
+	//     <label>${i18n("pin-cushion.RevealedToPlayer")}</label>
+	//     <div class='form-fields'>
+	//       <input
+	//       type='checkbox'
+	//       name='flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PIN_IS_REVEALED}' ${checked} />
+	//     </div>
+	//   </div>`
+	// 	);
+	// 	html.find("select[name='entryId']").parent().parent().after(revealed_control);
 
-		// Check box for REVEALED state
-		let use_reveal =
-			noteData.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED) ?? false
-				? "checked"
-				: "";
-		let mode_control = $(
-			`<div class='form-group'>
-        <label>${i18n("pin-cushion.UseRevealState")}</label>
-        <div class='form-fields'>
-          <input
-            type='checkbox'
-            name='flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.USE_PIN_REVEALED}' ${use_reveal} />
-        </div>
-      </div>`
-		);
-		html.find("select[name='entryId']").parent().parent().after(mode_control);
+	// 	// Check box for REVEALED state
+	// 	let use_reveal =
+	// 		noteData.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.USE_PIN_REVEALED) ?? false
+	// 			? "checked"
+	// 			: "";
+	// 	let mode_control = $(
+	// 		`<div class='form-group'>
+	//     <label>${i18n("pin-cushion.UseRevealState")}</label>
+	//     <div class='form-fields'>
+	//       <input
+	//         type='checkbox'
+	//         name='flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.USE_PIN_REVEALED}' ${use_reveal} />
+	//     </div>
+	//   </div>`
+	// 	);
+	// 	html.find("select[name='entryId']").parent().parent().after(mode_control);
 
-		// Force a recalculation of the height
-		// if (!app._minimized) {
-		//   let pos = app.position;
-		//   pos.height = 'auto';
-		//   app.setPosition(pos);
-		// }
-	}
+	// 	// Force a recalculation of the height
+	// 	// if (!app._minimized) {
+	// 	//   let pos = app.position;
+	// 	//   pos.height = 'auto';
+	// 	//   app.setPosition(pos);
+	// 	// }
+	// }
 
-	static _addHideLabel(app, html, data) {
-		const hideLabel =
-			(app.document
-				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)
-				: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)) ?? false;
-		const textGroup = html.find("[name=text]").closest(".form-group");
-		textGroup.after(`
-      <div class="form-group">
-        <label
-          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HIDE_LABEL}">
-            ${i18n("pin-cushion.HideLabel")}
-        </label>
-        <div class="form-fields">
-          <input
-            type="checkbox"
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HIDE_LABEL}"
-            data-dtype="Boolean" ${hideLabel ? "checked" : ""} />
-        </div>
-      </div>
-    `);
-	}
+	// static _addHideLabel(app, html, data) {
+	// 	const hideLabel =
+	// 		(app.document
+	// 			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)
+	// 			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.HIDE_LABEL)) ?? false;
+	// 	const textGroup = html.find("[name=text]").closest(".form-group");
+	// 	textGroup.after(`
+	//   <div class="form-group">
+	//     <label
+	//       for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HIDE_LABEL}">
+	//         ${i18n("pin-cushion.HideLabel")}
+	//     </label>
+	//     <div class="form-fields">
+	//       <input
+	//         type="checkbox"
+	//         name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.HIDE_LABEL}"
+	//         data-dtype="Boolean" ${hideLabel ? "checked" : ""} />
+	//     </div>
+	//   </div>
+	// `);
+	// }
 
-	static _addDoNotShowJournalPreview(app, html, data) {
-		let doNotShowJournalPreviewS = String(
-			app.document
-				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)
-				: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)
-		);
-		if (doNotShowJournalPreviewS !== "true" && doNotShowJournalPreviewS !== "false") {
-			doNotShowJournalPreviewS = "true";
-		}
-		const doNotShowJournalPreview = String(doNotShowJournalPreviewS) === "true" ? true : false;
+	// static _addDoNotShowJournalPreview(app, html, data) {
+	// 	let doNotShowJournalPreviewS = String(
+	// 		app.document
+	// 			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)
+	// 			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)
+	// 	);
+	// 	if (doNotShowJournalPreviewS !== "true" && doNotShowJournalPreviewS !== "false") {
+	// 		doNotShowJournalPreviewS = "true";
+	// 	}
+	// 	const doNotShowJournalPreview = String(doNotShowJournalPreviewS) === "true" ? true : false;
 
-		// if(app.document && app.document.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)!==doNotShowJournalPreview){
-		//   app.document.setFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW,doNotShowJournalPreview);
-		// }else if(app.object && app.object.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)!==doNotShowJournalPreview){
-		//   app.object.setFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW,doNotShowJournalPreview);
-		// }
+	// 	// if(app.document && app.document.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)!==doNotShowJournalPreview){
+	// 	//   app.document.setFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW,doNotShowJournalPreview);
+	// 	// }else if(app.object && app.object.getFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)!==doNotShowJournalPreview){
+	// 	//   app.object.setFlag(PinCushion.MODULE_NAME,PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW,doNotShowJournalPreview);
+	// 	// }
 
-		const textGroup = html.find("[name=text]").closest(".form-group");
-		textGroup.after(`
-      <div class="form-group">
-        <label
-          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}">
-          ${i18n("pin-cushion.DoNotShowJournalPreview")}
-        </label>
-        <div class="form-fields">
-          <input
-            type="checkbox"
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}"
-            data-dtype="Boolean" ${doNotShowJournalPreview ? "checked" : ""} />
-        </div>
-      </div>
-    `);
-	}
-	/*
-  static _addAboveFog(app, html, data) {
-    let aboveFogS = String(
-      app.document
-        ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.ABOVE_FOG)
-        : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.ABOVE_FOG),
-    );
-    if (aboveFogS !== 'true' && aboveFogS !== 'false') {
-      aboveFogS = 'false';
-    }
-    const aboveFog = String(aboveFogS) === 'true' ? true : false;
+	// 	const textGroup = html.find("[name=text]").closest(".form-group");
+	// 	textGroup.after(`
+	//   <div class="form-group">
+	//     <label
+	//       for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}">
+	//       ${i18n("pin-cushion.DoNotShowJournalPreview")}
+	//     </label>
+	//     <div class="form-fields">
+	//       <input
+	//         type="checkbox"
+	//         name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW}"
+	//         data-dtype="Boolean" ${doNotShowJournalPreview ? "checked" : ""} />
+	//     </div>
+	//   </div>
+	// `);
+	// }
 
-    const textGroup = html.find('[name=text]').closest('.form-group');
-    textGroup.after(`
-      <div class="form-group">
-        <label
-          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}">
-          ${i18n('pin-cushion.AboveFog')}
-        </label>
-        <div class="form-fields">
-          <input
-            type="checkbox"
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}"
-            data-dtype="Boolean" ${aboveFog ? 'checked' : ''} />
-        </div>
-      </div>
-    `);
-  }
-  */
-	static _addPreviewAsTextSnippet(app, html, data) {
-		const previewAsTextSnippet =
-			(app.document
-				? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET)
-				: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET)) ?? false;
+	//   static _addAboveFog(app, html, data) {
+	//     let aboveFogS = String(
+	//       app.document
+	//         ? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.ABOVE_FOG)
+	//         : app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.ABOVE_FOG),
+	//     );
+	//     if (aboveFogS !== 'true' && aboveFogS !== 'false') {
+	//       aboveFogS = 'false';
+	//     }
+	//     const aboveFog = String(aboveFogS) === 'true' ? true : false;
 
-		const textGroup = html.find("[name=text]").closest(".form-group");
-		textGroup.after(`
-      <div class="form-group">
-        <label
-          for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET}">
-          ${i18n("pin-cushion.PreviewAsTextSnippet")}
-        </label>
-        <div class="form-fields">
-          <input
-            type="checkbox"
-            name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET}"
-            data-dtype="Boolean" ${previewAsTextSnippet ? "checked" : ""} />
-        </div>
-      </div>
-    `);
-	}
+	//     const textGroup = html.find('[name=text]').closest('.form-group');
+	//     textGroup.after(`
+	//       <div class="form-group">
+	//         <label
+	//           for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}">
+	//           ${i18n('pin-cushion.AboveFog')}
+	//         </label>
+	//         <div class="form-fields">
+	//           <input
+	//             type="checkbox"
+	//             name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.ABOVE_FOG}"
+	//             data-dtype="Boolean" ${aboveFog ? 'checked' : ''} />
+	//         </div>
+	//       </div>
+	//     `);
+	//   }
+
+	// static _addPreviewAsTextSnippet(app, html, data) {
+	// 	const previewAsTextSnippet =
+	// 		(app.document
+	// 			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET)
+	// 			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET)) ?? false;
+
+	// 	const textGroup = html.find("[name=text]").closest(".form-group");
+	// 	textGroup.after(`
+	//   <div class="form-group">
+	//     <label
+	//       for="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET}">
+	//       ${i18n("pin-cushion.PreviewAsTextSnippet")}
+	//     </label>
+	//     <div class="form-fields">
+	//       <input
+	//         type="checkbox"
+	//         name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.PREVIEW_AS_TEXT_SNIPPET}"
+	//         data-dtype="Boolean" ${previewAsTextSnippet ? "checked" : ""} />
+	//     </div>
+	//   </div>
+	// `);
+	// }
 
 	/**
 	 * If the Note has a GM-NOTE on it, then display that as the tooltip instead of the normal text

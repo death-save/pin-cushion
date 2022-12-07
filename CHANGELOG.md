@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.9.0 
+
+- Add a new tab for pin cushion
+
 ### 1.8.16
 
 - Better integration with MJE
