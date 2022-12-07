@@ -16,6 +16,7 @@ import { registerSettings } from "./scripts/settings.js";
 import { pinCushionSocket, registerSocket } from "./scripts/socket.js";
 import { PinCushionHUD } from "./scripts/apps/PinCushionHUD.js";
 import { PinCushion } from "./scripts/apps/PinCushion.js";
+import { ActionConfig } from "/modules/monks-active-tiles/apps/action-config.js";
 
 /**
  * Initialization helper, to set API.
@@ -241,16 +242,21 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	// TODO
 	//PinCushion._addAboveFog(app, html, data);
 
+	if (!game.user.isGM) {
+		return;
+	}
+
 	// ====================================
 	// SUPPORT MATT
 	// ====================================
 	let triggerData = {};
+	let tilename = "";
+	let noteTriggersHtml = "";
 	if (game.modules.get("monks-active-tiles")?.active) {
 		let entity = app.object.flags["monks-active-tiles"]?.entity || {};
 		if (typeof entity == "string" && entity) {
 			entity = JSON.parse(entity);
 		}
-		let tilename = "";
 		if (entity.id) {
 			tilename = await MonksActiveTiles.entityName(entity);
 		}
@@ -262,6 +268,10 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 			app.object.flags["monks-active-tiles"] || {}
 		);
 		triggerData.entity = JSON.stringify(entity);
+		noteTriggersHtml = await renderTemplate(
+			`modules/${PinCushion.MODULE_NAME}/templates/note-triggers-config.html`,
+			triggerData
+		);
 	}
 
 	// ====================================
@@ -415,13 +425,24 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 			$("<a>")
 				.addClass("item")
 				.attr("data-tab", "pincushion")
-				.html('<i class="fas fa-map-marker-plus"></i> Pin Cushion')
+				.html('<i class="fas fa-map-marker-plus"></i> Pin Cushion (GM Only)')
 		);
 		$("<div>")
 			.addClass("tab action-sheet")
 			.attr("data-tab", "pincushion")
 			.html(noteHtml)
 			.insertAfter($(".tab:last", html));
+
+		if (game.modules.get("monks-active-tiles")?.active) {
+			$(".sheet-tabs", html).append(
+				$("<a>").addClass("item").attr("data-tab", "triggers").html('<i class="fas fa-running"></i> Triggers')
+			);
+			$("<div>")
+				.addClass("tab action-sheet")
+				.attr("data-tab", "triggers")
+				.html(noteTriggersHtml)
+				.insertAfter($(".tab:last", html));
+		}
 	} else {
 		let root = $("form", html);
 		if (root.length == 0) root = html;
@@ -429,26 +450,54 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 		$("> *:not(button)", root).each(function () {
 			basictab.append(this);
 		});
-
-		$(root)
-			.prepend($("<div>").addClass("tab action-sheet").attr("data-tab", "pincushion").html(noteHtml))
-			.prepend(basictab)
-			.prepend(
-				$("<nav>")
-					.addClass("sheet-tabs tabs")
-					.append(
-						$("<a>")
-							.addClass("item active")
-							.attr("data-tab", "basic")
-							.html('<i class="fas fa-university"></i> Basic')
-					)
-					.append(
-						$("<a>")
-							.addClass("item")
-							.attr("data-tab", "pincushion")
-							.html('<i class="fas fa-map-marker-plus"></i> Pin Cushion')
-					)
-			);
+		if (game.modules.get("monks-active-tiles")?.active) {
+			$(root)
+				.prepend($("<div>").addClass("tab action-sheet").attr("data-tab", "triggers").html(noteTriggersHtml))
+				.prepend($("<div>").addClass("tab action-sheet").attr("data-tab", "pincushion").html(noteHtml))
+				.prepend(basictab)
+				.prepend(
+					$("<nav>")
+						.addClass("sheet-tabs tabs")
+						.append(
+							$("<a>")
+								.addClass("item active")
+								.attr("data-tab", "basic")
+								.html('<i class="fas fa-university"></i> Basic')
+						)
+						.append(
+							$("<a>")
+								.addClass("item")
+								.attr("data-tab", "pincushion")
+								.html('<i class="fas fa-map-marker-plus"></i> Pin Cushion (GM Only)')
+						)
+						.append(
+							$("<a>")
+								.addClass("item")
+								.attr("data-tab", "triggers")
+								.html('<i class="fas fa-running"></i> Triggers')
+						)
+				);
+		} else {
+			$(root)
+				.prepend($("<div>").addClass("tab action-sheet").attr("data-tab", "pincushion").html(noteHtml))
+				.prepend(basictab)
+				.prepend(
+					$("<nav>")
+						.addClass("sheet-tabs tabs")
+						.append(
+							$("<a>")
+								.addClass("item active")
+								.attr("data-tab", "basic")
+								.html('<i class="fas fa-university"></i> Basic')
+						)
+						.append(
+							$("<a>")
+								.addClass("item")
+								.attr("data-tab", "pincushion")
+								.html('<i class="fas fa-map-marker-plus"></i> Pin Cushion (GM Only)')
+						)
+				);
+		}
 	}
 
 	// START LISTENERS

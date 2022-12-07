@@ -132,10 +132,12 @@
 		"AboveFog": "Show Map Pins Above Fog",
 		"PinIsTransparent": "Pin is transparent ?",
 		"ShowOnlyToGM": "Show only to GM ?",
+		"OnLeftClick": "On Left Click",
+		"OnRightClick": "On Right Click",
 		"WarningBackgroundlessPins": "WARNING: The module setting 'Enable feature Backgroundless Pins' is disabled",
 		"WarningPlayerIconAutoOverride": "WARNING: The module setting 'Enable Player-Only Icons by default' is disabled",
 		"WarningRevealedNotes": "WARNING: The module setting 'Enable revealed state on scene Notes' is disabled",
-		"InfoRevealedNotes": "The module setting 'Enable revealed state on scene Notes' is enabled.<br/>Remember to check these module settings:<br/>Set the tint color of the Note revealed state on scene Notes<br/>Linked Icon Tint<br/>Not-linked Icon Tint<br/>Revealed Icon Tint<br/>Not-revealed Icon Tint<br/>",
+		"InfoRevealedNotes": "The module setting 'Enable revealed state on scene Notes' is enabled. Remember to check these module settings:<br/><ul><li>Set the tint color of the Note revealed state on scene Notes</li><li>Linked Icon Tint</li><li>Not-linked Icon Tint</li><li>Revealed Icon Tint</li><li>Not-revealed Icon Tint</li></ul>",
 		"SubtitlePlayerIconAutoOverride": "Player Icon Override",
 		"SubtitleRevealedNotes": "Revealed state on scene Notes",
 		"SubtitleTooltip": "Tooltip"
