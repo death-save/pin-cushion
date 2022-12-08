@@ -118,6 +118,15 @@
 		"Tooltip.Color.choices.yellow": "Jaune",
 		"PinIsTransparent": "L'épingle est transparente ?",
 		"SETTINGS.noteGMH": "Ajoute la fonctionnalité pour les Notes d'être configurées pour que le MJ voit un texte différent de celui des joueurs. Ainsi les informations secrètes peuvent être Affichées pour le MJ lors que les joueurs verront l'information 'publique' de la Note.",
-		"SETTINGS.revealedNotesH": "Lorsqu'il est activé, alors l'état 'révélé' sera utilisé pour déterminer si la Note est visible aux joueurs. (Par défaut, les notes dans Foundry VTT sont visibles pour les joueurs seulement si elles sont liées à un document qui est accessible au joueur)"
+		"SETTINGS.revealedNotesH": "Lorsqu'il est activé, alors l'état 'révélé' sera utilisé pour déterminer si la Note est visible aux joueurs. (Par défaut, les notes dans Foundry VTT sont visibles pour les joueurs seulement si elles sont liées à un document qui est accessible au joueur)",
+		"OnLeftClick": "Sur le clic gauche",
+		"OnRightClick": "Sur le clic droit",
+		"WarningBackgroundlessPins": "AVERTISSEMENT : Le paramètre du module \"Activer la fonction Backgroundless Pins\" est désactivé",
+		"WarningPlayerIconAutoOverride": "AVERTISSEMENT : Le paramètre du module \"Activer par défaut les icônes Uniquement aux Joueurs\" est désactivé",
+		"WarningRevealedNotes": "AVERTISSEMENT : Le paramètre du module \"Activer l'état révélé sur les notes de scène\" est désactivé",
+		"InfoRevealedNotes": "Le paramètre de module \"Activer l'état révélé sur les notes de scène\" est activé. N'oubliez pas de vérifier ces paramètres de module :<br/><ul><li>Définissez la couleur de la teinte de l'état révélé de la note sur les notes de la scène</li><li>Teinte de l'icône liée</li><li>Icône non liée Teinte</li><li>Teinte d'icône révélée</li><li>Teinte d'icône non révélée</li></ul>",
+		"SubtitlePlayerIconAutoOverride": "Remplacement de l'icône du joueur",
+		"SubtitleRevealedNotes": "Révélé l'état des Notes sur la scène",
+		"SubtitleTooltip": "Info-bulle"
 	}
 }
