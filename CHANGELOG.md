@@ -1,4 +1,7 @@
 # Changelog
+### 1.8.22
+
+- Bug fix pdf thumbnail
 
 ### 1.8.21 
 

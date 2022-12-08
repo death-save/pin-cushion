@@ -235,6 +235,9 @@ export function retrieveFirstImageFromJournalId(id, pageId, noDefault) {
 				if (pageEntry.type === "image" && pageEntry.src) {
 					firstImage = stripQueryStringAndHashFromPath(pageEntry.src);
 					break;
+				} else if (pageEntry.src && pageEntry.type === "pdf") {
+					firstImage = stripQueryStringAndHashFromPath(pageEntry.src);
+					break;
 				}
 				// this should manage all MJE type
 				else if (pageEntry.src) {

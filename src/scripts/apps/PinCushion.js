@@ -1668,9 +1668,22 @@ export class PinCushion {
 				if (!journalEntryImage) {
 					return;
 				}
-				const thumbnail = $(
-					`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${journalEntryImage}" title="${j.name}" alt='Journal Entry Thumbnail'>`
-				);
+				let thumbnail = null;
+				if (journalEntryImage.endsWith(".pdf")) {
+					thumbnail = $(
+						`
+						<object data="${journalEntryImage}" type="application/pdf" class="pin-cushion-thumbnail sidebar-image journal-entry-image">
+							<embed class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${journalEntryImage}" type="application/pdf">
+								<p>This browser does not support PDFs. Please download the PDF to view it: <a href="${journalEntryImage}">Download PDF</a>.</p>
+							</embed>
+						</object>
+						`
+					);
+				} else {
+					thumbnail = $(
+						`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${journalEntryImage}" title="${j.name}" alt='Journal Entry Thumbnail'>`
+					);
+				}
 				switch (game.settings.get(CONSTANTS.MODULE_NAME, "journalThumbnailPosition")) {
 					case "right": {
 						htmlEntry.append(thumbnail);
