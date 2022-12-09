@@ -1670,14 +1670,17 @@ export class PinCushion {
 				}
 				let thumbnail = null;
 				if (journalEntryImage.endsWith(".pdf")) {
-					thumbnail = $(
-						`
-						<object data="${journalEntryImage}" type="application/pdf" class="pin-cushion-thumbnail sidebar-image journal-entry-image">
-							<embed class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${journalEntryImage}" type="application/pdf">
-								<p>This browser does not support PDFs. Please download the PDF to view it: <a href="${journalEntryImage}">Download PDF</a>.</p>
-							</embed>
-						</object>
-						`
+					// thumbnail = $(
+					// 	`
+					// 	<object data="${journalEntryImage}" type="application/pdf" class="pin-cushion-thumbnail sidebar-image journal-entry-image">
+					// 		<embed class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${journalEntryImage}" type="application/pdf">
+					// 			<p>This browser does not support PDFs. Please download the PDF to view it: <a href="${journalEntryImage}">Download PDF</a>.</p>
+					// 		</embed>
+					// 	</object>
+					// 	`
+					// );
+                    thumbnail = $(
+						`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${CONSTANTS.PATH_PDF_THUMBNAIL}" title="${j.name}" alt='Journal Entry Thumbnail'>`
 					);
 				} else {
 					thumbnail = $(
