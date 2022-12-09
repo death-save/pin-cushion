@@ -126,7 +126,7 @@
 		"WarningRevealedNotes": "AVERTISSEMENT : Le paramètre du module \"Activer l'état révélé sur les notes de scène\" est désactivé",
 		"InfoRevealedNotes": "Le paramètre de module \"Activer l'état révélé sur les notes de scène\" est activé. N'oubliez pas de vérifier ces paramètres de module :<br/><ul><li>Définissez la couleur de la teinte de l'état révélé de la note sur les notes de la scène</li><li>Teinte de l'icône liée</li><li>Icône non liée Teinte</li><li>Teinte d'icône révélée</li><li>Teinte d'icône non révélée</li></ul>",
 		"SubtitlePlayerIconAutoOverride": "Remplacement de l'icône du joueur",
-		"SubtitleRevealedNotes": "Révélé l'état des Notes sur la scène",
+		"SubtitleRevealedNotes": "État révélé des Notes sur la scène",
 		"SubtitleTooltip": "Info-bulle"
 	}
 }
