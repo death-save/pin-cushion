@@ -1,4 +1,8 @@
 # Changelog
+### 1.8.23
+
+- Bug fix put a static thumbnail for pdf
+
 ### 1.8.22
 
 - Bug fix pdf thumbnail

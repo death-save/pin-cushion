@@ -1679,7 +1679,7 @@ export class PinCushion {
 					// 	</object>
 					// 	`
 					// );
-                    thumbnail = $(
+					thumbnail = $(
 						`<img class="pin-cushion-thumbnail sidebar-image journal-entry-image" src="${CONSTANTS.PATH_PDF_THUMBNAIL}" title="${j.name}" alt='Journal Entry Thumbnail'>`
 					);
 				} else {
