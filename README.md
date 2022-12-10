@@ -42,9 +42,6 @@ To install this module manually:
 
 ## Known issue
 
-- With the advent of fvtt10 and the "pages" system, the module will considered for the tooltip the first page image type and the first page type text. This will remain the behaviour until i found a "smart" management for this
-- I now the note configuration dialog is not pretty, i'm planning to add a tab on that, i'm just not sure when i find the time...
-
 ### libWrapper
 
 This module uses the [libWrapper](https://github.com/ruipin/fvtt-lib-wrapper) library for wrapping core methods. It is a hard dependency and it is recommended for the best experience and compatibility with other modules.
