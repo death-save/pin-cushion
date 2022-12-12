@@ -180,6 +180,9 @@ Hooks.once("ready", function () {
  * @param {object] data       The object of data used when rendering the application (from NoteConfig#getData)
  */
 Hooks.on("renderNoteConfig", async (app, html, noteData) => {
+    if(!app.object.flags[PinCushion.MODULE_NAME]) {
+        setProperty(app.object.flags[PinCushion.MODULE_NAME], {});
+    }
 	let entity = app.object.flags[PinCushion.MODULE_NAME] || {};
 
 	// TODO THIS CODE CAN B DONE MUCH BETTER...

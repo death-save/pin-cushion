@@ -1,4 +1,9 @@
 # Changelog
+
+### 1.8.24
+
+- Bug fix https://github.com/p4535992/foundryvtt-pin-cushion/issues/49
+
 ### 1.8.23
 
 - Bug fix put a static thumbnail for pdf
@@ -7,7 +12,7 @@
 
 - Bug fix pdf thumbnail
 
-### 1.8.21 
+### 1.8.21
 
 - Add a new tab for pin cushion
 
@@ -78,7 +83,7 @@
 
 - Buf fix [Pin Cushion 1.7 broke "Do not show Journal Preview"](https://github.com/p4535992/foundryvtt-pin-cushion/issues/15)
 
-### [1.7.1] 
+### [1.7.1]
 
 - Add again 'enableBackgroundlessPins' has module setitngs for anyone found useful.
 
