@@ -181,7 +181,9 @@ Hooks.once("ready", function () {
  */
 Hooks.on("renderNoteConfig", async (app, html, noteData) => {
     if(!app.object.flags[PinCushion.MODULE_NAME]) {
-        setProperty(app.object.flags[PinCushion.MODULE_NAME], {});
+		// TODO WHY IS THIS NOT WORKING ??
+        // setProperty(app.object.flags[PinCushion.MODULE_NAME], {}); 
+		app.object.flags[PinCushion.MODULE_NAME] = {};
     }
 	let entity = app.object.flags[PinCushion.MODULE_NAME] || {};
 

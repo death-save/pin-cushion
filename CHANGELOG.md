@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.8.25
+
+- Bug fix : https://github.com/p4535992/foundryvtt-pin-cushion/issues/50
+
 ### 1.8.24
 
 - Bug fix https://github.com/p4535992/foundryvtt-pin-cushion/issues/49
