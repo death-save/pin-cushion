@@ -151,6 +151,15 @@ export const registerSettings = function () {
 		config: true,
 	});
 
+	game.settings.register(CONSTANTS.MODULE_NAME, "enableTooltipByDefault", {
+		name: game.i18n.localize(`pin-cushion.SETTINGS.enableTooltipByDefaultN`),
+		hint: game.i18n.localize(`pin-cushion.SETTINGS.enableTooltipByDefaultH`),
+		scope: "world",
+		type: Boolean,
+		default: false,
+		config: true,
+	});
+
 	game.settings.register(CONSTANTS.MODULE_NAME, "playerIconAutoOverride", {
 		name: game.i18n.localize(`pin-cushion.SETTINGS.PlayerIconAutoOverrideN`),
 		hint: game.i18n.localize(`pin-cushion.SETTINGS.PlayerIconAutoOverrideH`),
@@ -525,6 +534,15 @@ function otherSettings(apply = false) {
 			scope: "world",
 			type: Boolean,
 			default: true,
+			config: true,
+		},
+
+		enableTooltipByDefault: {
+			name: game.i18n.localize(`pin-cushion.SETTINGS.enableTooltipByDefaultN`),
+			hint: game.i18n.localize(`pin-cushion.SETTINGS.enableTooltipByDefaultH`),
+			scope: "world",
+			type: Boolean,
+			default: false,
 			config: true,
 		},
 

@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.8.26
+
+- Add module setting "Enable tooltip by default"
+
 ### 1.8.25
 
 - Bug fix : https://github.com/p4535992/foundryvtt-pin-cushion/issues/50

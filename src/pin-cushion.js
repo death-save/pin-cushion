@@ -355,7 +355,11 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)
 	);
 	if (doNotShowJournalPreviewS !== "true" && doNotShowJournalPreviewS !== "false") {
-		doNotShowJournalPreviewS = "true";
+		if(game.settings.get(PinCushion.MODULE_NAME, "enableTooltipByDefault")){
+			doNotShowJournalPreviewS = "false";
+		} else {
+			doNotShowJournalPreviewS = "true";
+		}
 	}
 	const doNotShowJournalPreview = String(doNotShowJournalPreviewS) === "true" ? true : false;
 
