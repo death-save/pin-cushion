@@ -127,6 +127,8 @@
 		"InfoRevealedNotes": "Le paramètre de module \"Activer l'état révélé sur les notes de scène\" est activé. N'oubliez pas de vérifier ces paramètres de module :<br/><ul><li>Définissez la couleur de la teinte de l'état révélé de la note sur les notes de la scène</li><li>Teinte de l'icône liée</li><li>Icône non liée Teinte</li><li>Teinte d'icône révélée</li><li>Teinte d'icône non révélée</li></ul>",
 		"SubtitlePlayerIconAutoOverride": "Remplacement de l'icône du joueur",
 		"SubtitleRevealedNotes": "État révélé des Notes sur la scène",
-		"SubtitleTooltip": "Info-bulle"
+		"SubtitleTooltip": "Info-bulle",
+		"SETTINGS.enableTooltipByDefaultN": "Activer l'infobulle par défaut",
+		"SETTINGS.enableTooltipByDefaultH": "Lorsque vous créez des notes sur le canevas, activez la fonction d'infobulle par défaut. Ce paramètre ne modifie pas les notes existantes, toutes les notes précédentes déjà créées devront être modifiées manuellement."
 	}
 }
