@@ -1,6 +1,3 @@
-
-EXPERIMENTAL FEATURE THIS WILL NOT WORK ON FORGE
-
 <div class="form-group">
     <label>{{ localize "MonksActiveTiles.SelectTile" }}</label>
     <div class="form-fields">
@@ -10,17 +7,21 @@ EXPERIMENTAL FEATURE THIS WILL NOT WORK ON FORGE
         {{#if showtagger}}
         <button type="button" data-type="tagger" data-target="flags.monks-active-tiles.entity" title="{{localize "MonksActiveTiles.msg.usetagger"}}" class="entity-picker"><i class="fas fa-tag fa-sm"></i></button>
         {{/if}}
+        <!---
+        <button type="button" data-type="within" data-target="flags.monks-active-tiles.entity" title="{{localize "MonksActiveTiles.msg.usewithinnote"}}" class="entity-picker"><i class="fas fa-street-view fa-sm"></i></button>
+        -->
     </div>
 </div>
+
 <div class="form-group">
-    <label>{{localize "OnLeftClick"}}</label>
+    <label>{{localize ""pin-cushion.OnLeftClick"}}</label>
     <div class="form-fields">
         <input type="checkbox" name="flags.monks-active-tiles.leftclick" {{checked leftclick}} />
     </div>
 </div>
 
 <div class="form-group">
-    <label>{{localize "OnRightClick"}}</label>
+    <label>{{localize ""pin-cushion.OnRightClick"}}</label>
     <div class="form-fields">
         <input type="checkbox" name="flags.monks-active-tiles.rightclick" {{checked rightclick}} />
     </div>
