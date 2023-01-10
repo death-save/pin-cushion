@@ -19,6 +19,7 @@ import { PinCushion } from "./scripts/apps/PinCushion.js";
 // import { ActionConfig } from "/modules/monks-active-tiles/apps/action-config.js";
 // import { MonksActiveTiles } from "/modules/monks-active-tiles/monks-active-tiles.js";
 import { noteControl } from "./scripts/apps/NoteControl.js";
+import { PinCushionContainer } from "./scripts/apps/PinCushionContainer.js";
 
 /**
  * Initialization helper, to set API.
@@ -182,7 +183,7 @@ Hooks.once("ready", function () {
 Hooks.on("renderNoteConfig", async (app, html, noteData) => {
     if(!app.object.flags[PinCushion.MODULE_NAME]) {
 		// TODO WHY IS THIS NOT WORKING ??
-        // setProperty(app.object.flags[PinCushion.MODULE_NAME], {}); 
+        // setProperty(app.object.flags[PinCushion.MODULE_NAME], {});
 		app.object.flags[PinCushion.MODULE_NAME] = {};
     }
 	let entity = app.object.flags[PinCushion.MODULE_NAME] || {};
@@ -598,11 +599,9 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
  * Hook on render HUD
  */
 Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
-	// const showPreview = game.settings.get(PinCushion.MODULE_NAME, 'showJournalPreview');
-	// if (showPreview) {
-	html.append(`<template id="pin-cushion-hud"></template>`);
-	canvas.hud.pinCushion = new PinCushionHUD();
-	// }
+	// html.append(`<template id="pin-cushion-hud"></template>`);
+	// canvas.hud.pinCushion = new PinCushionHUD();
+    PinCushionContainer.renderHeadsUpDisplay(app,html,data);
 });
 
 /**

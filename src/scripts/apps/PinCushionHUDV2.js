@@ -6,6 +6,7 @@ import {
 	retrieveFirstTextFromJournalId,
 } from "../lib/lib.js";
 import { PinCushion } from "./PinCushion.js";
+import { PinCushionContainer } from "./PinCushionContainer.js";
 
 /**
  * @class PinCushionHUD
@@ -13,12 +14,11 @@ import { PinCushion } from "./PinCushion.js";
  * A HUD extension that shows the Note preview
  */
 export class PinCushionHUDV2 extends BasePlaceableHUD {
-	// contentTooltip;
 
-	constructor(note, options) {
-		super(note, options);
-		this.data = note;
-	}
+	// constructor(note, options) {
+	// 	super(note, options);
+	// 	this.data = note;
+	// }
 
 	/**
 	 * Assign the default options which are supported by the entity edit sheet
@@ -39,23 +39,27 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 	/**
 	 * Binds an entity to the HUD
 	 *
-	 * The note is stored,
+	 * The PinCushionContainer is stored,
 	 * and the note associated with it is bound.
 	 *
 	 * @override
-	 * @param {Object} note
+	 * @param {PinCushionContainer} pcc
 	 * @memberof PinCushionHUDV2
 	 */
-     bind(note) {
-		this.note = note;
-		super.bind(note);
+     bind(pcc) {
+		this.pcc = pcc;
+		super.bind(pcc.note);
 	}
 
 	/**
 	 * Get data for template
 	 */
 	getData() {
-		const data = super.getData();
+		// const data = super.getData();
+        /** @type PinCushionHUDV2Data */
+        const data = {};
+        data.options = this.pcc.getOptions();
+
 		const entry = this.object.entry;
 		let entryName = data.text;
 		let entryIsOwner = true;
@@ -202,7 +206,7 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 		super.activateListeners(html);
 		html.click(e => e.stopPropagation());
 		html.find("[data-trigger]")
-			.click((event) => this.poitp[event.currentTarget.dataset.trigger](event));
+			.click((event) => this.pcc[event.currentTarget.dataset.trigger](event));
 
 		// const elementToTooltip = html;
 		let elementToTooltip = this.element;
