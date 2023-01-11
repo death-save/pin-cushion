@@ -14,7 +14,6 @@ import { PinCushionContainer } from "./PinCushionContainer.js";
  * A HUD extension that shows the Note preview
  */
 export class PinCushionHUDV2 extends BasePlaceableHUD {
-
 	// constructor(note, options) {
 	// 	super(note, options);
 	// 	this.data = note;
@@ -46,8 +45,9 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 	 * @param {PinCushionContainer} pcc
 	 * @memberof PinCushionHUDV2
 	 */
-     bind(pcc) {
+	bind(pcc, event) {
 		this.pcc = pcc;
+		this.event = event;
 		super.bind(pcc.note);
 	}
 
@@ -56,9 +56,9 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 	 */
 	getData() {
 		// const data = super.getData();
-        /** @type PinCushionHUDV2Data */
-        const data = {};
-        data.options = this.pcc.getOptions();
+		/** @type PinCushionHUDV2Data */
+		const data = {};
+		data.options = this.pcc.getOptions();
 
 		const entry = this.object.entry;
 		let entryName = data.text;
@@ -170,6 +170,8 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 		if (!this.object) {
 			return;
 		}
+		const fontSize = game.settings.get(CONSTANTS.MODULE_NAME, "fontSize") || canvas.grid.size / 5;
+		const maxWidth = game.settings.get(CONSTANTS.MODULE_NAME, "maxWidth");
 
 		// WITH TOOLTIP
 		let x = 0;
@@ -183,9 +185,27 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 			y = this.object.center ? this.object.center.y : this.object.y;
 		}
 
+		const ratio = getProperty(this.object.document.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.RATIO) ?? 1;
+		const viewWidth = visualViewport.width;
+		const width = this.object.controlIcon.width; //  * ratio;
+		const height = this.object.controlIcon.height;
+		let left = x - width / 2;
+		if (ratio > 1) {
+			left = x - (width / 2) * ratio; // correct shifting for the new scale.
+		}
+		const top = y - height / 2;
+
+		// const position = {
+		// 	left: x,
+		// 	top: y
+		// };
 		const position = {
-			left: x,
-			top: y
+			height: height + "px",
+			width: width + "px",
+			left: left + "px",
+			top: top + "px",
+			"font-size": fontSize + "px",
+			"max-width": maxWidth + "px",
 		};
 		this.element.css(position);
 	}
@@ -202,11 +222,11 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 	 * @param {jquery} html - The html of the HUD
 	 * @memberof PinCushionHUDV2
 	 */
-     activateListeners(html) {
+	activateListeners(html) {
 		super.activateListeners(html);
-		html.click(e => e.stopPropagation());
-		html.find("[data-trigger]")
-			.click((event) => this.pcc[event.currentTarget.dataset.trigger](event));
+		html.click((e) => e.stopPropagation());
+		// html.find("[data-trigger]")
+		// 	.click((event) => this.pcc[event.currentTarget.dataset.trigger](event));
 
 		// const elementToTooltip = html;
 		let elementToTooltip = this.element;

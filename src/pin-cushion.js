@@ -18,7 +18,7 @@ import { PinCushionHUD } from "./scripts/apps/PinCushionHUD.js";
 import { PinCushion } from "./scripts/apps/PinCushion.js";
 // import { ActionConfig } from "/modules/monks-active-tiles/apps/action-config.js";
 // import { MonksActiveTiles } from "/modules/monks-active-tiles/monks-active-tiles.js";
-import { noteControl } from "./scripts/apps/NoteControl.js";
+// import { noteControl } from "./scripts/apps/NoteControl.js";
 import { PinCushionContainer } from "./scripts/apps/PinCushionContainer.js";
 
 /**
@@ -167,9 +167,7 @@ Hooks.once("ready", function () {
 		throw error(`Requires the 'socketlib' module. Please ${word} it.`);
 	}
 	// Instantiate PinCushion instance for central socket request handling
-	game.pinCushion = new PinCushion();
-	// Wait for game to exist, then register socket handler
-	// game.socket.on(`module.${PinCushion.MODULE_NAME}`, game.pinCushion._onSocket);
+	// game.pinCushion = new PinCushion();
 });
 
 /**
@@ -181,11 +179,11 @@ Hooks.once("ready", function () {
  * @param {object] data       The object of data used when rendering the application (from NoteConfig#getData)
  */
 Hooks.on("renderNoteConfig", async (app, html, noteData) => {
-    if(!app.object.flags[PinCushion.MODULE_NAME]) {
+	if (!app.object.flags[PinCushion.MODULE_NAME]) {
 		// TODO WHY IS THIS NOT WORKING ??
-        // setProperty(app.object.flags[PinCushion.MODULE_NAME], {});
+		// setProperty(app.object.flags[PinCushion.MODULE_NAME], {});
 		app.object.flags[PinCushion.MODULE_NAME] = {};
-    }
+	}
 	let entity = app.object.flags[PinCushion.MODULE_NAME] || {};
 
 	// TODO THIS CODE CAN B DONE MUCH BETTER...
@@ -356,7 +354,7 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.DO_NOT_SHOW_JOURNAL_PREVIEW)
 	);
 	if (doNotShowJournalPreviewS !== "true" && doNotShowJournalPreviewS !== "false") {
-		if(game.settings.get(PinCushion.MODULE_NAME, "enableTooltipByDefault")){
+		if (game.settings.get(PinCushion.MODULE_NAME, "enableTooltipByDefault")) {
 			doNotShowJournalPreviewS = "false";
 		} else {
 			doNotShowJournalPreviewS = "true";
@@ -601,7 +599,7 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
 	// html.append(`<template id="pin-cushion-hud"></template>`);
 	// canvas.hud.pinCushion = new PinCushionHUD();
-    PinCushionContainer.renderHeadsUpDisplay(app,html,data);
+	PinCushionContainer.renderHeadsUpDisplay(app, html, data);
 });
 
 /**
@@ -617,6 +615,10 @@ Hooks.on("hoverNote", (note, hovered) => {
 		doNotShowJournalPreviewS = "true";
 	}
 	const doNotShowJournalPreview = String(doNotShowJournalPreviewS) === "true" ? true : false;
+	if (doNotShowJournalPreview) {
+		return;
+	}
+
 	let tooltipForceRemoveS = String(
 		getProperty(note, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}`)
 	);
@@ -624,19 +626,15 @@ Hooks.on("hoverNote", (note, hovered) => {
 		tooltipForceRemoveS = "false";
 	}
 	const tooltipForceRemove = String(tooltipForceRemoveS) === "true" ? true : false;
-
-	if (doNotShowJournalPreview) {
-		return;
-	}
-
 	if (!hovered) {
-		clearTimeout(game.pinCushion.hoverTimer);
+		// clearTimeout(game.pinCushion.hoverTimer);
 		if (tooltipForceRemove) {
 			$("#powerTip").remove();
 		}
 		return canvas.hud.pinCushion.clear();
 	}
 
+	/*
 	// If the note is hovered by the mouse cursor (not via alt/option)
 	if (hovered && note.mouseInteractionManager.state === 1) {
 		game.pinCushion.hoverTimer = setTimeout(function () {
@@ -650,6 +648,7 @@ Hooks.on("hoverNote", (note, hovered) => {
 			return canvas.hud.pinCushion.clear();
 		}
 	}
+	*/
 });
 
 /**
@@ -746,4 +745,8 @@ Hooks.on("renderSettingsConfig", (app, html, data) => {
 		.attr("data-edit", name)
 		.val(colour)
 		.insertAfter($(`input[name="${name}"]`, html).addClass("color"));
+});
+
+Hooks.on("canvasReady", () => {
+	PinCushionContainer.onReady();
 });

@@ -1,10 +1,27 @@
-import { log } from "../lib/lib";
-import { PinCushionHUDV2 } from "./PinCushionHUDV2";
+import { log } from "../lib/lib.js";
+import { PinCushionHUDV2 } from "./PinCushionHUDV2.js";
 
 /**
  * @class PinCushionContainer
  */
 export class PinCushionContainer {
+	hoverTimer = 0;
+	previewDelay = 0;
+
+	/**
+	 * Creates an instance of PinCushionContainer.
+	 *
+	 * @param {Note} note - A map note
+	 * @param {Scene} scene - A source scene
+	 * @memberof PinCushionContainer
+	 */
+	constructor(note, scene) {
+		this.note = note;
+		this.scene = scene;
+
+		this.activateListeners();
+	}
+
 	/**
 	 * Handles on the canvasReady Hook.
 	 *
@@ -15,12 +32,14 @@ export class PinCushionContainer {
 	 * @memberof PinCushionContainer
 	 */
 	static onReady() {
-		canvas.notes.placeables.forEach(n => this.checkNote(n));
+		canvas.notes.placeables.forEach((n) => this.checkNote(n));
 
 		canvas.mouseInteractionManager.target.on("rightdown", () => canvas.hud.pinCushion.clear());
 		canvas.mouseInteractionManager.target.on("mousedown", () => canvas.hud.pinCushion.clear());
-        // canvas.mouseInteractionManager.target.on("mouseover", () => canvas.hud.pinCushion.clear());
+		canvas.mouseInteractionManager.target.on("mouseover", () => canvas.hud.pinCushion.clear());
+		canvas.mouseInteractionManager.target.on("mouseout", () => canvas.hud.pinCushion.clear());
 
+		this.previewDelay = game.settings.get(PinCushion.MODULE_NAME, "previewDelay");
 		log(game.i18n.localize("pinCushion.name") + "| Ready.");
 	}
 
@@ -33,7 +52,7 @@ export class PinCushionContainer {
 	 * @static
 	 * @param {HeadsUpDisplay} hud - The heads up display container class
 	 * @param {jquery} html - The html of the HUD
-     * @param {Object} data - The data update of the HUD
+	 * @param {Object} data - The data update of the HUD
 	 * @memberof PinCushionContainer
 	 */
 	static renderHeadsUpDisplay(hud, html, data) {
@@ -123,7 +142,7 @@ export class PinCushionContainer {
 	 * @memberof PinCushionContainer
 	 */
 	static nextFrame() {
-		return new Promise(resolve => window.requestAnimationFrame(resolve));
+		return new Promise((resolve) => window.requestAnimationFrame(resolve));
 	}
 
 	/**
@@ -154,26 +173,13 @@ export class PinCushionContainer {
 		// const scene = game.scenes.find(s => s.journal?.id == note?.entry?.id);
 
 		// if (!scene) return;
-		if (!await this.waitFor(note, "mouseInteractionManager", 60)) {
-            return;
-        }
-        const scene = canvas.currentScene;
+		if (!(await this.waitFor(note, "mouseInteractionManager", 60))) {
+			return;
+		}
+		const scene = canvas.scene;
 		new PinCushionContainer(note, scene);
 	}
 
-	/**
-	 * Creates an instance of PinCushionContainer.
-	 *
-	 * @param {Note} note - A map note
-	 * @param {Scene} scene - A source scene
-	 * @memberof PinCushionContainer
-	 */
-	constructor(note, scene) {
-		this.note = note;
-		this.scene = scene;
-
-		this.activateListeners();
-	}
 	/**
 	 * Activate any event handlers
 	 *
@@ -181,12 +187,13 @@ export class PinCushionContainer {
 	 */
 	activateListeners() {
 		log(this.note);
-        this.note.mouseInteractionManager.target.on("mousedown", this._leftClick.bind(this));
+		this.note.mouseInteractionManager.target.on("mousedown", this._leftClick.bind(this));
 		this.note.mouseInteractionManager.target.on("rightdown", this._rightClick.bind(this));
-        this.note.mouseInteractionManager.target.on("mouseover", this._mouseOver.bind(this));
+		this.note.mouseInteractionManager.target.on("mouseover", this._mouseOver.bind(this));
+		this.note.mouseInteractionManager.target.on("mouseout", this._mouseOut.bind(this));
 	}
 
-    /**
+	/**
 	 * Handle the over mouse event
 	 *
 	 * Binds this note to the context menu HUD
@@ -195,13 +202,44 @@ export class PinCushionContainer {
 	 * @param {Event} event - The event that triggered this callback
 	 * @memberof PinCushionContainer
 	 */
-    _mouseOver(event) {
-        log(event);
-        event.stopPropagation();
-        canvas.hud.pinCushion.bind(this);
-    }
+	_mouseOver(event) {
+		log(event);
+		event.stopPropagation();
+		// If the note is hovered by the mouse cursor (not via alt/option)
+		if (this.note.mouseInteractionManager.state === 1) {
+			canvas.hud.pinCushion.bind(this);
+			// setTimeout(function (ev) {
+			// 	canvas.hud.pinCushion.bind(this);
+			// }, this.previewDelay);
+		}
+	}
 
-    /**
+	/**
+	 * Handle the out mouse event
+	 *
+	 * Binds this note to the context menu HUD
+	 * and prevents the event from bubbling
+	 *
+	 * @param {Event} event - The event that triggered this callback
+	 * @memberof PinCushionContainer
+	 */
+	_mouseOut(event) {
+		log(event);
+		event.stopPropagation();
+		let tooltipForceRemoveS = String(
+			getProperty(this.note, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}`)
+		);
+		if (tooltipForceRemoveS !== "true" && tooltipForceRemoveS !== "false") {
+			tooltipForceRemoveS = "false";
+		}
+		const tooltipForceRemove = String(tooltipForceRemoveS) === "true" ? true : false;
+		// clearTimeout(game.pinCushion.hoverTimer);
+		if (tooltipForceRemove) {
+			$("#powerTip").remove();
+		}
+	}
+
+	/**
 	 * Handle the left click event
 	 *
 	 * Binds this note to the context menu HUD
@@ -210,7 +248,7 @@ export class PinCushionContainer {
 	 * @param {Event} event - The event that triggered this callback
 	 * @memberof PinCushionContainer
 	 */
-     _leftClick(event) {
+	_leftClick(event) {
 		log(event);
 		event.stopPropagation();
 		canvas.hud.pinCushion.bind(this);
@@ -225,7 +263,7 @@ export class PinCushionContainer {
 	 * @param {Event} event - The event that triggered this callback
 	 * @memberof PinCushionContainer
 	 */
-     _rightClick(event) {
+	_rightClick(event) {
 		log(event);
 		event.stopPropagation();
 		canvas.hud.pinCushion.bind(this);
@@ -237,28 +275,33 @@ export class PinCushionContainer {
 	 * @readonly
 	 * @memberof PinCushionContainer
 	 */
-	get x() { return this.note.x; }
+	get x() {
+		return this.note.x;
+	}
+
 	/**
-	* Convenience alias for the note y coordniate
-	*
-	* @readonly
-	* @memberof PinCushionContainer
-	*/
-	get y() { return this.note.y; }
+	 * Convenience alias for the note y coordniate
+	 *
+	 * @readonly
+	 * @memberof PinCushionContainer
+	 */
+	get y() {
+		return this.note.y;
+	}
 
 	/**
 	 * @typedef ContextMenuOption
 	 * @property {string} icon - A string of HTML representing a Font Awesome icon
 	 * @property {string} title - The text, or i18n reference, for the text to display on the option
 	 * @property {string} trigger - The name of a method of PinCushionContainer to call in response to clicking this option
-	 *//**
+	 */ /**
 	 * Returns an array of menu option for the context menu.
 	 *
 	 * @return {ContextMenuOption[]}
 	 * @memberof PinCushionContainer
 	 */
 	getOptions() {
-        // const options = [
+		// const options = [
 		// 	{
 		// 		icon: `<i class="fas fa-eye fa-fw"></i>`,
 		// 		title: "poitp.view",
