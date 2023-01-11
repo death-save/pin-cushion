@@ -11,45 +11,6 @@ export const registerSettings = function () {
 		restricted: true,
 	});
 
-	// game.settings.registerMenu(CONSTANTS.MODULE_NAME, "aboutApp", {
-	//     name: game.i18n.localize(`pin-cushion.SETTINGS.AboutAppN"),
-	//     label: game.i18n.localize(`pin-cushion.SETTINGS.AboutAppN"),
-	//     hint: game.i18n.localize(`pin-cushion.SETTINGS.AboutAppH"),
-	//     icon: "fas fa-question",
-	//     type: PinCushionAboutApp,
-	//     restricted: false
-	// });
-
-	// game.settings.register(CONSTANTS.MODULE_NAME, 'showJournalPreview', {
-	//   name: game.i18n.localize(`pin-cushion.SETTINGS.ShowJournalPreviewN`),
-	//   hint: game.i18n.localize(`pin-cushion.SETTINGS.ShowJournalPreviewH`),
-	//   scope: 'client',
-	//   type: Boolean,
-	//   default: true,
-	//   config: true,
-	//   onChange: (s) => {
-	//     if (!s) {
-	//       delete canvas.hud.pinCushion;
-	//     }
-
-	//     canvas.hud.render();
-	//   },
-	// });
-
-	// game.settings.register(CONSTANTS.MODULE_NAME, 'previewType', {
-	//   name: game.i18n.localize(`pin-cushion.SETTINGS.PreviewTypeN`),
-	//   hint: game.i18n.localize(`pin-cushion.SETTINGS.PreviewTypeH`),
-	//   scope: 'client',
-	//   type: String,
-	//   choices: {
-	//     html: 'HTML',
-	//     text: 'Text Snippet',
-	//   },
-	//   default: 'html',
-	//   config: true,
-	//   onChange: (s) => {},
-	// });
-
 	game.settings.register(CONSTANTS.MODULE_NAME, "forceToShowNotes", {
 		name: game.i18n.localize(`pin-cushion.SETTINGS.forceToShowNotesN`),
 		hint: game.i18n.localize(`pin-cushion.SETTINGS.forceToShowNotesH`),

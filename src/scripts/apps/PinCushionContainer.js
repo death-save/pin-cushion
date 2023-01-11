@@ -37,7 +37,7 @@ export class PinCushionContainer {
 		canvas.mouseInteractionManager.target.on("rightdown", () => canvas.hud.pinCushion.clear());
 		canvas.mouseInteractionManager.target.on("mousedown", () => canvas.hud.pinCushion.clear());
 		canvas.mouseInteractionManager.target.on("mouseover", () => canvas.hud.pinCushion.clear());
-		canvas.mouseInteractionManager.target.on("mouseout", () => canvas.hud.pinCushion.clear());
+		// canvas.mouseInteractionManager.target.on("mouseout", () => canvas.hud.pinCushion.clear());
 
 		this.previewDelay = game.settings.get(PinCushion.MODULE_NAME, "previewDelay");
 		log(game.i18n.localize("pinCushion.name") + "| Ready.");
@@ -190,7 +190,7 @@ export class PinCushionContainer {
 		this.note.mouseInteractionManager.target.on("mousedown", this._leftClick.bind(this));
 		this.note.mouseInteractionManager.target.on("rightdown", this._rightClick.bind(this));
 		this.note.mouseInteractionManager.target.on("mouseover", this._mouseOver.bind(this));
-		this.note.mouseInteractionManager.target.on("mouseout", this._mouseOut.bind(this));
+		// this.note.mouseInteractionManager.target.on("mouseout", this._mouseOut.bind(this));
 	}
 
 	/**
@@ -214,30 +214,30 @@ export class PinCushionContainer {
 		}
 	}
 
-	/**
-	 * Handle the out mouse event
-	 *
-	 * Binds this note to the context menu HUD
-	 * and prevents the event from bubbling
-	 *
-	 * @param {Event} event - The event that triggered this callback
-	 * @memberof PinCushionContainer
-	 */
-	_mouseOut(event) {
-		log(event);
-		event.stopPropagation();
-		let tooltipForceRemoveS = String(
-			getProperty(this.note, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}`)
-		);
-		if (tooltipForceRemoveS !== "true" && tooltipForceRemoveS !== "false") {
-			tooltipForceRemoveS = "false";
-		}
-		const tooltipForceRemove = String(tooltipForceRemoveS) === "true" ? true : false;
-		// clearTimeout(game.pinCushion.hoverTimer);
-		if (tooltipForceRemove) {
-			$("#powerTip").remove();
-		}
-	}
+	// /**
+	//  * Handle the out mouse event
+	//  *
+	//  * Binds this note to the context menu HUD
+	//  * and prevents the event from bubbling
+	//  *
+	//  * @param {Event} event - The event that triggered this callback
+	//  * @memberof PinCushionContainer
+	//  */
+	// _mouseOut(event) {
+	// 	log(event);
+	// 	event.stopPropagation();
+	// 	let tooltipForceRemoveS = String(
+	// 		getProperty(this.note, `document.flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_FORCE_REMOVE}`)
+	// 	);
+	// 	if (tooltipForceRemoveS !== "true" && tooltipForceRemoveS !== "false") {
+	// 		tooltipForceRemoveS = "false";
+	// 	}
+	// 	const tooltipForceRemove = String(tooltipForceRemoveS) === "true" ? true : false;
+	// 	// clearTimeout(game.pinCushion.hoverTimer);
+	// 	if (tooltipForceRemove) {
+	// 		$("#powerTip").remove();
+	// 	}
+	// }
 
 	/**
 	 * Handle the left click event

@@ -167,7 +167,7 @@ Hooks.once("ready", function () {
 		throw error(`Requires the 'socketlib' module. Please ${word} it.`);
 	}
 	// Instantiate PinCushion instance for central socket request handling
-	// game.pinCushion = new PinCushion();
+	game.pinCushion = new PinCushion();
 });
 
 /**
@@ -597,9 +597,9 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
  * Hook on render HUD
  */
 Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
-	// html.append(`<template id="pin-cushion-hud"></template>`);
-	// canvas.hud.pinCushion = new PinCushionHUD();
-	PinCushionContainer.renderHeadsUpDisplay(app, html, data);
+	html.append(`<template id="pin-cushion-hud"></template>`);
+	canvas.hud.pinCushion = new PinCushionHUD();
+	// PinCushionContainer.renderHeadsUpDisplay(app, html, data);
 });
 
 /**
@@ -627,14 +627,13 @@ Hooks.on("hoverNote", (note, hovered) => {
 	}
 	const tooltipForceRemove = String(tooltipForceRemoveS) === "true" ? true : false;
 	if (!hovered) {
-		// clearTimeout(game.pinCushion.hoverTimer);
+		clearTimeout(game.pinCushion.hoverTimer);
 		if (tooltipForceRemove) {
 			$("#powerTip").remove();
 		}
 		return canvas.hud.pinCushion.clear();
 	}
 
-	/*
 	// If the note is hovered by the mouse cursor (not via alt/option)
 	if (hovered && note.mouseInteractionManager.state === 1) {
 		game.pinCushion.hoverTimer = setTimeout(function () {
@@ -648,7 +647,6 @@ Hooks.on("hoverNote", (note, hovered) => {
 			return canvas.hud.pinCushion.clear();
 		}
 	}
-	*/
 });
 
 /**
@@ -747,6 +745,6 @@ Hooks.on("renderSettingsConfig", (app, html, data) => {
 		.insertAfter($(`input[name="${name}"]`, html).addClass("color"));
 });
 
-Hooks.on("canvasReady", () => {
-	PinCushionContainer.onReady();
-});
+// Hooks.on("canvasReady", () => {
+// 	PinCushionContainer.onReady();
+// });

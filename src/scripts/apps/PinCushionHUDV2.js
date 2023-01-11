@@ -202,8 +202,8 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 		const position = {
 			height: height + "px",
 			width: width + "px",
-			left: left + "px",
-			top: top + "px",
+			left: x,
+			top: y,
 			"font-size": fontSize + "px",
 			"max-width": maxWidth + "px",
 		};
