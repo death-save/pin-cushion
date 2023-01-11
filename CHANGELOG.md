@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.8.27
+
+- Little update
+
 ### 1.8.26
 
 - Add module setting "Enable tooltip by default"
