@@ -12,6 +12,13 @@
 		"SETTINGS.PreviewDelayH": "How long before preview appears (in milliseconds)",
 		"SETTINGS.DefaultJournalPermissionN": "Default Journal Entry Permission",
 		"SETTINGS.DefaultJournalPermissionH": "The default permission journal entries will be created with",
+		"SETTINGS.DefaultJournalPermission.PERMISSION.NONE": "NONE",
+		"SETTINGS.DefaultJournalPermission.PERMISSION.LIMITED": "LIMITED",
+		"SETTINGS.DefaultJournalPermission.PERMISSION.OBSERVER": "OBSERVER",
+		"SETTINGS.DefaultJournalPermission.PERMISSION.OWNER": "OWNER",
+		"SETTINGS.DefaultJournalPermission.PERMISSION.INHERIT": "INHERIT",
+
+
 		"SETTINGS.DefaultJournalFolderN": "Default Journal Entry Folder",
 		"SETTINGS.DefaultJournalFolderH": "The default folder journal entries will be created in when creating Map Pins with a double-click",
 		"SETTINGS.EnableBackgroundlessPinsN": "Enable feature Backgroundless Pins",
@@ -76,6 +83,13 @@
 
 		"SETTINGS.oneClickNoteCreationN": "One click note creation",
 		"SETTINGS.oneClickNoteCreationH": "THIS FEATURE IS NOT REQUIRED FOR FOUNDRY V10 SINCE IT IS NOW PART OF THE CORE FUNCTIONALITY. Create Notes directly on the Notes Layer with a simple left click without having a connected journal entry. NOTE: You need to reload the canvas.",
+
+		"SETTINGS.allowNoteN": "[Experimental] Note Triggers (MATT Integration)",
+		"SETTINGS.allowNoteH": "Allow Notes to trigger Tiles. Note sadly this will work only on standard foundry installation with standard path, so forge installation will not work.",
+		"SETTINGS.allowNotePassthroughN": "[Only if setting 'Note Triggers ' is enabled] Allow Note Click-through",
+		"SETTINGS.allowNotePassthroughH": "Allow Tiles underneath a note to still be triggered if the note is clicked on",
+		"SETTINGS.preventWhenPausedN": "[Only if setting 'Note Triggers ' is enabled] Prevent when paused",
+		"SETTINGS.preventWhenPausedH": "Prevent players from triggering Tiles when the game is paused.",
 
 		"Tooltip.Placement.title": "Tooltip Placement",
 		"Tooltip.Placement.choices.north-west-alt": "North West Alt",

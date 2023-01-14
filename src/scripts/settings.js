@@ -48,7 +48,7 @@ export const registerSettings = function () {
 		scope: "world",
 		type: Number,
 		choices: Object.entries(CONST.DOCUMENT_PERMISSION_LEVELS).reduce((acc, [perm, key]) => {
-			acc[key] = game.i18n.localize(`PERMISSION.${perm}`);
+			acc[key] = game.i18n.localize(`pin-cushion.SETTINGS.DefaultJournalPermission.PERMISSION.${perm}`);
 			return acc;
 		}, {}),
 		default: 0,
@@ -281,19 +281,19 @@ export const registerSettings = function () {
 	// =====================
 	// MATT INTEGRATION
 	// =====================
-	/*
+
 	game.settings.register(CONSTANTS.MODULE_NAME, "allow-note", {
-		name: game.i18n.localize(`pin-cushion.SETTINGS.allow-note.nameN`),
-		hint: game.i18n.localize(`pin-cushion.SETTINGS.allow-note.hintH`),
+		name: game.i18n.localize(`pin-cushion.SETTINGS.allowNoteN`),
+		hint: game.i18n.localize(`pin-cushion.SETTINGS.allowNoteH`),
 		scope: "world",
 		config: true,
-		default: true,
+		default: false,
 		type: Boolean,
 	});
 
 	game.settings.register(CONSTANTS.MODULE_NAME, "prevent-when-paused", {
-		name: game.i18n.localize(`pin-cushion.SETTINGS.prevent-when-pausedN`),
-		hint: game.i18n.localize(`pin-cushion.SETTINGS.prevent-when-pausedH`),
+		name: game.i18n.localize(`pin-cushion.SETTINGS.preventWhenPausedN`),
+		hint: game.i18n.localize(`pin-cushion.SETTINGS.preventWhenPausedH`),
 		scope: "world",
 		config: true,
 		default: true,
@@ -301,14 +301,13 @@ export const registerSettings = function () {
 	});
 
 	game.settings.register(CONSTANTS.MODULE_NAME, "allow-note-passthrough", {
-		name: game.i18n.localize(`pin-cushion.SETTINGS.allow-note-passthroughN`),
-		hint: game.i18n.localize(`pin-cushion.SETTINGS.allow-note-passthroughH`),
+		name: game.i18n.localize(`pin-cushion.SETTINGS.allowNotePassthroughN`),
+		hint: game.i18n.localize(`pin-cushion.SETTINGS.allowNotePassthroughH`),
 		scope: "world",
 		config: true,
 		default: true,
 		type: Boolean,
 	});
-	*/
 };
 class ResetSettingsDialog extends FormApplication {
 	constructor(...args) {

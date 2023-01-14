@@ -4,7 +4,7 @@ let setting = (key) => {
 	return game.settings.get(PinCushion.MODULE_NAME, key);
 };
 
-export async function noteControl(wrapped, ...args) {
+export async function noteControl(entity, wrapped, ...args) {
 	const allowNote = setting("allow-note");
 	const allowNotePassthrough = setting("allow-note-passthrough");
 	const preventWhenPaused = setting("prevent-when-paused");

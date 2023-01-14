@@ -16,8 +16,8 @@ import { registerSettings } from "./scripts/settings.js";
 import { pinCushionSocket, registerSocket } from "./scripts/socket.js";
 import { PinCushionHUD } from "./scripts/apps/PinCushionHUD.js";
 import { PinCushion } from "./scripts/apps/PinCushion.js";
-// import { ActionConfig } from "/modules/monks-active-tiles/apps/action-config.js";
-// import { MonksActiveTiles } from "/modules/monks-active-tiles/monks-active-tiles.js";
+import { ActionConfig } from "/modules/monks-active-tiles/apps/action-config.js";
+import { MonksActiveTiles } from "/modules/monks-active-tiles/monks-active-tiles.js";
 // import { noteControl } from "./scripts/apps/NoteControl.js";
 import { PinCushionContainer } from "./scripts/apps/PinCushionContainer.js";
 import { PinCushionHUDV2 } from "./scripts/apps/PinCushionHUDV2.js";
@@ -263,7 +263,7 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	// ====================================
 	// SUPPORT MATT
 	// ====================================
-	/*
+
 	const allowNote = game.settings.get(PinCushion.MODULE_NAME, "allow-note");
 	let triggerData = {};
 	let tilename = "";
@@ -289,7 +289,6 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 			triggerData
 		);
 	}
-	*/
 
 	// ====================================
 	// General
@@ -449,7 +448,7 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 			.attr("data-tab", "pincushion")
 			.html(noteHtml)
 			.insertAfter($(".tab:last", html));
-		/*
+
 		if (game.modules.get("monks-active-tiles")?.active && allowNote) {
 			$(".sheet-tabs", html).append(
 				$("<a>").addClass("item").attr("data-tab", "triggers").html('<i class="fas fa-running"></i> Triggers')
@@ -460,7 +459,6 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 				.html(noteTriggersHtml)
 				.insertAfter($(".tab:last", html));
 		}
-		*/
 	} else {
 		let root = $("form", html);
 		if (root.length == 0) root = html;
@@ -468,7 +466,7 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 		$("> *:not(button)", root).each(function () {
 			basictab.append(this);
 		});
-		/*
+
 		if (game.modules.get("monks-active-tiles")?.active && allowNote) {
 			$(root)
 				.prepend($("<div>").addClass("tab action-sheet").attr("data-tab", "triggers").html(noteTriggersHtml))
@@ -497,37 +495,36 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 						)
 				);
 		} else {
-		*/
-		$(root)
-			.prepend($("<div>").addClass("tab action-sheet").attr("data-tab", "pincushion").html(noteHtml))
-			.prepend(basictab)
-			.prepend(
-				$("<nav>")
-					.addClass("sheet-tabs tabs")
-					.append(
-						$("<a>")
-							.addClass("item active")
-							.attr("data-tab", "basic")
-							.html('<i class="fas fa-university"></i> Basic')
-					)
-					.append(
-						$("<a>")
-							.addClass("item")
-							.attr("data-tab", "pincushion")
-							.html('<i class="fas fa-map-marker-plus"></i> Pin Cushion (GM Only)')
-					)
-			);
+			$(root)
+				.prepend($("<div>").addClass("tab action-sheet").attr("data-tab", "pincushion").html(noteHtml))
+				.prepend(basictab)
+				.prepend(
+					$("<nav>")
+						.addClass("sheet-tabs tabs")
+						.append(
+							$("<a>")
+								.addClass("item active")
+								.attr("data-tab", "basic")
+								.html('<i class="fas fa-university"></i> Basic')
+						)
+						.append(
+							$("<a>")
+								.addClass("item")
+								.attr("data-tab", "pincushion")
+								.html('<i class="fas fa-map-marker-plus"></i> Pin Cushion (GM Only)')
+						)
+				);
+		}
 	}
 
 	// START LISTENERS
 
 	// SUPPORT MATT
-	/*
+
 	if (game.modules.get("monks-active-tiles")?.active && allowNote) {
 		$('button[data-type="entity"]', html).on("click", ActionConfig.selectEntity.bind(app));
 		$('button[data-type="tagger"]', html).on("click", ActionConfig.addTag.bind(app));
 	}
-	*/
 
 	// html.find("button.file-picker-showImageExplicitSource").each(
 	// 	(i, button) => (button.onclick = app._activateFilePicker.bind(app))
@@ -599,11 +596,11 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
  */
 Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
 	// VERSION 1 TOOLTIP
-	
+
 	// PinCushion.renderHeadsUpDisplayV1(app, html, data);
 	html.append(`<template id="pin-cushion-hud"></template>`);
 	canvas.hud.pinCushion = new PinCushionHUD();
-	
+
 	// VERSION 2 TOOLTIP
 
 	// PinCushionContainer.renderHeadsUpDisplay(app, html, data);
@@ -637,7 +634,7 @@ Hooks.on("hoverNote", (note, hovered) => {
 	const tooltipForceRemove = String(tooltipForceRemoveS) === "true" ? true : false;
 
 	// VERSION 1 TOOLTIP
-	
+
 	if (!hovered) {
 		clearTimeout(API.pinCushion.hoverTimer);
 		if (tooltipForceRemove) {
@@ -659,7 +656,7 @@ Hooks.on("hoverNote", (note, hovered) => {
 			return canvas.hud.pinCushion.clear();
 		}
 	}
-	
+
 	// VERSION 2
 	/*
 	if (!hovered) {

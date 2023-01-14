@@ -209,7 +209,7 @@ export class PinCushionContainer {
 		event.stopPropagation();
 		// If the note is hovered by the mouse cursor (not via alt/option)
 		if (this.note.mouseInteractionManager.state === 1) {
-			canvas.hud.pinCushionV2.bind(this);
+			canvas.hud.pinCushionV2.bind(this, "mouseover");
 			// setTimeout(function (ev) {
 			// 	canvas.hud.pinCushionV2.bind(this);
 			// }, this.previewDelay);
@@ -253,7 +253,7 @@ export class PinCushionContainer {
 	_leftClick(event) {
 		log(event);
 		event.stopPropagation();
-		canvas.hud.pinCushionV2.bind(this);
+		canvas.hud.pinCushionV2.bind(this, "leftclick");
 	}
 
 	/**
@@ -268,7 +268,7 @@ export class PinCushionContainer {
 	_rightClick(event) {
 		log(event);
 		event.stopPropagation();
-		canvas.hud.pinCushionV2.bind(this);
+		canvas.hud.pinCushionV2.bind(this, "rightclick");
 	}
 
 	/**
