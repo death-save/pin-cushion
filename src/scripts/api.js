@@ -2,6 +2,7 @@ import { PinCushion } from "./apps/PinCushion.js";
 import { error, warn } from "./lib/lib.js";
 
 const API = {
+	pinCushion: new PinCushion(),
 	/**
 	 * Request an action to be executed with GM privileges.
 	 *

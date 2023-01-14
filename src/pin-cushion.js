@@ -167,7 +167,7 @@ Hooks.once("ready", function () {
 		throw error(`Requires the 'socketlib' module. Please ${word} it.`);
 	}
 	// Instantiate PinCushion instance for central socket request handling
-	game.pinCushion = new PinCushion();
+	// game.pinCushion = new PinCushion();
 });
 
 /**
@@ -597,9 +597,11 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
  * Hook on render HUD
  */
 Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
+	// VERSION 1 TOOLTIP
 	html.append(`<template id="pin-cushion-hud"></template>`);
 	canvas.hud.pinCushion = new PinCushionHUD();
-	// PinCushionContainer.renderHeadsUpDisplay(app, html, data);
+	// VERSION 2 TOOLTIP
+	PinCushionContainer.renderHeadsUpDisplay(app, html, data);
 });
 
 /**
@@ -625,9 +627,10 @@ Hooks.on("hoverNote", (note, hovered) => {
 	if (tooltipForceRemoveS !== "true" && tooltipForceRemoveS !== "false") {
 		tooltipForceRemoveS = "false";
 	}
+	// VERSION 1 TOOLTIP
 	const tooltipForceRemove = String(tooltipForceRemoveS) === "true" ? true : false;
 	if (!hovered) {
-		clearTimeout(game.pinCushion.hoverTimer);
+		clearTimeout(API.pinCushion.hoverTimer);
 		if (tooltipForceRemove) {
 			$("#powerTip").remove();
 		}
@@ -636,17 +639,18 @@ Hooks.on("hoverNote", (note, hovered) => {
 
 	// If the note is hovered by the mouse cursor (not via alt/option)
 	if (hovered && note.mouseInteractionManager.state === 1) {
-		game.pinCushion.hoverTimer = setTimeout(function () {
+		API.pinCushion.hoverTimer = setTimeout(function () {
 			canvas.hud.pinCushion.bind(note);
 		}, previewDelay);
 		return;
 	} else {
 		// THis code should be never reached
 		if (!hovered) {
-			clearTimeout(game.pinCushion.hoverTimer);
+			clearTimeout(API.pinCushion.hoverTimer);
 			return canvas.hud.pinCushion.clear();
 		}
 	}
+	
 });
 
 /**
@@ -745,6 +749,6 @@ Hooks.on("renderSettingsConfig", (app, html, data) => {
 		.insertAfter($(`input[name="${name}"]`, html).addClass("color"));
 });
 
-// Hooks.on("canvasReady", () => {
-// 	PinCushionContainer.onReady();
-// });
+Hooks.on("canvasReady", () => {
+	PinCushionContainer.onReady();
+});

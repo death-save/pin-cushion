@@ -4,8 +4,17 @@
 }
 
 .pin-cushion-hud,
-.pin-cushion-hud > img {
+.pin-cushion-hud > img,
+.pin-cushion-hud-v2,
+.pin-cushion-hud-v2 > img {
 	border: none;
+}
+
+.pin-cushion-hud,
+.pin-cushion-hud-v2 {
+	position: fixed;
+	background: rgba(0, 0, 0, 0.6);
+	transform-origin: top left;
 }
 
 /*
@@ -37,6 +46,7 @@
 */
 /* About App */
 /* ABOUT */
+/*
 #pin-cushion-about img {
 	border: none;
 }
@@ -74,7 +84,7 @@
 	justify-content: center;
 	text-align: center;
 }
-
+*/
 #pin-cushion-about .death-save {
 	flex: 0 0 120px;
 }

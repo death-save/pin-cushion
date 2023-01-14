@@ -233,3 +233,4 @@ This package is under an [GPLv3 License](LICENSE) and the [Foundry Virtual Table
 - Thank you to [stevenbenner](https://github.com/stevenbenner) and the javascript project [jquery-powertip](https://github.com/stevenbenner/jquery-powertip)
 - Thank you to [zeel](https://github.com/zeel01) for the module [Pin Fixer](https://github.com/zeel01/pin-fixer)
 - Thank you to [farling42](https://github.com/farling42) and the module [fvtt-one-click-note-creation](https://github.com/farling42/fvtt-one-click-note-creation)
+- []map-note-hover-display

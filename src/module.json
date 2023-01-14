@@ -147,19 +147,19 @@
 		"conflicts": [
 			{
 				"id": "backgroundless-pins",
-				"description": "Redundancy of features you can disable 'FVTT Backgroundless Pins' module if you want"
+				"reason": "Redundancy of features you can disable 'FVTT Backgroundless Pins' module if you want"
 			},
 			{
 				"id": "journal-thumbnail",
-				"description": "Redundancy of features you can disable 'Thumbnails for Journal Entries' module if you want"
+				"reason": "Redundancy of features you can disable 'Thumbnails for Journal Entries' module if you want"
 			},
 			{
 				"id": "gmtext-in-notes",
-				"description": "Redundancy of features you can disable 'GM-only tooltips for Notes' module if you want"
+				"reason": "Redundancy of features you can disable 'GM-only tooltips for Notes' module if you want"
 			},
 			{
 				"id": "revealed-notes-manager",
-				"description": "Redundancy of features you can disable 'Revealed Notes Manager' module if you want"
+				"reason": "Redundancy of features you can disable 'Revealed Notes Manager' module if you want"
 			},
 			{
 				"id": "journal-sidebar-images",
@@ -167,11 +167,11 @@
 			},
 			{
 				"id": "map-note-hover-display",
-				"description": "Redundancy of features you can disable 'Map Note Hover Display' module if you want"
+				"reason": "Redundancy of features you can disable 'Map Note Hover Display' module if you want"
 			},
 			{
 				"id": "one-click-note-creation",
-				"description": "Redundancy of features you can disable 'One click note creation' module if you want"
+				"reason": "Redundancy of features you can disable 'One click note creation' module if you want"
 			}
 		]
 	}

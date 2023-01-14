@@ -299,10 +299,10 @@ export class PinCushion {
 	//     const promise = new Promise((resolve, reject) => {
 	//         const id = `${game.user.id}_${Date.now()}_${randomID()}`;
 	//         message.id = id;
-	//         game.pinCushion._requests[id] = {resolve, reject};
+	//         API.pinCushion._requests[id] = {resolve, reject};
 	//         game.socket.emit(`module.${PinCushion.MODULE_NAME}`, message);
 	//         setTimeout(() => {
-	//             delete game.pinCushion._requests[id];
+	//             delete API.pinCushion._requests[id];
 	//             reject(new Error (`${PinCushion.MODULE_TITLE} | Call to ${message.action} timed out`));
 	//         }, 5000);
 	//     });
@@ -1412,7 +1412,7 @@ export class PinCushion {
 			clientY: event.data.global.y,
 		};
 
-		game.pinCushion._createDialog(data);
+		API.pinCushion._createDialog(data);
 	}
 
 	static async _onSingleClick(event) {
@@ -1594,58 +1594,6 @@ export class PinCushion {
 			}
 		}
 	}
-
-	// /**
-	//  * Socket handler
-	//  *
-	//  * @param {object} message - The socket event's content
-	//  * @param {string} message.action - The action the socket receiver should take
-	//  * @param {Data} [message.document] - The data to be used for Document actions
-	//  * @param {string} [message.id] - The ID used to handle promises
-	//  * @param {string} userId - The ID of the user emitting the socket event
-	//  * @returns {void}
-	//  */
-	// _onSocket(message, userId) {
-	//   const { action, data, id } = message;
-	//   const isFirstGM = game.user === game.users.find((u) => u.isGM && u.active);
-
-	//   // Handle resolving or rejecting promises for GM priviliged requests
-	//   if (action === 'return') {
-	//     const promise = game.pinCushion._requests[message.id];
-	//     if (promise) {
-	//       delete game.pinCushion._requests[message.id];
-	//       if ('error' in message) promise.reject(message.error);
-	//       promise.resolve(data);
-	//     }
-	//     return;
-	//   }
-
-	//   if (!isFirstGM) return;
-
-	//   // Create a Journal Entry Folder
-	//   if (action === 'createFolder') {
-	//     const userName = game.users.get(userId).name;
-	//     return Folder.create({ name: userName, type: 'JournalEntry', parent: null, sorting: 'a' })
-	//       .then((response) => {
-	//         game.socket.emit(
-	//           `module.${PinCushion.MODULE_NAME}`,
-	//           {
-	//             action: 'return',
-	//             data: response.document,
-	//             id: id,
-	//           },
-	//           { recipients: [userId] },
-	//         );
-	//       })
-	//       .catch((error) => {
-	//         game.socket.emit(`module.${PinCushion.MODULE_NAME}`, {
-	//           action: 'return',
-	//           error: error,
-	//           id: id,
-	//         });
-	//       });
-	//   }
-	// }
 
 	static _renderJournalThumbnail(app, html) {
 		game.journal.render();

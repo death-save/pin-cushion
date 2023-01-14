@@ -34,10 +34,10 @@ export class PinCushionContainer {
 	static onReady() {
 		canvas.notes.placeables.forEach((n) => this.checkNote(n));
 
-		canvas.mouseInteractionManager.target.on("rightdown", () => canvas.hud.pinCushion.clear());
-		canvas.mouseInteractionManager.target.on("mousedown", () => canvas.hud.pinCushion.clear());
-		canvas.mouseInteractionManager.target.on("mouseover", () => canvas.hud.pinCushion.clear());
-		// canvas.mouseInteractionManager.target.on("mouseout", () => canvas.hud.pinCushion.clear());
+		canvas.mouseInteractionManager.target.on("rightdown", () => canvas.hud.pinCushionV2.clear());
+		canvas.mouseInteractionManager.target.on("mousedown", () => canvas.hud.pinCushionV2.clear());
+		// canvas.mouseInteractionManager.target.on("mouseover", () => canvas.hud.pinCushionV2.clear());
+		// canvas.mouseInteractionManager.target.on("mouseout", () => canvas.hud.pinCushionV2.clear());
 
 		this.previewDelay = game.settings.get(PinCushion.MODULE_NAME, "previewDelay");
 		log(game.i18n.localize("pinCushion.name") + "| Ready.");
@@ -56,10 +56,11 @@ export class PinCushionContainer {
 	 * @memberof PinCushionContainer
 	 */
 	static renderHeadsUpDisplay(hud, html, data) {
-		hud.pinCushion = new PinCushionHUDV2();
+		canvas.hud.pinCushionV2 = new PinCushionHUDV2();
 		const hudTemp = document.createElement("template");
-		hudTemp.id = "pin-cushion-hud";
+		hudTemp.id = "pin-cushion-hud-v2";
 		html.append(hudTemp);
+		// html.append(`<template id="pin-cushion-hud-v2"></template>`);
 	}
 
 	// /**
@@ -189,7 +190,7 @@ export class PinCushionContainer {
 		log(this.note);
 		this.note.mouseInteractionManager.target.on("mousedown", this._leftClick.bind(this));
 		this.note.mouseInteractionManager.target.on("rightdown", this._rightClick.bind(this));
-		this.note.mouseInteractionManager.target.on("mouseover", this._mouseOver.bind(this));
+		// this.note.mouseInteractionManager.target.on("mouseover", this._mouseOver.bind(this));
 		// this.note.mouseInteractionManager.target.on("mouseout", this._mouseOut.bind(this));
 	}
 
@@ -207,9 +208,9 @@ export class PinCushionContainer {
 		event.stopPropagation();
 		// If the note is hovered by the mouse cursor (not via alt/option)
 		if (this.note.mouseInteractionManager.state === 1) {
-			canvas.hud.pinCushion.bind(this);
+			canvas.hud.pinCushionV2.bind(this);
 			// setTimeout(function (ev) {
-			// 	canvas.hud.pinCushion.bind(this);
+			// 	canvas.hud.pinCushionV2.bind(this);
 			// }, this.previewDelay);
 		}
 	}
@@ -233,7 +234,7 @@ export class PinCushionContainer {
 	// 		tooltipForceRemoveS = "false";
 	// 	}
 	// 	const tooltipForceRemove = String(tooltipForceRemoveS) === "true" ? true : false;
-	// 	// clearTimeout(game.pinCushion.hoverTimer);
+	// 	// clearTimeout(API.pinCushion.hoverTimer);
 	// 	if (tooltipForceRemove) {
 	// 		$("#powerTip").remove();
 	// 	}
@@ -251,7 +252,7 @@ export class PinCushionContainer {
 	_leftClick(event) {
 		log(event);
 		event.stopPropagation();
-		canvas.hud.pinCushion.bind(this);
+		canvas.hud.pinCushionV2.bind(this);
 	}
 
 	/**
@@ -266,7 +267,7 @@ export class PinCushionContainer {
 	_rightClick(event) {
 		log(event);
 		event.stopPropagation();
-		canvas.hud.pinCushion.bind(this);
+		canvas.hud.pinCushionV2.bind(this);
 	}
 
 	/**
@@ -323,6 +324,10 @@ export class PinCushionContainer {
 		// return options.concat(gmOptions);
 		const options = [];
 		return options;
+	}
+
+	getData() {
+		return this.note.data;
 	}
 
 	// /**

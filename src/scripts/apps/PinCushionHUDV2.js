@@ -25,8 +25,8 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 	 */
 	static get defaultOptions() {
 		return mergeObject(super.defaultOptions, {
-			id: "pin-cushion-hud",
-			classes: [...super.defaultOptions.classes, "pin-cushion-hud"],
+			id: "pin-cushion-hud-v2",
+			classes: [...super.defaultOptions.classes, "pin-cushion-hud-v2"],
 			// width: 400,
 			// height: 200,
 			minimizable: false,
@@ -57,7 +57,7 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 	getData() {
 		// const data = super.getData();
 		/** @type PinCushionHUDV2Data */
-		const data = {};
+		const data = this.pcc.getData();
 		data.options = this.pcc.getOptions();
 
 		const entry = this.object.entry;
@@ -136,12 +136,13 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 			titleTooltip = data.text;
 		}
 
-		let bodyPlaceHolder = `<img class='image' src='${CONSTANTS.PATH_TRANSPARENT}' alt=''></img>`;
+		// let bodyPlaceHolder = `<img class='image' src='${CONSTANTS.PATH_TRANSPARENT}' alt=''></img>`;
+		let bodyPlaceHolder = `<img class='image' src='${CONSTANTS.PATH_PDF_THUMBNAIL}' alt=''></img>`;
 
 		data.tooltipId = this.object.id;
 		data.title = titleTooltip;
-		// data.body = content;
-		data.body = bodyPlaceHolder;
+		// data.content = content;
+		data.bodyPlaceHolder = bodyPlaceHolder;
 
 		const fontSize = game.settings.get(CONSTANTS.MODULE_NAME, "fontSize") || canvas.grid.size / 5;
 		const maxWidth = game.settings.get(CONSTANTS.MODULE_NAME, "maxWidth") || 400;
@@ -195,15 +196,20 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 		}
 		const top = y - height / 2;
 
+		this.x = x;
+		this.y = y;
+
 		// const position = {
-		// 	left: x,
-		// 	top: y
+		// 	left: this.object.x,
+		// 	top: this.object.y
 		// };
 		const position = {
 			height: height + "px",
 			width: width + "px",
-			left: x,
-			top: y,
+			left: left + "px",
+			top: top + "px",
+			// left: this.object.x,
+			// top: this.object.y,
 			"font-size": fontSize + "px",
 			"max-width": maxWidth + "px",
 		};
@@ -228,12 +234,10 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 		// html.find("[data-trigger]")
 		// 	.click((event) => this.pcc[event.currentTarget.dataset.trigger](event));
 
-		// const elementToTooltip = html;
 		let elementToTooltip = this.element;
-		// let mouseOnDiv = html; // this.element; // this.element.parent()[0];
-		if (!elementToTooltip.document) {
-			elementToTooltip = $(elementToTooltip);
-		}
+		// if (!elementToTooltip.document) {
+		// 	elementToTooltip = $(elementToTooltip);
+		// }
 
 		const tooltipPlacement =
 			getProperty(this.object.document.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TOOLTIP_PLACEMENT) ?? "e";
@@ -250,6 +254,7 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 			getProperty(this.object.document.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TOOLTIP_COLOR) ?? "";
 
 		// WITH TOOLTIP
+		/*
 		let x = 0;
 		let y = 0;
 		if (game.settings.get(PinCushion.MODULE_NAME, "tooltipUseMousePositionForCoordinates")) {
@@ -260,6 +265,7 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 			x = this.object.center ? this.object.center.x : this.object.x;
 			y = this.object.center ? this.object.center.y : this.object.y;
 		}
+		*/
 
 		// $.powerTip.hide(html);
 
@@ -329,12 +335,4 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 		// }
 		$.powerTip.show(elementToTooltip);
 	}
-
-	// clear(){
-	//   let mouseOnDiv = this.element; // this.element.parent()[0];
-	//   if(!mouseOnDiv.data){
-	//     mouseOnDiv = $(mouseOnDiv);
-	//   }
-	//   $.powerTip.hide(mouseOnDiv);
-	// }
 }
