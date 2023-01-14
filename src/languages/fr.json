@@ -129,6 +129,17 @@
 		"SubtitleRevealedNotes": "État révélé des Notes sur la scène",
 		"SubtitleTooltip": "Info-bulle",
 		"SETTINGS.enableTooltipByDefaultN": "Activer l'infobulle par défaut",
-		"SETTINGS.enableTooltipByDefaultH": "Lorsque vous créez des notes sur le canevas, activez la fonction d'infobulle par défaut. Ce paramètre ne modifie pas les notes existantes, toutes les notes précédentes déjà créées devront être modifiées manuellement."
+		"SETTINGS.enableTooltipByDefaultH": "Lorsque vous créez des notes sur le canevas, activez la fonction d'infobulle par défaut. Ce paramètre ne modifie pas les notes existantes, toutes les notes précédentes déjà créées devront être modifiées manuellement.",
+		"SETTINGS.DefaultJournalPermission.PERMISSION.NONE": "AUCUNE",
+		"SETTINGS.DefaultJournalPermission.PERMISSION.LIMITED": "LIMITÉE",
+		"SETTINGS.DefaultJournalPermission.PERMISSION.OBSERVER": "OBSERVATEUR",
+		"SETTINGS.DefaultJournalPermission.PERMISSION.OWNER": "PROPRIÉTAIRE",
+		"SETTINGS.DefaultJournalPermission.PERMISSION.INHERIT": "HÉRITÉE",
+		"SETTINGS.preventWhenPausedN": "[Uniquement si le paramètre 'Déclencheurs de note' est activé] Empêcher en cas de pause",
+		"SETTINGS.preventWhenPausedH": "Empêcher les joueurs de déclencher les tuiles lorsque le jeu est en pause.",
+		"SETTINGS.allowNoteN": "[Expérimental] Déclencheur de note (intégration de MATT)",
+		"SETTINGS.allowNoteH": "Permettre aux notes de déclencher des tuiles. Notez malheureusement que cela ne fonctionnera que sur une installation standard de Foundry avec un chemin standard. Ne fonctionnera pas sous forge.",
+		"SETTINGS.allowNotePassthroughN": "[Uniquement si le paramètre \"Déclencheurs de note\" est activé] Autoriser le clic sur la note",
+		"SETTINGS.allowNotePassthroughH": "Permettre aux tuiles situées sous une note d'être toujours déclenchées si l'on clique sur la note"
 	}
 }
