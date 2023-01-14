@@ -267,8 +267,6 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 		}
 		*/
 
-		// $.powerTip.hide(html);
-
 		// let popupId = tooltipColor ? 'powerTip-'+tooltipColor : 'powerTip';
 		const tooltipPopupClass = tooltipColor
 			? "pin-cushion-hud-tooltip-" + tooltipColor

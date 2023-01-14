@@ -1,5 +1,5 @@
-import { PinCushion } from "./scripts/apps/PinCushion.js";
-import CONSTANTS from "./scripts/constants.js";
+import { PinCushion } from "../../src/scripts/apps/PinCushion.js";
+import CONSTANTS from "../../src/scripts/constants.js";
 
 /**
  * About this module FormApp

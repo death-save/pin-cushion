@@ -10,6 +10,7 @@ import {
 } from "../lib/lib.js";
 import { registerSettings } from "../settings.js";
 import { BackgroundlessControlIcon } from "./BackgroundlessControlIcon.js";
+import { PinCushionHUD } from "./PinCushionHUD.js";
 
 /**
  * A class for managing additional Map Pin functionality
@@ -1671,5 +1672,12 @@ export class PinCushion {
 				setProperty(notedata, FLAG_IS_REVEALED, visible);
 			}
 		}
+	}
+
+	static renderHeadsUpDisplayV1(hud, html, data) {
+		canvas.hud.PinCushion = new PinCushionHUD();
+		const hudTemp = document.createElement("template");
+		hudTemp.id = "pin-cushion-hud";
+		html.append(hudTemp);
 	}
 }

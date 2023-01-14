@@ -1,3 +1,4 @@
+import API from "../api.js";
 import { log } from "../lib/lib.js";
 import { PinCushionHUDV2 } from "./PinCushionHUDV2.js";
 
@@ -5,8 +6,8 @@ import { PinCushionHUDV2 } from "./PinCushionHUDV2.js";
  * @class PinCushionContainer
  */
 export class PinCushionContainer {
-	hoverTimer = 0;
-	previewDelay = 0;
+	hoverTimer = 100;
+	previewDelay = 100;
 
 	/**
 	 * Creates an instance of PinCushionContainer.
@@ -178,7 +179,7 @@ export class PinCushionContainer {
 			return;
 		}
 		const scene = canvas.scene;
-		new PinCushionContainer(note, scene);
+		API.pinCushionContainers[note.id] = new PinCushionContainer(note, scene);
 	}
 
 	/**

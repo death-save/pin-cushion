@@ -20,6 +20,7 @@ import { PinCushion } from "./scripts/apps/PinCushion.js";
 // import { MonksActiveTiles } from "/modules/monks-active-tiles/monks-active-tiles.js";
 // import { noteControl } from "./scripts/apps/NoteControl.js";
 import { PinCushionContainer } from "./scripts/apps/PinCushionContainer.js";
+import { PinCushionHUDV2 } from "./scripts/apps/PinCushionHUDV2.js";
 
 /**
  * Initialization helper, to set API.
@@ -598,10 +599,16 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
  */
 Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
 	// VERSION 1 TOOLTIP
+	
+	// PinCushion.renderHeadsUpDisplayV1(app, html, data);
 	html.append(`<template id="pin-cushion-hud"></template>`);
 	canvas.hud.pinCushion = new PinCushionHUD();
+	
 	// VERSION 2 TOOLTIP
-	PinCushionContainer.renderHeadsUpDisplay(app, html, data);
+
+	// PinCushionContainer.renderHeadsUpDisplay(app, html, data);
+	html.append(`<template id="pin-cushion-hud-v2"></template>`);
+	canvas.hud.pinCushionV2 = new PinCushionHUDV2();
 });
 
 /**
@@ -627,8 +634,10 @@ Hooks.on("hoverNote", (note, hovered) => {
 	if (tooltipForceRemoveS !== "true" && tooltipForceRemoveS !== "false") {
 		tooltipForceRemoveS = "false";
 	}
-	// VERSION 1 TOOLTIP
 	const tooltipForceRemove = String(tooltipForceRemoveS) === "true" ? true : false;
+
+	// VERSION 1 TOOLTIP
+	
 	if (!hovered) {
 		clearTimeout(API.pinCushion.hoverTimer);
 		if (tooltipForceRemove) {
@@ -651,6 +660,30 @@ Hooks.on("hoverNote", (note, hovered) => {
 		}
 	}
 	
+	// VERSION 2
+	/*
+	if (!hovered) {
+		clearTimeout(API.pinCushion.hoverTimer);
+		if (tooltipForceRemove) {
+			$("#powerTip").remove();
+		}
+		return canvas.hud.pinCushionV2.clear();
+	}
+
+	// If the note is hovered by the mouse cursor (not via alt/option)
+	if (hovered && note.mouseInteractionManager.state === 1) {
+		API.pinCushion.hoverTimer = setTimeout(function () {
+			canvas.hud.pinCushionV2.bind(API.pinCushionContainers[note.id]);
+		}, previewDelay);
+		return;
+	} else {
+		// THis code should be never reached
+		if (!hovered) {
+			clearTimeout(API.pinCushion.hoverTimer);
+			return canvas.hud.pinCushionV2.clear();
+		}
+	}
+	*/
 });
 
 /**
