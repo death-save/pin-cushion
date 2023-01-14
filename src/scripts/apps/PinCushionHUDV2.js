@@ -61,17 +61,15 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 		const data = this.pcc.getData();
 		data.options = this.pcc.getOptions();
 		if (this.status === "leftclick") {
-			const args = 
-				{
-					type: this.status,
-				};
+			const args = {
+				type: this.status,
+			};
 			noteControl(this.pcc.note, undefined, args);
 		}
 		if (this.status === "rightclick") {
-			const args = 
-				{
-					type: this.status,
-				};
+			const args = {
+				type: this.status,
+			};
 			noteControl(this.pcc.note, undefined, args);
 		}
 		if (this.status === "mouseover") {
@@ -177,198 +175,208 @@ export class PinCushionHUDV2 extends BasePlaceableHUD {
 					${content}
 				</div>
 			</div>`;
+
+			ui.notifications.info(this.contentTooltip);
 		}
 		return data;
 	}
 
-	/**
-	 * Set app position
-	 */
-	setPosition() {
-		// {left, top, width, height, scale}={}){
-		if (!this.object) {
-			return;
-		}
-		const fontSize = game.settings.get(CONSTANTS.MODULE_NAME, "fontSize") || canvas.grid.size / 5;
-		const maxWidth = game.settings.get(CONSTANTS.MODULE_NAME, "maxWidth");
-		if (this.status === "leftclick") {
-			//
-		}
-		if (this.status === "rightclick") {
-			//
-		}
-		if (this.status === "mouseover") {
-			// WITH TOOLTIP
-			let x = 0;
-			let y = 0;
-			if (game.settings.get(PinCushion.MODULE_NAME, "tooltipUseMousePositionForCoordinates")) {
-				const positionMouse = canvas.app.renderer.plugins.interaction.mouse.getLocalPosition(canvas.app.stage);
-				x = positionMouse.x;
-				y = positionMouse.y;
-			} else {
-				x = this.object.center ? this.object.center.x : this.object.x;
-				y = this.object.center ? this.object.center.y : this.object.y;
-			}
+	// /**
+	//  * Set app position
+	//  */
+	// setPosition() {
+	// 	// {left, top, width, height, scale}={}){
+	// 	if (!this.object) {
+	// 		return;
+	// 	}
+	// 	const fontSize = game.settings.get(CONSTANTS.MODULE_NAME, "fontSize") || canvas.grid.size / 5;
+	// 	const maxWidth = game.settings.get(CONSTANTS.MODULE_NAME, "maxWidth");
+	// 	if (this.status === "leftclick") {
+	// 		//
+	// 	}
+	// 	if (this.status === "rightclick") {
+	// 		//
+	// 	}
+	// 	if (this.status === "mouseover") {
+	// 		// WITH TOOLTIP
+	// 		let x = 0;
+	// 		let y = 0;
+	// 		if (game.settings.get(PinCushion.MODULE_NAME, "tooltipUseMousePositionForCoordinates")) {
+	// 			const positionMouse = canvas.app.renderer.plugins.interaction.mouse.getLocalPosition(canvas.app.stage);
+	// 			x = positionMouse.x;
+	// 			y = positionMouse.y;
+	// 		} else {
+	// 			x = this.object.center ? this.object.center.x : this.object.x;
+	// 			y = this.object.center ? this.object.center.y : this.object.y;
+	// 		}
 
-			const ratio = getProperty(this.object.document.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.RATIO) ?? 1;
-			const viewWidth = visualViewport.width;
-			const width = this.object.controlIcon.width; //  * ratio;
-			const height = this.object.controlIcon.height;
-			let left = x - width / 2;
-			if (ratio > 1) {
-				left = x - (width / 2) * ratio; // correct shifting for the new scale.
-			}
-			const top = y - height / 2;
+	// 		const ratio = getProperty(this.object.document.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.RATIO) ?? 1;
+	// 		const viewWidth = visualViewport.width;
+	// 		const width = this.object.controlIcon.width; //  * ratio;
+	// 		const height = this.object.controlIcon.height;
+	// 		let left = x - width / 2;
+	// 		if (ratio > 1) {
+	// 			left = x - (width / 2) * ratio; // correct shifting for the new scale.
+	// 		}
+	// 		const top = y - height / 2;
 
-			this.x = x;
-			this.y = y;
+	// 		this.x = x;
+	// 		this.y = y;
 
-			// const position = {
-			// 	left: this.object.x,
-			// 	top: this.object.y
-			// };
-			const position = {
-				height: height + "px",
-				width: width + "px",
-				left: left + "px",
-				top: top + "px",
-				// left: this.object.x,
-				// top: this.object.y,
-				"font-size": fontSize + "px",
-				"max-width": maxWidth + "px",
-			};
-			this.element.css(position);
-		}
-	}
+	// 		// const position = {
+	// 		// 	left: this.object.x,
+	// 		// 	top: this.object.y
+	// 		// };
+	// 		const position = {
+	// 			height: height + "px",
+	// 			width: width + "px",
+	// 			left: left + "px",
+	// 			top: top + "px",
+	// 			// left: this.object.x,
+	// 			// top: this.object.y,
+	// 			"font-size": fontSize + "px",
+	// 			"max-width": maxWidth + "px",
+	// 		};
+	// 		this.element.css(position);
 
-	/**
-	 * Activate any event listenders on the HUD
-	 *
-	 * Activates a click listener to prevent propagation,
-	 * as activates click listeners for all menu options.
-	 *
-	 * Each option has its own handler, stored in its data-trigger.
-	 *
-	 * @override
-	 * @param {jquery} html - The html of the HUD
-	 * @memberof PinCushionHUDV2
-	 */
-	activateListeners(html) {
-		super.activateListeners(html);
-		html.click((e) => e.stopPropagation());
-		// html.find("[data-trigger]")
-		// 	.click((event) => this.pcc[event.currentTarget.dataset.trigger](event));
+	// 		// const right2 = window.innerWidth - Math.ceil(this.pcc.note.worldTransform.tx - 8);
+	// 		// const top2 = Math.floor(this.pcc.note.worldTransform.ty - 8);
 
-		if (this.status === "leftclick") {
-			//
-		}
-		if (this.status === "rightclick") {
-			//
-		}
-		if (this.status === "mouseover") {
-			let elementToTooltip = this.element;
-			// if (!elementToTooltip.document) {
-			// 	elementToTooltip = $(elementToTooltip);
-			// }
+	// 		// this.element.css({
+	// 		// 	left: "",
+	// 		// 	top: top2  + "px",
+	// 		// 	right: right2  + "px"
+	// 		// });
 
-			const tooltipPlacement =
-				getProperty(this.object.document.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TOOLTIP_PLACEMENT) ??
-				"e";
+	// 		// if (Settings.ShowOnLeft.get()) {
+	// 		// 	const right = window.innerWidth - Math.ceil(token.worldTransform.tx - 8);
+	// 		// 	this.element.style.right = `${right}px`;
+	// 		// 	this.element.style.left = '';
+	// 		// } else {
+	// 		// const tokenWidth = token.w * canvas.stage.scale.x;
+	// 		// const left = Math.ceil(token.worldTransform.tx + tokenWidth + 8);
+	// 		// this.element.style.left = `${left}px`;
+	// 		// this.element.style.right = '';
+	// 		// }
+	// 		// const top = Math.floor(token.worldTransform.ty - 8);
+	// 		// this.element.style.top = `${top}px`;
+	// 	}
+	// }
 
-			const tooltipSmartPlacement =
-				getProperty(
-					this.object.document.flags[PinCushion.MODULE_NAME],
-					PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT
-				) ?? false;
+	// /**
+	//  * Activate any event listenders on the HUD
+	//  *
+	//  * Activates a click listener to prevent propagation,
+	//  * as activates click listeners for all menu options.
+	//  *
+	//  * Each option has its own handler, stored in its data-trigger.
+	//  *
+	//  * @override
+	//  * @param {jquery} html - The html of the HUD
+	//  * @memberof PinCushionHUDV2
+	//  */
+	// activateListeners(html) {
+	// 	super.activateListeners(html);
+	// 	html.click((e) => e.stopPropagation());
+	// 	// html.find("[data-trigger]")
+	// 	// 	.click((event) => this.pcc[event.currentTarget.dataset.trigger](event));
 
-			const tooltipFollowMouse =
-				getProperty(
-					this.object.document.flags[PinCushion.MODULE_NAME],
-					PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE
-				) ?? false;
+	// 	if (this.status === "leftclick") {
+	// 		//
+	// 	}
+	// 	if (this.status === "rightclick") {
+	// 		//
+	// 	}
+	// 	if (this.status === "mouseover") {
+	// 		let elementToTooltip = this.element;
+	// 		// if (!elementToTooltip.document) {
+	// 		// 	elementToTooltip = $(elementToTooltip);
+	// 		// }
 
-			const tooltipColor =
-				getProperty(this.object.document.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TOOLTIP_COLOR) ?? "";
+	// 		const tooltipPlacement =
+	// 			getProperty(this.object.document.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TOOLTIP_PLACEMENT) ??
+	// 			"e";
 
-			// WITH TOOLTIP
-			/*
-			let x = 0;
-			let y = 0;
-			if (game.settings.get(PinCushion.MODULE_NAME, "tooltipUseMousePositionForCoordinates")) {
-				const positionMouse = canvas.app.renderer.plugins.interaction.mouse.getLocalPosition(canvas.app.stage);
-				x = positionMouse.x;
-				y = positionMouse.y;
-			} else {
-				x = this.object.center ? this.object.center.x : this.object.x;
-				y = this.object.center ? this.object.center.y : this.object.y;
-			}
-			*/
+	// 		const tooltipSmartPlacement =
+	// 			getProperty(
+	// 				this.object.document.flags[PinCushion.MODULE_NAME],
+	// 				PinCushion.FLAGS.TOOLTIP_SMART_PLACEMENT
+	// 			) ?? false;
 
-			// let popupId = tooltipColor ? 'powerTip-'+tooltipColor : 'powerTip';
-			const tooltipPopupClass = tooltipColor
-				? "pin-cushion-hud-tooltip-" + tooltipColor
-				: "pin-cushion-hud-tooltip-default";
+	// 		const tooltipFollowMouse =
+	// 			getProperty(
+	// 				this.object.document.flags[PinCushion.MODULE_NAME],
+	// 				PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE
+	// 			) ?? false;
 
-			const tooltipTipContent = $(this.contentTooltip);
+	// 		const tooltipColor =
+	// 			getProperty(this.object.document.flags[PinCushion.MODULE_NAME], PinCushion.FLAGS.TOOLTIP_COLOR) ?? "";
 
-			elementToTooltip.data("powertipjq", tooltipTipContent);
+	// 		// let popupId = tooltipColor ? 'powerTip-'+tooltipColor : 'powerTip';
+	// 		const tooltipPopupClass = tooltipColor
+	// 			? "pin-cushion-hud-tooltip-" + tooltipColor
+	// 			: "pin-cushion-hud-tooltip-default";
 
-			// if (tooltipFollowMouse) {
-			//   elementToTooltip.powerTip({
-			//     popupClass: tooltipPopupClass,
-			//     followMouse: true,
-			//   });
-			// } else {
-			elementToTooltip.powerTip({
-				// 	(default: 'powerTip') HTML id attribute for the tooltip div.
-				// popupId: popupId, // e.g. default 'powerTip'
+	// 		const tooltipTipContent = $(this.contentTooltip);
 
-				// (default: 'n') Placement location of the tooltip relative to the element it is open for.
-				// Values can be n, e, s, w, nw, ne, sw, se, nw-alt, ne-alt, sw-alt,
-				// or se-alt (as in north, east, south, and west).
-				// This only matters if followMouse is set to false.
-				placement: tooltipPlacement,
+	// 		elementToTooltip.data("powertipjq", tooltipTipContent);
 
-				// (default: false) When enabled the plugin will try to keep tips inside the browser viewport.
-				// If a tooltip would extend outside of the viewport then its placement will be changed to an
-				// orientation that would be entirely within the current viewport.
-				// Only applies if followMouse is set to false.
-				smartPlacement: tooltipSmartPlacement,
+	// 		// if (tooltipFollowMouse) {
+	// 		//   elementToTooltip.powerTip({
+	// 		//     popupClass: tooltipPopupClass,
+	// 		//     followMouse: true,
+	// 		//   });
+	// 		// } else {
+	// 		elementToTooltip.powerTip({
+	// 			// 	(default: 'powerTip') HTML id attribute for the tooltip div.
+	// 			// popupId: popupId, // e.g. default 'powerTip'
 
-				// (default: false) Allow the mouse to hover on the tooltip.
-				// This lets users interact with the content in the tooltip.
-				// Only applies if followMouse is set to false and manual is set to false.
-				mouseOnToPopup: true,
+	// 			// (default: 'n') Placement location of the tooltip relative to the element it is open for.
+	// 			// Values can be n, e, s, w, nw, ne, sw, se, nw-alt, ne-alt, sw-alt,
+	// 			// or se-alt (as in north, east, south, and west).
+	// 			// This only matters if followMouse is set to false.
+	// 			placement: tooltipPlacement,
 
-				// (default: false) If set to true the tooltip will follow the user’s mouse cursor.
-				// Note that if a tooltip with followMouse enabled is opened by an event without
-				// mouse data (like “focus” via keyboard navigation) then it will revert to static
-				// placement with smart positioning enabled. So you may wish to set placement as well.
-				followMouse: false,
+	// 			// (default: false) When enabled the plugin will try to keep tips inside the browser viewport.
+	// 			// If a tooltip would extend outside of the viewport then its placement will be changed to an
+	// 			// orientation that would be entirely within the current viewport.
+	// 			// Only applies if followMouse is set to false.
+	// 			smartPlacement: tooltipSmartPlacement,
 
-				// (default: '') Space separated custom HTML classes for the tooltip div.
-				// Since this plugs directly into jQuery’s addClass() method it will
-				// also accept a function that returns a string.
-				popupClass: tooltipPopupClass,
+	// 			// (default: false) Allow the mouse to hover on the tooltip.
+	// 			// This lets users interact with the content in the tooltip.
+	// 			// Only applies if followMouse is set to false and manual is set to false.
+	// 			mouseOnToPopup: true,
 
-				// (default: 10) Pixel offset of the tooltip.
-				// This will be the offset from the element the tooltip is open for, or
-				// from the mouse cursor if followMouse is true.
-				offset: 10,
+	// 			// (default: false) If set to true the tooltip will follow the user’s mouse cursor.
+	// 			// Note that if a tooltip with followMouse enabled is opened by an event without
+	// 			// mouse data (like “focus” via keyboard navigation) then it will revert to static
+	// 			// placement with smart positioning enabled. So you may wish to set placement as well.
+	// 			followMouse: false,
 
-				// (default: 100) Time in milliseconds to wait after mouse cursor leaves
-				// the element before closing the tooltip. This serves two purposes: first,
-				// it is the mechanism that lets the mouse cursor reach the tooltip
-				// (cross the gap between the element and the tooltip div) for mouseOnToPopup tooltips.
-				// And, second, it lets the cursor briefly leave the element and return without causing
-				// the whole fade-out, intent test, and fade-in cycle to happen.
-				closeDelay: 0,
+	// 			// (default: '') Space separated custom HTML classes for the tooltip div.
+	// 			// Since this plugs directly into jQuery’s addClass() method it will
+	// 			// also accept a function that returns a string.
+	// 			popupClass: tooltipPopupClass,
 
-				// (default: 100) Hover intent polling interval in milliseconds.
-				intentPollInterval: 0,
-			});
-			// }
-			$.powerTip.show(elementToTooltip);
-		}
-	}
+	// 			// (default: 10) Pixel offset of the tooltip.
+	// 			// This will be the offset from the element the tooltip is open for, or
+	// 			// from the mouse cursor if followMouse is true.
+	// 			offset: 10,
+
+	// 			// (default: 100) Time in milliseconds to wait after mouse cursor leaves
+	// 			// the element before closing the tooltip. This serves two purposes: first,
+	// 			// it is the mechanism that lets the mouse cursor reach the tooltip
+	// 			// (cross the gap between the element and the tooltip div) for mouseOnToPopup tooltips.
+	// 			// And, second, it lets the cursor briefly leave the element and return without causing
+	// 			// the whole fade-out, intent test, and fade-in cycle to happen.
+	// 			closeDelay: 0,
+
+	// 			// (default: 100) Hover intent polling interval in milliseconds.
+	// 			intentPollInterval: 0,
+	// 		});
+	// 		// }
+	// 		$.powerTip.show(elementToTooltip);
+	// 	}
+	// }
 }

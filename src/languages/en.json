@@ -18,7 +18,6 @@
 		"SETTINGS.DefaultJournalPermission.PERMISSION.OWNER": "OWNER",
 		"SETTINGS.DefaultJournalPermission.PERMISSION.INHERIT": "INHERIT",
 
-
 		"SETTINGS.DefaultJournalFolderN": "Default Journal Entry Folder",
 		"SETTINGS.DefaultJournalFolderH": "The default folder journal entries will be created in when creating Map Pins with a double-click",
 		"SETTINGS.EnableBackgroundlessPinsN": "Enable feature Backgroundless Pins",

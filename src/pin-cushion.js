@@ -656,31 +656,6 @@ Hooks.on("hoverNote", (note, hovered) => {
 			return canvas.hud.pinCushion.clear();
 		}
 	}
-
-	// VERSION 2
-	/*
-	if (!hovered) {
-		clearTimeout(API.pinCushion.hoverTimer);
-		if (tooltipForceRemove) {
-			$("#powerTip").remove();
-		}
-		return canvas.hud.pinCushionV2.clear();
-	}
-
-	// If the note is hovered by the mouse cursor (not via alt/option)
-	if (hovered && note.mouseInteractionManager.state === 1) {
-		API.pinCushion.hoverTimer = setTimeout(function () {
-			canvas.hud.pinCushionV2.bind(API.pinCushionContainers[note.id]);
-		}, previewDelay);
-		return;
-	} else {
-		// THis code should be never reached
-		if (!hovered) {
-			clearTimeout(API.pinCushion.hoverTimer);
-			return canvas.hud.pinCushionV2.clear();
-		}
-	}
-	*/
 });
 
 /**
