@@ -649,7 +649,7 @@ export class PinCushion {
 	//     </label>
 	//     <div class="form-fields">
 	//       <select
-	//         id="cushion-permission"
+	//         id="cushion-pin-cushion.tooltip-color"
 	//         style="width: 100%;"
 	//         name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">
 	//         <option

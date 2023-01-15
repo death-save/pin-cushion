@@ -281,7 +281,7 @@ export const registerSettings = function () {
 	// =====================
 	// MATT INTEGRATION
 	// =====================
-
+	/*
 	game.settings.register(CONSTANTS.MODULE_NAME, "allow-note", {
 		name: game.i18n.localize(`pin-cushion.SETTINGS.allowNoteN`),
 		hint: game.i18n.localize(`pin-cushion.SETTINGS.allowNoteH`),
@@ -308,6 +308,7 @@ export const registerSettings = function () {
 		default: true,
 		type: Boolean,
 	});
+	*/
 };
 class ResetSettingsDialog extends FormApplication {
 	constructor(...args) {

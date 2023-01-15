@@ -11,14 +11,14 @@ import {
 	stripQueryStringAndHashFromPath,
 	error,
 	retrieveFirstImageFromJournalId,
+	i18n,
 } from "./scripts/lib/lib.js";
 import { registerSettings } from "./scripts/settings.js";
 import { pinCushionSocket, registerSocket } from "./scripts/socket.js";
 import { PinCushionHUD } from "./scripts/apps/PinCushionHUD.js";
 import { PinCushion } from "./scripts/apps/PinCushion.js";
-import { ActionConfig } from "/modules/monks-active-tiles/apps/action-config.js";
-import { MonksActiveTiles } from "/modules/monks-active-tiles/monks-active-tiles.js";
-// import { noteControl } from "./scripts/apps/NoteControl.js";
+// import { ActionConfig } from "/modules/monks-active-tiles/apps/action-config.js";
+// import { MonksActiveTiles } from "/modules/monks-active-tiles/monks-active-tiles.js";
 import { PinCushionContainer } from "./scripts/apps/PinCushionContainer.js";
 import { PinCushionHUDV2 } from "./scripts/apps/PinCushionHUDV2.js";
 
@@ -70,45 +70,45 @@ Hooks.once("init", function () {
 	// globalThis.setNoteGMtext = setNoteGMtext // Seem not necessary
 	registerSettings();
 
-	// href: https://stackoverflow.com/questions/8853396/logical-operator-in-a-handlebars-js-if-conditional/16315366#16315366
-	// e.g. {{#ifCond var1 '==' var2}}
-	Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
-		switch (operator) {
-			case "==": {
-				return v1 == v2 ? options.fn(this) : options.inverse(this);
-			}
-			case "===": {
-				return v1 === v2 ? options.fn(this) : options.inverse(this);
-			}
-			case "!=": {
-				return v1 != v2 ? options.fn(this) : options.inverse(this);
-			}
-			case "!==": {
-				return v1 !== v2 ? options.fn(this) : options.inverse(this);
-			}
-			case "<": {
-				return v1 < v2 ? options.fn(this) : options.inverse(this);
-			}
-			case "<=": {
-				return v1 <= v2 ? options.fn(this) : options.inverse(this);
-			}
-			case ">": {
-				return v1 > v2 ? options.fn(this) : options.inverse(this);
-			}
-			case ">=": {
-				return v1 >= v2 ? options.fn(this) : options.inverse(this);
-			}
-			case "&&": {
-				return v1 && v2 ? options.fn(this) : options.inverse(this);
-			}
-			case "||": {
-				return v1 || v2 ? options.fn(this) : options.inverse(this);
-			}
-			default: {
-				return options.inverse(this);
-			}
-		}
-	});
+	// // href: https://stackoverflow.com/questions/8853396/logical-operator-in-a-handlebars-js-if-conditional/16315366#16315366
+	// // e.g. {{#ifCond var1 '==' var2}}
+	// Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
+	// 	switch (operator) {
+	// 		case "==": {
+	// 			return v1 == v2 ? options.fn(this) : options.inverse(this);
+	// 		}
+	// 		case "===": {
+	// 			return v1 === v2 ? options.fn(this) : options.inverse(this);
+	// 		}
+	// 		case "!=": {
+	// 			return v1 != v2 ? options.fn(this) : options.inverse(this);
+	// 		}
+	// 		case "!==": {
+	// 			return v1 !== v2 ? options.fn(this) : options.inverse(this);
+	// 		}
+	// 		case "<": {
+	// 			return v1 < v2 ? options.fn(this) : options.inverse(this);
+	// 		}
+	// 		case "<=": {
+	// 			return v1 <= v2 ? options.fn(this) : options.inverse(this);
+	// 		}
+	// 		case ">": {
+	// 			return v1 > v2 ? options.fn(this) : options.inverse(this);
+	// 		}
+	// 		case ">=": {
+	// 			return v1 >= v2 ? options.fn(this) : options.inverse(this);
+	// 		}
+	// 		case "&&": {
+	// 			return v1 && v2 ? options.fn(this) : options.inverse(this);
+	// 		}
+	// 		case "||": {
+	// 			return v1 || v2 ? options.fn(this) : options.inverse(this);
+	// 		}
+	// 		default: {
+	// 			return options.inverse(this);
+	// 		}
+	// 	}
+	// });
 
 	Hooks.once("socketlib.ready", registerSocket);
 
@@ -263,7 +263,7 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 	// ====================================
 	// SUPPORT MATT
 	// ====================================
-
+	/*
 	const allowNote = game.settings.get(PinCushion.MODULE_NAME, "allow-note");
 	let triggerData = {};
 	let tilename = "";
@@ -289,7 +289,7 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 			triggerData
 		);
 	}
-
+	*/
 	// ====================================
 	// General
 	// ====================================
@@ -392,6 +392,124 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 			? app.document.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE)
 			: app.object.getFlag(PinCushion.MODULE_NAME, PinCushion.FLAGS.TOOLTIP_FOLLOW_MOUSE)) ?? false;
 
+	const tooltipPlacementHtml = `
+		<select
+		id="pin-cushion-tooltip-placement"
+		style="width: 100%;"
+		name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_PLACEMENT}">
+		<option
+			value="nw-alt"
+			${tooltipPlacement === "nw-alt" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Placement.choices.north-west-alt")}
+		</option>
+		<option
+			value="nw"
+			${tooltipPlacement === "nw" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Placement.choices.north-west")}
+		</option>
+		<option
+			value="n"
+			${tooltipPlacement === "n" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Placement.choices.north")}
+			</option>
+		<option
+			value="ne"
+			${tooltipPlacement === "ne" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Placement.choices.north-east")}
+			</option>
+		<option
+			value="ne-alt"
+			${tooltipPlacement === "ne-alt" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Placement.choices.north-east-alt")}
+			</option>
+		<option
+			value="w"
+			${tooltipPlacement === "w" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Placement.choices.west")}
+			</option>
+		<option
+			value="e"
+			${tooltipPlacement === "e" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Placement.choices.east")}
+			</option>
+		<option
+			value="sw-alt"
+			${tooltipPlacement === "sw-alt" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Placement.choices.south-west-alt")}
+			</option>
+		<option
+			value="sw"
+			${tooltipPlacement === "sw" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Placement.choices.south-west")}
+		</option>
+		<option
+			value="s"
+			${tooltipPlacement === "s" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Placement.choices.south")}
+		</option>
+		<option
+			value="se"
+			${tooltipPlacement === "se" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Placement.choices.south-east")}
+		</option>
+		<option
+			value="se-alt"
+			${tooltipPlacement === "se-alt" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Placement.choices.south-east-alt")}
+		</option>
+		</select>
+	`;
+	const tooltipColorHtml = `
+	<select
+		id="pin-cushion-tooltip-color"
+		style="width: 100%;"
+		name="flags.${PinCushion.MODULE_NAME}.${PinCushion.FLAGS.TOOLTIP_COLOR}">
+		<option
+		value="" ${tooltipColor === "" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Color.choices.default")}
+		</option>
+		<option
+		value="blue"
+		${tooltipColor === "blue" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Color.choices.blue")}
+		</option>
+		<option
+		value="dark"
+		${tooltipColor === "dark" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Color.choices.dark")}
+		</option>
+		<option
+		value="green"
+		${tooltipColor === "green" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Color.choices.green")}
+		</option>
+		<option
+		value="light"
+		${tooltipColor === "light" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Color.choices.light")}
+		</option>
+		<option
+		value="orange"
+		${tooltipColor === "orange" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Color.choices.orange")}
+		</option>
+		<option value="purple"
+		${tooltipColor === "purple" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Color.choices.purple")}
+		</option>
+		<option
+		value="red"
+		${tooltipColor === "red" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Color.choices.red")}
+		</option>
+		<option
+		value="yellow"
+		${tooltipColor === "yellow" ? "selected" : ""}>
+			${i18n("pin-cushion.Tooltip.Color.choices.yellow")}
+		</option>
+	</select>
+	`;
+
 	// ====================================
 	// Other
 	// ====================================
@@ -430,6 +548,9 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 
 			enableBackgroundlessPins: enableBackgroundlessPins,
 			enableNoteGM: enableNoteGM,
+
+			tooltipColorHtml: tooltipColorHtml,
+			tooltipPlacementHtml: tooltipPlacementHtml,
 		},
 		app.object.flags[PinCushion.MODULE_NAME] || {}
 	);
@@ -449,6 +570,10 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 			.html(noteHtml)
 			.insertAfter($(".tab:last", html));
 
+		// ====================================
+		// SUPPORT MATT
+		// ====================================
+		/*
 		if (game.modules.get("monks-active-tiles")?.active && allowNote) {
 			$(".sheet-tabs", html).append(
 				$("<a>").addClass("item").attr("data-tab", "triggers").html('<i class="fas fa-running"></i> Triggers')
@@ -459,6 +584,7 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 				.html(noteTriggersHtml)
 				.insertAfter($(".tab:last", html));
 		}
+		*/
 	} else {
 		let root = $("form", html);
 		if (root.length == 0) root = html;
@@ -467,6 +593,10 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 			basictab.append(this);
 		});
 
+		// ====================================
+		// SUPPORT MATT
+		// ====================================
+		/*
 		if (game.modules.get("monks-active-tiles")?.active && allowNote) {
 			$(root)
 				.prepend($("<div>").addClass("tab action-sheet").attr("data-tab", "triggers").html(noteTriggersHtml))
@@ -495,36 +625,40 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 						)
 				);
 		} else {
-			$(root)
-				.prepend($("<div>").addClass("tab action-sheet").attr("data-tab", "pincushion").html(noteHtml))
-				.prepend(basictab)
-				.prepend(
-					$("<nav>")
-						.addClass("sheet-tabs tabs")
-						.append(
-							$("<a>")
-								.addClass("item active")
-								.attr("data-tab", "basic")
-								.html('<i class="fas fa-university"></i> Basic')
-						)
-						.append(
-							$("<a>")
-								.addClass("item")
-								.attr("data-tab", "pincushion")
-								.html('<i class="fas fa-map-marker-plus"></i> Pin Cushion (GM Only)')
-						)
-				);
-		}
+		*/
+		$(root)
+			.prepend($("<div>").addClass("tab action-sheet").attr("data-tab", "pincushion").html(noteHtml))
+			.prepend(basictab)
+			.prepend(
+				$("<nav>")
+					.addClass("sheet-tabs tabs")
+					.append(
+						$("<a>")
+							.addClass("item active")
+							.attr("data-tab", "basic")
+							.html('<i class="fas fa-university"></i> Basic')
+					)
+					.append(
+						$("<a>")
+							.addClass("item")
+							.attr("data-tab", "pincushion")
+							.html('<i class="fas fa-map-marker-plus"></i> Pin Cushion (GM Only)')
+					)
+			);
+		// }
 	}
 
 	// START LISTENERS
 
+	// ====================================
 	// SUPPORT MATT
-
+	// ====================================
+	/*
 	if (game.modules.get("monks-active-tiles")?.active && allowNote) {
 		$('button[data-type="entity"]', html).on("click", ActionConfig.selectEntity.bind(app));
 		$('button[data-type="tagger"]', html).on("click", ActionConfig.addTag.bind(app));
 	}
+	*/
 
 	// html.find("button.file-picker-showImageExplicitSource").each(
 	// 	(i, button) => (button.onclick = app._activateFilePicker.bind(app))
