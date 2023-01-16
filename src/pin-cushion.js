@@ -290,6 +290,7 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 		);
 	}
 	*/
+
 	// ====================================
 	// General
 	// ====================================
@@ -731,15 +732,13 @@ Hooks.on("renderNoteConfig", async (app, html, noteData) => {
 Hooks.on("renderHeadsUpDisplay", (app, html, data) => {
 	// VERSION 1 TOOLTIP
 
-	// PinCushion.renderHeadsUpDisplayV1(app, html, data);
 	html.append(`<template id="pin-cushion-hud"></template>`);
 	canvas.hud.pinCushion = new PinCushionHUD();
 
 	// VERSION 2 TOOLTIP
 
-	// PinCushionContainer.renderHeadsUpDisplay(app, html, data);
-	html.append(`<template id="pin-cushion-hud-v2"></template>`);
-	canvas.hud.pinCushionV2 = new PinCushionHUDV2();
+	//html.append(`<template id="pin-cushion-hud-v2"></template>`);
+	//canvas.hud.pinCushionV2 = new PinCushionHUDV2();
 });
 
 /**
@@ -889,5 +888,7 @@ Hooks.on("renderSettingsConfig", (app, html, data) => {
 });
 
 Hooks.on("canvasReady", () => {
-	PinCushionContainer.onReady();
+
+    // VERSION 2 TOOLTIP
+	// PinCushionContainer.onReady();
 });

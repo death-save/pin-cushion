@@ -10,12 +10,14 @@
 	border: none;
 }
 
+/*
 .pin-cushion-hud,
 .pin-cushion-hud-v2 {
 	position: fixed;
-	/* background: rgba(0, 0, 0, 0.6); */
+	background: rgba(0, 0, 0, 0.6);
 	transform-origin: top left;
 }
+*/
 
 /*
 .pin-cushion-hud #container {
