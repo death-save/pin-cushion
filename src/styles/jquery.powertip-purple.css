@@ -1,0 +1,23 @@
+/**
+ * PowerTip
+ * https://stevenbenner.github.io/jquery-powertip/
+ *
+ * Stylesheet for the purple theme.
+ */
+
+.pin-cushion-hud-tooltip-purple {
+	cursor: default;
+	background-color: #ebd2fa;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.5) inset,
+		0 -2px 2px #d796ff inset;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.5) inset, 0 -2px 2px #d796ff inset;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.5) inset, 0 -2px 2px #d796ff inset;
+	border: 1px solid #914bd2;
+	border-radius: 6px;
+	color: #000000;
+	display: none;
+	padding: 10px;
+	position: absolute;
+	/* white-space: nowrap; */
+	z-index: 2147483647;
+}

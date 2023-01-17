@@ -1,0 +1,23 @@
+/**
+ * PowerTip
+ * https://stevenbenner.github.io/jquery-powertip/
+ *
+ * Stylesheet for the dark monochrome theme.
+ */
+
+.pin-cushion-hud-tooltip-dark {
+	cursor: default;
+	background-color: #424242;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.2) inset,
+		0 -2px 2px #323232 inset;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.2) inset, 0 -2px 2px #323232 inset;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.2) inset, 0 -2px 2px #323232 inset;
+	border: 1px solid #000000;
+	border-radius: 6px;
+	color: #ffffff;
+	display: none;
+	padding: 10px;
+	position: absolute;
+	/* white-space: nowrap; */
+	z-index: 2147483647;
+}

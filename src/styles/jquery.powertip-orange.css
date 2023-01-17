@@ -1,0 +1,23 @@
+/**
+ * PowerTip
+ * https://stevenbenner.github.io/jquery-powertip/
+ *
+ * Stylesheet for the orange theme.
+ */
+
+.pin-cushion-hud-tooltip-orange {
+	cursor: default;
+	background-color: #ffcdaf;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.5) inset,
+		0 -2px 2px #fab482 inset;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.5) inset, 0 -2px 2px #fab482 inset;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.5) inset, 0 -2px 2px #fab482 inset;
+	border: 1px solid #f5a550;
+	border-radius: 6px;
+	color: #000000;
+	display: none;
+	padding: 10px;
+	position: absolute;
+	/* white-space: nowrap; */
+	z-index: 2147483647;
+}
