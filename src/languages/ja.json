@@ -1,0 +1,27 @@
+{
+	"pin-cushion": {
+		"SETTINGS.AboutAppN": "Pin Cushionについて",
+		"SETTINGS.AboutAppH": "Pin Cushionの追加情報を表示します。",
+		"SETTINGS.AllowPlayerNotesN": "プレイヤーにメモを許可する",
+		"SETTINGS.AllowPlayerNotesH": "プレイヤーが地点メモを作成できるようになります。",
+		"SETTINGS.ShowJournalPreviewN": "資料のプレビューを表示",
+		"SETTINGS.ShowJournalPreviewH": "マップピンにカーソルを置くと、資料のプレビューが表示されます。",
+		"SETTINGS.PreviewTypeN": "資料のプレビュー形式",
+		"SETTINGS.PreviewTypeH": "表示される資料のプレビュー形式を指定します（HTMLもしくはテキスト）",
+		"SETTINGS.PreviewMaxLengthN": "プレビューの最大長",
+		"SETTINGS.PreviewMaxLengthH": "**テキスト形式のみ** 何文字までプレビュー表示しますか？",
+		"SETTINGS.PreviewDelayN": "プレビューのディレイ値",
+		"SETTINGS.PreviewDelayH": "プレビューが表示されるまでの時間(ミリ秒)",
+		"SETTINGS.DefaultJournalPermissionN": "資料のデフォルト権限",
+		"SETTINGS.DefaultJournalPermissionH": "資料を新規作成したときのデフォルト権限です。",
+		"SETTINGS.DefaultJournalFolderN": "デフォルトの資料フォルダ",
+		"SETTINGS.DefaultJournalFolderH": "ダブルクリックで地点メモを作成したときに、資料が作成されるデフォルトフォルダを指定します",
+
+		"None": "なし",
+		"PerUser": "ユーザーごと",
+		"CreateMissingFoldersT": "資料フォルダの作成",
+		"CreateMissingFoldersC": "<b>プレイヤーごとの資料フォルダを作成しますか？</b><br>これにより、各プレイヤーが地点メモを作成したときに保存する場所が準備されます。",
+		"AllowPlayerNotes": "プレイヤーが地点メモを作成するには、Foundryコアの権限 \"{permission}\" が必要です。",
+		"MissingPinName": "地点メモの名前がありません！"
+	}
+}

@@ -1,0 +1,23 @@
+/**
+ * PowerTip
+ * https://stevenbenner.github.io/jquery-powertip/
+ *
+ * Stylesheet for the red theme.
+ */
+
+.pin-cushion-hud-tooltip-red {
+	cursor: default;
+	background-color: #ffc8c3;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.5) inset,
+		0 -2px 2px #f5aa9b inset;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.5) inset, 0 -2px 2px #f5aa9b inset;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 1px rgba(255, 255, 255, 0.5) inset, 0 -2px 2px #f5aa9b inset;
+	border: 1px solid #eb5037;
+	border-radius: 6px;
+	color: #000000;
+	display: none;
+	padding: 10px;
+	position: absolute;
+	/* white-space: nowrap; */
+	z-index: 2147483647;
+}

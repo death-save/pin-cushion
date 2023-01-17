@@ -1,0 +1,129 @@
+#powerTip .pin-cushion-hud-container {
+	overflow-y: scroll;
+	max-height: 500px;
+}
+
+.pin-cushion-hud,
+.pin-cushion-hud > img,
+.pin-cushion-hud-v2,
+.pin-cushion-hud-v2 > img {
+	border: none;
+}
+
+/*
+.pin-cushion-hud,
+.pin-cushion-hud-v2 {
+	position: fixed;
+	background: rgba(0, 0, 0, 0.6);
+	transform-origin: top left;
+}
+*/
+
+/*
+.pin-cushion-hud #container {
+  border: 1px solid black;
+}
+*/
+
+/*
+.pin-cushion-hud #container {
+  background-color: rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+  overflow-y: scroll;
+  padding: 2px;
+  border: 1px solid black;
+  width: fit-content;
+}
+
+.pin-cushion-hud #content {
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.pin-cushion-hud img {
+  object-fit: scale-down;
+  max-height: 250px;
+}
+
+*/
+/* About App */
+/* ABOUT */
+/*
+#pin-cushion-about img {
+	border: none;
+}
+
+#pin-cushion-about .logo {
+	width: 600px;
+}
+
+#pin-cushion-about .version {
+	flex-grow: 0;
+}
+
+#pin-cushion-about div.patrons {
+	width: 100%;
+}
+
+#pin-cushion-about .patrons ol {
+	height: 175px;
+	border: 1px inset white;
+	list-style: none;
+	overflow: hidden scroll;
+	text-align: center;
+	padding: 2px;
+}
+
+#pin-cushion-about .patrons li:nth-child(odd) {
+	background: rgba(0, 0, 0, 0.2);
+}
+
+#pin-cushion-about .patrons li {
+	font-size: x-large;
+}
+
+#pin-cushion-about footer div {
+	justify-content: center;
+	text-align: center;
+}
+*/
+#pin-cushion-about .death-save {
+	flex: 0 0 120px;
+}
+
+#pin-cushion-about .heart {
+	color: tomato;
+}
+
+#pin-cushion-about .patreon img {
+	flex: 0 0 100px;
+}
+
+/* Journal Thumbnail */
+
+#journal .pin-cushion-thumbnail {
+	margin: 0;
+	flex: 0 0 32px;
+	width: 32px;
+	height: 32px;
+	max-width: 32px;
+	max-height: 32px;
+}
+
+#journal .directory-item.document {
+	align-items: center;
+}
+
+.pin-cushion-explicit-icon,
+.pin-cushion-page-icon,
+.pin-cushion-journal-icon {
+	object-fit: initial;
+	height: 50px;
+	/* width: 30px;
+  height: 30px; */
+	border-radius: 4px;
+	border: 2px solid #000000;
+	background: rgba(0, 0, 0, 0.4);
+	padding: 2px;
+	flex: 0 0 30px;
+}
